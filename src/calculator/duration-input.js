@@ -27,23 +27,40 @@ export default class DurationInput extends Component {
             this.setState({ isDialogOpen: false });
           }}
           onClickOverlay={() => this.setState({ isDialogOpen: false })}>
-          <input
-            value={field.value}
-            className={classnames('input calculator-input', {
-              input_error: field.error,
-            })}
-            type="number"
-            pattern="\d*"
-            inputMode="numeric"
-            step="1"
-            min="0"
-            max="300"
-            id={`inflationAdjusted_${fieldName}`}
-            onChange={event => updateValue(fieldName, event.target.value)}
-          />
-          {field.errorMsg && (
-            <div className="calculator-errorMsg">{field.errorMsg}</div>
-          )}
+          <h1 className="dialog_header">Duration</h1>
+          <div className="dialog_contents">
+            <input
+              value={field.value}
+              className={classnames('input calculator-input', {
+                input_error: field.error,
+              })}
+              type="number"
+              pattern="\d*"
+              inputMode="numeric"
+              step="1"
+              min="0"
+              max="300"
+              id={`inflationAdjusted_${fieldName}`}
+              onChange={event => updateValue(fieldName, event.target.value)}
+            />
+            {field.errorMsg && (
+              <div className="calculator-errorMsg">{field.errorMsg}</div>
+            )}
+          </div>
+          <div className="dialog_footer">
+            <button
+              className="button"
+              type="button"
+              onClick={() => this.setState({ isDialogOpen: false })}>
+              Cancel
+            </button>
+            <button
+              className="button"
+              type="button"
+              onClick={this.onConfirmChanges}>
+              Save
+            </button>
+          </div>
         </Dialog>
       </div>
     );
@@ -51,5 +68,11 @@ export default class DurationInput extends Component {
 
   state = {
     isDialogOpen: false,
+  };
+
+  onConfirmChanges = () => {
+    this.setState({
+      isDialogOpen: false,
+    });
   };
 }

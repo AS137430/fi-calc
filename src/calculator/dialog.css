@@ -13,6 +13,8 @@
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .dialog-open {
@@ -20,6 +22,26 @@
   transform: scale(1);
   pointer-events: all;
   transition: all 250ms cubic-bezier(0.175, 0.885, 0.32, 1.15);
+}
+
+.dialog_header {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0 0 15px;
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.dialog_contents {
+  padding: 0 20px;
+  flex: 1;
+}
+
+.dialog_footer {
+  padding: 15px;
+  border-top: 1px solid #e5e5e5;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .dialog_overlay {
