@@ -9,7 +9,7 @@
     "helmet": "3.9.0",
     "lodash": "4.17.10",
     "pino": "4.10.3",
-    "query-string": "6.1.0",
+    "query-string": "5.0.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-scripts": "1.1.5",
