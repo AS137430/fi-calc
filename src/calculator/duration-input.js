@@ -3,9 +3,9 @@ import classnames from 'classnames';
 import './input.css';
 import Dialog from './dialog';
 
-export default class Input extends Component {
+export default class DurationInput extends Component {
   render() {
-    const { field, fieldName, units } = this.props;
+    const { field, fieldName, updateValue, units } = this.props;
     const { isDialogOpen } = this.state;
 
     return (
@@ -39,7 +39,7 @@ export default class Input extends Component {
             min="0"
             max="300"
             id={`inflationAdjusted_${fieldName}`}
-            onChange={event => this.updateValue(fieldName, event.target.value)}
+            onChange={event => updateValue(fieldName, event.target.value)}
           />
           {field.errorMsg && (
             <div className="calculator-errorMsg">{field.errorMsg}</div>

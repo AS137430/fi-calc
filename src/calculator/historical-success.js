@@ -5,7 +5,7 @@ import noScroll from 'no-scroll';
 import './historical-success.css';
 import validators from './validators';
 import computeResult from './compute-result';
-import Input from './input';
+import DurationInput from './duration-input';
 import maxDollarInput from '../utils/forms/max-dollar-input';
 import { getUpdatedFormState } from '../utils/forms/form-utils';
 
@@ -22,7 +22,12 @@ export default class HistoricalSuccess extends Component {
         <form className="calculator_form">
           <div className="calculator_formRow">
             <h2 className="calculator_sectionHeader">Duration</h2>
-            <Input field={duration} fieldName="duration" units="years" />
+            <DurationInput
+              field={duration}
+              fieldName="duration"
+              units="years"
+              updateValue={this.updateValue}
+            />
           </div>
           <div className="calculator_formRow">
             <label
