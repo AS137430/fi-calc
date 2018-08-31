@@ -6,7 +6,8 @@ import './historical-success.css';
 import validators from './validators';
 import computeResult from './compute-result';
 import DurationInput from './duration-input';
-import maxDollarInput from '../utils/forms/max-dollar-input';
+import SpendingInput from './spending-input';
+import EquitiesInput from './equities-input';
 import { getUpdatedFormState } from '../utils/forms/form-utils';
 
 export default class HistoricalSuccess extends Component {
@@ -30,60 +31,21 @@ export default class HistoricalSuccess extends Component {
             />
           </div>
           <div className="calculator_formRow">
-            <label
-              className={classnames('form-label calculator-label', {
-                'form-label_error': firstYearWithdrawal.error,
-              })}
-              htmlFor="inflationAdjusted_firstYearWithdrawal">
-              Spending
-            </label>
-            <input
-              value={firstYearWithdrawal.value}
-              className={classnames('input calculator-input', {
-                input_error: firstYearWithdrawal.error,
-              })}
-              type="number"
-              min="0"
-              max={maxDollarInput}
-              inputMode="numeric"
-              id="inflationAdjusted_firstYearWithdrawal"
-              onChange={event =>
-                this.updateValue('firstYearWithdrawal', event.target.value)
-              }
+            <h2 className="calculator_sectionHeader">Spending</h2>
+            <SpendingInput
+              field={firstYearWithdrawal}
+              fieldName="firstYearWithdrawal"
+              updateValue={this.updateValue}
+              units="/ year"
             />
-            {firstYearWithdrawal.errorMsg && (
-              <div className="calculator-errorMsg">
-                {firstYearWithdrawal.errorMsg}
-              </div>
-            )}
           </div>
           <div className="calculator_formRow">
-            <label
-              className={classnames('form-label calculator-label', {
-                'form-label_error': stockInvestmentValue.error,
-              })}
-              htmlFor="historicalSuccess_stockInvestmentValue">
-              Portfolio
-            </label>
-            <input
-              value={stockInvestmentValue.value}
-              className={classnames('input calculator-input', {
-                input_error: stockInvestmentValue.error,
-              })}
-              type="number"
-              inputMode="numeric"
-              min="0"
-              max={maxDollarInput}
-              id="historicalSuccess_stockInvestmentValue"
-              onChange={event =>
-                this.updateValue('stockInvestmentValue', event.target.value)
-              }
+            <h2 className="calculator_sectionHeader">Portfolio</h2>
+            <EquitiesInput
+              field={stockInvestmentValue}
+              fieldName="stockInvestmentValue"
+              updateValue={this.updateValue}
             />
-            {stockInvestmentValue.errorMsg && (
-              <div className="calculator-errorMsg">
-                {stockInvestmentValue.errorMsg}
-              </div>
-            )}
           </div>
         </form>
         {isFormValid && (
