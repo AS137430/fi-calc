@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash';
 import noScroll from 'no-scroll';
@@ -119,11 +119,10 @@ export default class HistoricalSuccess extends Component {
                 {firstYearWithdrawal.errorMsg}
               </div>
             )}
-            <div />
           </div>
         </form>
         {isFormValid && (
-          <div className="calculator_resultsContainer">
+          <Fragment>
             <div
               className={classnames('calculatorPage_resultOverlay', {
                 'calculatorPage_resultOverlay-open': areResultsOpen,
@@ -153,7 +152,7 @@ export default class HistoricalSuccess extends Component {
                 </span>
               </div>
             </div>
-          </div>
+          </Fragment>
         )}
       </div>
     );
