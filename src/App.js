@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import HistoricalSuccess from './calculator/historical-success';
 
 class App extends Component {
   render() {
@@ -8,9 +9,7 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">FI Calc</h1>
         </header>
-        <p className="App-intro">
-          Coming soon.
-        </p>
+        <HistoricalSuccess />
       </div>
     );
   }
