@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash';
+import noScroll from 'no-scroll';
 import './historical-success.css';
 import getStartYears from './utils/get-start-years';
 import computeCycle from './utils/compute-cycle';
@@ -125,7 +126,7 @@ function computeResult(inputs) {
 
 export default class HistoricalSuccess extends Component {
   render() {
-    const { inputs, result, isFormValid } = this.state;
+    const { inputs, result, isFormValid, areResultsOpen } = this.state;
     const { stockInvestmentValue, firstYearWithdrawal, duration } = inputs;
     const { summary, successRate } = result;
 
@@ -225,11 +226,25 @@ export default class HistoricalSuccess extends Component {
                 {firstYearWithdrawal.errorMsg}
               </div>
             )}
+            <div />
           </div>
         </form>
-        <div className="calculatorPage">
-          {isFormValid && (
-            <div className="calculatorPage-emojiResultContainer">
+        {isFormValid && (
+          <div className="calculator_resultsContainer">
+            <div
+              className={classnames('calculatorPage_resultOverlay', {
+                'calculatorPage_resultOverlay-open': areResultsOpen,
+              })}
+              onClick={this.closeResults}
+            />
+            <div
+              className={classnames('calculatorPage-emojiResultContainer', {
+                'calculatorPage-emojiResultContainer-open': areResultsOpen,
+              })}>
+              <div
+                className="calculatorPage_resultsToggle"
+                onClick={this.toggleResults}
+              />
               <span>
                 {summaryImg && (
                   <img
@@ -245,8 +260,8 @@ export default class HistoricalSuccess extends Component {
                 </span>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -281,6 +296,7 @@ export default class HistoricalSuccess extends Component {
         value: '',
       },
     },
+    areResultsOpen: false,
     isFormValid: true,
   };
 
@@ -299,6 +315,12 @@ export default class HistoricalSuccess extends Component {
     this.setState(newFormState);
   }
 
+  componentWillUnmount() {
+    // We never want to get in a situation where the scroll is locked when this component doesn't
+    // exist :)
+    noScroll.off();
+  }
+
   updateValue = (valueName, newValue) => {
     const { inputs } = this.state;
 
@@ -315,6 +337,32 @@ export default class HistoricalSuccess extends Component {
     });
     this.setState({
       ...newFormState,
+    });
+  };
+
+  openResults = () => {
+    noScroll.on();
+
+    this.setState({
+      areResultsOpen: true,
+    });
+  };
+
+  closeResults = () => {
+    noScroll.off();
+
+    this.setState({
+      areResultsOpen: false,
+    });
+  };
+
+  toggleResults = () => {
+    this.setState(prevState => {
+      if (prevState.areResultsOpen) {
+        this.closeResults();
+      } else {
+        this.openResults();
+      }
     });
   };
 }
