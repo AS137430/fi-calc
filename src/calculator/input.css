@@ -1,0 +1,21 @@
+.input_pill {
+  position: relative;
+  border-radius: 7px;
+  border-width: 0;
+  background: #f4f4f4;
+  padding: 20px;
+  color: #444;
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+.input_pillValue {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.input_pillUnit {
+  font-size: 1rem;
+  font-weight: normal;
+}

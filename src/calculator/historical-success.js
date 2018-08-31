@@ -5,104 +5,36 @@ import noScroll from 'no-scroll';
 import './historical-success.css';
 import validators from './validators';
 import computeResult from './compute-result';
+import Input from './input';
 import maxDollarInput from '../utils/forms/max-dollar-input';
 import { getUpdatedFormState } from '../utils/forms/form-utils';
-
-const summaryMaps = {
-  SUCCESSFUL: {
-    emoji: '1f44d-1f3fe.png',
-  },
-  UNSUCCESSFUL: {
-    emoji: '26a0-fe0f.png',
-  },
-};
 
 export default class HistoricalSuccess extends Component {
   render() {
     const { inputs, result, isFormValid, areResultsOpen } = this.state;
     const { stockInvestmentValue, firstYearWithdrawal, duration } = inputs;
-    const { summary, successRate } = result;
+    const { successRate } = result;
 
     const summaryText = `This portfolio succeeded ${successRate} of the time.`;
 
-    let summaryImg;
-    if (summary) {
-      const resultData = summaryMaps[summary];
-      summaryImg = resultData.emoji;
-    } else {
-      summaryImg = '';
-    }
-
     return (
       <div className="historicalSuccess">
-        <form className="calculatorPage-calculator">
-          <div className="calculatorPage_formRow">
-            <label
-              className={classnames('form-label calculatorPage-label', {
-                'form-label_error': duration.error,
-              })}
-              htmlFor="inflationAdjusted_duration">
-              Duration
-            </label>
-            <input
-              value={duration.value}
-              className={classnames('input calculatorPage-input', {
-                input_error: duration.error,
-              })}
-              type="number"
-              pattern="\d*"
-              inputMode="numeric"
-              step="1"
-              min="0"
-              max="300"
-              id="inflationAdjusted_duration"
-              onChange={event =>
-                this.updateValue('duration', event.target.value)
-              }
-            />
-            {duration.errorMsg && (
-              <div className="calculatorPage-errorMsg">{duration.errorMsg}</div>
-            )}
+        <form className="calculator_form">
+          <div className="calculator_formRow">
+            <h2 className="calculator_sectionHeader">Duration</h2>
+            <Input field={duration} fieldName="duration" units="years" />
           </div>
-          <div className="calculatorPage_formRow">
+          <div className="calculator_formRow">
             <label
-              className={classnames('form-label calculatorPage-label', {
-                'form-label_error': stockInvestmentValue.error,
-              })}
-              htmlFor="historicalSuccess_stockInvestmentValue">
-              Initial Portfolio Value
-            </label>
-            <input
-              value={stockInvestmentValue.value}
-              className={classnames('input calculatorPage-input', {
-                input_error: stockInvestmentValue.error,
-              })}
-              type="number"
-              inputMode="numeric"
-              min="0"
-              max={maxDollarInput}
-              id="historicalSuccess_stockInvestmentValue"
-              onChange={event =>
-                this.updateValue('stockInvestmentValue', event.target.value)
-              }
-            />
-            {stockInvestmentValue.errorMsg && (
-              <div className="calculatorPage-errorMsg">
-                {stockInvestmentValue.errorMsg}
-              </div>
-            )}
-          </div>
-          <div className="calculatorPage_formRow">
-            <label
-              className={classnames('form-label calculatorPage-label', {
+              className={classnames('form-label calculator-label', {
                 'form-label_error': firstYearWithdrawal.error,
               })}
               htmlFor="inflationAdjusted_firstYearWithdrawal">
-              First Year Withdrawal
+              Spending
             </label>
             <input
               value={firstYearWithdrawal.value}
-              className={classnames('input calculatorPage-input', {
+              className={classnames('input calculator-input', {
                 input_error: firstYearWithdrawal.error,
               })}
               type="number"
@@ -115,8 +47,36 @@ export default class HistoricalSuccess extends Component {
               }
             />
             {firstYearWithdrawal.errorMsg && (
-              <div className="calculatorPage-errorMsg">
+              <div className="calculator-errorMsg">
                 {firstYearWithdrawal.errorMsg}
+              </div>
+            )}
+          </div>
+          <div className="calculator_formRow">
+            <label
+              className={classnames('form-label calculator-label', {
+                'form-label_error': stockInvestmentValue.error,
+              })}
+              htmlFor="historicalSuccess_stockInvestmentValue">
+              Portfolio
+            </label>
+            <input
+              value={stockInvestmentValue.value}
+              className={classnames('input calculator-input', {
+                input_error: stockInvestmentValue.error,
+              })}
+              type="number"
+              inputMode="numeric"
+              min="0"
+              max={maxDollarInput}
+              id="historicalSuccess_stockInvestmentValue"
+              onChange={event =>
+                this.updateValue('stockInvestmentValue', event.target.value)
+              }
+            />
+            {stockInvestmentValue.errorMsg && (
+              <div className="calculator-errorMsg">
+                {stockInvestmentValue.errorMsg}
               </div>
             )}
           </div>
@@ -124,32 +84,21 @@ export default class HistoricalSuccess extends Component {
         {isFormValid && (
           <Fragment>
             <div
-              className={classnames('calculatorPage_resultOverlay', {
-                'calculatorPage_resultOverlay-open': areResultsOpen,
+              className={classnames('calculator_resultsOverlay', {
+                'calculator_resultsOverlay-open': areResultsOpen,
               })}
               onClick={this.closeResults}
             />
             <div
-              className={classnames('calculatorPage-emojiResultContainer', {
-                'calculatorPage-emojiResultContainer-open': areResultsOpen,
+              className={classnames('calculator_results', {
+                'calculator_results-open': areResultsOpen,
               })}>
               <div
-                className="calculatorPage_resultsToggle"
+                className="calculator_resultsToggle"
                 onClick={this.toggleResults}
               />
-              <span>
-                {summaryImg && (
-                  <img
-                    alt=""
-                    className="emoji-img calculatorPage-emojiResult"
-                    src={`/${summaryImg}`}
-                  />
-                )}
-              </span>
               <div>
-                <span className="calculatorPage-viewResultsText">
-                  {summaryText}
-                </span>
+                <span className="calculator_resultsText">{summaryText}</span>
               </div>
             </div>
           </Fragment>

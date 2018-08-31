@@ -6,6 +6,7 @@
     "classnames": "2.2.6",
     "compression": "1.7.1",
     "express": "4.16.2",
+    "focus-trap-react": "4.0.0",
     "helmet": "3.9.0",
     "lodash": "4.17.10",
     "no-scroll": "2.1.1",
