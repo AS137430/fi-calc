@@ -8,7 +8,7 @@ import maxDollarInput from '../utils/forms/max-dollar-input';
 
 export default class DurationInput extends Component {
   render() {
-    const { field, fieldName, updateValue, units } = this.props;
+    const { field, fieldName, updateValue } = this.props;
     const { isDialogOpen } = this.state;
 
     return (
@@ -20,7 +20,7 @@ export default class DurationInput extends Component {
             this.setState({ isDialogOpen: true });
           }}>
           <span className="input_pillValue">{field.value}</span>{' '}
-          <span className="input_pillUnit">{units}</span>
+          <span className="input_pillUnit">/ year</span>
         </div>
         <div
           className={classnames('dialog_overlay', {

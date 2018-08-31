@@ -26,7 +26,6 @@ export default class HistoricalSuccess extends Component {
             <DurationInput
               field={duration}
               fieldName="duration"
-              units="years"
               updateValue={this.updateValue}
             />
           </div>
@@ -36,7 +35,6 @@ export default class HistoricalSuccess extends Component {
               field={firstYearWithdrawal}
               fieldName="firstYearWithdrawal"
               updateValue={this.updateValue}
-              units="/ year"
             />
           </div>
           <div className="calculator_formRow">

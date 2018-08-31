@@ -5,10 +5,11 @@ import './input.css';
 import Dialog from './dialog';
 import { morph } from '../utils/animations';
 import maxDollarInput from '../utils/forms/max-dollar-input';
+import formatDollars from '../utils/numbers/format-dollars';
 
 export default class DurationInput extends Component {
   render() {
-    const { field, fieldName, updateValue, units } = this.props;
+    const { field, fieldName, updateValue } = this.props;
     const { isDialogOpen } = this.state;
 
     return (
@@ -19,8 +20,7 @@ export default class DurationInput extends Component {
           onClick={() => {
             this.setState({ isDialogOpen: true });
           }}>
-          <span className="input_pillValue">{field.value}</span>{' '}
-          <span className="input_pillUnit">{units}</span>
+          <span className="input_pillValue">{formatDollars(field.value)}</span>{' '}
         </div>
         <div
           className={classnames('dialog_overlay', {
@@ -53,9 +53,7 @@ export default class DurationInput extends Component {
                   min="0"
                   max={maxDollarInput}
                   id="historicalSuccess_stockInvestmentValue"
-                  onChange={event =>
-                    this.updateValue(fieldName, event.target.value)
-                  }
+                  onChange={event => updateValue(fieldName, event.target.value)}
                 />
                 {field.errorMsg && (
                   <div className="calculator-errorMsg">{field.errorMsg}</div>

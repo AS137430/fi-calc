@@ -16,6 +16,7 @@
   display: inline-block;
   margin: 0 0 8px;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
 }
 
 .calculator_results {
@@ -74,4 +75,5 @@
 .calculator_resultsText {
   text-align: center;
   display: block;
+  -webkit-font-smoothing: antialiased;
 }
