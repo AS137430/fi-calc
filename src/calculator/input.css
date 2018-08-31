@@ -2,13 +2,35 @@
   position: relative;
   border-radius: 8px;
   border-width: 0;
-
-  padding: 20px;
   color: #fff;
   display: block;
   text-align: center;
+  padding: 20px 0;
   width: 100%;
   -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+.input_pill-withDetail {
+  padding-bottom: 0;
+}
+
+.input_pill-withDetail .input_pillValue {
+  padding-bottom: 18px;
+}
+
+.input_pillLabel {
+  position: absolute;
+  top: 6px;
+  right: 7px;
+  font-size: 0.88rem;
+  color: #fff;
+}
+
+.input_pillDetail {
+  padding: 7px 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  font-size: 0.95rem;
 }
 
 .input_pill-blue {
@@ -27,6 +49,7 @@
 }
 
 .input_pillValue {
+  display: inline-block;
   font-size: 1.5rem;
   font-weight: bold;
 }
