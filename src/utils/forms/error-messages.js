@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import getYearRange from './get-year-range';
+import getYearRange from '../market-data/get-year-range';
 
 export default {
   empty(inputName) {

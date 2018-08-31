@@ -1,14 +1,14 @@
 import _ from 'lodash';
 import * as spending from './spending';
-import inflationFromCpi from './inflation-from-cpi';
-import marketDataByYear from './market-data-by-year';
+import inflationFromCpi from '../../utils/market-data/inflation-from-cpi';
+import marketDataByYear from '../../utils/market-data/market-data-by-year';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
 // This maps an investment type to the key on marketData that
 // represents its changes in a given year
 const investmentTypeToGrowthMap = {
-  equity: 'stockMarketGrowth'
+  equity: 'stockMarketGrowth',
 };
 
 // A cycle is one "simulation." Given a start year, a "duration,"
@@ -21,7 +21,7 @@ export default function computeCycle(options = {}) {
     portfolio,
     spendingConfiguration,
     rebalancePortfolioAnnually,
-    dipPercentage
+    dipPercentage,
   } = options;
 
   const initialPortfolioValue = portfolio.totalValue;
@@ -36,7 +36,7 @@ export default function computeCycle(options = {}) {
   const isComplete = startYear + duration <= CURRENT_YEAR;
   const firstYearMarketData = _.find(marketData, {
     year: String(startYear),
-    month: '01'
+    month: '01',
   });
   const firstYearCpi = firstYearMarketData.cpi;
 
@@ -49,7 +49,7 @@ export default function computeCycle(options = {}) {
   let lowestValue = Infinity;
   let lowestSuccessfulDip = {
     year: null,
-    value: Infinity
+    value: Infinity,
   };
 
   // This can be used to simulate a "previous" year for the 0th year,
@@ -61,7 +61,7 @@ export default function computeCycle(options = {}) {
     realisticEndValue: initialPortfolioValue,
     investmentGains: 0,
     dividendGains: 0,
-    portfolio
+    portfolio,
   };
 
   _.times(duration, n => {
@@ -94,7 +94,7 @@ export default function computeCycle(options = {}) {
 
     const cumulativeInflation = inflationFromCpi({
       startCpi: firstYearCpi,
-      endCpi: yearMarketData.cpi
+      endCpi: yearMarketData.cpi,
     });
 
     const { spendingMethod } = spendingConfiguration;
@@ -103,7 +103,7 @@ export default function computeCycle(options = {}) {
     const totalWithdrawalAmount = spending[spendingMethod]({
       ...spendingConfiguration,
       portfolioTotalValue: yearStartValue,
-      inflation: cumulativeInflation
+      inflation: cumulativeInflation,
     });
 
     const notEnoughMoney = totalWithdrawalAmount > yearStartValue;
@@ -119,7 +119,7 @@ export default function computeCycle(options = {}) {
             growth: 0,
             dividends: 0,
             percentage: 0,
-            value: 0
+            value: 0,
           };
         }
 
@@ -170,7 +170,7 @@ export default function computeCycle(options = {}) {
           valueBeforeChange: investment.value,
           valueAfterWithdrawal,
           valueWithGrowth,
-          value
+          value,
         };
       }
     );
@@ -199,7 +199,7 @@ export default function computeCycle(options = {}) {
         lowestSuccessfulDip = {
           value: lowestValue,
           startYear,
-          year
+          year,
         };
       }
     }
@@ -212,9 +212,9 @@ export default function computeCycle(options = {}) {
         totalWithdrawalAmount,
         portfolio: {
           totalValue: endValue,
-          investments: adjustedInvestmentValues
-        }
-      }
+          investments: adjustedInvestmentValues,
+        },
+      },
     });
   });
 
@@ -225,6 +225,6 @@ export default function computeCycle(options = {}) {
     resultsByYear,
     isFailed,
     didDip,
-    lowestSuccessfulDip
+    lowestSuccessfulDip,
   };
 }

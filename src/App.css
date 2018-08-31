@@ -4,15 +4,13 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
-  padding: 20px;
+  height: 2.8rem;
+  line-height: 2.8rem;
   color: white;
+  margin-bottom: 1.9rem;
 }
 
 .App-title {
   font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
+  margin: 0;
 }

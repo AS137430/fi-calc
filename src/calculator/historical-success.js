@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash';
-import getStartYears from '../utils/get-start-years';
-import computeCycle from '../utils/compute-cycle';
-import evaluateCycles from '../utils/evaluate-cycles';
-import { fromInvestments } from '../utils/normalize-portfolio';
-import maxDollarInput from '../utils/max-dollar-input';
-import { getUpdatedFormState, getFormUrl } from '../utils/form-utils';
-import marketDataByYear from '../utils/market-data-by-year';
+import getStartYears from './utils/get-start-years';
+import computeCycle from './utils/compute-cycle';
+import evaluateCycles from './utils/evaluate-cycles';
+import { fromInvestments } from '../utils/forms/normalize-portfolio';
+import maxDollarInput from '../utils/forms/max-dollar-input';
+import { getUpdatedFormState } from '../utils/forms/form-utils';
+import marketDataByYear from '../utils/market-data/market-data-by-year';
 import {
   isRequired,
   numberRequired,
@@ -15,7 +15,7 @@ import {
   greaterThanZero,
   withinDollarLimit,
   tooLarge,
-} from '../utils/validators';
+} from '../utils/forms/validators';
 
 const marketData = marketDataByYear();
 // If the duration goes higher than the number of years in our market data, then no cycles complete,
