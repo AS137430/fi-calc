@@ -5,21 +5,12 @@ import './dialog.css';
 
 export default class Dialog extends Component {
   render() {
-    const { open, children, onClickOverlay } = this.props;
+    const { open, children, onClickOverlay, nodeRef } = this.props;
 
     return (
       <Fragment>
         <div
-          className={classnames('dialog_overlay', {
-            'dialog_overlay-open': open,
-          })}
-          onClick={e => {
-            if (typeof onClickOverlay === 'function') {
-              onClickOverlay(e);
-            }
-          }}
-        />
-        <div
+          ref={nodeRef}
           className={classnames('dialog', {
             'dialog-open': open,
           })}>
@@ -29,12 +20,28 @@ export default class Dialog extends Component {
     );
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.open && !prevProps.open) {
-      this.registerEvents();
-    } else if (!this.props.open && prevProps.open) {
-      this.unregisterEvents();
+  componentWillEnter(cb) {
+    if (this.props.componentWillEnter) {
+      this.props.componentWillEnter(cb);
+    } else {
+      cb();
     }
+  }
+
+  componentWillLeave(cb) {
+    if (this.props.componentWillLeave) {
+      this.props.componentWillLeave(cb);
+    } else {
+      cb();
+    }
+  }
+
+  componentDidMount() {
+    this.registerEvents();
+  }
+
+  componentWillUnmount() {
+    this.unregisterEvents();
   }
 
   registerEvents = () => {
