@@ -13,13 +13,13 @@ export default class DurationInput extends Component {
     return (
       <div>
         <div
-          className="input_pill"
+          className="input_pill input_pill-blue"
           ref={this.pillRef}
           onClick={() => {
             this.setState({ isDialogOpen: true });
           }}>
           <span className="input_pillValue">{field.value}</span>{' '}
-          <span className="input_pillUnit">/ years</span>
+          <span className="input_pillUnit"> years</span>
         </div>
         <div
           className={classnames('dialog_overlay', {

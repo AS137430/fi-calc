@@ -22,7 +22,7 @@ export default class HistoricalSuccess extends Component {
       <div className="historicalSuccess">
         <form className="calculator_form">
           <div className="calculator_formRow">
-            <h2 className="calculator_sectionHeader">Duration</h2>
+            <h2 className="calculator_sectionHeader">Length of Retirement</h2>
             <DurationInput
               field={duration}
               fieldName="duration"
@@ -30,7 +30,7 @@ export default class HistoricalSuccess extends Component {
             />
           </div>
           <div className="calculator_formRow">
-            <h2 className="calculator_sectionHeader">Spending</h2>
+            <h2 className="calculator_sectionHeader">Spending Plan</h2>
             <SpendingInput
               field={firstYearWithdrawal}
               fieldName="firstYearWithdrawal"

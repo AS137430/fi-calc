@@ -1,14 +1,29 @@
 .input_pill {
   position: relative;
-  border-radius: 7px;
+  border-radius: 8px;
   border-width: 0;
-  background-image: linear-gradient(134deg, #573fff 0%, #b02bc6 100%);
+
   padding: 20px;
   color: #fff;
   display: block;
   text-align: center;
   width: 100%;
   -webkit-font-smoothing: antialiased;
+}
+
+.input_pill-blue {
+  background-image: linear-gradient(134deg, #02b8e1 0%, #0682e8 100%);
+}
+.input_pill-purple {
+  background-image: linear-gradient(134deg, #573fff 0%, #b02bc6 100%);
+}
+
+.input_pill-orange {
+  background-image: linear-gradient(134deg, #f28012 0%, #ff642c 100%);
+}
+
+.input_pill-red {
+  background-image: linear-gradient(134deg, #e6269f 0%, #a5117b 100%);
 }
 
 .input_pillValue {

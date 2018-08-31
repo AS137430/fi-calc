@@ -5,6 +5,7 @@ import './input.css';
 import Dialog from './dialog';
 import { morph } from '../utils/animations';
 import maxDollarInput from '../utils/forms/max-dollar-input';
+import formatDollars from '../utils/numbers/format-dollars';
 
 export default class DurationInput extends Component {
   render() {
@@ -14,12 +15,12 @@ export default class DurationInput extends Component {
     return (
       <div>
         <div
-          className="input_pill"
+          className="input_pill input_pill-orange"
           ref={this.pillRef}
           onClick={() => {
             this.setState({ isDialogOpen: true });
           }}>
-          <span className="input_pillValue">{field.value}</span>{' '}
+          <span className="input_pillValue">{formatDollars(field.value)}</span>{' '}
           <span className="input_pillUnit">/ year</span>
         </div>
         <div

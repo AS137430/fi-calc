@@ -15,7 +15,7 @@ export default class DurationInput extends Component {
     return (
       <div>
         <div
-          className="input_pill"
+          className="input_pill input_pill-purple"
           ref={this.pillRef}
           onClick={() => {
             this.setState({ isDialogOpen: true });
