@@ -340,14 +340,6 @@ export default class HistoricalSuccess extends Component {
     });
   };
 
-  openResults = () => {
-    noScroll.on();
-
-    this.setState({
-      areResultsOpen: true,
-    });
-  };
-
   closeResults = () => {
     noScroll.off();
 
@@ -359,10 +351,18 @@ export default class HistoricalSuccess extends Component {
   toggleResults = () => {
     this.setState(prevState => {
       if (prevState.areResultsOpen) {
-        this.closeResults();
-      } else {
-        this.openResults();
+        noScroll.off();
+
+        return {
+          areResultsOpen: false,
+        };
       }
+
+      noScroll.on();
+
+      return {
+        areResultsOpen: true,
+      };
     });
   };
 }
