@@ -1,14 +1,12 @@
 .input_pill {
   position: relative;
-  border-radius: 8px;
   border-width: 0;
-  color: #fff;
+  color: #222;
   display: block;
   text-align: center;
   padding: 20px 0;
   width: 100%;
   -webkit-font-smoothing: antialiased;
-  overflow: hidden;
 }
 
 .input_pill-withDetail {
@@ -21,31 +19,25 @@
 
 .input_pillLabel {
   position: absolute;
-  top: 6px;
-  right: 7px;
-  font-size: 0.88rem;
-  color: #fff;
+  margin-top: 10px;
+  left: 0px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #bc8abb;
+  text-transform: uppercase;
+}
+
+.input_detailContainer {
+  display: flex;
+  justify-content: center;
 }
 
 .input_pillDetail {
-  padding: 7px 0;
-  background-color: rgba(0, 0, 0, 0.1);
-  font-size: 0.95rem;
-}
-
-.input_pill-blue {
-  background-image: linear-gradient(134deg, #02b8e1 0%, #0682e8 100%);
-}
-.input_pill-purple {
-  background-image: linear-gradient(134deg, #573fff 0%, #b02bc6 100%);
-}
-
-.input_pill-orange {
-  background-image: linear-gradient(134deg, #f28012 0%, #ff642c 100%);
-}
-
-.input_pill-red {
-  background-image: linear-gradient(134deg, #e6269f 0%, #a5117b 100%);
+  padding: 7px 20px;
+  background-color: #fcf3ff;
+  color: #a865bf;
+  font-size: 0.9rem;
+  border-radius: 20px;
 }
 
 .input_pillValue {
@@ -57,4 +49,8 @@
 .input_pillUnit {
   font-size: 1rem;
   font-weight: normal;
+}
+
+.input_emoji {
+  font-size: 1.2rem;
 }

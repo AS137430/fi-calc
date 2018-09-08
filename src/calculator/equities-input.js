@@ -15,15 +15,22 @@ export default class DurationInput extends Component {
     return (
       <div>
         <div
-          className="input_pill input_pill-orange input_pill-withDetail"
+          className="input_pill input_pill-withDetail"
           ref={this.pillRef}
           onClick={() => {
             this.setState({ isDialogOpen: true });
           }}>
           <span className="input_pillLabel">Equities</span>
-          <span className="input_pillValue">{formatDollars(field.value)}</span>
-          <div className="input_pillDetail">
-            Growth based on historical data
+          <span className="input_pillValue">
+            <span role="img" aria-label="Stock Chart" className="input_emoji">
+              📈
+            </span>{' '}
+            {formatDollars(field.value)}
+          </span>
+          <div className="input_detailContainer">
+            <span className="input_pillDetail">
+              Growth based on historical data
+            </span>
           </div>
         </div>
         <div

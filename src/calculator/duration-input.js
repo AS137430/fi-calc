@@ -13,13 +13,21 @@ export default class DurationInput extends Component {
     return (
       <div>
         <div
-          className="input_pill input_pill-blue"
+          className="input_pill input_pill-withDetail"
           ref={this.pillRef}
           onClick={() => {
             this.setState({ isDialogOpen: true });
           }}>
-          <span className="input_pillValue">{field.value}</span>{' '}
+          <span className="input_pillValue">
+            <span role="img" aria-label="Clock" className="input_emoji">
+              🕒
+            </span>{' '}
+            {field.value}
+          </span>{' '}
           <span className="input_pillUnit"> years</span>
+          <div className="input_detailContainer">
+            <span className="input_pillDetail">Using historical data</span>
+          </div>
         </div>
         <div
           className={classnames('dialog_overlay', {

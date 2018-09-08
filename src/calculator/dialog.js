@@ -5,7 +5,7 @@ import './dialog.css';
 
 export default class Dialog extends Component {
   render() {
-    const { open, children, onClickOverlay, nodeRef } = this.props;
+    const { open, children, nodeRef } = this.props;
 
     return (
       <Fragment>
