@@ -13,7 +13,7 @@ export default class DurationInput extends Component {
     const { isDialogOpen } = this.state;
 
     return (
-      <div>
+      <div className="input_container">
         <div
           className="input_pill input_pill-withDetail"
           ref={this.pillRef}

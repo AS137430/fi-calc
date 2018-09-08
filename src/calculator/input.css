@@ -1,12 +1,17 @@
+.input_container {
+  display: flex;
+  justify-content: center;
+}
+
 .input_pill {
   position: relative;
   border-width: 0;
   color: #222;
-  display: block;
+  display: inline-block;
   text-align: center;
   padding: 20px 0;
-  width: 100%;
   -webkit-font-smoothing: antialiased;
+  margin: 0 auto;
 }
 
 .input_pill-withDetail {
@@ -15,16 +20,6 @@
 
 .input_pill-withDetail .input_pillValue {
   padding-bottom: 18px;
-}
-
-.input_pillLabel {
-  position: absolute;
-  margin-top: 10px;
-  left: 0px;
-  font-size: 0.7rem;
-  font-weight: bold;
-  color: #bc8abb;
-  text-transform: uppercase;
 }
 
 .input_detailContainer {

@@ -13,14 +13,13 @@ export default class DurationInput extends Component {
     const { isDialogOpen } = this.state;
 
     return (
-      <div>
+      <div className="input_container">
         <div
           className="input_pill input_pill-withDetail"
           ref={this.pillRef}
           onClick={() => {
             this.setState({ isDialogOpen: true });
           }}>
-          <span className="input_pillLabel">Equities</span>
           <span className="input_pillValue">
             <span role="img" aria-label="Stock Chart" className="input_emoji">
               📈
