@@ -37,12 +37,13 @@
   border-radius: 0;
   transform: translateY(87%);
   will-change: transform;
-  transition: transform 250ms ease-in-out, border-radius 250ms ease-in-out;
+  transition: transform 350ms cubic-bezier(0.175, 0.885, 0.32, 1.05),
+    border-radius 250ms ease-in-out;
 }
 
 .calculator_results-open {
   transform: translateY(10%);
-  border-radius: 25px 25px 0 0;
+  border-radius: 20px 20px 0 0;
   border-top-color: transparent;
 }
 
@@ -59,6 +60,11 @@
   will-change: opacity;
   transition: opacity 200ms ease-in-out;
   pointer-events: none;
+}
+
+.calculator_results-open .calculator_resultsToggle {
+  opacity: 1;
+  pointer-events: all;
 }
 
 .calculator_resultsOverlay {
@@ -85,7 +91,38 @@
   text-align: center;
   display: block;
   -webkit-font-smoothing: antialiased;
-  display: none;
+  opacity: 0;
+  pointer-events: none;
+  font-size: 0.95rem;
+  will-change: opacity;
+  transition: opacity 250ms ease-in-out;
+  color: #9647c3;
+  margin-top: 20px;
+}
+
+.calculator_results-open .calculator_resultsText {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.calculator_resultsPercentage {
+  font-size: 2.5rem;
+  font-weight: bold;
+  padding: 7px 0;
+  color: #9f35eb;
+  background: -webkit-linear-gradient(-60deg, #ff00eb 0%, #6300ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.calculator_buttonContainer {
+  position: absolute;
+  top: 20px;
+  right: 50%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .calculator_viewResultsBtn {
@@ -93,25 +130,20 @@
   box-shadow: 0 8px 6px -7px rgba(146, 70, 255, 0.4);
   border: 0px;
   border-radius: 22.5px;
-  padding: 10px 45px;
+  padding: 10px 50px;
   color: #fff;
   font-weight: 600;
   font-size: 1.1rem;
-  margin: 0 auto;
   display: block;
   outline: none;
   -webkit-font-smoothing: antialiased;
   opacity: 1;
   will-change: opacity;
-  transition: opacity 200ms ease-in-out;
+  transition: opacity 80ms ease-in-out 170ms;
 }
 
 .calculator_results-open .calculator_viewResultsBtn {
   opacity: 0;
   pointer-events: none;
-}
-
-.calculator_results-open .calculator_resultsToggle {
-  opacity: 1;
-  pointer-events: all;
+  transition: opacity 80ms ease-in-out 0ms;
 }

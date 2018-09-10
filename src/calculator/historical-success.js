@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import _ from 'lodash';
 import noScroll from 'no-scroll';
 import './historical-success.css';
+import './calculator-input.css';
 import validators from './validators';
 import computeResult from './compute-result';
 import DurationInput from './duration-input';
@@ -12,22 +13,16 @@ import { getUpdatedFormState } from '../utils/forms/form-utils';
 
 export default class HistoricalSuccess extends Component {
   render() {
-    const { inputs, result, isFormValid, areResultsOpen } = this.state;
+    const { inputs, result, areResultsOpen } = this.state;
     const { stockInvestmentValue, firstYearWithdrawal, duration } = inputs;
     const { successRate } = result;
-
-    const summaryText = `This portfolio succeeded ${successRate} of the time.`;
 
     return (
       <div className="historicalSuccess">
         <form className="calculator_form">
           <div className="calculator_formRow">
             <h2 className="calculator_sectionHeader">Length of Retirement</h2>
-            <DurationInput
-              field={duration}
-              fieldName="duration"
-              updateValue={this.updateValue}
-            />
+            <DurationInput field={duration} updateValue={this.updateValue} />
           </div>
           <div className="calculator_formRow">
             <h2 className="calculator_sectionHeader">Spending Plan</h2>
@@ -46,33 +41,35 @@ export default class HistoricalSuccess extends Component {
             />
           </div>
         </form>
-        {isFormValid && (
-          <Fragment>
-            <div
-              className={classnames('calculator_resultsOverlay', {
-                'calculator_resultsOverlay-open': areResultsOpen,
-              })}
-              onClick={this.closeResults}
-            />
-            <div
-              className={classnames('calculator_results', {
-                'calculator_results-open': areResultsOpen,
-              })}>
-              <div
-                className="calculator_resultsToggle"
-                onClick={this.toggleResults}
-              />
-              <div>
-                <button
-                  className="calculator_viewResultsBtn"
-                  onClick={this.toggleResults}>
-                  View Results
-                </button>
-                <span className="calculator_resultsText">{summaryText}</span>
-              </div>
+        <div
+          className={classnames('calculator_resultsOverlay', {
+            'calculator_resultsOverlay-open': areResultsOpen,
+          })}
+          onClick={this.closeResults}
+        />
+        <div
+          className={classnames('calculator_results', {
+            'calculator_results-open': areResultsOpen,
+          })}>
+          <div
+            className="calculator_resultsToggle"
+            onClick={this.toggleResults}
+          />
+          <div>
+            <div className="calculator_buttonContainer">
+              <button
+                className="calculator_viewResultsBtn"
+                onClick={this.toggleResults}>
+                View Results
+              </button>
             </div>
-          </Fragment>
-        )}
+            <div className="calculator_resultsText">
+              <div>This portfolio succeeded</div>
+              <div className="calculator_resultsPercentage">{successRate}</div>
+              <div>of the time.</div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -108,7 +105,6 @@ export default class HistoricalSuccess extends Component {
       },
     },
     areResultsOpen: false,
-    isFormValid: true,
   };
 
   componentDidMount() {

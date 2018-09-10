@@ -1,14 +1,19 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef, Fragment } from 'react';
 import classnames from 'classnames';
+import _ from 'lodash';
 import TransitionGroupPlus from 'react-transition-group-plus';
 import './input.css';
 import Dialog from './dialog';
 import { morph } from '../utils/animations';
+import validators from './duration-validators';
+import { getUpdatedInputFormState } from '../utils/forms/form-utils';
 
 export default class DurationInput extends Component {
   render() {
-    const { field, fieldName, updateValue } = this.props;
-    const { isDialogOpen } = this.state;
+    const { field } = this.props;
+    const { isDialogOpen, mode, isFormValid, inputs } = this.state;
+
+    const { numberOfYears, startYear, endYear } = inputs;
 
     return (
       <div className="input_container">
@@ -48,24 +53,119 @@ export default class DurationInput extends Component {
 
                 this.setState({ isDialogOpen: false });
               }}>
-              <h1 className="dialog_header">Duration</h1>
+              <h1 className="dialog_header">Length of Retirement</h1>
               <div className="dialog_contents">
-                <input
-                  value={field.value}
-                  className={classnames('input calculator-input', {
-                    input_error: field.error,
-                  })}
-                  type="number"
-                  pattern="\d*"
-                  inputMode="numeric"
-                  step="1"
-                  min="0"
-                  max="300"
-                  id={`inflationAdjusted_${fieldName}`}
-                  onChange={event => updateValue(fieldName, event.target.value)}
-                />
-                {field.errorMsg && (
-                  <div className="calculator-errorMsg">{field.errorMsg}</div>
+                <div className="buttonGroup buttonGroup-centered inputDialog_buttonGroup">
+                  <button
+                    className={classnames('button', {
+                      'button-selected': mode === 'historicalData',
+                    })}
+                    onClick={e => this.switchMode(e, 'historicalData')}>
+                    All Historical Data
+                  </button>
+                  <button
+                    className={classnames('button', {
+                      'button-selected': mode === 'specificYears',
+                    })}
+                    onClick={e => this.switchMode(e, 'specificYears')}>
+                    Specific Years
+                  </button>
+                </div>
+                {mode === 'historicalData' && (
+                  <Fragment>
+                    <div className="labelContainer">
+                      <label
+                        htmlFor="inflationAdjusted_numberOfYears"
+                        className="label">
+                        Number of years
+                      </label>
+                    </div>
+                    <input
+                      value={numberOfYears.value}
+                      className={classnames('input calculator-input', {
+                        input_error: numberOfYears.error,
+                      })}
+                      type="number"
+                      pattern="\d*"
+                      inputMode="numeric"
+                      step="1"
+                      min="0"
+                      max="300"
+                      id={`inflationAdjusted_numberOfYears`}
+                      onChange={event =>
+                        this.updateValue('numberOfYears', event.target.value)
+                      }
+                    />
+                    {numberOfYears.errorMsg && (
+                      <div className="calculator-errorMsg">
+                        {numberOfYears.errorMsg}
+                      </div>
+                    )}
+                  </Fragment>
+                )}
+                {mode === 'specificYears' && (
+                  <Fragment>
+                    <div className="dialog_formRow">
+                      <div className="labelContainer">
+                        <label
+                          htmlFor="inflationAdjusted_startYear"
+                          className="label">
+                          Start Year
+                        </label>
+                      </div>
+                      <input
+                        value={startYear.value}
+                        className={classnames('input calculator-input', {
+                          input_error: startYear.error,
+                        })}
+                        type="number"
+                        pattern="\d*"
+                        inputMode="numeric"
+                        step="1"
+                        min="0"
+                        max="300"
+                        id={`inflationAdjusted_startYear`}
+                        onChange={event =>
+                          this.updateValue('startYear', event.target.value)
+                        }
+                      />
+                      {startYear.errorMsg && (
+                        <div className="calculator-errorMsg">
+                          {startYear.errorMsg}
+                        </div>
+                      )}
+                    </div>
+                    <div className="dialog_formRow">
+                      <div className="labelContainer">
+                        <label
+                          htmlFor="inflationAdjusted_endYear"
+                          className="label">
+                          End Year
+                        </label>
+                      </div>
+                      <input
+                        value={endYear.value}
+                        className={classnames('input calculator-input', {
+                          input_error: endYear.error,
+                        })}
+                        type="number"
+                        pattern="\d*"
+                        inputMode="numeric"
+                        step="1"
+                        min="0"
+                        max="300"
+                        id={`inflationAdjusted_endYear`}
+                        onChange={event =>
+                          this.updateValue('endYear', event.target.value)
+                        }
+                      />
+                      {endYear.errorMsg && (
+                        <div className="calculator-errorMsg">
+                          {endYear.errorMsg}
+                        </div>
+                      )}
+                    </div>
+                  </Fragment>
                 )}
               </div>
               <div className="dialog_footer">
@@ -76,7 +176,8 @@ export default class DurationInput extends Component {
                   Cancel
                 </button>
                 <button
-                  className="button"
+                  disabled={!isFormValid}
+                  className="button button-primary"
                   type="button"
                   onClick={this.onConfirmChanges}>
                   Save
@@ -94,6 +195,41 @@ export default class DurationInput extends Component {
 
   state = {
     isDialogOpen: false,
+    mode: 'historicalData',
+    inputs: {
+      numberOfYears: {
+        value: '30',
+        error: null,
+      },
+      startYear: {
+        value: '1923',
+        error: null,
+      },
+      endYear: {
+        value: '1973',
+        error: null,
+      },
+    },
+    isFormValid: true,
+  };
+
+  updateValue = (valueName, newValue) => {
+    const { inputs } = this.state;
+
+    const newInputs = _.merge({}, inputs, {
+      [valueName]: {
+        value: newValue,
+      },
+    });
+
+    const newFormState = getUpdatedInputFormState({
+      inputs: newInputs,
+      validators,
+    });
+
+    this.setState({
+      ...newFormState,
+    });
   };
 
   onConfirmChanges = () => {
@@ -118,5 +254,14 @@ export default class DurationInput extends Component {
       this.dialogRef.current,
       this.pillRef.current
     );
+  };
+
+  switchMode = (e, mode) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.setState({
+      mode,
+    });
   };
 }

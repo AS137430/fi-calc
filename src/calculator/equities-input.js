@@ -77,7 +77,7 @@ export default class DurationInput extends Component {
                   Cancel
                 </button>
                 <button
-                  className="button"
+                  className="button button-primary"
                   type="button"
                   onClick={this.onConfirmChanges}>
                   Save

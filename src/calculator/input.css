@@ -49,3 +49,30 @@
 .input_emoji {
   font-size: 1.2rem;
 }
+
+.labelContainer {
+  margin-bottom: 10px;
+}
+
+.label {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.input {
+  font-size: 1rem;
+  border: 1px solid #dadada;
+  /* background-color: #f1f1f1; */
+  /* border: none; */
+  border-radius: 7px;
+  box-shadow: 0;
+  -webkit-appearance: none;
+  padding: 0.6rem 0.7rem;
+  width: 100%;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #a865bf;
+  box-shadow: 0 0 5px #eac9f5;
+}

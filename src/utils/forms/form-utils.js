@@ -20,7 +20,7 @@ function computeInputErrors(inputs, validators) {
       return {
         ...inputObj,
         error: null,
-        errorMsg: null
+        errorMsg: null,
       };
     }
 
@@ -42,9 +42,23 @@ function computeInputErrors(inputs, validators) {
     return {
       ...inputObj,
       error: validationError,
-      errorMsg: validationErrorMsg
+      errorMsg: validationErrorMsg,
     };
   });
+}
+
+export function getUpdatedInputFormState({ inputs, validators }) {
+  const newInputs = computeInputErrors(inputs, validators);
+
+  const formIsInvalid = _.chain(newInputs)
+    .mapValues('error')
+    .some()
+    .value();
+
+  return {
+    isFormValid: !formIsInvalid,
+    inputs: newInputs,
+  };
 }
 
 export function getUpdatedFormState({ inputs, validators, computeResult }) {
@@ -65,7 +79,7 @@ export function getUpdatedFormState({ inputs, validators, computeResult }) {
   return {
     isFormValid: !formIsInvalid,
     inputs: newInputs,
-    result: newResult
+    result: newResult,
   };
 }
 

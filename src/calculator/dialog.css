@@ -3,7 +3,7 @@
   width: calc(100% - 20px);
   left: 10px;
   top: 15vh;
-  height: 60vh;
+  min-height: 350px;
   z-index: 2000;
   background: #fff;
   border-radius: 10px;
@@ -14,14 +14,14 @@
 
 .dialog_header {
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 700;
   margin: 0 0 15px;
   padding: 15px;
   border-bottom: 1px solid #e5e5e5;
 }
 
 .dialog_contents {
-  padding: 0 20px;
+  padding: 0 15px 15px;
   flex: 1;
 }
 
@@ -49,4 +49,25 @@
 .dialog_overlay-open {
   opacity: 0.8;
   pointer-events: all;
+}
+
+.inputDialog_buttonGroup {
+  margin: 0.75rem 0 1.25rem;
+  width: 100%;
+}
+
+/* .inputDialog_buttonGroup .button {
+  padding: 0.7rem 1rem;
+} */
+
+.dialog_footer .button {
+  margin: 0 5px;
+}
+
+.dialog_footer .button:last-child {
+  margin-right: 0;
+}
+
+.dialog_formRow {
+  margin-bottom: 25px;
 }
