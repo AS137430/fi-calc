@@ -76,3 +76,18 @@
   border-color: #a865bf;
   box-shadow: 0 0 5px #eac9f5;
 }
+
+.input_error {
+  border-color: #f51515;
+}
+
+.input_error:focus {
+  border-color: #f51515;
+  box-shadow: 0 0 5px #ffa5a5;
+}
+
+.calculator-errorMsg {
+  color: #f51515;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
