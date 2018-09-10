@@ -11,9 +11,9 @@ import { getUpdatedInputFormState } from '../utils/forms/form-utils';
 export default class DurationInput extends Component {
   render() {
     const { field } = this.props;
-    const { isDialogOpen, mode, isFormValid, inputs } = this.state;
+    const { isDialogOpen, isFormValid, inputs } = this.state;
 
-    const { numberOfYears, startYear, endYear } = inputs;
+    const { numberOfYears, startYear, endYear, durationMode } = inputs;
 
     return (
       <div className="input_container">
@@ -21,7 +21,17 @@ export default class DurationInput extends Component {
           className="input_pill input_pill-withDetail"
           ref={this.pillRef}
           onClick={() => {
-            this.setState({ isDialogOpen: true });
+            console.log('hello', this.props.durationMode);
+            this.setState({
+              isDialogOpen: true,
+              inputs: {
+                ...inputs,
+                durationMode: {
+                  value: this.props.durationMode,
+                  error: null,
+                },
+              },
+            });
           }}>
           <span className="input_pillValue">
             <span role="img" aria-label="Clock" className="input_emoji">
@@ -38,7 +48,9 @@ export default class DurationInput extends Component {
           className={classnames('dialog_overlay', {
             'dialog_overlay-open': isDialogOpen,
           })}
-          onClick={() => this.setState({ isDialogOpen: false })}
+          onClick={() => {
+            this.setState({ isDialogOpen: false });
+          }}
         />
         <TransitionGroupPlus>
           {isDialogOpen && (
@@ -58,20 +70,21 @@ export default class DurationInput extends Component {
                 <div className="buttonGroup buttonGroup-centered inputDialog_buttonGroup">
                   <button
                     className={classnames('button', {
-                      'button-selected': mode === 'historicalData',
+                      'button-selected':
+                        durationMode.value === 'historicalData',
                     })}
-                    onClick={e => this.switchMode(e, 'historicalData')}>
+                    onClick={e => this.switchDurationMode(e, 'historicalData')}>
                     All Historical Data
                   </button>
                   <button
                     className={classnames('button', {
-                      'button-selected': mode === 'specificYears',
+                      'button-selected': durationMode.value === 'specificYears',
                     })}
-                    onClick={e => this.switchMode(e, 'specificYears')}>
+                    onClick={e => this.switchDurationMode(e, 'specificYears')}>
                     Specific Years
                   </button>
                 </div>
-                {mode === 'historicalData' && (
+                {durationMode.value === 'historicalData' && (
                   <Fragment>
                     <div className="labelContainer">
                       <label
@@ -103,7 +116,7 @@ export default class DurationInput extends Component {
                     )}
                   </Fragment>
                 )}
-                {mode === 'specificYears' && (
+                {durationMode.value === 'specificYears' && (
                   <Fragment>
                     <div className="dialog_formRow">
                       <div className="labelContainer">
@@ -195,8 +208,11 @@ export default class DurationInput extends Component {
 
   state = {
     isDialogOpen: false,
-    mode: 'historicalData',
     inputs: {
+      durationMode: {
+        value: 'historicalData',
+        error: null,
+      },
       numberOfYears: {
         value: '30',
         error: null,
@@ -256,12 +272,10 @@ export default class DurationInput extends Component {
     );
   };
 
-  switchMode = (e, mode) => {
+  switchDurationMode = (e, mode) => {
     e.preventDefault();
     e.stopPropagation();
 
-    this.setState({
-      mode,
-    });
+    this.updateValue('durationMode', mode);
   };
 }

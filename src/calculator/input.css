@@ -72,6 +72,10 @@
   outline: none;
 }
 
+.input:hover {
+  border-color: #c9a3d6;
+}
+
 .input:focus {
   border-color: #a865bf;
   box-shadow: 0 0 5px #eac9f5;

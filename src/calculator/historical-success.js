@@ -14,7 +14,12 @@ import { getUpdatedFormState } from '../utils/forms/form-utils';
 export default class HistoricalSuccess extends Component {
   render() {
     const { inputs, result, areResultsOpen } = this.state;
-    const { stockInvestmentValue, firstYearWithdrawal, duration } = inputs;
+    const {
+      stockInvestmentValue,
+      firstYearWithdrawal,
+      duration,
+      durationMode,
+    } = inputs;
     const { successRate } = result;
 
     return (
@@ -22,7 +27,11 @@ export default class HistoricalSuccess extends Component {
         <form className="calculator_form">
           <div className="calculator_formRow">
             <h2 className="calculator_sectionHeader">Length of Retirement</h2>
-            <DurationInput field={duration} updateValue={this.updateValue} />
+            <DurationInput
+              field={duration}
+              updateValue={this.updateValue}
+              durationMode={durationMode.value}
+            />
           </div>
           <div className="calculator_formRow">
             <h2 className="calculator_sectionHeader">Spending Plan</h2>
@@ -77,6 +86,10 @@ export default class HistoricalSuccess extends Component {
   state = {
     test: '1000',
     inputs: {
+      durationMode: {
+        value: 'specificYears',
+        error: null,
+      },
       stockInvestmentValue: {
         value: '625000',
         error: null,
