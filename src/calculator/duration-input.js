@@ -43,7 +43,15 @@ export default class DurationInput extends Component {
           </span>{' '}
           <span className="input_pillUnit"> years</span>
           <div className="input_detailContainer">
-            <span className="input_pillDetail">Using historical data</span>
+            <span className="input_pillDetail">
+              {this.props.durationMode === 'numberOfYears' &&
+                'Using historical data'}
+              {this.props.durationMode === 'specificYears' && (
+                <Fragment>
+                  From <b>1923</b> to <b>1953</b>
+                </Fragment>
+              )}
+            </span>
           </div>
         </div>
         <div
