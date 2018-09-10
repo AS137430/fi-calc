@@ -10,7 +10,6 @@ import { getUpdatedInputFormState } from '../utils/forms/form-utils';
 
 export default class DurationInput extends Component {
   render() {
-    const { field } = this.props;
     const { isDialogOpen, isFormValid, inputs } = this.state;
 
     const { numberOfYears, startYear, endYear, durationMode } = inputs;
@@ -21,13 +20,16 @@ export default class DurationInput extends Component {
           className="input_pill input_pill-withDetail"
           ref={this.pillRef}
           onClick={() => {
-            console.log('hello', this.props.durationMode);
             this.setState({
               isDialogOpen: true,
               inputs: {
                 ...inputs,
                 durationMode: {
                   value: this.props.durationMode,
+                  error: null,
+                },
+                numberOfYears: {
+                  value: this.props.numberOfYears,
                   error: null,
                 },
               },
@@ -37,7 +39,7 @@ export default class DurationInput extends Component {
             <span role="img" aria-label="Clock" className="input_emoji">
               🕒
             </span>{' '}
-            {field.value}
+            {this.props.numberOfYears}
           </span>{' '}
           <span className="input_pillUnit"> years</span>
           <div className="input_detailContainer">

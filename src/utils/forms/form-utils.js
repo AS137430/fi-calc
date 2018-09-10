@@ -61,28 +61,6 @@ export function getUpdatedInputFormState({ inputs, validators }) {
   };
 }
 
-export function getUpdatedFormState({ inputs, validators, computeResult }) {
-  const newInputs = computeInputErrors(inputs, validators);
-
-  const formIsInvalid = _.chain(newInputs)
-    .mapValues('error')
-    .some()
-    .value();
-
-  let newResult;
-  if (!formIsInvalid) {
-    newResult = computeResult(newInputs);
-  } else {
-    newResult = '–';
-  }
-
-  return {
-    isFormValid: !formIsInvalid,
-    inputs: newInputs,
-    result: newResult,
-  };
-}
-
 export function getFormUrl(location, inputs) {
   const { pathname } = location;
 

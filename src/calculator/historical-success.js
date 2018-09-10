@@ -4,12 +4,10 @@ import _ from 'lodash';
 import noScroll from 'no-scroll';
 import './historical-success.css';
 import './calculator-input.css';
-import validators from './validators';
 import computeResult from './compute-result';
 import DurationInput from './duration-input';
 import SpendingInput from './spending-input';
 import EquitiesInput from './equities-input';
-import { getUpdatedFormState } from '../utils/forms/form-utils';
 
 export default class HistoricalSuccess extends Component {
   render() {
@@ -17,7 +15,7 @@ export default class HistoricalSuccess extends Component {
     const {
       stockInvestmentValue,
       firstYearWithdrawal,
-      duration,
+      numberOfYears,
       durationMode,
     } = inputs;
     const { successRate } = result;
@@ -28,9 +26,9 @@ export default class HistoricalSuccess extends Component {
           <div className="calculator_formRow">
             <h2 className="calculator_sectionHeader">Length of Retirement</h2>
             <DurationInput
-              field={duration}
               updateValue={this.updateValue}
-              durationMode={durationMode.value}
+              numberOfYears={numberOfYears}
+              durationMode={durationMode}
             />
           </div>
           <div className="calculator_formRow">
@@ -86,20 +84,14 @@ export default class HistoricalSuccess extends Component {
   state = {
     test: '1000',
     inputs: {
-      durationMode: {
-        value: 'specificYears',
-        error: null,
-      },
+      durationMode: 'specificYears',
+      numberOfYears: '30',
       stockInvestmentValue: {
         value: '625000',
         error: null,
       },
       firstYearWithdrawal: {
         value: '25000',
-        error: null,
-      },
-      duration: {
-        value: '30',
         error: null,
       },
       spendingMethod: {
@@ -127,12 +119,9 @@ export default class HistoricalSuccess extends Component {
       return value;
     });
 
-    const newFormState = getUpdatedFormState({
-      inputs: initialInputs,
-      validators,
-      computeResult,
+    this.setState({
+      result: computeResult(initialInputs),
     });
-    this.setState(newFormState);
   }
 
   componentWillUnmount() {
@@ -150,13 +139,8 @@ export default class HistoricalSuccess extends Component {
       },
     });
 
-    const newFormState = getUpdatedFormState({
-      inputs: newInputs,
-      computeResult,
-      validators,
-    });
     this.setState({
-      ...newFormState,
+      result: computeResult(newInputs),
     });
   };
 

@@ -6,7 +6,7 @@ import { fromInvestments } from '../../utils/forms/normalize-portfolio';
 
 export default function computeResult(inputs) {
   const {
-    duration,
+    numberOfYears,
     firstYearWithdrawal,
     stockInvestmentValue,
     spendingMethod,
@@ -52,7 +52,7 @@ export default function computeResult(inputs) {
       rebalancePortfolioAnnually,
       portfolio,
       spendingConfiguration,
-      duration: Number(duration.value),
+      duration: Number(numberOfYears),
     })
   );
 
