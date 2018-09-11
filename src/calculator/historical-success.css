@@ -6,7 +6,7 @@
 .calculator_formRow {
   margin-bottom: 25px;
   border-bottom: 1px solid #ebebeb;
-  padding: 0 15px 30px;
+  padding: 0 15px 10px;
 }
 
 .calculator_formRow:last-child {
@@ -146,4 +146,8 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 80ms ease-in-out 0ms;
+}
+
+.calculator_viewResultsBtn:focus {
+  box-shadow: 0 0 0 3px rgba(146, 70, 255, 0.4);
 }

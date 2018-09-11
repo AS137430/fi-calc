@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef, Fragment } from 'react';
 import classnames from 'classnames';
 import TransitionGroupPlus from 'react-transition-group-plus';
 import DialogForm from './dialog-form';
@@ -15,8 +15,16 @@ export default class SpendingPlanValue extends Component {
     return (
       <div className="displayValue_container">
         <div
-          className="displayValue_pill displayValue_pill-withDetail"
+          tabIndex="0"
+          className="displayValue_pill"
           ref={this.valueRef}
+          onKeyDown={e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              e.stopPropagation();
+              this.setState({ isDialogOpen: true });
+            }
+          }}
           onClick={() => {
             this.setState({ isDialogOpen: true });
           }}>
@@ -33,8 +41,11 @@ export default class SpendingPlanValue extends Component {
           <div className="displayValue_detailContainer">
             <span className="displayValue_pillDetail">
               {inflationAdjustedFirstYearWithdrawal && 'Adjusted for inflation'}
-              {!inflationAdjustedFirstYearWithdrawal &&
-                'Not adjusted for inflation'}
+              {!inflationAdjustedFirstYearWithdrawal && (
+                <Fragment>
+                  <b>Not</b> adjusted for inflation
+                </Fragment>
+              )}
             </span>
           </div>
         </div>

@@ -9,6 +9,7 @@
     "focus-trap-react": "4.0.0",
     "helmet": "3.9.0",
     "lodash": "4.17.10",
+    "materialish": "0.17.0-beta.3",
     "no-scroll": "2.1.1",
     "pino": "4.10.3",
     "query-string": "5.0.1",

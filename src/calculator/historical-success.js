@@ -6,6 +6,7 @@ import computeResult from './compute-result';
 import LengthOfRetirementValue from './length-of-retirement/value';
 import SpendingValue from './spending-plan/value';
 import PortfolioValue from './portfolio/value';
+import Results from './results';
 
 export default class HistoricalSuccess extends Component {
   render() {
@@ -74,11 +75,15 @@ export default class HistoricalSuccess extends Component {
                 View Results
               </button>
             </div>
-            <div className="calculator_resultsText">
-              <div>This portfolio succeeded</div>
-              <div className="calculator_resultsPercentage">{successRate}</div>
-              <div>of the time.</div>
-            </div>
+            <Results
+              successRate={successRate}
+              isOpen={areResultsOpen}
+              onClose={() =>
+                this.setState({
+                  areResultsOpen: false,
+                })
+              }
+            />
           </div>
         </div>
       </div>

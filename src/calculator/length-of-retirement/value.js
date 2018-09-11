@@ -18,8 +18,16 @@ export default class LengthOfRetirementValue extends Component {
     return (
       <div className="displayValue_container">
         <div
+          tabIndex="0"
           className="displayValue_pill"
           ref={this.valueRef}
+          onKeyDown={e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              e.stopPropagation();
+              this.setState({ isDialogOpen: true });
+            }
+          }}
           onClick={() => this.setState({ isDialogOpen: true })}>
           <span className="displayValue_pillValue">
             <span role="img" aria-label="Clock" className="displayValue_emoji">

@@ -41,3 +41,28 @@
   margin-top: 0.5rem;
   font-size: 0.875rem;
 }
+
+.checkbox_label {
+  font-size: 0.9rem;
+}
+
+.checkbox_container {
+  display: inline-flex;
+  align-items: center;
+}
+
+.checkbox_container .checkbox {
+  margin-right: 9px;
+}
+
+.mt-checkbox_focus {
+  position: absolute;
+  top: -0.15em;
+  left: -0.15em;
+  right: -0.15em;
+  bottom: -0.15em;
+  z-index: -1;
+  border-radius: 15%;
+  pointer-events: none;
+  overflow: hidden;
+}

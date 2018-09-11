@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash';
+import { Checkbox } from 'materialish';
 import validators from './validators';
 import Dialog from '../dialog';
 import { morph } from '../../utils/animations';
@@ -11,7 +12,10 @@ export default class SpendingPlanDialogForm extends Component {
     const { onClose } = this.props;
     const { isFormValid, inputs } = this.state;
 
-    const { firstYearWithdrawal } = inputs;
+    const {
+      firstYearWithdrawal,
+      inflationAdjustedFirstYearWithdrawal,
+    } = inputs;
 
     return (
       <Dialog
@@ -25,33 +29,52 @@ export default class SpendingPlanDialogForm extends Component {
         }}>
         <h1 className="dialog_header">Spending Plan</h1>
         <div className="dialog_contents">
-          <div className="labelContainer">
-            <label htmlFor="spendingPlan_firstYearWithdrawal" className="label">
-              Annual Spending
+          <div className="dialog_formRow">
+            <div className="labelContainer">
+              <label
+                htmlFor="spendingPlan_firstYearWithdrawal"
+                className="label">
+                Annual Spending
+              </label>
+            </div>
+            <input
+              ref={this.firstYearWithdrawalRef}
+              value={firstYearWithdrawal.value}
+              className={classnames('input', {
+                input_error: firstYearWithdrawal.error,
+              })}
+              type="number"
+              pattern="\d*"
+              inputMode="numeric"
+              step="1"
+              min="0"
+              max="300"
+              id={`spendingPlan_firstYearWithdrawal`}
+              onChange={event =>
+                this.updateValue('firstYearWithdrawal', event.target.value)
+              }
+            />
+            {firstYearWithdrawal.errorMsg && (
+              <div className="calculator-errorMsg">
+                {firstYearWithdrawal.errorMsg}
+              </div>
+            )}
+          </div>
+          <div className="dialog_formRow">
+            <label className="checkbox_container">
+              <Checkbox
+                className="checkbox"
+                checked={inflationAdjustedFirstYearWithdrawal.value}
+                onChange={event =>
+                  this.updateValue(
+                    'inflationAdjustedFirstYearWithdrawal',
+                    event.target.checked
+                  )
+                }
+              />
+              <span className="checkbox_label">Adjusted for Inflation</span>
             </label>
           </div>
-          <input
-            ref={this.firstYearWithdrawalRef}
-            value={firstYearWithdrawal.value}
-            className={classnames('input', {
-              input_error: firstYearWithdrawal.error,
-            })}
-            type="number"
-            pattern="\d*"
-            inputMode="numeric"
-            step="1"
-            min="0"
-            max="300"
-            id={`spendingPlan_firstYearWithdrawal`}
-            onChange={event =>
-              this.updateValue('firstYearWithdrawal', event.target.value)
-            }
-          />
-          {firstYearWithdrawal.errorMsg && (
-            <div className="calculator-errorMsg">
-              {firstYearWithdrawal.errorMsg}
-            </div>
-          )}
         </div>
         <div className="dialog_footer">
           <button className="button" type="button" onClick={onClose}>

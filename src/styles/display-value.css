@@ -9,9 +9,17 @@
   color: #222;
   display: inline-block;
   text-align: center;
-  padding: 20px 0 0;
+  padding: 20px;
   -webkit-font-smoothing: antialiased;
   margin: 0 auto;
+  border-radius: 8px;
+  outline: none;
+  border: 1px solid transparent;
+}
+
+.displayValue_pill:focus {
+  border-color: #3097ff;
+  box-shadow: 0 0 8px 0 rgba(48, 151, 255, 0.35);
 }
 
 .displayValue_detailContainer {
