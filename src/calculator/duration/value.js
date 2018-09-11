@@ -4,7 +4,7 @@ import TransitionGroupPlus from 'react-transition-group-plus';
 import '../input.css';
 import DialogForm from './dialog-form';
 
-export default class DurationInput extends Component {
+export default class DurationValue extends Component {
   render() {
     const { durationMode, numberOfYears, startYear, endYear } = this.props;
     const { isDialogOpen } = this.state;

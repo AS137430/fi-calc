@@ -5,7 +5,7 @@ import noScroll from 'no-scroll';
 import './historical-success.css';
 import './calculator-input.css';
 import computeResult from './compute-result';
-import DurationInput from './duration/input';
+import DurationValue from './duration/value';
 import SpendingInput from './spending-input';
 import EquitiesInput from './equities-input';
 
@@ -27,7 +27,7 @@ export default class HistoricalSuccess extends Component {
         <form className="calculator_form">
           <div className="calculator_formRow">
             <h2 className="calculator_sectionHeader">Length of Retirement</h2>
-            <DurationInput
+            <DurationValue
               updateValues={this.updateValues}
               numberOfYears={numberOfYears}
               startYear={startYear}
