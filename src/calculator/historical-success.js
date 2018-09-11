@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import _ from 'lodash';
 import noScroll from 'no-scroll';
 import './historical-success.css';
-import './calculator-input.css';
 import computeResult from './compute-result';
-import DurationValue from './duration/value';
-import SpendingInput from './spending-input';
-import EquitiesInput from './equities-input';
+import LengthOfRetirementValue from './length-of-retirement/value';
+import SpendingValue from './spending-plan/value';
+import PortfolioValue from './portfolio/value';
 
 export default class HistoricalSuccess extends Component {
   render() {
@@ -15,6 +13,7 @@ export default class HistoricalSuccess extends Component {
     const {
       stockInvestmentValue,
       firstYearWithdrawal,
+      inflationAdjustedFirstYearWithdrawal,
       numberOfYears,
       durationMode,
       startYear,
@@ -27,7 +26,7 @@ export default class HistoricalSuccess extends Component {
         <form className="calculator_form">
           <div className="calculator_formRow">
             <h2 className="calculator_sectionHeader">Length of Retirement</h2>
-            <DurationValue
+            <LengthOfRetirementValue
               updateValues={this.updateValues}
               numberOfYears={numberOfYears}
               startYear={startYear}
@@ -37,18 +36,19 @@ export default class HistoricalSuccess extends Component {
           </div>
           <div className="calculator_formRow">
             <h2 className="calculator_sectionHeader">Spending Plan</h2>
-            <SpendingInput
-              field={firstYearWithdrawal}
-              fieldName="firstYearWithdrawal"
-              updateValue={this.updateValue}
+            <SpendingValue
+              updateValues={this.updateValues}
+              firstYearWithdrawal={firstYearWithdrawal}
+              inflationAdjustedFirstYearWithdrawal={
+                inflationAdjustedFirstYearWithdrawal
+              }
             />
           </div>
           <div className="calculator_formRow">
             <h2 className="calculator_sectionHeader">Portfolio</h2>
-            <EquitiesInput
-              field={stockInvestmentValue}
-              fieldName="stockInvestmentValue"
-              updateValue={this.updateValue}
+            <PortfolioValue
+              updateValues={this.updateValues}
+              stockInvestmentValue={stockInvestmentValue}
             />
           </div>
         </form>
@@ -92,18 +92,9 @@ export default class HistoricalSuccess extends Component {
       numberOfYears: '30',
       startYear: '1932',
       endYear: '1960',
-      stockInvestmentValue: {
-        value: '625000',
-        error: null,
-      },
-      firstYearWithdrawal: {
-        value: '25000',
-        error: null,
-      },
-      spendingMethod: {
-        value: 'inflationAdjusted',
-        error: null,
-      },
+      firstYearWithdrawal: '25000',
+      inflationAdjustedFirstYearWithdrawal: true,
+      stockInvestmentValue: '625000',
     },
     result: {
       successRate: '',
@@ -118,37 +109,11 @@ export default class HistoricalSuccess extends Component {
     areResultsOpen: false,
   };
 
-  componentDidMount() {
-    // We read the input values from the query parameters to set the initial
-    // inputs. This allows users to bookmark their calculations
-    const initialInputs = _.mapValues(this.state.inputs, value => {
-      return value;
-    });
-
-    this.setState({
-      result: computeResult(initialInputs),
-    });
-  }
-
   componentWillUnmount() {
     // We never want to get in a situation where the scroll is locked when this component doesn't
     // exist :)
     noScroll.off();
   }
-
-  updateValue = (valueName, newValue) => {
-    const { inputs } = this.state;
-
-    const newInputs = _.merge({}, inputs, {
-      [valueName]: {
-        value: newValue,
-      },
-    });
-
-    this.setState({
-      result: computeResult(newInputs),
-    });
-  };
 
   updateValues = values => {
     this.setState(prevState => {

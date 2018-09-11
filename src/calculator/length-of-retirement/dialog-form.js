@@ -6,7 +6,7 @@ import Dialog from '../dialog';
 import { morph } from '../../utils/animations';
 import { getUpdatedInputFormState } from '../../utils/forms/form-utils';
 
-export default class DurationDialogForm extends Component {
+export default class LengthOfRetirementDialogForm extends Component {
   render() {
     const { onClose } = this.props;
     const { isFormValid, inputs } = this.state;
@@ -53,7 +53,7 @@ export default class DurationDialogForm extends Component {
               <input
                 ref={this.numberOfYearsRef}
                 value={numberOfYears.value}
-                className={classnames('input calculator-input', {
+                className={classnames('input', {
                   input_error: numberOfYears.error,
                 })}
                 type="number"
@@ -87,7 +87,7 @@ export default class DurationDialogForm extends Component {
                 <input
                   ref={this.startYearRef}
                   value={startYear.value}
-                  className={classnames('input calculator-input', {
+                  className={classnames('input', {
                     input_error: startYear.error,
                   })}
                   type="number"
@@ -115,7 +115,7 @@ export default class DurationDialogForm extends Component {
                 </div>
                 <input
                   value={endYear.value}
-                  className={classnames('input calculator-input', {
+                  className={classnames('input', {
                     input_error: endYear.error,
                   })}
                   type="number"

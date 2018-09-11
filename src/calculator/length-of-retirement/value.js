@@ -1,10 +1,9 @@
 import React, { Component, createRef, Fragment } from 'react';
 import classnames from 'classnames';
 import TransitionGroupPlus from 'react-transition-group-plus';
-import '../input.css';
 import DialogForm from './dialog-form';
 
-export default class DurationValue extends Component {
+export default class LengthOfRetirementValue extends Component {
   render() {
     const { durationMode, numberOfYears, startYear, endYear } = this.props;
     const { isDialogOpen } = this.state;
@@ -17,20 +16,20 @@ export default class DurationValue extends Component {
     }
 
     return (
-      <div className="input_container">
+      <div className="displayValue_container">
         <div
-          className="input_pill input_pill-withDetail"
-          ref={this.pillRef}
+          className="displayValue_pill"
+          ref={this.valueRef}
           onClick={() => this.setState({ isDialogOpen: true })}>
-          <span className="input_pillValue">
-            <span role="img" aria-label="Clock" className="input_emoji">
+          <span className="displayValue_pillValue">
+            <span role="img" aria-label="Clock" className="displayValue_emoji">
               🕒
             </span>{' '}
             {yearsToDisplay}
           </span>{' '}
-          <span className="input_pillUnit"> years</span>
-          <div className="input_detailContainer">
-            <span className="input_pillDetail">
+          <span className="displayValue_pillUnit"> years</span>
+          <div className="displayValue_detailContainer">
+            <span className="displayValue_pillDetail">
               {durationMode === 'historicalData' && 'Using historical data'}
               {durationMode === 'specificYears' && (
                 <Fragment>
@@ -55,7 +54,7 @@ export default class DurationValue extends Component {
               numberOfYears={numberOfYears}
               startYear={startYear}
               endYear={endYear}
-              triggerRef={this.pillRef}
+              triggerRef={this.valueRef}
               onClose={() => this.setState({ isDialogOpen: false })}
               onConfirm={this.onConfirm}
             />
@@ -65,7 +64,7 @@ export default class DurationValue extends Component {
     );
   }
 
-  pillRef = createRef();
+  valueRef = createRef();
 
   state = {
     isDialogOpen: false,

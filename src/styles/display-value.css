@@ -1,0 +1,49 @@
+.displayValue_container {
+  display: flex;
+  justify-content: center;
+}
+
+.displayValue_pill {
+  position: relative;
+  border-width: 0;
+  color: #222;
+  display: inline-block;
+  text-align: center;
+  padding: 20px 0 0;
+  -webkit-font-smoothing: antialiased;
+  margin: 0 auto;
+}
+
+.displayValue_detailContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.displayValue_detailContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.displayValue_pillDetail {
+  padding: 7px 20px;
+  background-color: #fcf3ff;
+  color: #a865bf;
+  font-size: 0.9rem;
+  border-radius: 20px;
+}
+
+.displayValue_pillValue {
+  display: inline-block;
+  font-size: 1.65rem;
+  font-weight: bold;
+  padding-bottom: 18px;
+}
+
+.displayValue_pillUnit {
+  font-size: 1.1rem;
+  font-weight: normal;
+}
+
+.displayValue_emoji {
+  font-size: 1.2rem;
+}

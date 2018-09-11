@@ -5,12 +5,7 @@ import evaluateCycles from './evaluate-cycles';
 import { fromInvestments } from '../../utils/forms/normalize-portfolio';
 
 export default function computeResult(inputs) {
-  const {
-    numberOfYears,
-    firstYearWithdrawal,
-    stockInvestmentValue,
-    spendingMethod,
-  } = inputs;
+  const { numberOfYears, firstYearWithdrawal, stockInvestmentValue } = inputs;
 
   // An array of years that we use as a starting year for cycles
   const startYears = getStartYears();
@@ -22,14 +17,15 @@ export default function computeResult(inputs) {
     {
       type: 'equity',
       fees: 0.0,
-      value: Number(stockInvestmentValue.value),
+      value: Number(stockInvestmentValue),
       percentage: 1,
     },
   ];
 
   const spendingConfiguration = {
-    spendingMethod: spendingMethod.value,
-    firstYearWithdrawal: Number(firstYearWithdrawal.value),
+    // This needs to be fixed!
+    spendingMethod: 'inflationAdjusted',
+    firstYearWithdrawal: Number(firstYearWithdrawal),
   };
 
   //
@@ -59,7 +55,15 @@ export default function computeResult(inputs) {
   const results = evaluateCycles({ cycles });
 
   const dipRate = `${(results.dipRate * 100).toFixed(2)}%`;
-  const successRate = `${(results.successRate * 100).toFixed(2)}%`;
+
+  const rawSuccessRate = results.successRate * 100;
+
+  let successRate;
+  if (rawSuccessRate === 100) {
+    successRate = `${rawSuccessRate}%`;
+  } else {
+    successRate = `${rawSuccessRate.toFixed(2)}%`;
+  }
 
   let summary = results.successRate > 0.95 ? 'SUCCESSFUL' : 'UNSUCCESSFUL';
 

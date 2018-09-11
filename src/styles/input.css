@@ -1,0 +1,43 @@
+.labelContainer {
+  margin-bottom: 10px;
+}
+
+.label {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.input {
+  font-size: 1rem;
+  border: 1px solid #dadada;
+  border-radius: 7px;
+  box-shadow: 0;
+  -webkit-appearance: none;
+  padding: 0.6rem 0.7rem;
+  width: 100%;
+  outline: none;
+}
+
+.input:hover {
+  border-color: #c9a3d6;
+}
+
+.input:focus {
+  border-color: #a865bf;
+  box-shadow: 0 0 5px #eac9f5;
+}
+
+.input_error {
+  border-color: #f51515;
+}
+
+.input_error:focus {
+  border-color: #f51515;
+  box-shadow: 0 0 5px #ffa5a5;
+}
+
+.calculator-errorMsg {
+  color: #f51515;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}

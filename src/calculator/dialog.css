@@ -3,7 +3,7 @@
   width: calc(100% - 20px);
   left: 10px;
   top: 12vh;
-  min-height: 350px;
+  min-height: 300px;
   z-index: 2000;
   background: #fff;
   border-radius: 10px;
@@ -52,7 +52,7 @@
 }
 
 .inputDialog_buttonGroup {
-  margin: 0.75rem 0 1.25rem;
+  margin: 0.4rem 0 1.25rem;
   width: 100%;
 }
 

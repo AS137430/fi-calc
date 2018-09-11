@@ -1,4 +1,6 @@
 @import './styles/button.css';
+@import './styles/display-value.css';
+@import './styles/input.css';
 
 body {
   margin: 0;
