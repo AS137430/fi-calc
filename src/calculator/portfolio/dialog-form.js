@@ -1,4 +1,4 @@
-import React, { Component, createRef, Fragment } from 'react';
+import React, { Component, createRef } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash';
 import validators from './validators';

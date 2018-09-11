@@ -1,4 +1,4 @@
-import React, { Component, createRef, Fragment } from 'react';
+import React, { Component, createRef } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash';
 import validators from './validators';
@@ -11,10 +11,7 @@ export default class SpendingPlanDialogForm extends Component {
     const { onClose } = this.props;
     const { isFormValid, inputs } = this.state;
 
-    const {
-      firstYearWithdrawal,
-      inflationAdjustedFirstYearWithdrawal,
-    } = inputs;
+    const { firstYearWithdrawal } = inputs;
 
     return (
       <Dialog
