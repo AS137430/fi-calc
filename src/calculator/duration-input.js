@@ -95,7 +95,7 @@ export default class DurationInput extends Component {
                       <label
                         htmlFor="inflationAdjusted_numberOfYears"
                         className="label">
-                        Number of years
+                        Number of Years
                       </label>
                     </div>
                     <input

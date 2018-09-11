@@ -50,8 +50,15 @@ export default class DurationInput extends Component {
 
                 this.setState({ isDialogOpen: false });
               }}>
-              <h1 className="dialog_header">Spending</h1>
+              <h1 className="dialog_header">Spending Plan</h1>
               <div className="dialog_contents">
+                <div className="labelContainer">
+                  <label
+                    htmlFor="inflationAdjusted_firstYearWithdrawal"
+                    className="label">
+                    Annual Spending
+                  </label>
+                </div>
                 <input
                   value={field.value}
                   className={classnames('input calculator-input', {
