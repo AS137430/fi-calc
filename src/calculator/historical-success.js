@@ -5,7 +5,7 @@ import noScroll from 'no-scroll';
 import './historical-success.css';
 import './calculator-input.css';
 import computeResult from './compute-result';
-import DurationInput from './duration-input';
+import DurationInput from './duration/input';
 import SpendingInput from './spending-input';
 import EquitiesInput from './equities-input';
 

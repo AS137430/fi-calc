@@ -2,11 +2,11 @@ import React, { Component, createRef, Fragment } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash';
 import TransitionGroupPlus from 'react-transition-group-plus';
-import './input.css';
-import Dialog from './dialog';
-import { morph } from '../utils/animations';
-import validators from './duration-validators';
-import { getUpdatedInputFormState } from '../utils/forms/form-utils';
+import validators from './validators';
+import '../input.css';
+import Dialog from '../dialog';
+import { morph } from '../../utils/animations';
+import { getUpdatedInputFormState } from '../../utils/forms/form-utils';
 
 export default class DurationInput extends Component {
   render() {

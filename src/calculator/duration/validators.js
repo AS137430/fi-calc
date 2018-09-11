@@ -5,8 +5,8 @@ import {
   integerRequired,
   greaterThanZero,
   tooLarge,
-} from '../utils/forms/validators';
-import marketDataByYear from '../utils/market-data/market-data-by-year';
+} from '../../utils/forms/validators';
+import marketDataByYear from '../../utils/market-data/market-data-by-year';
 
 const marketData = marketDataByYear();
 // If the duration goes higher than the number of years in our market data, then no cycles complete,
