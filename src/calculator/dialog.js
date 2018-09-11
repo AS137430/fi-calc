@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
+import FocusTrap from 'focus-trap-react';
 import noScroll from 'no-scroll';
 import './dialog.css';
 
@@ -9,13 +10,21 @@ export default class Dialog extends Component {
 
     return (
       <Fragment>
-        <div
-          ref={nodeRef}
-          className={classnames('dialog', {
-            'dialog-open': open,
-          })}>
-          {children}
-        </div>
+        <FocusTrap
+          active={open}
+          focusTrapOptions={{
+            fallbackFocus: document.body,
+            clickOutsideDeactivates: true,
+            escapeDeactivates: true,
+          }}>
+          <div
+            ref={nodeRef}
+            className={classnames('dialog', {
+              'dialog-open': open,
+            })}>
+            {children}
+          </div>
+        </FocusTrap>
       </Fragment>
     );
   }
