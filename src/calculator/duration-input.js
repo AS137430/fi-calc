@@ -11,44 +11,39 @@ import { getUpdatedInputFormState } from '../utils/forms/form-utils';
 export default class DurationInput extends Component {
   render() {
     const { isDialogOpen, isFormValid, inputs } = this.state;
-
     const { numberOfYears, startYear, endYear, durationMode } = inputs;
+
+    let yearsToDisplay;
+
+    // We use props here, because these reflect the last-saved value, rather than
+    // the form value.
+    if (this.props.durationMode === 'historicalData') {
+      yearsToDisplay = this.props.numberOfYears;
+    } else {
+      yearsToDisplay =
+        Number(this.props.endYear) - Number(this.props.startYear);
+    }
 
     return (
       <div className="input_container">
         <div
           className="input_pill input_pill-withDetail"
           ref={this.pillRef}
-          onClick={() => {
-            this.setState({
-              isDialogOpen: true,
-              inputs: {
-                ...inputs,
-                durationMode: {
-                  value: this.props.durationMode,
-                  error: null,
-                },
-                numberOfYears: {
-                  value: this.props.numberOfYears,
-                  error: null,
-                },
-              },
-            });
-          }}>
+          onClick={this.openDialog}>
           <span className="input_pillValue">
             <span role="img" aria-label="Clock" className="input_emoji">
               🕒
             </span>{' '}
-            {this.props.numberOfYears}
+            {yearsToDisplay}
           </span>{' '}
           <span className="input_pillUnit"> years</span>
           <div className="input_detailContainer">
             <span className="input_pillDetail">
-              {this.props.durationMode === 'numberOfYears' &&
+              {this.props.durationMode === 'historicalData' &&
                 'Using historical data'}
               {this.props.durationMode === 'specificYears' && (
                 <Fragment>
-                  From <b>1923</b> to <b>1953</b>
+                  From <b>{startYear.value}</b> to <b>{endYear.value}</b>
                 </Fragment>
               )}
             </span>
@@ -104,6 +99,7 @@ export default class DurationInput extends Component {
                       </label>
                     </div>
                     <input
+                      ref={this.numberOfYearsRef}
                       value={numberOfYears.value}
                       className={classnames('input calculator-input', {
                         input_error: numberOfYears.error,
@@ -137,6 +133,7 @@ export default class DurationInput extends Component {
                         </label>
                       </div>
                       <input
+                        ref={this.startYearRef}
                         value={startYear.value}
                         className={classnames('input calculator-input', {
                           input_error: startYear.error,
@@ -215,31 +212,33 @@ export default class DurationInput extends Component {
 
   pillRef = createRef();
   dialogRef = createRef();
+  numberOfYearsRef = createRef();
+  startYearRef = createRef();
 
   state = {
     isDialogOpen: false,
     inputs: {
       durationMode: {
-        value: 'historicalData',
+        value: this.props.durationMode,
         error: null,
       },
       numberOfYears: {
-        value: '30',
+        value: this.props.numberOfYears,
         error: null,
       },
       startYear: {
-        value: '1923',
+        value: this.props.startYear,
         error: null,
       },
       endYear: {
-        value: '1973',
+        value: this.props.endYear,
         error: null,
       },
     },
     isFormValid: true,
   };
 
-  updateValue = (valueName, newValue) => {
+  updateValue = (valueName, newValue, cb) => {
     const { inputs } = this.state;
 
     const newInputs = _.merge({}, inputs, {
@@ -253,15 +252,75 @@ export default class DurationInput extends Component {
       validators,
     });
 
-    this.setState({
-      ...newFormState,
-    });
+    this.setState(
+      {
+        ...newFormState,
+      },
+      cb
+    );
   };
 
   onConfirmChanges = () => {
+    const {
+      durationMode,
+      numberOfYears,
+      startYear,
+      endYear,
+    } = this.state.inputs;
+
+    let updates;
+    if (durationMode.value === 'historicalData') {
+      updates = {
+        durationMode: 'historicalData',
+        numberOfYears: numberOfYears.value,
+      };
+    } else if (durationMode.value === 'specificYears') {
+      updates = {
+        durationMode: 'specificYears',
+        startYear: startYear.value,
+        endYear: endYear.value,
+      };
+    }
+
+    this.props.updateValues(updates);
+
     this.setState({
       isDialogOpen: false,
     });
+  };
+
+  openDialog = () => {
+    this.setState(
+      prevState => {
+        const { inputs } = prevState;
+
+        return {
+          isDialogOpen: true,
+          inputs: {
+            ...inputs,
+            durationMode: {
+              value: this.props.durationMode,
+              error: null,
+            },
+            numberOfYears: {
+              value: this.props.numberOfYears,
+              error: null,
+            },
+            startYear: {
+              value: this.props.startYear,
+              error: null,
+            },
+            endYear: {
+              value: this.props.endYear,
+              error: null,
+            },
+          },
+        };
+      },
+      () => {
+        this.focusInput(this.props.durationMode, true);
+      }
+    );
   };
 
   onOpen = cb => {
@@ -286,6 +345,26 @@ export default class DurationInput extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.updateValue('durationMode', mode);
+    this.updateValue('durationMode', mode, () => {
+      this.focusInput(mode, false);
+    });
+  };
+
+  focusInput = (mode, select) => {
+    if (mode === 'historicalData') {
+      if (this.numberOfYearsRef.current) {
+        this.numberOfYearsRef.current.focus();
+        if (select) {
+          this.numberOfYearsRef.current.select();
+        }
+      }
+    } else if (mode === 'specificYears') {
+      if (this.startYearRef.current) {
+        this.startYearRef.current.focus();
+        if (select) {
+          this.startYearRef.current.select();
+        }
+      }
+    }
   };
 }

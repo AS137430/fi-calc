@@ -17,6 +17,8 @@ export default class HistoricalSuccess extends Component {
       firstYearWithdrawal,
       numberOfYears,
       durationMode,
+      startYear,
+      endYear,
     } = inputs;
     const { successRate } = result;
 
@@ -26,8 +28,10 @@ export default class HistoricalSuccess extends Component {
           <div className="calculator_formRow">
             <h2 className="calculator_sectionHeader">Length of Retirement</h2>
             <DurationInput
-              updateValue={this.updateValue}
+              updateValues={this.updateValues}
               numberOfYears={numberOfYears}
+              startYear={startYear}
+              endYear={endYear}
               durationMode={durationMode}
             />
           </div>
@@ -66,7 +70,7 @@ export default class HistoricalSuccess extends Component {
             <div className="calculator_buttonContainer">
               <button
                 className="calculator_viewResultsBtn"
-                onClick={this.toggleResults}>
+                onClick={this.showResults}>
                 View Results
               </button>
             </div>
@@ -84,8 +88,10 @@ export default class HistoricalSuccess extends Component {
   state = {
     test: '1000',
     inputs: {
-      durationMode: 'specificYears',
+      durationMode: 'historicalData',
       numberOfYears: '30',
+      startYear: '1932',
+      endYear: '1960',
       stockInvestmentValue: {
         value: '625000',
         error: null,
@@ -144,12 +150,33 @@ export default class HistoricalSuccess extends Component {
     });
   };
 
+  updateValues = values => {
+    this.setState(prevState => {
+      return {
+        inputs: {
+          ...prevState.inputs,
+          ...values,
+        },
+      };
+    });
+  };
+
   closeResults = () => {
     noScroll.off();
 
     this.setState({
       areResultsOpen: false,
     });
+  };
+
+  showResults = () => {
+    const { inputs } = this.state;
+
+    this.setState({
+      result: computeResult(inputs),
+    });
+
+    this.toggleResults();
   };
 
   toggleResults = () => {
