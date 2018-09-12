@@ -16,6 +16,7 @@ export default class Dialog extends Component {
             fallbackFocus: document.body,
             clickOutsideDeactivates: true,
             escapeDeactivates: true,
+            returnFocusOnDeactivate: false,
           }}>
           <div
             ref={nodeRef}

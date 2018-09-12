@@ -29,13 +29,16 @@ export default class LengthOfRetirementValue extends Component {
             }
           }}
           onClick={() => this.setState({ isDialogOpen: true })}>
-          <span className="displayValue_pillValue">
-            <span role="img" aria-label="Clock" className="displayValue_emoji">
-              🕒
-            </span>{' '}
-            {yearsToDisplay}
+          <span
+            role="img"
+            aria-label="Clock"
+            className="displayValue_emoji displayValue_pillValue">
+            🕒
           </span>{' '}
-          <span className="displayValue_pillUnit"> years</span>
+          <span className="displayValue_entry">
+            <span className="displayValue_pillValue">{yearsToDisplay}</span>
+            <span className="displayValue_pillUnit"> years</span>
+          </span>
           <div className="displayValue_detailContainer">
             <span className="displayValue_pillDetail">
               {durationMode === 'historicalData' && 'Using historical data'}

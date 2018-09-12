@@ -28,16 +28,18 @@ export default class SpendingPlanValue extends Component {
           onClick={() => {
             this.setState({ isDialogOpen: true });
           }}>
-          <span className="displayValue_pillValue">
-            <span
-              role="img"
-              aria-label="Shopping Bags"
-              className="displayValue_emoji">
-              🛍
-            </span>{' '}
-            {formatDollars(firstYearWithdrawal)}
+          <span
+            role="img"
+            aria-label="Shopping Bags"
+            className="displayValue_emoji displayValue_pillValue">
+            🛍
           </span>{' '}
-          <span className="displayValue_pillUnit">/ year</span>
+          <span className="displayValue_entry">
+            <span className="displayValue_pillValue">
+              {formatDollars(firstYearWithdrawal)}
+            </span>{' '}
+            <span className="displayValue_pillUnit">/ year</span>
+          </span>
           <div className="displayValue_detailContainer">
             <span className="displayValue_pillDetail">
               {inflationAdjustedFirstYearWithdrawal && 'Adjusted for inflation'}

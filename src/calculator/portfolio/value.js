@@ -32,7 +32,9 @@ export default class PortfolioValue extends Component {
               className="displayValue_emoji">
               📈
             </span>{' '}
-            {formatDollars(stockInvestmentValue)}
+            <span className="displayValue_entry">
+              {formatDollars(stockInvestmentValue)}
+            </span>
           </span>
           <div className="displayValue_detailContainer">
             <span className="displayValue_pillDetail">
