@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { Checkbox } from 'materialish';
 import validators from './validators';
 import Dialog from '../dialog';
-import Input from '../../common/input';
 import { morph } from '../../utils/animations';
 import { getUpdatedInputFormState } from '../../utils/forms/form-utils';
 
