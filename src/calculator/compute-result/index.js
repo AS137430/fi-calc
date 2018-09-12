@@ -11,6 +11,7 @@ export default function computeResult(inputs) {
     endYear,
     numberOfYears,
     firstYearWithdrawal,
+    inflationAdjustedFirstYearWithdrawal,
     stockInvestmentValue,
   } = inputs;
 
@@ -39,7 +40,9 @@ export default function computeResult(inputs) {
 
   const spendingConfiguration = {
     // This needs to be fixed!
-    spendingMethod: 'inflationAdjusted',
+    spendingMethod: inflationAdjustedFirstYearWithdrawal
+      ? 'inflationAdjusted'
+      : 'notInflationAdjusted',
     firstYearWithdrawal: Number(firstYearWithdrawal),
   };
 

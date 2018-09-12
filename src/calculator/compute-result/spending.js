@@ -8,7 +8,7 @@ export function inflationAdjusted({ inflation, firstYearWithdrawal }) {
   return inflation * firstYearWithdrawal;
 }
 
-export function notInflatedAdjusted({ firstYearWithdrawal }) {
+export function notInflationAdjusted({ firstYearWithdrawal }) {
   return firstYearWithdrawal;
 }
 
