@@ -32,23 +32,26 @@ export default class PortfolioDialogForm extends Component {
               Equities
             </label>
           </div>
-          <input
-            ref={this.stockInvestmentValueRef}
-            value={stockInvestmentValue.value}
-            className={classnames('input', {
-              input_error: stockInvestmentValue.error,
-            })}
-            type="number"
-            pattern="\d*"
-            inputMode="numeric"
-            step="1"
-            min="0"
-            max="300"
-            id={`spendingPlan_stockInvestmentValue`}
-            onChange={event =>
-              this.updateValue('stockInvestmentValue', event.target.value)
-            }
-          />
+          <div className="input_group">
+            <div className="input_extra">$</div>
+            <input
+              ref={this.stockInvestmentValueRef}
+              value={stockInvestmentValue.value}
+              className={classnames('input', {
+                input_error: stockInvestmentValue.error,
+              })}
+              type="number"
+              pattern="\d*"
+              inputMode="numeric"
+              step="1"
+              min="0"
+              max="300"
+              id={`spendingPlan_stockInvestmentValue`}
+              onChange={event =>
+                this.updateValue('stockInvestmentValue', event.target.value)
+              }
+            />
+          </div>
           {stockInvestmentValue.errorMsg && (
             <div className="calculator-errorMsg">
               {stockInvestmentValue.errorMsg}

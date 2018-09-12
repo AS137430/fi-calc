@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Checkbox } from 'materialish';
 import validators from './validators';
 import Dialog from '../dialog';
+import Input from '../../common/input';
 import { morph } from '../../utils/animations';
 import { getUpdatedInputFormState } from '../../utils/forms/form-utils';
 
@@ -37,23 +38,26 @@ export default class SpendingPlanDialogForm extends Component {
                 Annual Spending
               </label>
             </div>
-            <input
-              ref={this.firstYearWithdrawalRef}
-              value={firstYearWithdrawal.value}
-              className={classnames('input', {
-                input_error: firstYearWithdrawal.error,
-              })}
-              type="number"
-              pattern="\d*"
-              inputMode="numeric"
-              step="1"
-              min="0"
-              max="300"
-              id={`spendingPlan_firstYearWithdrawal`}
-              onChange={event =>
-                this.updateValue('firstYearWithdrawal', event.target.value)
-              }
-            />
+            <div className="input_group">
+              <div className="input_extra">$</div>
+              <input
+                nodeRef={this.firstYearWithdrawalRef}
+                value={firstYearWithdrawal.value}
+                className={classnames('input', {
+                  input_error: firstYearWithdrawal.error,
+                })}
+                type="number"
+                pattern="\d*"
+                inputMode="numeric"
+                step="1"
+                min="0"
+                max="300"
+                id={`spendingPlan_firstYearWithdrawal`}
+                onChange={event =>
+                  this.updateValue('firstYearWithdrawal', event.target.value)
+                }
+              />
+            </div>
             {firstYearWithdrawal.errorMsg && (
               <div className="calculator-errorMsg">
                 {firstYearWithdrawal.errorMsg}
