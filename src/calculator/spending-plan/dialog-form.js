@@ -167,8 +167,17 @@ export default class SpendingPlanDialogForm extends Component {
       inflationAdjustedFirstYearWithdrawal,
     } = this.state.inputs;
 
+    const numericWithdrawal = Number(firstYearWithdrawal.value);
+
+    let newWithdrawal;
+    if (Number.isInteger(numericWithdrawal)) {
+      newWithdrawal = String(numericWithdrawal);
+    } else {
+      newWithdrawal = numericWithdrawal.toFixed(2);
+    }
+
     const updates = {
-      firstYearWithdrawal: String(Number(firstYearWithdrawal.value).toFixed(2)),
+      firstYearWithdrawal: newWithdrawal,
       inflationAdjustedFirstYearWithdrawal:
         inflationAdjustedFirstYearWithdrawal.value,
     };
