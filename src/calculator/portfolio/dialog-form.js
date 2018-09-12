@@ -147,7 +147,9 @@ export default class PortfolioDialogForm extends Component {
     } = this.state.inputs;
 
     const updates = {
-      stockInvestmentValue: stockInvestmentValue.value,
+      stockInvestmentValue: String(
+        Number(stockInvestmentValue.value).toFixed(2)
+      ),
       inflationAdjustedstockInvestmentValue:
         inflationAdjustedstockInvestmentValue.value,
     };

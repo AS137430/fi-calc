@@ -41,7 +41,7 @@ export default class SpendingPlanDialogForm extends Component {
             <div className="input_group">
               <div className="input_extra">$</div>
               <input
-                nodeRef={this.firstYearWithdrawalRef}
+                ref={this.firstYearWithdrawalRef}
                 value={firstYearWithdrawal.value}
                 className={classnames('input', {
                   input_error: firstYearWithdrawal.error,
@@ -169,7 +169,7 @@ export default class SpendingPlanDialogForm extends Component {
     } = this.state.inputs;
 
     const updates = {
-      firstYearWithdrawal: firstYearWithdrawal.value,
+      firstYearWithdrawal: String(Number(firstYearWithdrawal.value).toFixed(2)),
       inflationAdjustedFirstYearWithdrawal:
         inflationAdjustedFirstYearWithdrawal.value,
     };
