@@ -28,8 +28,9 @@ export default function evaluateCycles({ cycles }) {
   const dipRate = dippedCycles.length / completedCycles.length;
 
   return {
+    numberOfCycles: completedCycles.length,
     successRate,
     dipRate,
-    lowestDippedValue
+    lowestDippedValue,
   };
 }

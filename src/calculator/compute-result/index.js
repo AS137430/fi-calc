@@ -5,10 +5,25 @@ import evaluateCycles from './evaluate-cycles';
 import { fromInvestments } from '../../utils/forms/normalize-portfolio';
 
 export default function computeResult(inputs) {
-  const { numberOfYears, firstYearWithdrawal, stockInvestmentValue } = inputs;
+  const {
+    durationMode,
+    startYear,
+    endYear,
+    numberOfYears,
+    firstYearWithdrawal,
+    stockInvestmentValue,
+  } = inputs;
 
-  // An array of years that we use as a starting year for cycles
-  const startYears = getStartYears();
+  let lengthOfCycle;
+  let startYears;
+  if (durationMode === 'historicalData') {
+    lengthOfCycle = numberOfYears;
+    // An array of years that we use as a starting year for cycles
+    startYears = getStartYears();
+  } else {
+    startYears = [Number(startYear)];
+    lengthOfCycle = endYear - startYear;
+  }
 
   const dipPercentage = 0.9;
 
@@ -48,7 +63,7 @@ export default function computeResult(inputs) {
       rebalancePortfolioAnnually,
       portfolio,
       spendingConfiguration,
-      duration: Number(numberOfYears),
+      duration: Number(lengthOfCycle),
     })
   );
 
@@ -68,6 +83,7 @@ export default function computeResult(inputs) {
   let summary = results.successRate > 0.95 ? 'SUCCESSFUL' : 'UNSUCCESSFUL';
 
   return {
+    results,
     summary,
     dipRate,
     successRate,

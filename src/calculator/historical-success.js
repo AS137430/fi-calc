@@ -142,9 +142,14 @@ export default class HistoricalSuccess extends Component {
   showResults = () => {
     const { inputs } = this.state;
 
-    this.setState({
-      result: computeResult(inputs),
-    });
+    this.setState(
+      {
+        result: computeResult(inputs),
+      },
+      () => {
+        console.log('wat', this.state.result);
+      }
+    );
 
     this.toggleResults();
   };
