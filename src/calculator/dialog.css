@@ -67,3 +67,11 @@
 .dialog_formRow {
   margin-bottom: 25px;
 }
+
+.dialog_explanation {
+  font-style: italic;
+  margin: 20px 0 15px;
+  line-height: 1.45;
+  font-size: 0.875rem;
+  color: #555;
+}

@@ -1,15 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import './index.css';
 
 export default class Results extends Component {
   render() {
     const { successRate } = this.props;
 
     return (
-      <div className="calculator_resultsText">
-        <div>This portfolio succeeded</div>
-        <div className="calculator_resultsPercentage">{successRate}</div>
-        <div>of the time.</div>
-      </div>
+      <Fragment>
+        <div className="calculator_resultsText">
+          <div>This portfolio succeeded</div>
+          <div className="calculator_resultsPercentage">{successRate}</div>
+          <div>of the time.</div>
+        </div>
+      </Fragment>
     );
   }
 

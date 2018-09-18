@@ -17,7 +17,7 @@ export function numberRequired(val) {
 }
 
 export function greaterThanZero(val) {
-  if (Number(val) < 0) {
+  if (Number(val) <= 0) {
     return 'lessThanZero';
   }
 }

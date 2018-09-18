@@ -20,7 +20,8 @@ export default function computeResult(inputs) {
   if (durationMode === 'historicalData') {
     lengthOfCycle = numberOfYears;
     // An array of years that we use as a starting year for cycles
-    startYears = getStartYears();
+    startYears = getStartYears(Number(numberOfYears));
+    console.log('hi', startYears);
   } else {
     startYears = [Number(startYear)];
     lengthOfCycle = endYear - startYear;

@@ -5,6 +5,7 @@ import validators from './validators';
 import Dialog from '../dialog';
 import { morph } from '../../utils/animations';
 import { getUpdatedInputFormState } from '../../utils/forms/form-utils';
+import getStartYears from '../compute-result/get-start-years';
 
 export default class LengthOfRetirementDialogForm extends Component {
   render() {
@@ -12,6 +13,24 @@ export default class LengthOfRetirementDialogForm extends Component {
     const { isFormValid, inputs } = this.state;
 
     const { numberOfYears, startYear, endYear, durationMode } = inputs;
+
+    let isFormErrored;
+
+    let numberOfCycles;
+    if (!numberOfYears.error) {
+      isFormErrored = Boolean(numberOfYears.errorMsg);
+      numberOfCycles = _.size(getStartYears(Number(numberOfYears.value)));
+    }
+
+    let specificYearsDuration;
+    if (durationMode.value === 'specificYears') {
+      isFormErrored = Boolean(endYear.errorMsg) || Boolean(startYear.errorMsg);
+
+      if (!isFormErrored) {
+        specificYearsDuration =
+          Number(endYear.value) - Number(startYear.value) + 1;
+      }
+    }
 
     return (
       <Dialog
@@ -70,6 +89,12 @@ export default class LengthOfRetirementDialogForm extends Component {
               {numberOfYears.errorMsg && (
                 <div className="calculator-errorMsg">
                   {numberOfYears.errorMsg}
+                </div>
+              )}
+              {!isFormErrored && (
+                <div className="dialog_explanation">
+                  This calculation will run <b>{numberOfCycles}</b> simulations
+                  that are each <b>{numberOfYears.value}</b> years in length.
                 </div>
               )}
             </Fragment>
@@ -131,6 +156,12 @@ export default class LengthOfRetirementDialogForm extends Component {
                 />
                 {endYear.errorMsg && (
                   <div className="calculator-errorMsg">{endYear.errorMsg}</div>
+                )}
+                {!isFormErrored && (
+                  <div className="dialog_explanation">
+                    This calculation will run a single simulation that is{' '}
+                    <b>{specificYearsDuration}</b> years in length.
+                  </div>
                 )}
               </div>
             </Fragment>
