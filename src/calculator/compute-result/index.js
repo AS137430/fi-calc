@@ -21,7 +21,6 @@ export default function computeResult(inputs) {
     lengthOfCycle = numberOfYears;
     // An array of years that we use as a starting year for cycles
     startYears = getStartYears(Number(numberOfYears));
-    console.log('hi', startYears);
   } else {
     startYears = [Number(startYear)];
     lengthOfCycle = endYear - startYear;
