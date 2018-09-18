@@ -76,6 +76,8 @@ export default class HistoricalSuccess extends Component {
               </button>
             </div>
             <Results
+              inputs={inputs}
+              result={result}
               successRate={successRate}
               isOpen={areResultsOpen}
               onClose={() =>

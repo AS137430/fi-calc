@@ -157,13 +157,13 @@ export default class LengthOfRetirementDialogForm extends Component {
                 {endYear.errorMsg && (
                   <div className="calculator-errorMsg">{endYear.errorMsg}</div>
                 )}
-                {!isFormErrored && (
-                  <div className="dialog_explanation">
-                    This calculation will run a single simulation that is{' '}
-                    <b>{specificYearsDuration}</b> years in length.
-                  </div>
-                )}
               </div>
+              {!isFormErrored && (
+                <div className="dialog_explanation">
+                  This calculation will run a single simulation that is{' '}
+                  <b>{specificYearsDuration}</b> years in length.
+                </div>
+              )}
             </Fragment>
           )}
         </div>

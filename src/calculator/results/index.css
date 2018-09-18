@@ -138,3 +138,23 @@
 .calculator_viewResultsBtn:focus {
   box-shadow: 0 0 0 3px rgba(146, 70, 255, 0.4);
 }
+
+.results_segment {
+  margin: 0 auto;
+  padding: 20px 15px;
+  border-bottom: 1px solid #dfdfdf;
+  max-width: 90%;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-align: center;
+}
+
+.results_description {
+  margin-bottom: 10px;
+}
+
+.results_moreInfo {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #808080;
+}

@@ -57,6 +57,12 @@ export default class PortfolioDialogForm extends Component {
               {stockInvestmentValue.errorMsg}
             </div>
           )}
+          {!stockInvestmentValue.errorMsg && (
+            <div className="dialog_explanation">
+              Historical stock market data will be used to calculate the changes
+              in your equities over time.
+            </div>
+          )}
         </div>
         <div className="dialog_footer">
           <button className="button" type="button" onClick={onClose}>

@@ -78,6 +78,18 @@ export default class SpendingPlanDialogForm extends Component {
               <span className="checkbox_label">Adjusted for Inflation</span>
             </label>
           </div>
+          {inflationAdjustedFirstYearWithdrawal.value && (
+            <div className="dialog_explanation">
+              Adjusting for inflation ensures that the amount of stuff you can
+              buy each year remains about the same.
+            </div>
+          )}
+          {!inflationAdjustedFirstYearWithdrawal.value && (
+            <div className="dialog_explanation">
+              Not adjusting for inflation means that you won't be able to buy as
+              many things later in your retirement.
+            </div>
+          )}
         </div>
         <div className="dialog_footer">
           <button className="button" type="button" onClick={onClose}>

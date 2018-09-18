@@ -1,6 +1,7 @@
 @import './styles/button.css';
 @import './styles/display-value.css';
 @import './styles/input.css';
+@import './styles/cursor.css';
 
 :root {
   --mt-mainColor: #a865bf;
