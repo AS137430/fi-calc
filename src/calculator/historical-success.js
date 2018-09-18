@@ -67,7 +67,7 @@ export default class HistoricalSuccess extends Component {
             className="calculator_resultsToggle"
             onClick={this.toggleResults}
           />
-          <div>
+          <div className="calculator_resultsContent">
             <div className="calculator_buttonContainer">
               <button
                 className="calculator_viewResultsBtn"

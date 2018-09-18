@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import _ from 'lodash';
+import classnames from 'classnames';
 import IconDateRange from 'materialish/icon-date-range';
 import IconTrendingDown from 'materialish/icon-trending-down';
 import './index.css';
@@ -14,6 +15,8 @@ export default class Results extends Component {
       .size()
       .value();
 
+    const isGoodResult = _.get(result, 'results.successRate', 0) >= 0.95;
+
     let numberOfSimulations;
     if (inputs.durationMode === 'historicalData') {
       numberOfSimulations = _.size(getStartYears(Number(inputs.numberOfYears)));
@@ -25,7 +28,12 @@ export default class Results extends Component {
       <Fragment>
         <div className="calculator_resultsText">
           <div>This portfolio succeeded</div>
-          <div className="calculator_resultsPercentage">{successRate}</div>
+          <div
+            className={classnames('calculator_resultsPercentage', {
+              'calculator_resultsPercentage-goodResult': isGoodResult,
+            })}>
+            {successRate}
+          </div>
           <div>of the time.</div>
         </div>
         <div className="results_segment">
