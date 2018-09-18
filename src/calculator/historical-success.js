@@ -97,7 +97,7 @@ export default class HistoricalSuccess extends Component {
     inputs: {
       durationMode: 'historicalData',
       numberOfYears: '30',
-      startYear: '1932',
+      startYear: '1931',
       endYear: '1960',
       firstYearWithdrawal: '25000',
       inflationAdjustedFirstYearWithdrawal: true,

@@ -15,7 +15,8 @@ export default class Results extends Component {
       .size()
       .value();
 
-    const isGoodResult = _.get(result, 'results.successRate', 0) >= 0.95;
+    const numericSuccessRate = _.get(result, 'results.successRate', 0);
+    const isGoodResult = numericSuccessRate >= 0.95;
 
     let numberOfSimulations;
     if (inputs.durationMode === 'historicalData') {
@@ -27,20 +28,50 @@ export default class Results extends Component {
     return (
       <Fragment>
         <div className="calculator_resultsText">
-          <div>This portfolio succeeded</div>
-          <div
-            className={classnames('calculator_resultsPercentage', {
-              'calculator_resultsPercentage-goodResult': isGoodResult,
-            })}>
-            {successRate}
-          </div>
-          <div>of the time.</div>
+          {numberOfSimulations > 1 && (
+            <Fragment>
+              <div>This calculation succeeded</div>
+              <div
+                className={classnames('calculator_resultsPercentage', {
+                  'calculator_resultsPercentage-goodResult': isGoodResult,
+                })}>
+                {successRate}
+              </div>
+              <div>of the time.</div>
+            </Fragment>
+          )}
+          {numberOfSimulations === 1 &&
+            numericSuccessRate === 1 && (
+              <Fragment>
+                <div>This calculation</div>
+                <div className="calculator_resultsPercentage calculator_resultsPercentage-goodResult">
+                  Succeeded
+                </div>
+              </Fragment>
+            )}
+          {numberOfSimulations === 1 &&
+            numericSuccessRate !== 1 && (
+              <Fragment>
+                <div>This calculation</div>
+                <div className="calculator_resultsPercentage">Failed</div>
+              </Fragment>
+            )}
         </div>
         <div className="results_segment">
           <div className="results_description">
             <IconDateRange className="results_descriptionIcon" />{' '}
-            <b>{numberOfSimulations}</b> total simulations were run as part of
-            this calculation.
+            {numberOfSimulations > 1 && (
+              <Fragment>
+                <b>{numberOfSimulations}</b> total simulations were run as part
+                of this calculation.
+              </Fragment>
+            )}
+            {numberOfSimulations === 1 && (
+              <Fragment>
+                <b>{numberOfSimulations}</b> simulation was run as part of this
+                calculation.
+              </Fragment>
+            )}
           </div>
           <div className="results_moreInfo">
             These results can be considered more reliable with a higher
@@ -49,8 +80,18 @@ export default class Results extends Component {
         </div>
         <div className="results_segment">
           <div className="results_description">
-            <IconTrendingDown className="results_descriptionIcon" /> There were{' '}
-            <b>{dipCount}</b> dips.
+            {dipCount !== 1 && (
+              <Fragment>
+                <IconTrendingDown className="results_descriptionIcon" /> There
+                were <b>{dipCount}</b> dips.
+              </Fragment>
+            )}
+            {dipCount === 1 && (
+              <Fragment>
+                <IconTrendingDown className="results_descriptionIcon" /> There
+                was <b>{dipCount}</b> dip.
+              </Fragment>
+            )}
           </div>
           <div className="results_moreInfo">
             A dip is when your portfolio drops below 90% of the value that it

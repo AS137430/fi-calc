@@ -16,6 +16,18 @@ export function numberRequired(val) {
   }
 }
 
+export function lessThanEndYear(val, inputs) {
+  if (Number(inputs.endYear.value) < Number(val)) {
+    return 'greaterThanEndYear';
+  }
+}
+
+export function greaterThanStartYear(val, inputs) {
+  if (Number(inputs.startYear.value) > Number(val)) {
+    return 'lessThanStartYear';
+  }
+}
+
 export function greaterThanZero(val) {
   if (Number(val) <= 0) {
     return 'lessThanZero';

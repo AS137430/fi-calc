@@ -56,4 +56,12 @@ export default {
     const displayName = _.startCase(inputName);
     return `${displayName} must be greater than ${validationError.limit}.`;
   },
+  lessThanStartYear(inputName) {
+    const displayName = _.startCase(inputName);
+    return `${displayName} must be greater than the Start Year`;
+  },
+  greaterThanEndYear(inputName) {
+    const displayName = _.startCase(inputName);
+    return `${displayName} must be less than the End Year`;
+  },
 };

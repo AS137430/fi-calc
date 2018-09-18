@@ -10,16 +10,19 @@ import getStartYears from '../compute-result/get-start-years';
 export default class LengthOfRetirementDialogForm extends Component {
   render() {
     const { onClose } = this.props;
-    const { isFormValid, inputs } = this.state;
+    const { inputs } = this.state;
 
     const { numberOfYears, startYear, endYear, durationMode } = inputs;
 
     let isFormErrored;
-
     let numberOfCycles;
-    if (!numberOfYears.error) {
+
+    if (durationMode.value === 'historicalData') {
       isFormErrored = Boolean(numberOfYears.errorMsg);
-      numberOfCycles = _.size(getStartYears(Number(numberOfYears.value)));
+
+      if (!isFormErrored) {
+        numberOfCycles = _.size(getStartYears(Number(numberOfYears.value)));
+      }
     }
 
     let specificYearsDuration;
@@ -91,12 +94,21 @@ export default class LengthOfRetirementDialogForm extends Component {
                   {numberOfYears.errorMsg}
                 </div>
               )}
-              {!isFormErrored && (
-                <div className="dialog_explanation">
-                  This calculation will run <b>{numberOfCycles}</b> simulations
-                  that are each <b>{numberOfYears.value}</b> years in length.
-                </div>
-              )}
+              {!isFormErrored &&
+                numberOfCycles !== 1 && (
+                  <div className="dialog_explanation">
+                    This calculation will run <b>{numberOfCycles}</b>{' '}
+                    simulations that are each <b>{numberOfYears.value}</b> years
+                    in length.
+                  </div>
+                )}
+              {!isFormErrored &&
+                numberOfCycles === 1 && (
+                  <div className="dialog_explanation">
+                    This calculation will run <b>1</b> simulation that is{' '}
+                    <b>{numberOfYears.value}</b> years in length.
+                  </div>
+                )}
             </Fragment>
           )}
           {durationMode.value === 'specificYears' && (
@@ -172,7 +184,7 @@ export default class LengthOfRetirementDialogForm extends Component {
             Cancel
           </button>
           <button
-            disabled={!isFormValid}
+            disabled={isFormErrored}
             className="button button-primary"
             type="button"
             onClick={this.onConfirmChanges}>

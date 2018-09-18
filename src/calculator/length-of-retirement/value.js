@@ -12,7 +12,7 @@ export default class LengthOfRetirementValue extends Component {
     if (durationMode === 'historicalData') {
       yearsToDisplay = numberOfYears;
     } else {
-      yearsToDisplay = Number(endYear) - Number(startYear);
+      yearsToDisplay = Number(endYear) - Number(startYear) + 1;
     }
 
     return (

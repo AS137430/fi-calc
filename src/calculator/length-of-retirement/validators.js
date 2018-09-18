@@ -5,6 +5,9 @@ import {
   integerRequired,
   greaterThanZero,
   tooLarge,
+  withinYearLimit,
+  lessThanEndYear,
+  greaterThanStartYear,
 } from '../../utils/forms/validators';
 import marketDataByYear from '../../utils/market-data/market-data-by-year';
 
@@ -21,6 +24,18 @@ export default {
     greaterThanZero,
     tooLarge(maxDuration),
   ],
-  startYear: [isRequired, numberRequired, integerRequired, greaterThanZero],
-  endYear: [isRequired, numberRequired, integerRequired, greaterThanZero],
+  startYear: [
+    isRequired,
+    numberRequired,
+    integerRequired,
+    withinYearLimit,
+    lessThanEndYear,
+  ],
+  endYear: [
+    isRequired,
+    numberRequired,
+    integerRequired,
+    withinYearLimit,
+    greaterThanStartYear,
+  ],
 };
