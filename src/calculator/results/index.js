@@ -30,8 +30,9 @@ export default class Results extends Component {
         </div>
         <div className="results_segment">
           <div className="results_description">
-            <IconDateRange /> <b>{numberOfSimulations}</b> total simulations
-            were run as part of this calculation.
+            <IconDateRange className="results_descriptionIcon" />{' '}
+            <b>{numberOfSimulations}</b> total simulations were run as part of
+            this calculation.
           </div>
           <div className="results_moreInfo">
             These results can be considered more reliable with a higher
@@ -40,7 +41,8 @@ export default class Results extends Component {
         </div>
         <div className="results_segment">
           <div className="results_description">
-            <IconTrendingDown /> There were <b>{dipCount}</b> dips.
+            <IconTrendingDown className="results_descriptionIcon" /> There were{' '}
+            <b>{dipCount}</b> dips.
           </div>
           <div className="results_moreInfo">
             A dip is when your portfolio drops below 90% of the value that it

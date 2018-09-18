@@ -153,6 +153,11 @@
   margin-bottom: 10px;
 }
 
+.results_descriptionIcon {
+  position: relative;
+  top: 0.125rem;
+}
+
 .results_moreInfo {
   font-size: 0.9rem;
   font-style: italic;
