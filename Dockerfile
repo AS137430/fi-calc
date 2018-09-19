@@ -10,4 +10,4 @@ WORKDIR /usr/src
 ENV NODE_ENV="production"
 COPY --from=base /usr/src .
 EXPOSE 5000
-CMD ["yarn", "start"]
+CMD ["node", "server/index.js"]

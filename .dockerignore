@@ -1,3 +1,6 @@
 *
 !*.js
 !package.json
+!public
+!server
+!src
