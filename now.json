@@ -1,3 +1,7 @@
 {
-  "name": "ficalc"
+  "name": "ficalc",
+  "type": "docker",
+  "features": {
+    "cloud": "v2"
+  }
 }
