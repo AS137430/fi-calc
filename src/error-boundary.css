@@ -1,0 +1,17 @@
+.errorBoundary_header,
+.errorBoundary_text {
+  padding: 0 25px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-align: center;
+}
+
+.errorBoundary_header {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 40px 0 15px;
+}
+
+.errorBoundary_text {
+  font-size: 0.9rem;
+}
