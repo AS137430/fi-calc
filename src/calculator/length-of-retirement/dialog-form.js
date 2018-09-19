@@ -78,13 +78,14 @@ export default class LengthOfRetirementDialogForm extends Component {
                 className={classnames('input', {
                   input_error: numberOfYears.error,
                 })}
+                autoComplete={false}
                 type="number"
                 pattern="\d*"
                 inputMode="numeric"
                 step="1"
                 min="0"
                 max="300"
-                id={`inflationAdjusted_numberOfYears`}
+                id="inflationAdjusted_numberOfYears"
                 onChange={event =>
                   this.updateValue('numberOfYears', event.target.value)
                 }
@@ -127,12 +128,10 @@ export default class LengthOfRetirementDialogForm extends Component {
                   className={classnames('input', {
                     input_error: startYear.error,
                   })}
+                  autoComplete={false}
                   type="number"
                   pattern="\d*"
                   inputMode="numeric"
-                  step="1"
-                  min="0"
-                  max="300"
                   id={`inflationAdjusted_startYear`}
                   onChange={event =>
                     this.updateValue('startYear', event.target.value)
@@ -155,12 +154,10 @@ export default class LengthOfRetirementDialogForm extends Component {
                   className={classnames('input', {
                     input_error: endYear.error,
                   })}
+                  autoComplete={false}
                   type="number"
                   pattern="\d*"
                   inputMode="numeric"
-                  step="1"
-                  min="0"
-                  max="300"
                   id={`inflationAdjusted_endYear`}
                   onChange={event =>
                     this.updateValue('endYear', event.target.value)

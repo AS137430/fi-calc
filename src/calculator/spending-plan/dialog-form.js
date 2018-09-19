@@ -45,13 +45,11 @@ export default class SpendingPlanDialogForm extends Component {
                 className={classnames('input', {
                   input_error: firstYearWithdrawal.error,
                 })}
+                autoComplete={false}
                 type="number"
                 pattern="\d*"
                 inputMode="numeric"
-                step="1"
-                min="0"
-                max="300"
-                id={`spendingPlan_firstYearWithdrawal`}
+                id="spendingPlan_firstYearWithdrawal"
                 onChange={event =>
                   this.updateValue('firstYearWithdrawal', event.target.value)
                 }

@@ -40,12 +40,10 @@ export default class PortfolioDialogForm extends Component {
               className={classnames('input', {
                 input_error: stockInvestmentValue.error,
               })}
+              autoComplete={false}
               type="number"
               pattern="\d*"
               inputMode="numeric"
-              step="1"
-              min="0"
-              max="300"
               id={`spendingPlan_stockInvestmentValue`}
               onChange={event =>
                 this.updateValue('stockInvestmentValue', event.target.value)
