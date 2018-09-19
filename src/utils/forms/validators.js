@@ -78,3 +78,25 @@ export function tooSmall(limit) {
     }
   };
 }
+
+export function dollarsTooLarge(limit) {
+  return val => {
+    if (Number(val) > limit) {
+      return {
+        code: 'dollarsTooLarge',
+        limit,
+      };
+    }
+  };
+}
+
+export function dollarsTooSmall(limit) {
+  return val => {
+    if (Number(val) < limit) {
+      return {
+        code: 'dollarsTooSmall',
+        limit,
+      };
+    }
+  };
+}

@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import getYearRange from '../market-data/get-year-range';
+import formatNumber from '../numbers/format-number';
+import formatDollars from '../numbers/format-dollars';
 
 export default {
   empty(inputName) {
@@ -50,11 +52,27 @@ export default {
   },
   tooLarge(inputName, inputObj, inputs, validationError) {
     const displayName = _.startCase(inputName);
-    return `${displayName} must be less than ${validationError.limit}.`;
+    return `${displayName} must be less than ${formatNumber(
+      validationError.limit
+    )}.`;
   },
   tooSmall(inputName, inputObj, inputs, validationError) {
     const displayName = _.startCase(inputName);
-    return `${displayName} must be greater than ${validationError.limit}.`;
+    return `${displayName} must be greater than ${formatNumber(
+      validationError.limit
+    )}.`;
+  },
+  dollarsTooLarge(inputName, inputObj, inputs, validationError) {
+    const displayName = _.startCase(inputName);
+    return `${displayName} must be less than ${formatDollars(
+      validationError.limit
+    )}.`;
+  },
+  dollarsTooSmall(inputName, inputObj, inputs, validationError) {
+    const displayName = _.startCase(inputName);
+    return `${displayName} must be greater than ${formatDollars(
+      validationError.limit
+    )}.`;
   },
   lessThanStartYear(inputName) {
     const displayName = _.startCase(inputName);
