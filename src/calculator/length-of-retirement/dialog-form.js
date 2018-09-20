@@ -174,11 +174,7 @@ export default class LengthOfRetirementDialogForm extends Component {
           )}
         </div>
         <div className="dialog_footer">
-          <button
-            type="button"
-            className="button"
-            type="button"
-            onClick={onClose}>
+          <button type="button" className="button" onClick={onClose}>
             Cancel
           </button>
           <button
