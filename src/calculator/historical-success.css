@@ -3,6 +3,10 @@
   padding-bottom: 50px;
 }
 
+.calculator_form {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .calculator_formRow {
   margin-bottom: 25px;
   border-bottom: 1px solid #ebebeb;
