@@ -26,3 +26,27 @@
   padding: 0;
   -webkit-font-smoothing: antialiased;
 }
+
+@media (min-width: 650px) {
+  .calculator_formRow {
+    max-width: 550px;
+    margin: 0 auto;
+    position: relative;
+    padding: 20px 0;
+  }
+
+  .calculator_sectionHeader {
+    position: absolute;
+    left: 0;
+    top: 20px;
+  }
+
+  .displayValue_container {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .displayValue_pill {
+    padding: 20px;
+  }
+}
