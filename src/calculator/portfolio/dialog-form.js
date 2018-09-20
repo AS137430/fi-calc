@@ -9,7 +9,9 @@ import { getUpdatedInputFormState } from '../../utils/forms/form-utils';
 export default class PortfolioDialogForm extends Component {
   render() {
     const { onClose } = this.props;
-    const { isFormValid, inputs } = this.state;
+    const { inputs } = this.state;
+
+    const isFormValid = this.isFormValid();
 
     const { stockInvestmentValue } = inputs;
 
@@ -45,6 +47,7 @@ export default class PortfolioDialogForm extends Component {
               pattern="\d*"
               inputMode="numeric"
               id={`spendingPlan_stockInvestmentValue`}
+              onKeyDown={this.onKeyDownInput}
               onChange={event =>
                 this.updateValue('stockInvestmentValue', event.target.value)
               }
@@ -67,6 +70,7 @@ export default class PortfolioDialogForm extends Component {
             Cancel
           </button>
           <button
+            ref={this.saveBtnRef}
             disabled={!isFormValid}
             className="button button-primary"
             type="button"
@@ -80,6 +84,7 @@ export default class PortfolioDialogForm extends Component {
 
   dialogRef = createRef();
   stockInvestmentValueRef = createRef();
+  saveBtnRef = createRef();
 
   state = {
     inputs: {
@@ -166,5 +171,22 @@ export default class PortfolioDialogForm extends Component {
     };
 
     onConfirm(updates);
+  };
+
+  isFormValid = () => {
+    return this.state.isFormValid;
+  };
+
+  onKeyDownInput = e => {
+    if (e.key === 'Enter' && this.isFormValid()) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (!e.metaKey) {
+        _.invoke(this.saveBtnRef.current, 'focus');
+      } else {
+        this.onConfirmChanges();
+      }
+    }
   };
 }

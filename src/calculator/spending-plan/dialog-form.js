@@ -10,7 +10,9 @@ import { getUpdatedInputFormState } from '../../utils/forms/form-utils';
 export default class SpendingPlanDialogForm extends Component {
   render() {
     const { onClose } = this.props;
-    const { isFormValid, inputs } = this.state;
+    const { inputs } = this.state;
+
+    const isFormValid = this.isFormValid();
 
     const {
       firstYearWithdrawal,
@@ -50,6 +52,7 @@ export default class SpendingPlanDialogForm extends Component {
                 pattern="\d*"
                 inputMode="numeric"
                 id="spendingPlan_firstYearWithdrawal"
+                onKeyDown={this.onKeyDownInput}
                 onChange={event =>
                   this.updateValue('firstYearWithdrawal', event.target.value)
                 }
@@ -94,6 +97,7 @@ export default class SpendingPlanDialogForm extends Component {
             Cancel
           </button>
           <button
+            ref={this.saveBtnRef}
             disabled={!isFormValid}
             className="button button-primary"
             type="button"
@@ -107,6 +111,7 @@ export default class SpendingPlanDialogForm extends Component {
 
   dialogRef = createRef();
   firstYearWithdrawalRef = createRef();
+  saveBtnRef = createRef();
 
   state = {
     inputs: {
@@ -193,5 +198,22 @@ export default class SpendingPlanDialogForm extends Component {
     };
 
     onConfirm(updates);
+  };
+
+  isFormValid = () => {
+    return this.state.isFormValid;
+  };
+
+  onKeyDownInput = e => {
+    if (e.key === 'Enter' && this.isFormValid()) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (!e.metaKey) {
+        _.invoke(this.saveBtnRef.current, 'focus');
+      } else {
+        this.onConfirmChanges();
+      }
+    }
   };
 }

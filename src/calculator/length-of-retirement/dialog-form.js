@@ -14,25 +14,17 @@ export default class LengthOfRetirementDialogForm extends Component {
 
     const { numberOfYears, startYear, endYear, durationMode } = inputs;
 
-    let isFormErrored;
+    const isFormValid = this.isFormValid();
+
     let numberOfCycles;
-
-    if (durationMode.value === 'historicalData') {
-      isFormErrored = Boolean(numberOfYears.errorMsg);
-
-      if (!isFormErrored) {
-        numberOfCycles = _.size(getStartYears(Number(numberOfYears.value)));
-      }
+    if (durationMode.value === 'historicalData' && isFormValid) {
+      numberOfCycles = _.size(getStartYears(Number(numberOfYears.value)));
     }
 
     let specificYearsDuration;
-    if (durationMode.value === 'specificYears') {
-      isFormErrored = Boolean(endYear.errorMsg) || Boolean(startYear.errorMsg);
-
-      if (!isFormErrored) {
-        specificYearsDuration =
-          Number(endYear.value) - Number(startYear.value) + 1;
-      }
+    if (durationMode.value === 'specificYears' && isFormValid) {
+      specificYearsDuration =
+        Number(endYear.value) - Number(startYear.value) + 1;
     }
 
     return (
@@ -49,6 +41,7 @@ export default class LengthOfRetirementDialogForm extends Component {
         <div className="dialog_contents">
           <div className="buttonGroup buttonGroup-centered inputDialog_buttonGroup">
             <button
+              type="button"
               className={classnames('button', {
                 'button-selected': durationMode.value === 'historicalData',
               })}
@@ -56,6 +49,7 @@ export default class LengthOfRetirementDialogForm extends Component {
               All Historical Data
             </button>
             <button
+              type="button"
               className={classnames('button', {
                 'button-selected': durationMode.value === 'specificYears',
               })}
@@ -86,6 +80,7 @@ export default class LengthOfRetirementDialogForm extends Component {
                 min="0"
                 max="300"
                 id="inflationAdjusted_numberOfYears"
+                onKeyDown={this.onKeyDownInput}
                 onChange={event =>
                   this.updateValue('numberOfYears', event.target.value)
                 }
@@ -95,7 +90,7 @@ export default class LengthOfRetirementDialogForm extends Component {
                   {numberOfYears.errorMsg}
                 </div>
               )}
-              {!isFormErrored &&
+              {isFormValid &&
                 numberOfCycles !== 1 && (
                   <div className="dialog_explanation">
                     This calculation will run <b>{numberOfCycles}</b>{' '}
@@ -103,7 +98,7 @@ export default class LengthOfRetirementDialogForm extends Component {
                     in length.
                   </div>
                 )}
-              {!isFormErrored &&
+              {isFormValid &&
                 numberOfCycles === 1 && (
                   <div className="dialog_explanation">
                     This calculation will run <b>1</b> simulation that is{' '}
@@ -133,6 +128,7 @@ export default class LengthOfRetirementDialogForm extends Component {
                   pattern="\d*"
                   inputMode="numeric"
                   id={`inflationAdjusted_startYear`}
+                  onKeyDown={this.onKeyDownInput}
                   onChange={event =>
                     this.updateValue('startYear', event.target.value)
                   }
@@ -159,6 +155,7 @@ export default class LengthOfRetirementDialogForm extends Component {
                   pattern="\d*"
                   inputMode="numeric"
                   id={`inflationAdjusted_endYear`}
+                  onKeyDown={this.onKeyDownInput}
                   onChange={event =>
                     this.updateValue('endYear', event.target.value)
                   }
@@ -167,7 +164,7 @@ export default class LengthOfRetirementDialogForm extends Component {
                   <div className="calculator-errorMsg">{endYear.errorMsg}</div>
                 )}
               </div>
-              {!isFormErrored && (
+              {isFormValid && (
                 <div className="dialog_explanation">
                   This calculation will run a single simulation that is{' '}
                   <b>{specificYearsDuration}</b> years in length.
@@ -177,11 +174,16 @@ export default class LengthOfRetirementDialogForm extends Component {
           )}
         </div>
         <div className="dialog_footer">
-          <button className="button" type="button" onClick={onClose}>
+          <button
+            type="button"
+            className="button"
+            type="button"
+            onClick={onClose}>
             Cancel
           </button>
           <button
-            disabled={isFormErrored}
+            ref={this.saveBtnRef}
+            disabled={!isFormValid}
             className="button button-primary"
             type="button"
             onClick={this.onConfirmChanges}>
@@ -195,6 +197,7 @@ export default class LengthOfRetirementDialogForm extends Component {
   dialogRef = createRef();
   numberOfYearsRef = createRef();
   startYearRef = createRef();
+  saveBtnRef = createRef();
 
   state = {
     inputs: {
@@ -316,5 +319,32 @@ export default class LengthOfRetirementDialogForm extends Component {
     }
 
     onConfirm(updates);
+  };
+
+  isFormValid = () => {
+    const { inputs } = this.state;
+    const { numberOfYears, startYear, endYear, durationMode } = inputs;
+
+    let isFormErrored = false;
+    if (durationMode.value === 'historicalData') {
+      isFormErrored = Boolean(numberOfYears.errorMsg);
+    } else if (durationMode.value === 'specificYears') {
+      isFormErrored = Boolean(endYear.errorMsg) || Boolean(startYear.errorMsg);
+    }
+
+    return !isFormErrored;
+  };
+
+  onKeyDownInput = e => {
+    if (e.key === 'Enter' && this.isFormValid()) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (!e.metaKey) {
+        _.invoke(this.saveBtnRef.current, 'focus');
+      } else {
+        this.onConfirmChanges();
+      }
+    }
   };
 }
