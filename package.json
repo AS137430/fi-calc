@@ -26,7 +26,10 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "deploy": "bash deploy/to-staging.sh",
+    "deploy-staging": "bash deploy/to-staging.sh",
+    "deploy-test": "bash deploy/to-staging.sh",
     "deploy-prod": "bash deploy/to-prod.sh",
+    "deploy-production": "bash deploy/to-prod.sh",
     "promote-staging": "bash deploy/promote-staging.sh"
   }
 }
