@@ -24,7 +24,7 @@ export default class HistoricalSuccess extends Component {
 
     return (
       <div className="historicalSuccess">
-        <form className="calculator_form">
+        <form className="calculator_form" onSubmit={e => e.preventDefault()}>
           <div className="calculator_formRow">
             <h2 className="calculator_sectionHeader">Length of Retirement</h2>
             <LengthOfRetirementValue
