@@ -40,7 +40,7 @@ export default class PortfolioDialogForm extends Component {
               className={classnames('input', {
                 input_error: stockInvestmentValue.error,
               })}
-              autoComplete={false}
+              autoComplete="off"
               type="number"
               pattern="\d*"
               inputMode="numeric"

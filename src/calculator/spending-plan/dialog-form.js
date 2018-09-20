@@ -45,7 +45,7 @@ export default class SpendingPlanDialogForm extends Component {
                 className={classnames('input', {
                   input_error: firstYearWithdrawal.error,
                 })}
-                autoComplete={false}
+                autoComplete="off"
                 type="number"
                 pattern="\d*"
                 inputMode="numeric"

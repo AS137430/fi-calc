@@ -78,7 +78,7 @@ export default class LengthOfRetirementDialogForm extends Component {
                 className={classnames('input', {
                   input_error: numberOfYears.error,
                 })}
-                autoComplete={false}
+                autoComplete="off"
                 type="number"
                 pattern="\d*"
                 inputMode="numeric"
@@ -128,7 +128,7 @@ export default class LengthOfRetirementDialogForm extends Component {
                   className={classnames('input', {
                     input_error: startYear.error,
                   })}
-                  autoComplete={false}
+                  autoComplete="off"
                   type="number"
                   pattern="\d*"
                   inputMode="numeric"
@@ -154,7 +154,7 @@ export default class LengthOfRetirementDialogForm extends Component {
                   className={classnames('input', {
                     input_error: endYear.error,
                   })}
-                  autoComplete={false}
+                  autoComplete="off"
                   type="number"
                   pattern="\d*"
                   inputMode="numeric"
