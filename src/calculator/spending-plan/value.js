@@ -55,7 +55,7 @@ export default class SpendingPlanValue extends Component {
           className={classnames('dialog_overlay', {
             'dialog_overlay-open': isDialogOpen,
           })}
-          onClick={() => this.setState({ isDialogOpen: false })}
+          onClick={this.onClickOverlay}
         />
         <TransitionGroupPlus>
           {isDialogOpen && (
@@ -82,6 +82,13 @@ export default class SpendingPlanValue extends Component {
 
   onConfirm = updates => {
     this.props.updateValues(updates);
+
+    this.setState({ isDialogOpen: false });
+  };
+
+  onClickOverlay = e => {
+    e.preventDefault();
+    e.stopPropagation();
 
     this.setState({ isDialogOpen: false });
   };

@@ -46,7 +46,7 @@ export default class PortfolioValue extends Component {
           className={classnames('dialog_overlay', {
             'dialog_overlay-open': isDialogOpen,
           })}
-          onClick={() => this.setState({ isDialogOpen: false })}
+          onClick={this.onClickOverlay}
         />
         <TransitionGroupPlus>
           {isDialogOpen && (
@@ -74,5 +74,12 @@ export default class PortfolioValue extends Component {
     this.setState({
       isDialogOpen: false,
     });
+  };
+
+  onClickOverlay = e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.setState({ isDialogOpen: false });
   };
 }
