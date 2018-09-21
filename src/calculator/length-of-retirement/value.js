@@ -1,6 +1,7 @@
 import React, { Component, createRef, Fragment } from 'react';
 import classnames from 'classnames';
 import TransitionGroupPlus from 'react-transition-group-plus';
+import IconModeEdit from 'materialish/icon-mode-edit';
 import DialogForm from './dialog-form';
 
 export default class LengthOfRetirementValue extends Component {
@@ -29,6 +30,7 @@ export default class LengthOfRetirementValue extends Component {
             }
           }}
           onClick={() => this.setState({ isDialogOpen: true })}>
+          <IconModeEdit className="displayValue_editIndicatorIcon" />
           <span
             role="img"
             aria-label="Clock"

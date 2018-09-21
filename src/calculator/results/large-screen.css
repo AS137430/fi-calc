@@ -1,0 +1,21 @@
+.largeScreenResults {
+  display: none;
+  max-width: 620px;
+  padding: 20px;
+  text-align: center;
+  margin: 0 auto;
+  border: 1px solid #ebebeb;
+  border-top-width: 0;
+  border-radius: 0 0 10px 10px;
+  background-color: #f9f9f9;
+}
+
+.largeScreenResults .calculator_viewResultsBtn {
+  margin: 15px auto 0;
+}
+
+@media (min-width: 650px) {
+  .largeScreenResults {
+    display: block;
+  }
+}

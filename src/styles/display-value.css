@@ -4,6 +4,7 @@
 }
 
 .displayValue_pill {
+  cursor: pointer;
   position: relative;
   border-width: 0;
   color: #222;
@@ -20,6 +21,10 @@
 .displayValue_entry {
   padding-bottom: 4px;
   border-bottom: 1px dashed #999;
+}
+
+.displayValue_pill:hover {
+  border-color: #ddd;
 }
 
 .displayValue_pill:focus {
@@ -54,4 +59,17 @@
 
 .displayValue_emoji {
   font-size: 1.2rem;
+}
+
+.displayValue_editIndicatorIcon {
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  fill: #aaa;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.displayValue_pill:hover .displayValue_editIndicatorIcon {
+  opacity: 1;
 }

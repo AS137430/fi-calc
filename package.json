@@ -8,6 +8,7 @@
     "express": "4.16.2",
     "focus-trap-react": "4.0.0",
     "helmet": "3.9.0",
+    "history": "4.7.2",
     "lodash": "4.17.10",
     "materialish": "0.17.0-beta.3",
     "no-scroll": "2.1.1",
@@ -15,6 +16,8 @@
     "query-string": "5.0.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-router": "4.3.1",
+    "react-router-dom": "4.3.1",
     "react-scripts": "1.1.5",
     "react-transition-group-plus": "0.5.3",
     "stock-market-data": "1.0.0"

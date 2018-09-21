@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react';
 import classnames from 'classnames';
 import TransitionGroupPlus from 'react-transition-group-plus';
+import IconModeEdit from 'materialish/icon-mode-edit';
 import formatDollars from '../../utils/numbers/format-dollars';
 import DialogForm from './dialog-form';
 
@@ -25,6 +26,7 @@ export default class PortfolioValue extends Component {
           onClick={() => {
             this.setState({ isDialogOpen: true });
           }}>
+          <IconModeEdit className="displayValue_editIndicatorIcon" />
           <span className="displayValue_pillValue">
             <span
               role="img"

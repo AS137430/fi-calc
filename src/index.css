@@ -6,6 +6,7 @@
 :root {
   --mt-mainColor: #a865bf;
   --maxAppWidth: 1024px;
+  --headerHeight: 50px;
 }
 
 html,

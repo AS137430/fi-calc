@@ -7,6 +7,7 @@ import LengthOfRetirementValue from './length-of-retirement/value';
 import SpendingValue from './spending-plan/value';
 import PortfolioValue from './portfolio/value';
 import Results from './results';
+import LargeScreenResults from './results/large-screen';
 
 export default class HistoricalSuccess extends Component {
   render() {
@@ -53,6 +54,17 @@ export default class HistoricalSuccess extends Component {
             />
           </div>
         </form>
+        <LargeScreenResults
+          inputs={inputs}
+          result={result}
+          successRate={successRate}
+          isOpen={areResultsOpen}
+          onClose={() =>
+            this.setState({
+              areResultsOpen: false,
+            })
+          }
+        />
         <div
           className={classnames('calculator_resultsOverlay', {
             'calculator_resultsOverlay-open': areResultsOpen,

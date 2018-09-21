@@ -1,6 +1,7 @@
 import React, { Component, createRef, Fragment } from 'react';
 import classnames from 'classnames';
 import TransitionGroupPlus from 'react-transition-group-plus';
+import IconModeEdit from 'materialish/icon-mode-edit';
 import DialogForm from './dialog-form';
 import formatDollars from '../../utils/numbers/format-dollars';
 
@@ -28,6 +29,7 @@ export default class SpendingPlanValue extends Component {
           onClick={() => {
             this.setState({ isDialogOpen: true });
           }}>
+          <IconModeEdit className="displayValue_editIndicatorIcon" />
           <span
             role="img"
             aria-label="Shopping Bags"
