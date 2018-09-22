@@ -83,7 +83,7 @@ export default class HistoricalSuccess extends Component {
             <div className="calculator_buttonContainer">
               <button
                 className="calculator_viewResultsBtn"
-                onClick={this.showResults}>
+                onClick={this.toggleResults}>
                 View Results
               </button>
             </div>
@@ -128,6 +128,14 @@ export default class HistoricalSuccess extends Component {
     areResultsOpen: false,
   };
 
+  componentWillMount() {
+    const { inputs } = this.state;
+
+    this.setState({
+      result: computeResult(inputs),
+    });
+  }
+
   componentWillUnmount() {
     // We never want to get in a situation where the scroll is locked when this component doesn't
     // exist :)
@@ -136,11 +144,16 @@ export default class HistoricalSuccess extends Component {
 
   updateValues = values => {
     this.setState(prevState => {
+      const newInputs = {
+        ...prevState.inputs,
+        ...values,
+      };
+
+      const result = computeResult(newInputs);
+
       return {
-        inputs: {
-          ...prevState.inputs,
-          ...values,
-        },
+        inputs: newInputs,
+        result,
       };
     });
   };
@@ -151,16 +164,6 @@ export default class HistoricalSuccess extends Component {
     this.setState({
       areResultsOpen: false,
     });
-  };
-
-  showResults = () => {
-    const { inputs } = this.state;
-
-    this.setState({
-      result: computeResult(inputs),
-    });
-
-    this.toggleResults();
   };
 
   toggleResults = () => {

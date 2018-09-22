@@ -5,6 +5,8 @@ import './nav.css';
 const navItems = [
   {
     key: 'calculator',
+    root: true,
+    exact: true,
     label: 'Calculator',
     icon: 'mdi-calculator',
   },
@@ -24,7 +26,8 @@ export default class Nav extends Component {
             return (
               <li className="nav-navListItem" key={navItem.key}>
                 <NavLink
-                  to={`/${navItem.key}`}
+                  exact={navItem.exact}
+                  to={`/${navItem.root ? '' : navItem.key}`}
                   className="nav-navListLink"
                   activeClassName="nav-navListLink_active">
                   <i className={`mdi ${navItem.icon} nav-navListLinkIcon`} />

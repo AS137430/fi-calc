@@ -8,6 +8,11 @@ import Footer from './common/footer';
 import ScrollToTop from './common/scroll-to-top';
 import HistoricalSuccess from './calculator/historical-success';
 import historyWithQuery from './common/utils/history-with-query';
+import About from './meta/about';
+import Terms from './meta/terms';
+import Privacy from './meta/privacy';
+import Contact from './meta/contact';
+import NotFound from './meta/not-found';
 
 const history = historyWithQuery(
   createBrowserHistory(),
@@ -22,7 +27,14 @@ class App extends Component {
         <ScrollToTop>
           <Header />
           <div className="app_body">
-            <HistoricalSuccess />
+            <Switch>
+              <Route exact path="/" component={HistoricalSuccess} />
+              <Route exact path="/about" component={About} />
+              <Route exact path="/terms" component={Terms} />
+              <Route exact path="/privacy" component={Privacy} />
+              <Route exact path="/contact" component={Contact} />
+              <Route component={NotFound} />
+            </Switch>
           </div>
           <Footer />
         </ScrollToTop>
