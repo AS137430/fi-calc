@@ -4,6 +4,8 @@
   border-bottom: 1px solid #ebebeb;
   margin-bottom: 3.125rem;
   -webkit-font-smoothing: antialiased;
+  position: sticky;
+  top: 0;
 }
 
 .header_content {
