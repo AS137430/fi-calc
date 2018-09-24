@@ -17,6 +17,14 @@
   height: var(--headerHeight);
 }
 
+.header_logo {
+  width: 26px;
+  position: relative;
+  top: 0.17rem;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
 .header_title {
   font-size: 1.35rem;
   font-weight: bold;
