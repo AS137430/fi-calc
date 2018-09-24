@@ -10,9 +10,7 @@ export default class Header extends Component {
         <div className="header_content">
           <h1 className="header_title">
             <Link to="/" className="header_titleLink">
-              <span role="img" aria-label="FI Calc Logo">
-                🔥
-              </span>{' '}
+              <img src="/logo.png" alt="FI Calc Logo" className="header_logo" />
               FI Calc
             </Link>
           </h1>

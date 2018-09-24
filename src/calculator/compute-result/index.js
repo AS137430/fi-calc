@@ -77,7 +77,7 @@ export default function computeResult(inputs) {
   const rawSuccessRate = results.successRate * 100;
 
   let successRate;
-  if (rawSuccessRate === 100) {
+  if (rawSuccessRate === 100 || rawSuccessRate === 0) {
     successRate = `${rawSuccessRate}%`;
   } else {
     successRate = `${rawSuccessRate.toFixed(2)}%`;

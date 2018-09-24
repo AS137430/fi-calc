@@ -49,7 +49,7 @@ export default class LargeScreenResults extends Component {
           </div>
           <button
             ref={this.viewMoreBtnRef}
-            className="calculator_viewResultsBtn"
+            className="largeScreenResults_viewMoreButton button"
             onClick={() => {
               this.setState({ isDialogOpen: true });
             }}
