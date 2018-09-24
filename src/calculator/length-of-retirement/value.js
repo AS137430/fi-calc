@@ -1,6 +1,7 @@
 import React, { Component, createRef, Fragment } from 'react';
 import classnames from 'classnames';
 import TransitionGroupPlus from 'react-transition-group-plus';
+import IconModeEdit from 'materialish/icon-mode-edit';
 import DialogForm from './dialog-form';
 
 export default class LengthOfRetirementValue extends Component {
@@ -29,6 +30,7 @@ export default class LengthOfRetirementValue extends Component {
             }
           }}
           onClick={() => this.setState({ isDialogOpen: true })}>
+          <IconModeEdit className="displayValue_editIndicatorIcon" />
           <span
             role="img"
             aria-label="Clock"
@@ -54,9 +56,7 @@ export default class LengthOfRetirementValue extends Component {
           className={classnames('dialog_overlay', {
             'dialog_overlay-open': isDialogOpen,
           })}
-          onClick={() => {
-            this.setState({ isDialogOpen: false });
-          }}
+          onClick={this.onClickOverlay}
         />
         <TransitionGroupPlus>
           {isDialogOpen && (
@@ -83,6 +83,13 @@ export default class LengthOfRetirementValue extends Component {
 
   onConfirm = updates => {
     this.props.updateValues(updates);
+
+    this.setState({ isDialogOpen: false });
+  };
+
+  onClickOverlay = e => {
+    e.preventDefault();
+    e.stopPropagation();
 
     this.setState({ isDialogOpen: false });
   };

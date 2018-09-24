@@ -1,10 +1,19 @@
 @import './styles/button.css';
 @import './styles/display-value.css';
 @import './styles/input.css';
+@import './styles/page.css';
+@import './styles/typography.css';
 @import './styles/cursor.css';
 
 :root {
   --mt-mainColor: #a865bf;
+  --maxAppWidth: 1024px;
+  --headerHeight: 50px;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
@@ -18,4 +27,11 @@ body {
 *:before,
 *:after {
   box-sizing: border-box;
+}
+
+#root {
+  margin: 0 auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }

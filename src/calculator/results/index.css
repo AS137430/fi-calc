@@ -180,3 +180,9 @@
   font-style: italic;
   color: #808080;
 }
+
+@media (min-width: 650px) {
+  .calculator_results {
+    display: none;
+  }
+}

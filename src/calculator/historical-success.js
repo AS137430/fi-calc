@@ -7,6 +7,7 @@ import LengthOfRetirementValue from './length-of-retirement/value';
 import SpendingValue from './spending-plan/value';
 import PortfolioValue from './portfolio/value';
 import Results from './results';
+import LargeScreenResults from './results/large-screen';
 
 export default class HistoricalSuccess extends Component {
   render() {
@@ -53,6 +54,17 @@ export default class HistoricalSuccess extends Component {
             />
           </div>
         </form>
+        <LargeScreenResults
+          inputs={inputs}
+          result={result}
+          successRate={successRate}
+          isOpen={areResultsOpen}
+          onClose={() =>
+            this.setState({
+              areResultsOpen: false,
+            })
+          }
+        />
         <div
           className={classnames('calculator_resultsOverlay', {
             'calculator_resultsOverlay-open': areResultsOpen,
@@ -71,7 +83,7 @@ export default class HistoricalSuccess extends Component {
             <div className="calculator_buttonContainer">
               <button
                 className="calculator_viewResultsBtn"
-                onClick={this.showResults}>
+                onClick={this.toggleResults}>
                 View Results
               </button>
             </div>
@@ -116,6 +128,14 @@ export default class HistoricalSuccess extends Component {
     areResultsOpen: false,
   };
 
+  componentWillMount() {
+    const { inputs } = this.state;
+
+    this.setState({
+      result: computeResult(inputs),
+    });
+  }
+
   componentWillUnmount() {
     // We never want to get in a situation where the scroll is locked when this component doesn't
     // exist :)
@@ -124,11 +144,16 @@ export default class HistoricalSuccess extends Component {
 
   updateValues = values => {
     this.setState(prevState => {
+      const newInputs = {
+        ...prevState.inputs,
+        ...values,
+      };
+
+      const result = computeResult(newInputs);
+
       return {
-        inputs: {
-          ...prevState.inputs,
-          ...values,
-        },
+        inputs: newInputs,
+        result,
       };
     });
   };
@@ -139,16 +164,6 @@ export default class HistoricalSuccess extends Component {
     this.setState({
       areResultsOpen: false,
     });
-  };
-
-  showResults = () => {
-    const { inputs } = this.state;
-
-    this.setState({
-      result: computeResult(inputs),
-    });
-
-    this.toggleResults();
   };
 
   toggleResults = () => {

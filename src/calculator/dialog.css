@@ -75,3 +75,10 @@
   font-size: 0.875rem;
   color: #555;
 }
+
+@media (min-width: 650px) {
+  .dialog {
+    width: 440px;
+    left: calc(50% - 220px);
+  }
+}
