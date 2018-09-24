@@ -6,7 +6,7 @@ import './dialog.css';
 
 export default class Dialog extends Component {
   render() {
-    const { open, children, nodeRef } = this.props;
+    const { open, children, className = '', nodeRef } = this.props;
 
     return (
       <Fragment>
@@ -20,7 +20,7 @@ export default class Dialog extends Component {
           }}>
           <div
             ref={nodeRef}
-            className={classnames('dialog', {
+            className={classnames(`dialog ${className}`, {
               'dialog-open': open,
             })}>
             {children}

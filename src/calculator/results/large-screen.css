@@ -32,6 +32,14 @@
   border-radius: 4px;
 }
 
+.resultsDialog .results_segment {
+  opacity: 1;
+}
+
+.resultsDialog .results_segment:last-child {
+  border-bottom: 0;
+}
+
 @media (min-width: 650px) {
   .largeScreenResults {
     display: block;
