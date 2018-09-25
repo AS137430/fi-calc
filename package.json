@@ -22,11 +22,18 @@
     "react-transition-group-plus": "0.5.3",
     "stock-market-data": "1.0.0"
   },
+  "devDependencies": {
+    "babel-eslint": "^7.0.0",
+    "eslint": "4.15.0",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-react": "7.5.1"
+  },
   "scripts": {
     "start": "node server/index.js",
     "watch": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "lint": "eslint src/**/*.js",
     "eject": "react-scripts eject",
     "deploy": "bash deploy/to-staging.sh",
     "deploy-staging": "bash deploy/to-staging.sh",

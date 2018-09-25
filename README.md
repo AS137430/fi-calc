@@ -1,5 +1,9 @@
 # FI Calc
 
+[![Travis build status](http://img.shields.io/travis/jamesplease/fi-calc.svg?style=flat)](https://travis-ci.org/jamesplease/fi-calc)
+[![Dependency Status](https://david-dm.org/jamesplease/fi-calc.svg)](https://david-dm.org/jamesplease/fi-calc)
+[![devDependency Status](https://david-dm.org/jamesplease/fi-calc/dev-status.svg)](https://david-dm.org/jamesplease/fi-calc#info=devDependencies)
+
 This is the development repository for [https://ficalc.app](https://ficalc.app).
 
 ### Contributing
