@@ -7,8 +7,8 @@
 
 :root {
   --mt-mainColor: #a865bf;
-  --maxAppWidth: 1024px;
-  --headerHeight: 50px;
+  --maxAppWidth: 64rem;
+  --headerHeight: 3.125rem;
 }
 
 html,

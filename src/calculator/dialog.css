@@ -3,7 +3,7 @@
   width: calc(100% - 20px);
   left: 10px;
   top: 12vh;
-  min-height: 300px;
+  min-height: 10rem;
   z-index: 2000;
   background: #fff;
   border-radius: 10px;
@@ -78,7 +78,7 @@
 
 @media (min-width: 650px) {
   .dialog {
-    width: 440px;
-    left: calc(50% - 220px);
+    width: 27.5rem;
+    left: calc(50% - 13.75rem);
   }
 }
