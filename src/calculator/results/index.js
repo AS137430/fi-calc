@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
 import IconDateRange from 'materialish/icon-date-range';
@@ -26,10 +26,10 @@ export default class Results extends Component {
     }
 
     return (
-      <Fragment>
+      <>
         <div className="calculator_resultsText">
           {numberOfSimulations > 1 && (
-            <Fragment>
+            <>
               <div>This calculation succeeded</div>
               <div
                 className={classnames('calculator_resultsPercentage', {
@@ -38,39 +38,39 @@ export default class Results extends Component {
                 {successRate}
               </div>
               <div>of the time.</div>
-            </Fragment>
+            </>
           )}
           {numberOfSimulations === 1 &&
             numericSuccessRate === 1 && (
-              <Fragment>
+              <>
                 <div>This calculation</div>
                 <div className="calculator_resultsPercentage calculator_resultsPercentage-goodResult">
                   Succeeded
                 </div>
-              </Fragment>
+              </>
             )}
           {numberOfSimulations === 1 &&
             numericSuccessRate !== 1 && (
-              <Fragment>
+              <>
                 <div>This calculation</div>
                 <div className="calculator_resultsPercentage">Failed</div>
-              </Fragment>
+              </>
             )}
         </div>
         <div className="results_segment">
           <div className="results_description">
             <IconDateRange className="results_descriptionIcon" />{' '}
             {numberOfSimulations > 1 && (
-              <Fragment>
+              <>
                 <b>{numberOfSimulations}</b> total simulations were run as part
                 of this calculation.
-              </Fragment>
+              </>
             )}
             {numberOfSimulations === 1 && (
-              <Fragment>
+              <>
                 <b>{numberOfSimulations}</b> simulation was run as part of this
                 calculation.
-              </Fragment>
+              </>
             )}
           </div>
           <div className="results_moreInfo">
@@ -81,16 +81,16 @@ export default class Results extends Component {
         <div className="results_segment">
           <div className="results_description">
             {dipCount !== 1 && (
-              <Fragment>
+              <>
                 <IconTrendingDown className="results_descriptionIcon" /> There
                 were <b>{dipCount}</b> dips.
-              </Fragment>
+              </>
             )}
             {dipCount === 1 && (
-              <Fragment>
+              <>
                 <IconTrendingDown className="results_descriptionIcon" /> There
                 was <b>{dipCount}</b> dip.
-              </Fragment>
+              </>
             )}
           </div>
           <div className="results_moreInfo">
@@ -98,7 +98,7 @@ export default class Results extends Component {
             was at the start of your retirement.
           </div>
         </div>
-      </Fragment>
+      </>
     );
   }
 

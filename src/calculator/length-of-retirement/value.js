@@ -1,4 +1,4 @@
-import React, { Component, createRef, Fragment } from 'react';
+import React, { Component, createRef } from 'react';
 import classnames from 'classnames';
 import TransitionGroupPlus from 'react-transition-group-plus';
 import IconModeEdit from 'materialish/icon-mode-edit';
@@ -45,9 +45,9 @@ export default class LengthOfRetirementValue extends Component {
             <span className="displayValue_pillDetail">
               {durationMode === 'historicalData' && 'Using historical data'}
               {durationMode === 'specificYears' && (
-                <Fragment>
+                <>
                   From <b>{startYear}</b> to <b>{endYear}</b>
-                </Fragment>
+                </>
               )}
             </span>
           </div>

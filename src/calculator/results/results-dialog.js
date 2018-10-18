@@ -1,4 +1,4 @@
-import React, { Component, Fragment, createRef } from 'react';
+import React, { Component, createRef } from 'react';
 import _ from 'lodash';
 import IconDateRange from 'materialish/icon-date-range';
 import IconTrendingDown from 'materialish/icon-trending-down';
@@ -39,16 +39,16 @@ export default class ResultsDialog extends Component {
             <div className="results_description">
               <IconDateRange className="results_descriptionIcon" />{' '}
               {numberOfSimulations > 1 && (
-                <Fragment>
+                <>
                   <b>{numberOfSimulations}</b> total simulations were run as
                   part of this calculation.
-                </Fragment>
+                </>
               )}
               {numberOfSimulations === 1 && (
-                <Fragment>
+                <>
                   <b>{numberOfSimulations}</b> simulation was run as part of
                   this calculation.
-                </Fragment>
+                </>
               )}
             </div>
             <div className="results_moreInfo">
@@ -59,16 +59,16 @@ export default class ResultsDialog extends Component {
           <div className="results_segment">
             <div className="results_description">
               {dipCount !== 1 && (
-                <Fragment>
+                <>
                   <IconTrendingDown className="results_descriptionIcon" /> There
                   were <b>{dipCount}</b> dips.
-                </Fragment>
+                </>
               )}
               {dipCount === 1 && (
-                <Fragment>
+                <>
                   <IconTrendingDown className="results_descriptionIcon" /> There
                   was <b>{dipCount}</b> dip.
-                </Fragment>
+                </>
               )}
             </div>
             <div className="results_moreInfo">
