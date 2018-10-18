@@ -26,7 +26,10 @@ export default class PortfolioValue extends Component {
           onClick={() => {
             this.setState({ isDialogOpen: true });
           }}>
-          <IconModeEdit className="displayValue_editIndicatorIcon" />
+          <IconModeEdit
+            className="displayValue_editIndicatorIcon"
+            size="1rem"
+          />
           <span className="displayValue_pillValue">
             <span
               role="img"

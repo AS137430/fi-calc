@@ -37,7 +37,7 @@ export default class ResultsDialog extends Component {
         <div className="dialog_contents">
           <div className="results_segment">
             <div className="results_description">
-              <IconDateRange className="results_descriptionIcon" />{' '}
+              <IconDateRange className="results_descriptionIcon" size="1rem" />{' '}
               {numberOfSimulations > 1 && (
                 <>
                   <b>{numberOfSimulations}</b> total simulations were run as
@@ -60,14 +60,20 @@ export default class ResultsDialog extends Component {
             <div className="results_description">
               {dipCount !== 1 && (
                 <>
-                  <IconTrendingDown className="results_descriptionIcon" /> There
-                  were <b>{dipCount}</b> dips.
+                  <IconTrendingDown
+                    className="results_descriptionIcon"
+                    size="1rem"
+                  />{' '}
+                  There were <b>{dipCount}</b> dips.
                 </>
               )}
               {dipCount === 1 && (
                 <>
-                  <IconTrendingDown className="results_descriptionIcon" /> There
-                  was <b>{dipCount}</b> dip.
+                  <IconTrendingDown
+                    className="results_descriptionIcon"
+                    size="1rem"
+                  />{' '}
+                  There was <b>{dipCount}</b> dip.
                 </>
               )}
             </div>

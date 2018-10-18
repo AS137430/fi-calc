@@ -30,7 +30,10 @@ export default class LengthOfRetirementValue extends Component {
             }
           }}
           onClick={() => this.setState({ isDialogOpen: true })}>
-          <IconModeEdit className="displayValue_editIndicatorIcon" />
+          <IconModeEdit
+            className="displayValue_editIndicatorIcon"
+            size="1rem"
+          />
           <span
             role="img"
             aria-label="Clock"
