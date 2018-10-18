@@ -29,10 +29,7 @@ export default class SpendingPlanValue extends Component {
           onClick={() => {
             this.setState({ isDialogOpen: true });
           }}>
-          <IconModeEdit
-            className="displayValue_editIndicatorIcon"
-            size="1rem"
-          />
+          <IconModeEdit className="displayValue_editIndicatorIcon" />
           <span
             role="img"
             aria-label="Shopping Bags"

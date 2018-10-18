@@ -59,7 +59,7 @@ export default class Results extends Component {
         </div>
         <div className="results_segment">
           <div className="results_description">
-            <IconDateRange className="results_descriptionIcon" size="1rem" />{' '}
+            <IconDateRange className="results_descriptionIcon" />{' '}
             {numberOfSimulations > 1 && (
               <>
                 <b>{numberOfSimulations}</b> total simulations were run as part
@@ -82,20 +82,14 @@ export default class Results extends Component {
           <div className="results_description">
             {dipCount !== 1 && (
               <>
-                <IconTrendingDown
-                  className="results_descriptionIcon"
-                  size="1rem"
-                />{' '}
-                There were <b>{dipCount}</b> dips.
+                <IconTrendingDown className="results_descriptionIcon" /> There
+                were <b>{dipCount}</b> dips.
               </>
             )}
             {dipCount === 1 && (
               <>
-                <IconTrendingDown
-                  className="results_descriptionIcon"
-                  size="1rem"
-                />{' '}
-                There was <b>{dipCount}</b> dip.
+                <IconTrendingDown className="results_descriptionIcon" /> There
+                was <b>{dipCount}</b> dip.
               </>
             )}
           </div>
