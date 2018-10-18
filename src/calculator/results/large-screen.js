@@ -1,4 +1,4 @@
-import React, { Component, Fragment, createRef } from 'react';
+import React, { Component, createRef } from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
 import TransitionGroupPlus from 'react-transition-group-plus';
@@ -22,11 +22,11 @@ export default class LargeScreenResults extends Component {
     }
 
     return (
-      <Fragment>
+      <>
         <div className="largeScreenResults">
           <div className="largeScreenResults_summary">
             {numberOfSimulations > 1 && (
-              <Fragment>
+              <>
                 <div>This calculation succeeded</div>
                 <div
                   className={classnames('calculator_resultsPercentage', {
@@ -35,16 +35,16 @@ export default class LargeScreenResults extends Component {
                   {successRate}
                 </div>
                 <div>of the time.</div>
-              </Fragment>
+              </>
             )}
             {numberOfSimulations === 1 &&
               numericSuccessRate === 1 && (
-                <Fragment>
+                <>
                   <div>This calculation</div>
                   <div className="calculator_resultsPercentage calculator_resultsPercentage-goodResult">
                     Succeeded
                   </div>
-                </Fragment>
+                </>
               )}
           </div>
           <button
@@ -73,7 +73,7 @@ export default class LargeScreenResults extends Component {
             />
           )}
         </TransitionGroupPlus>
-      </Fragment>
+      </>
     );
   }
 

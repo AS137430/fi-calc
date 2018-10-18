@@ -1,4 +1,4 @@
-import React, { Component, createRef, Fragment } from 'react';
+import React, { Component, createRef } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash';
 import validators from './validators';
@@ -58,7 +58,7 @@ export default class LengthOfRetirementDialogForm extends Component {
             </button>
           </div>
           {durationMode.value === 'historicalData' && (
-            <Fragment>
+            <>
               <div className="labelContainer">
                 <label
                   htmlFor="inflationAdjusted_numberOfYears"
@@ -105,10 +105,10 @@ export default class LengthOfRetirementDialogForm extends Component {
                     <b>{numberOfYears.value}</b> years in length.
                   </div>
                 )}
-            </Fragment>
+            </>
           )}
           {durationMode.value === 'specificYears' && (
-            <Fragment>
+            <>
               <div className="dialog_formRow">
                 <div className="labelContainer">
                   <label
@@ -170,7 +170,7 @@ export default class LengthOfRetirementDialogForm extends Component {
                   <b>{specificYearsDuration}</b> years in length.
                 </div>
               )}
-            </Fragment>
+            </>
           )}
         </div>
         <div className="dialog_footer">

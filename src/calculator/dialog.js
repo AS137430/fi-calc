@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import classnames from 'classnames';
 import FocusTrap from 'focus-trap-react';
 import noScroll from 'no-scroll';
@@ -9,7 +9,7 @@ export default class Dialog extends Component {
     const { open, children, className = '', nodeRef } = this.props;
 
     return (
-      <Fragment>
+      <>
         <FocusTrap
           active={open}
           focusTrapOptions={{
@@ -26,7 +26,7 @@ export default class Dialog extends Component {
             {children}
           </div>
         </FocusTrap>
-      </Fragment>
+      </>
     );
   }
 

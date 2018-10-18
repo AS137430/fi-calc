@@ -1,4 +1,4 @@
-import React, { Component, createRef, Fragment } from 'react';
+import React, { Component, createRef } from 'react';
 import classnames from 'classnames';
 import TransitionGroupPlus from 'react-transition-group-plus';
 import IconModeEdit from 'materialish/icon-mode-edit';
@@ -46,9 +46,9 @@ export default class SpendingPlanValue extends Component {
             <span className="displayValue_pillDetail">
               {inflationAdjustedFirstYearWithdrawal && 'Adjusted for inflation'}
               {!inflationAdjustedFirstYearWithdrawal && (
-                <Fragment>
+                <>
                   <b>Not</b> adjusted for inflation
-                </Fragment>
+                </>
               )}
             </span>
           </div>
