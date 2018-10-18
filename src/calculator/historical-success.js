@@ -104,36 +104,38 @@ export default class HistoricalSuccess extends Component {
     );
   }
 
-  state = {
-    test: '1000',
-    inputs: {
-      durationMode: 'historicalData',
-      numberOfYears: '30',
-      startYear: '1931',
-      endYear: '1960',
-      firstYearWithdrawal: '25000',
-      inflationAdjustedFirstYearWithdrawal: true,
-      stockInvestmentValue: '625000',
-    },
-    result: {
-      successRate: '',
-      dipRate: '',
-      summary: '',
-      lowestDippedValue: {
-        year: '',
-        startYear: '',
-        value: '',
+  constructor(props) {
+    super(props);
+
+    const defaultState = {
+      test: '1000',
+      inputs: {
+        durationMode: 'historicalData',
+        numberOfYears: '30',
+        startYear: '1931',
+        endYear: '1960',
+        firstYearWithdrawal: '25000',
+        inflationAdjustedFirstYearWithdrawal: true,
+        stockInvestmentValue: '625000',
       },
-    },
-    areResultsOpen: false,
-  };
+      result: {
+        successRate: '',
+        dipRate: '',
+        summary: '',
+        lowestDippedValue: {
+          year: '',
+          startYear: '',
+          value: '',
+        },
+      },
+      areResultsOpen: false,
+    };
 
-  componentWillMount() {
-    const { inputs } = this.state;
+    const { inputs } = defaultState;
 
-    this.setState({
-      result: computeResult(inputs),
-    });
+    defaultState.result = computeResult(inputs);
+
+    this.state = defaultState;
   }
 
   componentWillUnmount() {
