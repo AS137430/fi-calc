@@ -33,7 +33,7 @@
     "watch": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "lint": "eslint src/**/*.js",
+    "lint": "eslint src",
     "eject": "react-scripts eject",
     "deploy": "bash deploy/to-staging.sh",
     "deploy-staging": "bash deploy/to-staging.sh",
