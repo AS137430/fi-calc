@@ -9,10 +9,13 @@
     "focus-trap-react": "4.0.0",
     "helmet": "3.9.0",
     "history": "4.7.2",
+    "husky": "1.1.2",
+    "lint-staged": "7.3.0",
     "lodash": "4.17.10",
     "materialish": "0.17.2",
     "no-scroll": "2.1.1",
     "pino": "4.10.3",
+    "prettier": "1.14.3",
     "query-string": "5.0.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -40,12 +43,24 @@
     "deploy-test": "bash deploy/to-staging.sh",
     "deploy-prod": "bash deploy/to-prod.sh",
     "deploy-production": "bash deploy/to-prod.sh",
-    "promote-staging": "bash deploy/promote-staging.sh"
+    "promote-staging": "bash deploy/promote-staging.sh",
+    "prettier": "prettier --single-quote --write \"src/**/*.{js,jsx}\""
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  }
 }
