@@ -1,4 +1,5 @@
 import _ from 'lodash';
+/*eslint import/namespace: ['error', { allowComputed: true }]*/
 import * as spending from './spending';
 import inflationFromCpi from '../../utils/market-data/inflation-from-cpi';
 import marketDataByYear from '../../utils/market-data/market-data-by-year';
