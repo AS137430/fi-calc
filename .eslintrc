@@ -17,6 +17,11 @@
     "plugin:import/errors",
     "plugin:import/warnings"
   ],
+  "settings": {
+    "react": {
+      "version": "16.4"
+    }
+  },
   "rules": {
     "no-unused-vars": "error",
     "no-use-before-define": "error",
