@@ -6,8 +6,8 @@ import computeResult from './compute-result';
 import LengthOfRetirementValue from './length-of-retirement/value';
 import SpendingValue from './spending-plan/value';
 import PortfolioValue from './portfolio/value';
-import Results from './results';
 import LargeScreenResults from './results/large-screen';
+import ResultsContainer from './results-container';
 
 export default class HistoricalSuccess extends Component {
   render() {
@@ -71,35 +71,11 @@ export default class HistoricalSuccess extends Component {
           })}
           onClick={this.closeResults}
         />
-        <div
-          className={classnames('calculator_results', {
-            'calculator_results-open': areResultsOpen,
-          })}>
-          <div
-            className="calculator_resultsToggle"
-            onClick={this.toggleResults}
-          />
-          <div className="calculator_resultsContent">
-            <div className="calculator_buttonContainer">
-              <button
-                className="calculator_viewResultsBtn"
-                onClick={this.toggleResults}>
-                View Results
-              </button>
-            </div>
-            <Results
-              inputs={inputs}
-              result={result}
-              successRate={successRate}
-              isOpen={areResultsOpen}
-              onClose={() =>
-                this.setState({
-                  areResultsOpen: false,
-                })
-              }
-            />
-          </div>
-        </div>
+        <ResultsContainer
+          inputs={inputs}
+          result={result}
+          successRate={successRate}
+        />
       </div>
     );
   }
