@@ -4,10 +4,11 @@
   left: 10px;
   top: 12vh;
   min-height: 10rem;
+  max-height: 76vh;
   z-index: 2000;
   background: #fff;
   border-radius: 10px;
-  overflow: hidden;
+  overflow: hidden auto;
   display: flex;
   flex-direction: column;
 }
