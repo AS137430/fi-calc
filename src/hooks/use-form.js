@@ -13,16 +13,17 @@ export default function useForm({ formConfig, useSourceOfTruth }) {
   // This is the state that's stored in context.
   const { state, setState } = useSourceOfTruth();
 
-  const useFormOptions = useMemo(() => {
+  const useVendorFormOptions = useMemo(() => {
     return _.mapValues(formConfig.values, (val, key) => {
-      return state[key];
+      return {
+        validators: formConfig.values[key].validators,
+        initialValue: state[key],
+      };
     });
   }, []);
 
   const { addReverseAction } = useUndo();
-  const { inputs, updateFormValue } = useVendorForm(
-    formConfig.getUseFormOptions(useFormOptions)
-  );
+  const { inputs, updateFormValue } = useVendorForm(useVendorFormOptions);
 
   const inputsRef = useCurrentRef(inputs);
   const stateRef = useCurrentRef(state);

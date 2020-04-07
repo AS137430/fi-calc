@@ -9,6 +9,7 @@ export default {
     annualSpending: {
       type: 'number',
       default: 40000,
+      validators: [isRequired, greaterThanZero, tooLarge(10000000)],
     },
 
     spendingStrategy: {
@@ -29,16 +30,5 @@ export default {
         },
       ],
     },
-  },
-
-  // TODO: merge this in the above
-  getUseFormOptions({ annualSpending, spendingStrategy }) {
-    return {
-      annualSpending: {
-        initialValue: annualSpending,
-        validators: [isRequired, greaterThanZero, tooLarge(10000000)],
-      },
-      spendingStrategy: { initialValue: spendingStrategy },
-    };
   },
 };
