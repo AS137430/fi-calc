@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import { Checkbox } from 'materialish';
 import SidebarPanel from './sidebar-panel';
 import useForm from '../hooks/use-form';
 import ValueInput from '../common/value-input';
@@ -7,7 +8,7 @@ import useSpendingPlan from '../state/spending-plan';
 import spendingPlanForm from '../form-config/spending-plan-form';
 
 export default function SpendingPlan() {
-  const { inputs, changeSelect, commitInput } = useForm({
+  const { inputs, changeSelect, changeCheckbox, commitInput } = useForm({
     formConfig: spendingPlanForm,
     useSourceOfTruth: useSpendingPlan,
   });
@@ -31,7 +32,6 @@ export default function SpendingPlan() {
         <ValueInput
           {...inputs.annualSpending.getProps({
             id: 'annualSpending',
-            className: 'canvasSettings_width ',
             type: 'number',
             min: 0,
             step: 1,
@@ -44,6 +44,18 @@ export default function SpendingPlan() {
             },
           })}
         />
+      </div>
+      <div className="formRow">
+        <label className="checkbox_container">
+          <Checkbox
+            className="checkbox"
+            checked={inputs.inflationAdjustedFirstYearWithdrawal.value}
+            onChange={event =>
+              changeCheckbox('inflationAdjustedFirstYearWithdrawal', event)
+            }
+          />
+          <span className="checkbox_label">Adjusted for Inflation</span>
+        </label>
       </div>
     </SidebarPanel>
   );

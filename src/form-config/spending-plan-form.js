@@ -19,6 +19,11 @@ export default {
       ],
     },
 
+    inflationAdjustedFirstYearWithdrawal: {
+      type: 'boolean',
+      default: true,
+    },
+
     spendingStrategy: {
       type: 'enumeration',
       keyType: 'string',

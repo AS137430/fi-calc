@@ -27,6 +27,7 @@
   background: #444545;
   color: #e3e3e3;
   outline: none;
+  min-width: 6rem;
 }
 
 .input:focus {
@@ -54,4 +55,8 @@ input::-webkit-inner-spin-button {
 
 input[type='number'] {
   -moz-appearance: textfield;
+}
+
+.checkbox_label {
+  user-select: none;
 }

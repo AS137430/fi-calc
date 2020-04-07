@@ -18,7 +18,8 @@ export default function Results() {
         startYear: '1931',
         endYear: '1960',
         firstYearWithdrawal: spendingPlan.annualSpending,
-        inflationAdjustedFirstYearWithdrawal: true,
+        inflationAdjustedFirstYearWithdrawal:
+          spendingPlan.inflationAdjustedFirstYearWithdrawal,
         stockInvestmentValue: '1000000',
       });
     },

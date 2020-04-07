@@ -17,9 +17,10 @@ export default function LengthOfRetirement() {
         <ValueInput
           {...inputs.numberOfYears.getProps({
             id: 'numberOfYears',
-            className: 'canvasSettings_width ',
             type: 'number',
+            pattern: '\\d*',
             min: 0,
+            max: 300,
             step: 1,
             inputMode: 'numeric',
             autoComplete: 'off',
