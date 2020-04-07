@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { useCurrentRef } from 'core-hooks';
 import { useForm as useVendorForm } from '../vendor/forms';
 import useUndo from './use-undo';
+import reactOnInputBlur from '../utils/forms/react-on-input-blur';
 
 // This manages the interplay between form state (which can be invalid...it is whatever the user has
 // typed in), and the "source of truth" state that's in context, which is what the results are always
@@ -46,6 +47,38 @@ export default function useForm({ formConfig, useSourceOfTruth }) {
     setState({ [id]: value });
   }, []);
 
+  const commitInput = useCallback((id, newValue) => {
+    const prevValidValue = stateRef.current[id];
+
+    const isNumber = formConfig.values[id]?.type === 'number';
+    const parsedNewValue = isNumber ? Number(newValue) : newValue;
+
+    // If the value has not changed, then we do not need to take any action
+    if (parsedNewValue === prevValidValue) {
+      return;
+    }
+
+    reactOnInputBlur({
+      id,
+      prevValidValue,
+      inputs: inputsRef.current,
+      updateFormValue,
+      onPersist() {
+        addReverseAction(() => {
+          updateFormValue(id, prevValidValue);
+
+          setState({
+            [id]: prevValidValue,
+          });
+        });
+
+        setState({
+          [id]: parsedNewValue,
+        });
+      },
+    });
+  });
+
   return {
     state,
     setState,
@@ -55,5 +88,6 @@ export default function useForm({ formConfig, useSourceOfTruth }) {
     inputsRef,
     stateRef,
     changeSelect,
+    commitInput,
   };
 }
