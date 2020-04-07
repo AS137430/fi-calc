@@ -1,0 +1,21 @@
+.sidebarPanel {
+  border-bottom: 1px solid #424242;
+}
+
+.sidebarPanel:last-child {
+  border-bottom: 0;
+}
+
+.sidebarPanel_title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #dfdfdf;
+  margin: 0;
+  padding: 1rem var(--horizontalContentPadding) 0;
+}
+
+.sidebarPanel_body {
+  padding: 1rem var(--horizontalContentPadding);
+}

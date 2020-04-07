@@ -1,6 +1,4 @@
 import _ from 'lodash';
-import maxDollarInput from './max-dollar-input';
-import getYearRange from '../market-data/get-year-range';
 
 export function isRequired(val) {
   if (typeof val === 'string' && val.length === 0) {
@@ -16,44 +14,15 @@ export function numberRequired(val) {
   }
 }
 
-export function lessThanEndYear(val, inputs) {
-  if (Number(inputs.endYear.value) < Number(val)) {
-    return 'greaterThanEndYear';
-  }
-}
-
-export function greaterThanStartYear(val, inputs) {
-  if (Number(inputs.startYear.value) > Number(val)) {
-    return 'lessThanStartYear';
-  }
-}
-
 export function greaterThanZero(val) {
   if (Number(val) <= 0) {
     return 'lessThanZero';
   }
 }
 
-export function withinDollarLimit(val) {
-  if (Number(val) > maxDollarInput) {
-    return 'tooManyDollars';
-  }
-}
-
 export function integerRequired(val) {
   if (!Number.isInteger(Number(val))) {
     return 'nonInteger';
-  }
-}
-
-export function withinYearLimit(val) {
-  const { minYear, maxYear } = getYearRange();
-
-  const year = Number(val);
-  if (year > maxYear) {
-    return 'yearTooLarge';
-  } else if (year < minYear) {
-    return 'yearTooSmall';
   }
 }
 
@@ -79,24 +48,18 @@ export function tooSmall(limit) {
   };
 }
 
-export function dollarsTooLarge(limit) {
-  return val => {
-    if (Number(val) > limit) {
-      return {
-        code: 'dollarsTooLarge',
-        limit,
-      };
-    }
-  };
-}
+export function isValidHexCode(val) {
+  // First, we ensure that the length is one of the valid lengths.
+  if (val.length !== 2 && val.length !== 3 && val.length !== 6) {
+    return {
+      code: 'invalidHex',
+    };
+  }
 
-export function dollarsTooSmall(limit) {
-  return val => {
-    if (Number(val) < limit) {
-      return {
-        code: 'dollarsTooSmall',
-        limit,
-      };
-    }
-  };
+  // Then we ensure that it is only comprised of valid characters
+  if (!/^[0-9A-Fa-f]+$/i.test(val)) {
+    return {
+      code: 'invalidHex',
+    };
+  }
 }

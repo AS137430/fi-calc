@@ -1,7 +1,11 @@
 .app_body {
-  max-width: var(--maxAppWidth);
+  height: 100vh;
   width: 100%;
   padding: 0;
-  margin: 0 auto;
   flex: 1;
+  display: grid;
+
+  grid-template-areas: 'sidebar workspace';
+  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-rows: 1fr;
 }

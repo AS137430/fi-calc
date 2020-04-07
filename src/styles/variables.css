@@ -1,0 +1,10 @@
+:root {
+  --accentColor: #6a24ff;
+  --mt-mainColor: var(--accentColor);
+  --maxAppWidth: 64rem;
+  --headerHeight: 3.125rem;
+  --appHeader-height: 3.5rem;
+  --sidebar-width: 25rem;
+
+  --horizontalContentPadding: 1.375rem;
+}

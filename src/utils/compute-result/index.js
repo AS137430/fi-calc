@@ -2,7 +2,7 @@ import _ from 'lodash';
 import getStartYears from './get-start-years';
 import computeCycle from './compute-cycle';
 import evaluateCycles from './evaluate-cycles';
-import { fromInvestments } from '../../utils/forms/normalize-portfolio';
+import { fromInvestments } from '../forms/normalize-portfolio';
 
 export default function computeResult(inputs) {
   const {
@@ -17,7 +17,7 @@ export default function computeResult(inputs) {
 
   let lengthOfCycle;
   let startYears;
-  if (durationMode === 'historicalData') {
+  if (durationMode === 'allHistory') {
     lengthOfCycle = numberOfYears;
     // An array of years that we use as a starting year for cycles
     startYears = getStartYears(Number(numberOfYears));

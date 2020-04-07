@@ -1,8 +1,7 @@
 import _ from 'lodash';
-/*eslint import/namespace: ['error', { allowComputed: true }]*/
 import * as spending from './spending';
-import inflationFromCpi from '../../utils/market-data/inflation-from-cpi';
-import marketDataByYear from '../../utils/market-data/market-data-by-year';
+import inflationFromCpi from '../market-data/inflation-from-cpi';
+import marketDataByYear from '../market-data/market-data-by-year';
 
 const CURRENT_YEAR = new Date().getFullYear();
 

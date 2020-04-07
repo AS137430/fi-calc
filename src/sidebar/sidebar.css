@@ -1,0 +1,10 @@
+.sidebar {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 100%;
+
+  background: #2d2e30;
+  color: white;
+}

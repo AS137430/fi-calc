@@ -1,0 +1,29 @@
+.select {
+  --bgUrl: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAKCAYAAAC9vt6cAAAABGdBTUEAALGPC/xhBQAAAMxJREFUKBWFUDESwiAQBIoUWvEfG2utLJixTZMX5BW+IF+gsEpKxydRaWGDuwEcA2FyMwfH3u5yIARiGIYDcsd6K8gjP/EUDicp5QPAuGUS+yP51NFEIVvvfYP9iKyaJDF5kd+iFkprfcU+8YBYNfkXB5qYok5IAtbaxjl3RzmPhf2JPHdd966IL8aYDzjBgEXFxLCF5GQM3vwTE5gnYMHITfBZL7x3H7qlmPjCgEBuQgxR3BzgFQM2MpOqmNxiAoKMaNLjzbf0YaGzXL8J4Gf39tRqLQAAAABJRU5ErkJggg==');
+
+  -webkit-appearance: none;
+  background: var(--bgUrl) right 8px center no-repeat, #444545;
+  background-size: 10px 6px;
+  color: #e3e3e3;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+  padding: 0.35rem 1.7rem 0.35rem 0.625rem;
+  border: 1px solid #575857;
+  border-radius: 6px;
+  outline: none;
+  will-change: opacity;
+  transition: opacity 50ms ease-out;
+}
+
+.select:focus {
+  border-color: var(--accentColor);
+  box-shadow: 0 0 0 2px var(--accentColor);
+}
+
+.select:disabled {
+  opacity: 0.4;
+}
+
+.select-fullWidth {
+  width: 100%;
+}
