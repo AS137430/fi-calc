@@ -3,7 +3,6 @@ import { Router, Route, Switch } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 import queryString from 'query-string';
 import './app.css';
-import Header from './common/header';
 import Footer from './common/footer';
 import ScrollToTop from './common/scroll-to-top';
 import HistoricalSuccess from './calculator/historical-success';
@@ -25,7 +24,6 @@ class App extends Component {
     return (
       <Router history={history}>
         <ScrollToTop>
-          <Header />
           <div className="app_body">
             <Switch>
               <Route exact path="/" component={HistoricalSuccess} />
