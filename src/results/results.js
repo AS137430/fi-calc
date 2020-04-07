@@ -3,16 +3,18 @@ import './results.css';
 import computeResult from '../utils/compute-result';
 import useCalculatorMode from '../state/calculator-mode';
 import useSpendingPlan from '../state/spending-plan';
+import useLengthOfRetirement from '../state/length-of-retirement';
 
 export default function Results() {
   const [calculatorMode] = useCalculatorMode();
   const { state: spendingPlan } = useSpendingPlan();
+  const { state: lengthOfRetirement } = useLengthOfRetirement();
 
   const result = useMemo(
     () => {
       return computeResult({
         durationMode: calculatorMode,
-        numberOfYears: '30',
+        numberOfYears: lengthOfRetirement.numberOfYears,
         startYear: '1931',
         endYear: '1960',
         firstYearWithdrawal: spendingPlan.annualSpending,
@@ -20,7 +22,11 @@ export default function Results() {
         stockInvestmentValue: '1000000',
       });
     },
-    [calculatorMode, ...Object.values(spendingPlan)]
+    [
+      calculatorMode,
+      ...Object.values(spendingPlan),
+      ...Object.values(lengthOfRetirement),
+    ]
   );
 
   return (

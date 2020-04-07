@@ -1,9 +1,7 @@
 import createState from './create-state';
 import spendingPlanForm from '../form-config/spending-plan-form';
 
-const [SpendingPlanProvider, useSpendingPlanContext] = createState(
-  spendingPlanForm
-);
+const [SpendingPlanProvider, useSpendingPlan] = createState(spendingPlanForm);
 
-export default useSpendingPlanContext;
+export default useSpendingPlan;
 export { SpendingPlanProvider };

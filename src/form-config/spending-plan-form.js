@@ -1,15 +1,22 @@
 import {
   isRequired,
+  numberRequired,
   tooLarge,
   greaterThanZero,
 } from '../utils/forms/validators';
+import maxDollarInput from '../utils/forms/max-dollar-input';
 
 export default {
   values: {
     annualSpending: {
       type: 'number',
       default: 40000,
-      validators: [isRequired, greaterThanZero, tooLarge(10000000)],
+      validators: [
+        isRequired,
+        numberRequired,
+        greaterThanZero,
+        tooLarge(maxDollarInput),
+      ],
     },
 
     spendingStrategy: {
