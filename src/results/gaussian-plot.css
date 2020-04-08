@@ -1,0 +1,15 @@
+.gaussianPlot {
+  position: relative;
+  width: 500px;
+  height: 280px;
+}
+
+.gaussianPlot_minX,
+.gaussianPlot_maxX {
+  position: absolute;
+  bottom: 0;
+}
+
+.gaussianPlot_maxX {
+  right: 0;
+}

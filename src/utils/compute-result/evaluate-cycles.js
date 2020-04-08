@@ -19,8 +19,6 @@ export default function evaluateCycles({ cycles }) {
   const stdDeviation = deviation(percentChanges);
   const gaussian = createGaussian(computedMean, stdDeviation);
 
-  console.log('hello', computedMean, stdDeviation, gaussian(0));
-
   const successfulCycles = _.reject(completedCycles, 'isFailed');
   const dippedCycles = _.filter(completedCycles, 'didDip');
 
