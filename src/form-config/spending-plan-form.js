@@ -19,6 +19,34 @@ export default {
       ],
     },
 
+    percentageOfPortfolio: {
+      type: 'number',
+      default: 0.04,
+      validators: [isRequired, numberRequired, greaterThanZero, tooLarge(1)],
+    },
+
+    minWithdrawalLimit: {
+      type: 'number',
+      default: 40000,
+      validators: [
+        isRequired,
+        numberRequired,
+        greaterThanZero,
+        tooLarge(maxDollarInput),
+      ],
+    },
+
+    maxWithdrawalLimit: {
+      type: 'number',
+      default: 40000,
+      validators: [
+        isRequired,
+        numberRequired,
+        greaterThanZero,
+        tooLarge(maxDollarInput),
+      ],
+    },
+
     inflationAdjustedFirstYearWithdrawal: {
       type: 'boolean',
       default: true,

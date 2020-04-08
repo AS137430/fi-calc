@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import _ from 'lodash';
 import { useCurrentRef } from 'core-hooks';
 import { useForm as useVendorForm } from '../vendor/forms';
-import useUndo from './use-undo';
+import useUndo from '../state/undo-history';
 import reactOnInputBlur from '../utils/forms/react-on-input-blur';
 
 // This manages the interplay between form state (which can be invalid...it is whatever the user has

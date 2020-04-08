@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import { useState, useEffect } from 'react';
 import { useCurrentRef } from 'core-hooks';
+import constate from 'constate';
 
-export default function useUndo({ maxUndoCount = 50 } = {}) {
+function useUndo({ maxUndoCount = 50 } = {}) {
   const [reverseActions, setReverseActions] = useState([]);
   const reverseActionsRef = useCurrentRef(reverseActions);
 
@@ -56,3 +57,8 @@ export default function useUndo({ maxUndoCount = 50 } = {}) {
     hasUndos,
   };
 }
+
+const [UndoProvider, useUndoContext] = constate(useUndo);
+
+export default useUndoContext;
+export { UndoProvider };

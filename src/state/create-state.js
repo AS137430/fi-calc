@@ -19,6 +19,8 @@ export default function createState(formConfig) {
 
   const [Provider, useContextState] = constate(useStateContext);
 
+  // TODO: no reason to pass this into the provider. It can be access in-scope if I move
+  // it higher in this function.
   const defaultValues = settingsFromLocation(
     window.location,
     formConfig.values
