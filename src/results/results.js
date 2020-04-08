@@ -14,6 +14,8 @@ export default function Results() {
 
   const result = useMemo(
     () => {
+      console.log('what i got', spendingPlan.spendingStrategy);
+
       return computeResult({
         durationMode: calculatorMode,
         numberOfYears: lengthOfRetirement.numberOfYears,

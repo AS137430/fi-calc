@@ -1,3 +1,10 @@
+function isPrimitive(val) {
+  if (typeof val === 'object') {
+    return val === null;
+  }
+  return typeof val !== 'function';
+}
+
 export default function createSetter(setState, config) {
   return function update(update) {
     let needsUpdate = false;
@@ -7,7 +14,8 @@ export default function createSetter(setState, config) {
       const requiredType = config[stateKey];
       const updatedValue = update[stateKey];
 
-      if (typeof updatedValue === requiredType) {
+      // TODO: when it isn't primitive, I could check the value of the key.
+      if (!isPrimitive(updatedValue) || typeof updatedValue === requiredType) {
         needsUpdate = true;
         updateObj[stateKey] = updatedValue;
       }

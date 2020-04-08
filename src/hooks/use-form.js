@@ -32,20 +32,21 @@ export default function useForm({ formConfig, useSourceOfTruth }) {
   const changeSelect = useCallback((id, e) => {
     const prevValidValue = stateRef.current[id];
     const { value } = e.target;
+    const valueObject = _.find(formConfig.values[id].values, { key: value });
 
-    if (prevValidValue === value) {
+    if (prevValidValue === valueObject) {
       return;
     }
 
     addReverseAction(() => {
-      updateFormValue(id, prevValidValue);
+      updateFormValue(id, prevValidValue.key);
       setState({ [id]: prevValidValue });
     });
 
     // This is a select, so the value is also valid. We set the form AND update the "source of truth" state used in
     // the calculation.
     updateFormValue(id, value);
-    setState({ [id]: value });
+    setState({ [id]: valueObject });
   }, []);
 
   const changeCheckbox = useCallback((id, e) => {

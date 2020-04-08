@@ -8,7 +8,13 @@ import useSpendingPlan from '../state/spending-plan';
 import spendingPlanForm from '../form-config/spending-plan-form';
 
 export default function SpendingPlan() {
-  const { inputs, changeSelect, changeCheckbox, commitInput } = useForm({
+  const {
+    state: spendingPlan,
+    inputs,
+    changeSelect,
+    changeCheckbox,
+    commitInput,
+  } = useForm({
     formConfig: spendingPlanForm,
     useSourceOfTruth: useSpendingPlan,
   });
@@ -28,35 +34,45 @@ export default function SpendingPlan() {
           ))}
         </select>
       </div>
-      <div className="formRow">
-        <ValueInput
-          {...inputs.annualSpending.getProps({
-            id: 'annualSpending',
-            type: 'number',
-            min: 0,
-            step: 1,
-            inputMode: 'numeric',
-            autoComplete: 'off',
-            unit: '$',
-            suffix: false,
-            onCommit(event, newValue) {
-              commitInput('annualSpending', newValue);
-            },
-          })}
-        />
-      </div>
-      <div className="formRow">
-        <label className="checkbox_container">
-          <Checkbox
-            className="checkbox"
-            checked={inputs.inflationAdjustedFirstYearWithdrawal.value}
-            onChange={event =>
-              changeCheckbox('inflationAdjustedFirstYearWithdrawal', event)
-            }
-          />
-          <span className="checkbox_label">Adjusted for Inflation</span>
-        </label>
-      </div>
+      {spendingPlan.spendingStrategy.key === 'constantSpending' && (
+        <>
+          <div className="formRow">
+            <ValueInput
+              {...inputs.annualSpending.getProps({
+                id: 'annualSpending',
+                type: 'number',
+                min: 0,
+                step: 1,
+                inputMode: 'numeric',
+                autoComplete: 'off',
+                unit: '$',
+                suffix: false,
+                onCommit(event, newValue) {
+                  commitInput('annualSpending', newValue);
+                },
+              })}
+            />
+          </div>
+          <div className="formRow">
+            <label className="checkbox_container">
+              <Checkbox
+                className="checkbox"
+                checked={inputs.inflationAdjustedFirstYearWithdrawal.value}
+                onChange={event =>
+                  changeCheckbox('inflationAdjustedFirstYearWithdrawal', event)
+                }
+              />
+              <span className="checkbox_label">Adjusted for Inflation</span>
+            </label>
+          </div>
+        </>
+      )}
+      {spendingPlan.spendingStrategy.key === 'portfolioPercent' && (
+        <div className="formRow">Portfolio percent coming soon.</div>
+      )}
+      {spendingPlan.spendingStrategy.key === 'hebeler' && (
+        <div className="formRow">Hebeler coming soon.</div>
+      )}
     </SidebarPanel>
   );
 }
