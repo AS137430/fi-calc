@@ -8,8 +8,6 @@ const marketData = marketDataByYear();
 const allYears = Object.keys(marketData);
 const lastSupportedYear = allYears[allYears.length - 1];
 
-console.log('lastYear', lastSupportedYear);
-
 // This maps an investment type to the key on marketData that
 // represents its changes in a given year
 const investmentTypeToGrowthMap = {
@@ -34,7 +32,7 @@ export default function computeCycle(options = {}) {
 
   const dipThreshold = dipPercentage * initialPortfolioValue;
 
-  const endYear = startYear + duration;
+  const endYear = startYear + duration - 1;
   const trueEndYear = Math.min(endYear, lastSupportedYear);
 
   // This Boolean represents whether this is cycle contains the entire
@@ -51,6 +49,14 @@ export default function computeCycle(options = {}) {
     month: '01',
   });
   const endYearCpi = endYearMarketData.cpi;
+
+  const totalInflationOverPeriod = inflationFromCpi({
+    startCpi: firstYearCpi,
+    endCpi: endYearCpi,
+  });
+
+  const initialPortfolioValueInFinalYear =
+    totalInflationOverPeriod * initialPortfolioValue;
 
   const resultsByYear = [];
 
@@ -107,11 +113,6 @@ export default function computeCycle(options = {}) {
     const cumulativeInflation = inflationFromCpi({
       startCpi: firstYearCpi,
       endCpi: yearMarketData.cpi,
-    });
-
-    const comparativeInflation = inflationFromCpi({
-      startCpi: yearMarketData.cpi,
-      endCpi: endYearCpi,
     });
 
     const { spendingMethod } = spendingConfiguration;
@@ -198,12 +199,6 @@ export default function computeCycle(options = {}) {
       0
     );
 
-    // This is the value of this portfolio in end-year dollars. This allows for
-    // comparisons, which makes it "normalized".
-    // The reason for this is that $1mil in 2000 is a lot less than $1mil in 2015.
-    // We need to convert the $1mil into 2015 dollars to make sense of the results.
-    const normalizedTotalValue = comparativeInflation * endValue;
-
     // We only compute `isFailed` if we didn't already compute it as true before.
     if (!isFailed) {
       isFailed = endValue === 0;
@@ -235,7 +230,6 @@ export default function computeCycle(options = {}) {
         totalWithdrawalAmount,
         portfolio: {
           totalValue: endValue,
-          normalizedTotalValue: normalizedTotalValue,
           investments: adjustedInvestmentValues,
         },
       },
@@ -245,7 +239,15 @@ export default function computeCycle(options = {}) {
   const finalYearPortfolio =
     resultsByYear[resultsByYear.length - 1].computedData.portfolio;
   const finalValue = finalYearPortfolio.totalValue;
-  const normalizedFinalValue = finalYearPortfolio.normalizedTotalValue;
+
+  const percentOfChange = finalValue / initialPortfolioValueInFinalYear;
+
+  // console.log(
+  //   'hello',
+  //   // finalValue.toFixed(2),
+  //   // initialPortfolioValueInFinalYear.toFixed(2),
+  //   percentOfChange.toFixed(2)
+  // );
 
   return {
     startYear,
@@ -257,6 +259,6 @@ export default function computeCycle(options = {}) {
     didDip,
     lowestSuccessfulDip,
     finalValue,
-    normalizedFinalValue,
+    percentOfChange,
   };
 }

@@ -43,3 +43,11 @@ export function deviation(values, valueof) {
   const v = variance(values, valueof);
   return v ? Math.sqrt(v) : v;
 }
+
+export function createGaussian(mean, deviation) {
+  return x => {
+    const coefficient = 1 / (deviation * Math.sqrt(2 * Math.PI));
+    const exp = -0.5 * Math.pow((x - mean) / deviation, 2);
+    return coefficient * Math.exp(exp);
+  };
+}

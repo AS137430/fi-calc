@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { mean, deviation } from './gaussian';
+import { mean, deviation, createGaussian } from './gaussian';
 
 export default function evaluateCycles({ cycles }) {
   // For now, we only consider completed cycles
@@ -12,9 +12,14 @@ export default function evaluateCycles({ cycles }) {
     return {};
   }
 
-  const finalValues = completedCycles.map(cycle => cycle.normalizedFinalValue);
-  const computedMean = mean(finalValues);
-  const stdDeviation = deviation(finalValues);
+  const percentChanges = completedCycles
+    .map(cycle => cycle.percentOfChange)
+    .filter(Boolean);
+  const computedMean = mean(percentChanges);
+  const stdDeviation = deviation(percentChanges);
+  const gaussian = createGaussian(computedMean, stdDeviation);
+
+  console.log('hello', computedMean, stdDeviation, gaussian(0));
 
   const successfulCycles = _.reject(completedCycles, 'isFailed');
   const dippedCycles = _.filter(completedCycles, 'didDip');
@@ -38,6 +43,7 @@ export default function evaluateCycles({ cycles }) {
     allCycles: completedCycles,
     dippedCycles,
     successfulCycles,
+    gaussian,
     numberOfCycles: completedCycles.length,
     successRate,
     dipRate,
