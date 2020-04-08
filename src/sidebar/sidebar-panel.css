@@ -20,3 +20,9 @@
   font-size: 0.825rem;
   padding: 1rem var(--horizontalContentPadding);
 }
+
+.sidebarPanel_section {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #444;
+  margin-bottom: 1rem;
+}

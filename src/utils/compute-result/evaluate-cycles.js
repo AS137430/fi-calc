@@ -7,8 +7,6 @@ export default function evaluateCycles({ cycles }) {
   // duration requirement that we specified
   const completedCycles = _.filter(cycles, 'isComplete');
 
-  console.log('hello', cycles);
-
   // If nothing completed, then we have nothing to analyze
   if (!completedCycles.length) {
     return {};

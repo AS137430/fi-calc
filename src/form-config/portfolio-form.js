@@ -3,7 +3,6 @@ import {
   numberRequired,
   tooLarge,
   tooSmall,
-  greaterThanZero,
 } from '../utils/forms/validators';
 import maxDollarInput from '../utils/forms/max-dollar-input';
 
@@ -24,6 +23,17 @@ export default {
       type: 'number',
       default: 0.0004,
       validators: [isRequired, numberRequired, tooSmall(0), tooLarge(1)],
+    },
+
+    bondsValue: {
+      type: 'number',
+      default: 0,
+      validators: [
+        isRequired,
+        numberRequired,
+        tooSmall(0),
+        tooLarge(maxDollarInput),
+      ],
     },
   },
 };

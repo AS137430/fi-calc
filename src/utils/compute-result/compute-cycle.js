@@ -155,8 +155,10 @@ export default function computeCycle(options = {}) {
         const valueAfterWithdrawal =
           previousYearInvestment.value - withdrawalAmount;
         const growthKey = investmentTypeToGrowthMap[investment.type];
-        const growthPercentage = yearMarketData[growthKey];
+        const growthPercentage = yearMarketData[growthKey] || 0;
         const growth = valueAfterWithdrawal * growthPercentage;
+
+        console.log('hello', yearMarketData);
 
         // This allows you to specify a fixed annual addition to this investment. This replaces
         // the "growth of cash" feature of cFIREsim.

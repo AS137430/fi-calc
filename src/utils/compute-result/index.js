@@ -12,6 +12,7 @@ export default function computeResult(inputs) {
     numberOfYears,
     firstYearWithdrawal,
     inflationAdjustedFirstYearWithdrawal,
+    bondsValue,
     stockInvestmentValue,
     stockInvestmentFees,
     spendingStrategy,
@@ -40,6 +41,12 @@ export default function computeResult(inputs) {
       fees: stockInvestmentFees,
       value: stockInvestmentValue,
       percentage: 1,
+    },
+    {
+      type: 'bonds',
+      fees: 0,
+      value: bondsValue,
+      percentage: 0,
     },
   ];
 

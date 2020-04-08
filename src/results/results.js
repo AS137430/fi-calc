@@ -23,6 +23,7 @@ export default function Results() {
         firstYearWithdrawal: spendingPlan.annualSpending,
         inflationAdjustedFirstYearWithdrawal:
           spendingPlan.inflationAdjustedFirstYearWithdrawal,
+        bondsValue: portfolio.bondsValue,
         stockInvestmentValue: portfolio.stockInvestmentValue,
         stockInvestmentFees: portfolio.stockInvestmentFees,
         spendingStrategy: spendingPlan.spendingStrategy.key,
