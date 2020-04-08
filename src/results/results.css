@@ -1,3 +1,6 @@
 .results {
+  background: #1c1c1c;
+  color: #fff;
   grid-area: workspace;
+  padding: 0 1.5rem;
 }
