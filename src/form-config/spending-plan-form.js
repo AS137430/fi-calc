@@ -2,7 +2,7 @@ import {
   isRequired,
   numberRequired,
   tooLarge,
-  greaterThanZero,
+  tooSmall,
 } from '../utils/forms/validators';
 import maxDollarInput from '../utils/forms/max-dollar-input';
 
@@ -14,7 +14,7 @@ export default {
       validators: [
         isRequired,
         numberRequired,
-        greaterThanZero,
+        tooSmall(0),
         tooLarge(maxDollarInput),
       ],
     },
@@ -22,7 +22,7 @@ export default {
     percentageOfPortfolio: {
       type: 'number',
       default: 0.04,
-      validators: [isRequired, numberRequired, greaterThanZero, tooLarge(1)],
+      validators: [isRequired, numberRequired, tooSmall(0), tooLarge(1)],
     },
 
     minWithdrawalLimit: {
@@ -31,7 +31,7 @@ export default {
       validators: [
         isRequired,
         numberRequired,
-        greaterThanZero,
+        tooSmall(0),
         tooLarge(maxDollarInput),
       ],
     },
@@ -42,7 +42,7 @@ export default {
       validators: [
         isRequired,
         numberRequired,
-        greaterThanZero,
+        tooSmall(0),
         tooLarge(maxDollarInput),
       ],
     },

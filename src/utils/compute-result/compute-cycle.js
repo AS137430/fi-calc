@@ -3,7 +3,6 @@ import * as spending from './spending';
 import inflationFromCpi from '../market-data/inflation-from-cpi';
 import marketDataByYear from '../market-data/market-data-by-year';
 
-const CURRENT_YEAR = new Date().getFullYear();
 const marketData = marketDataByYear();
 const allYears = Object.keys(marketData);
 const lastSupportedYear = allYears[allYears.length - 1];
@@ -37,7 +36,7 @@ export default function computeCycle(options = {}) {
 
   // This Boolean represents whether this is cycle contains the entire
   // duration or not.
-  const isComplete = startYear + duration <= CURRENT_YEAR;
+  const isComplete = startYear + duration <= lastSupportedYear;
   const firstYearMarketData = _.find(marketData, {
     year: String(startYear),
     month: '01',
@@ -241,13 +240,6 @@ export default function computeCycle(options = {}) {
   const finalValue = finalYearPortfolio.totalValue;
 
   const percentOfChange = finalValue / initialPortfolioValueInFinalYear;
-
-  // console.log(
-  //   'hello',
-  //   // finalValue.toFixed(2),
-  //   // initialPortfolioValueInFinalYear.toFixed(2),
-  //   percentOfChange.toFixed(2)
-  // );
 
   return {
     startYear,

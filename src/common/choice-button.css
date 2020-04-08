@@ -50,7 +50,7 @@
 }
 
 .choiceButton_input:not(:disabled):hover ~ .choiceButton_chip {
-  background: #3c3c3c;
+  background: #313131;
 }
 
 .choiceButton:first-child .choiceButton_chip {

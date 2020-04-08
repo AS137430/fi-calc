@@ -1,17 +1,21 @@
 .results {
-  background: #1c1c1c;
-  color: #fff;
   grid-area: workspace;
+  color: #fff;
   padding: 0 1.5rem;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .results_section {
-  display: inline-block;
-  border-radius: 5px;
-  padding: 0.75rem 1.25rem 1rem;
-  background: #333;
-  min-width: 15rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #333;
   margin-bottom: 1rem;
+}
+
+.results_section:last-child {
+  /* border-bottom: 2rem; */
+  margin-bottom: 2rem;
 }
 
 .results_sectionTitle {
@@ -24,4 +28,15 @@
 .results_bigValue {
   font-size: 2rem;
   font-weight: 900;
+}
+
+.results_plotSection .results_sectionTitle {
+  margin-bottom: 1rem;
+}
+
+.results_details {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #ddd;
+  font-style: italic;
 }

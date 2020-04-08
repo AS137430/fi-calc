@@ -14,6 +14,9 @@ export default function Portfolio() {
   return (
     <SidebarPanel title="portfolio">
       <div className="formRow">
+        <label htmlFor="stockInvestmentValue" className="inputLabel">
+          Equities
+        </label>
         <ValueInput
           {...inputs.stockInvestmentValue.getProps({
             id: 'stockInvestmentValue',
@@ -26,6 +29,25 @@ export default function Portfolio() {
             suffix: false,
             onCommit(event, newValue) {
               commitInput('stockInvestmentValue', newValue);
+            },
+          })}
+        />
+      </div>
+      <div className="formRow">
+        <label htmlFor="stockInvestmentValue" className="inputLabel">
+          Equities Annual Fees
+        </label>
+        <ValueInput
+          {...inputs.stockInvestmentFees.getProps({
+            id: 'stockInvestmentFees',
+            type: 'number',
+            pattern: '\\d*',
+            min: 0,
+            inputMode: 'numeric',
+            autoComplete: 'off',
+            unit: '%',
+            onCommit(event, newValue) {
+              commitInput('stockInvestmentFees', newValue);
             },
           })}
         />

@@ -11,6 +11,7 @@ export default function getStartYears(duration) {
     .map(data => Number(data.year))
     .value();
 
+  // This excludes cycles that would not complete.
   if (typeof duration === 'number' && !Number.isNaN(duration)) {
     return _.dropRight(startYears, duration - 1);
   } else {

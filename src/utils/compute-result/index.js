@@ -13,6 +13,7 @@ export default function computeResult(inputs) {
     firstYearWithdrawal,
     inflationAdjustedFirstYearWithdrawal,
     stockInvestmentValue,
+    stockInvestmentFees,
     spendingStrategy,
     percentageOfPortfolio,
     minWithdrawalLimit,
@@ -37,7 +38,7 @@ export default function computeResult(inputs) {
     {
       type: 'equity',
       fees: 0.0,
-      value: Number(stockInvestmentValue),
+      value: stockInvestmentValue,
       percentage: 1,
     },
   ];

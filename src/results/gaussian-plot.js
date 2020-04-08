@@ -60,24 +60,38 @@ function computePlotData(gaussian, canvas, mean, standardDeviation) {
   };
 }
 
+function resizeCanvasToDisplaySize(canvas, multiplier) {
+  multiplier = multiplier || 1;
+  multiplier = Math.max(1, multiplier);
+  var width = (canvas.clientWidth * multiplier) | 0;
+  var height = (canvas.clientHeight * multiplier) | 0;
+  if (canvas.width !== width || canvas.height !== height) {
+    canvas.width = width;
+    canvas.height = height;
+    return true;
+  }
+  return false;
+}
+
 export default function GaussianPlot({ gaussian, mean, standardDeviation }) {
   const canvasRef = useRef();
   const [pData, setPData] = useState({});
 
-  console.log('da results', mean, standardDeviation);
-
   useEffect(
     () => {
+      const multiplier = window.devicePixelRatio;
+
+      const ctx = canvasRef.current.getContext('2d');
+      resizeCanvasToDisplaySize(ctx.canvas, multiplier);
+
       const plotData = computePlotData(
         gaussian,
         canvasRef.current,
         mean,
         standardDeviation
       );
-
       setPData(plotData);
 
-      const ctx = canvasRef.current.getContext('2d');
       var axes = {};
       // x0 pixels from left to x=0
       axes.x0 = 0;
@@ -92,19 +106,17 @@ export default function GaussianPlot({ gaussian, mean, standardDeviation }) {
 
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-      plotAxes(ctx, axes);
-      plotFunction(ctx, axes, gaussian, 'rgb(11,153,11)', 1);
+      // plotAxes(ctx, axes);
+      plotFunction(ctx, axes, gaussian, 'rgb(11,153,11)', 2 * multiplier);
     },
     [mean, standardDeviation, gaussian]
   );
 
-  console.log('hi', pData);
-
   return (
     <div className="gaussianPlot">
-      <canvas width="500" height="250" ref={canvasRef} />
-      <div className="gaussianPlot_minX">{pData.xMin?.toFixed(2)}</div>
-      <div className="gaussianPlot_maxX">{pData.xMax?.toFixed(2)}</div>
+      <canvas ref={canvasRef} className="gaussianPlot_canvas" />
+      <div className="gaussianPlot_minX">{pData.xMin?.toFixed(2)}x</div>
+      <div className="gaussianPlot_maxX">{pData.xMax?.toFixed(2)}x</div>
     </div>
   );
 }

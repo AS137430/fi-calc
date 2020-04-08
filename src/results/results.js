@@ -24,6 +24,7 @@ export default function Results() {
         inflationAdjustedFirstYearWithdrawal:
           spendingPlan.inflationAdjustedFirstYearWithdrawal,
         stockInvestmentValue: portfolio.stockInvestmentValue,
+        stockInvestmentFees: portfolio.stockInvestmentFees,
         spendingStrategy: spendingPlan.spendingStrategy.key,
         percentageOfPortfolio: spendingPlan.percentageOfPortfolio,
         minWithdrawalLimit: spendingPlan.minWithdrawalLimit,
@@ -42,30 +43,32 @@ export default function Results() {
   const numberOfSimulations = result.results.numberOfCycles;
   const oneSimulation = numberOfSimulations === 1;
 
+  // const excludedCycles =
+  //   result.results.totalNumberOfCycles - result.results.numberOfCycles;
+  // const cyclesWereExcluded = Boolean(excludedCycles);
+  // const cyclesWereWord = excludedCycles > 1 ? 'were' : 'was';
+  // const cyclesWord = excludedCycles > 1 ? 'cycles' : 'cycle';
+
   return (
     <div className="results">
       <h1>Results</h1>
-      {numberOfSimulations > 1 && (
-        <div>
+      <div>
+        {numberOfSimulations > 1 && (
           <div className="results_section">
             <div className="results_sectionTitle">Number of Simulations</div>
             <div className="results_bigValue">
               {result.results.numberOfCycles}
             </div>
           </div>
-        </div>
-      )}
-      {oneSimulation && (
-        <div>
+        )}
+        {oneSimulation && (
           <div className="results_section">
             <div className="results_sectionTitle">Length of Simulation</div>
             <div className="results_bigValue">
               {result.results.allCycles[0].duration + 1} years
             </div>
           </div>
-        </div>
-      )}
-      <div>
+        )}
         <div className="results_section">
           <div className="results_sectionTitle">
             {!oneSimulation ? 'Success Rate' : 'Succeeded?'}
@@ -76,11 +79,16 @@ export default function Results() {
           </div>
         </div>
       </div>
-      <GaussianPlot
-        gaussian={result.results.gaussian}
-        mean={result.results.mean}
-        standardDeviation={result.results.standardDeviation}
-      />
+      <div className="results_plotSection">
+        <div className="results_sectionTitle">
+          Distribution of End Portfolio Value
+        </div>
+        <GaussianPlot
+          gaussian={result.results.gaussian}
+          mean={result.results.mean}
+          standardDeviation={result.results.standardDeviation}
+        />
+      </div>
     </div>
   );
 }

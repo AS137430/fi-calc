@@ -1,15 +1,32 @@
 .gaussianPlot {
   position: relative;
-  width: 500px;
-  height: 280px;
+  /* border-top: 1px solid #333;
+  border-bottom: 1px solid #333; */
+  padding-bottom: 30px;
+}
+
+.gaussianPlot_canvas {
+  width: 100%;
+  min-height: 150px;
+  /* border-bottom: 1px solid #333; */
+  background: #141414;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .gaussianPlot_minX,
 .gaussianPlot_maxX {
   position: absolute;
-  bottom: 0;
+  bottom: 9px;
+  color: #ddd;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.gaussianPlot_minX {
+  left: 5px;
 }
 
 .gaussianPlot_maxX {
-  right: 0;
+  right: 5px;
 }
