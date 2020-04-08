@@ -29,6 +29,7 @@ export default function Results() {
         maxWithdrawalLimit: spendingPlan.maxWithdrawalLimit,
       });
     },
+    /* eslint react-hooks/exhaustive-deps: "off" */
     [
       calculatorMode,
       ...Object.values(spendingPlan),
@@ -37,9 +38,6 @@ export default function Results() {
     ]
   );
 
-  console.log('got the result', result);
-
-  const isAllHistory = calculatorMode === 'allHistory';
   const numberOfSimulations = result.results.numberOfCycles;
   const oneSimulation = numberOfSimulations === 1;
 

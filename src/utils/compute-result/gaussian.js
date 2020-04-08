@@ -3,6 +3,7 @@ export function mean(values) {
   let sum = 0;
   for (let value of values) {
     if (value != null && (value = +value) >= value) {
+      /* eslint-disable-next-line */
       ++count, (sum += value);
     }
   }

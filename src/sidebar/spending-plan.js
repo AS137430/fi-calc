@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import { Checkbox } from 'materialish';
 import SidebarPanel from './sidebar-panel';
 import useForm from '../hooks/use-form';
