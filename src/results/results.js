@@ -25,9 +25,9 @@ export default function Results() {
           spendingPlan.inflationAdjustedFirstYearWithdrawal,
         bondsValue: portfolio.bondsValue,
         stockInvestmentValue: portfolio.stockInvestmentValue,
-        stockInvestmentFees: portfolio.stockInvestmentFees,
+        stockInvestmentFees: portfolio.stockInvestmentFees / 100,
         spendingStrategy: spendingPlan.spendingStrategy.key,
-        percentageOfPortfolio: spendingPlan.percentageOfPortfolio,
+        percentageOfPortfolio: spendingPlan.percentageOfPortfolio / 100,
         minWithdrawalLimit: spendingPlan.minWithdrawalLimit,
         maxWithdrawalLimit: spendingPlan.maxWithdrawalLimit,
       });

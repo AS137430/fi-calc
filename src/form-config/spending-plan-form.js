@@ -21,8 +21,8 @@ export default {
 
     percentageOfPortfolio: {
       type: 'number',
-      default: 0.04,
-      validators: [isRequired, numberRequired, tooSmall(0), tooLarge(1)],
+      default: 4,
+      validators: [isRequired, numberRequired, tooSmall(0), tooLarge(100)],
     },
 
     minWithdrawalLimit: {

@@ -35,7 +35,7 @@ export default function Portfolio() {
           />
         </div>
         <div className="formRow">
-          <label htmlFor="stockInvestmentValue" className="inputLabel">
+          <label htmlFor="stockInvestmentFees" className="inputLabel">
             Annual Fees
           </label>
           <ValueInput
@@ -56,7 +56,7 @@ export default function Portfolio() {
       </div>
       <div className="sidebarPanel_section">
         <div className="formRow">
-          <label htmlFor="stockInvestmentValue" className="inputLabel">
+          <label htmlFor="bondsValue" className="inputLabel">
             Bonds
           </label>
           <ValueInput

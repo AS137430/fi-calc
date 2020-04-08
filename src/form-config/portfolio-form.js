@@ -21,8 +21,8 @@ export default {
 
     stockInvestmentFees: {
       type: 'number',
-      default: 0.0004,
-      validators: [isRequired, numberRequired, tooSmall(0), tooLarge(1)],
+      default: 0.04,
+      validators: [isRequired, numberRequired, tooSmall(0), tooLarge(100)],
     },
 
     bondsValue: {
