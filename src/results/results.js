@@ -14,8 +14,6 @@ export default function Results() {
 
   const result = useMemo(
     () => {
-      console.log('what i got', spendingPlan.spendingStrategy);
-
       return computeResult({
         durationMode: calculatorMode,
         numberOfYears: lengthOfRetirement.numberOfYears,
@@ -25,6 +23,10 @@ export default function Results() {
         inflationAdjustedFirstYearWithdrawal:
           spendingPlan.inflationAdjustedFirstYearWithdrawal,
         stockInvestmentValue: portfolio.stockInvestmentValue,
+        spendingStrategy: spendingPlan.spendingStrategy.key,
+        percentageOfPortfolio: spendingPlan.percentageOfPortfolio,
+        minWithdrawalLimit: spendingPlan.minWithdrawalLimit,
+        maxWithdrawalLimit: spendingPlan.maxWithdrawalLimit,
       });
     },
     [

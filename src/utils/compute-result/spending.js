@@ -12,13 +12,18 @@ export function notInflationAdjusted({ firstYearWithdrawal }) {
   return firstYearWithdrawal;
 }
 
-// Should the min/max values be inflation adjusted? Most likely, right?
-export function percentOfPortfolio({
+export function portfolioPercent({
+  inflation,
   portfolioTotalValue,
   percentageOfPortfolio,
   minWithdrawal,
   maxWithdrawal,
 }) {
   const naiveComputation = portfolioTotalValue * percentageOfPortfolio;
-  return clamp(naiveComputation, minWithdrawal, maxWithdrawal);
+  const clamped = clamp(
+    naiveComputation,
+    inflation * minWithdrawal,
+    inflation * maxWithdrawal
+  );
+  return clamped;
 }

@@ -27,7 +27,7 @@ export default {
 
     minWithdrawalLimit: {
       type: 'number',
-      default: 40000,
+      default: 35000,
       validators: [
         isRequired,
         numberRequired,
@@ -38,7 +38,7 @@ export default {
 
     maxWithdrawalLimit: {
       type: 'number',
-      default: 40000,
+      default: 60000,
       validators: [
         isRequired,
         numberRequired,

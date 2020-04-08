@@ -13,6 +13,10 @@ export default function computeResult(inputs) {
     firstYearWithdrawal,
     inflationAdjustedFirstYearWithdrawal,
     stockInvestmentValue,
+    spendingStrategy,
+    percentageOfPortfolio,
+    minWithdrawalLimit,
+    maxWithdrawalLimit,
   } = inputs;
 
   let lengthOfCycle;
@@ -38,26 +42,27 @@ export default function computeResult(inputs) {
     },
   ];
 
-  const spendingConfiguration = {
-    // This needs to be fixed!
-    spendingMethod: inflationAdjustedFirstYearWithdrawal
-      ? 'inflationAdjusted'
-      : 'notInflationAdjusted',
-    firstYearWithdrawal: Number(firstYearWithdrawal),
-  };
+  let spendingConfiguration;
+  if (spendingStrategy === 'portfolioPercent') {
+    spendingConfiguration = {
+      // These are necessary for this computation...
+      minWithdrawal: minWithdrawalLimit,
+      maxWithdrawal: maxWithdrawalLimit,
+      spendingMethod: 'portfolioPercent',
+      percentageOfPortfolio,
+    };
+  } else {
+    spendingConfiguration = {
+      spendingMethod: inflationAdjustedFirstYearWithdrawal
+        ? 'inflationAdjusted'
+        : 'notInflationAdjusted',
+      firstYearWithdrawal: Number(firstYearWithdrawal),
+    };
+  }
 
-  //
-  // The example configuration below demonstrates using the percentOfPortfolio
-  // withdrawal method
-  //
-  // const spendingConfiguration = {
-  //   spendingMethod: 'percentOfPortfolio',
-  //   percentageOfPortfolio: 0.05,
-  //   minWithdrawal: 20000,
-  //   maxWithdrawal: 35000
-  // };
-
-  const portfolio = fromInvestments({ investments });
+  const portfolio = fromInvestments({
+    investments,
+  });
 
   const cycles = _.map(startYears, startYear =>
     computeCycle({
@@ -70,7 +75,9 @@ export default function computeResult(inputs) {
     })
   );
 
-  const results = evaluateCycles({ cycles });
+  const results = evaluateCycles({
+    cycles,
+  });
 
   const dipRate = `${(results.dipRate * 100).toFixed(2)}%`;
 

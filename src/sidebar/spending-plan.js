@@ -68,10 +68,61 @@ export default function SpendingPlan() {
         </>
       )}
       {spendingPlan.spendingStrategy.key === 'portfolioPercent' && (
-        <div className="formRow">Portfolio percent coming soon.</div>
+        <>
+          <div className="formRow">
+            <ValueInput
+              {...inputs.percentageOfPortfolio.getProps({
+                id: 'percentageOfPortfolio',
+                type: 'number',
+                min: 0,
+                max: 1,
+                step: 0.01,
+                inputMode: 'numeric',
+                autoComplete: 'off',
+                unit: '%',
+                onCommit(event, newValue) {
+                  commitInput('percentageOfPortfolio', newValue);
+                },
+              })}
+            />
+          </div>
+          <div className="formRow formRow-flex">
+            <ValueInput
+              {...inputs.minWithdrawalLimit.getProps({
+                id: 'minWithdrawalLimit',
+                type: 'number',
+                min: 0,
+                inputMode: 'numeric',
+                autoComplete: 'off',
+                unit: '$',
+                suffix: false,
+                onCommit(event, newValue) {
+                  commitInput('minWithdrawalLimit', newValue);
+                },
+              })}
+            />
+            <ValueInput
+              {...inputs.maxWithdrawalLimit.getProps({
+                id: 'maxWithdrawalLimit',
+                type: 'number',
+                min: 0,
+                inputMode: 'numeric',
+                autoComplete: 'off',
+                unit: '$',
+                suffix: false,
+                onCommit(event, newValue) {
+                  commitInput('maxWithdrawalLimit', newValue);
+                },
+              })}
+            />
+          </div>
+        </>
       )}
       {spendingPlan.spendingStrategy.key === 'hebeler' && (
-        <div className="formRow">Hebeler coming soon.</div>
+        <div className="formRow">
+          The Hebeler Autopilot strategy is not currently supported, but it will
+          be soon.
+        </div>
       )}
     </SidebarPanel>
   );
