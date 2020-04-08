@@ -62,7 +62,7 @@ export default function SpendingPlan() {
                   changeCheckbox('inflationAdjustedFirstYearWithdrawal', event)
                 }
               />
-              <span className="checkbox_label">Adjusted for Inflation</span>
+              <span className="checkbox_label">Adjust for Inflation</span>
             </label>
           </div>
         </>

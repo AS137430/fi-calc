@@ -4,3 +4,24 @@
   grid-area: workspace;
   padding: 0 1.5rem;
 }
+
+.results_section {
+  display: inline-block;
+  border-radius: 5px;
+  padding: 0.75rem 1.25rem 1rem;
+  background: #333;
+  min-width: 15rem;
+  margin-bottom: 1rem;
+}
+
+.results_sectionTitle {
+  font-size: 0.875rem;
+  color: #bfbfbf;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.results_bigValue {
+  font-size: 2rem;
+  font-weight: 900;
+}

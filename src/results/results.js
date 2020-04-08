@@ -37,15 +37,46 @@ export default function Results() {
     ]
   );
 
+  console.log('got the result', result);
+
+  const isAllHistory = calculatorMode === 'allHistory';
+  const numberOfSimulations = result.results.numberOfCycles;
+  const oneSimulation = numberOfSimulations === 1;
+
   return (
     <div className="results">
       <h1>Results</h1>
-      {calculatorMode === 'allHistory' && (
-        <div>Success Rate: {result.successRate}</div>
+      {numberOfSimulations > 1 && (
+        <div>
+          <div className="results_section">
+            <div className="results_sectionTitle">Number of Simulations</div>
+            <div className="results_bigValue">
+              {result.results.numberOfCycles}
+            </div>
+          </div>
+        </div>
       )}
-      {calculatorMode !== 'allHistory' && (
-        <div>Succeeded?: {result.summary === 'SUCCESSFUL' ? 'Yes' : 'No'}</div>
+      {oneSimulation && (
+        <div>
+          <div className="results_section">
+            <div className="results_sectionTitle">Length of Simulation</div>
+            <div className="results_bigValue">
+              {result.results.allCycles[0].duration + 1} years
+            </div>
+          </div>
+        </div>
       )}
+      <div>
+        <div className="results_section">
+          <div className="results_sectionTitle">
+            {!oneSimulation ? 'Success Rate' : 'Succeeded?'}
+          </div>
+          <div className="results_bigValue">
+            {!oneSimulation && result.successRate}
+            {oneSimulation && (result.summary === 'SUCCESSFUL' ? 'Yes' : 'No')}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
