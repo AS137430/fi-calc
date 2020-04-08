@@ -37,7 +37,7 @@ export default function computeResult(inputs) {
   const investments = [
     {
       type: 'equity',
-      fees: 0.0,
+      fees: stockInvestmentFees,
       value: stockInvestmentValue,
       percentage: 1,
     },
