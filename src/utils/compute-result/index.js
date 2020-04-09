@@ -15,7 +15,11 @@ export default function computeResult(inputs) {
     percentageOfPortfolio: percentPercentageOfPortfolio,
     minWithdrawalLimit,
     maxWithdrawalLimit,
+    minWithdrawalLimitEnabled,
+    maxWithdrawalLimitEnabled,
   } = spendingPlan;
+
+  console.log('enabled?', minWithdrawalLimitEnabled, maxWithdrawalLimitEnabled);
 
   const {
     bondsValue,
@@ -61,8 +65,10 @@ export default function computeResult(inputs) {
   if (spendingStrategy === 'portfolioPercent') {
     spendingConfiguration = {
       // These are necessary for this computation...
-      minWithdrawal: minWithdrawalLimit,
-      maxWithdrawal: maxWithdrawalLimit,
+      minWithdrawal: minWithdrawalLimitEnabled ? minWithdrawalLimit : 0,
+      maxWithdrawal: maxWithdrawalLimitEnabled
+        ? maxWithdrawalLimit
+        : Number.MAX_SAFE_INTEGER,
       spendingMethod: 'portfolioPercent',
       percentageOfPortfolio,
     };
