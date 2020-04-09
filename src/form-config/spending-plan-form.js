@@ -68,15 +68,19 @@ export default {
       values: [
         {
           key: 'constantSpending',
-          display: 'Constant Spending',
+          display: 'Constant spending',
         },
         {
           key: 'portfolioPercent',
-          display: 'Percent of Portfolio',
+          display: 'Percent of portfolio',
         },
         {
           key: 'hebeler',
-          display: 'Hebeler Autopilot',
+          display: 'Hebeler autopilot',
+        },
+        {
+          key: 'gk',
+          display: 'Guyton-Klinger',
         },
       ],
     },

@@ -87,8 +87,8 @@ export default function GoodModal({
           modalRoot.removeChild(el);
         }
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [shouldRender]
   );
 

@@ -1,10 +1,13 @@
 :root {
-  --accentColor: #6a24ff;
+  --fontColor: #fff;
+  --chartBg: #141414;
+  /* rgb: 105, 84, 255 */
+  --accentColor: #6954ff;
   --mt-mainColor: var(--accentColor);
   --maxAppWidth: 64rem;
   --headerHeight: 3.125rem;
   --appHeader-height: 3.5rem;
-  --sidebar-width: 25rem;
+  --sidebar-width: 22rem;
 
   --horizontalContentPadding: 1.375rem;
 }

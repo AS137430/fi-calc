@@ -68,6 +68,7 @@ export default function computeCycle(options = {}) {
     year: null,
     value: Infinity,
   };
+  let yearFailed = null;
 
   // This can be used to simulate a "previous" year for the 0th year,
   // simplifying the logic below.
@@ -201,6 +202,7 @@ export default function computeCycle(options = {}) {
     // We only compute `isFailed` if we didn't already compute it as true before.
     if (!isFailed) {
       isFailed = endValue === 0;
+      yearFailed = year;
     }
 
     if (!didDip) {
@@ -241,6 +243,11 @@ export default function computeCycle(options = {}) {
 
   const percentOfChange = finalValue / initialPortfolioValueInFinalYear;
 
+  let numberOfSuccessfulYears = duration;
+  if (yearFailed) {
+    numberOfSuccessfulYears = yearFailed - startYear;
+  }
+
   return {
     startYear,
     duration,
@@ -248,6 +255,8 @@ export default function computeCycle(options = {}) {
     isComplete,
     resultsByYear,
     isFailed,
+    yearFailed,
+    numberOfSuccessfulYears,
     didDip,
     lowestSuccessfulDip,
     finalValue,

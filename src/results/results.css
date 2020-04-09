@@ -7,10 +7,14 @@
   margin: 0 auto;
 }
 
+.results_title {
+  margin-bottom: 3rem;
+}
+
 .results_section {
-  padding-bottom: 1rem;
+  padding-bottom: 1.5rem;
   border-bottom: 1px solid #333;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .results_section:last-child {
@@ -19,10 +23,13 @@
 }
 
 .results_sectionTitle {
-  font-size: 0.875rem;
+  font-size: 0.825rem;
   color: #bfbfbf;
   font-weight: bold;
   margin-bottom: 0.25rem;
+  margin-bottom: 0.25rem;
+
+  letter-spacing: 0.5px;
 }
 
 .results_bigValue {
@@ -30,13 +37,34 @@
   font-weight: 900;
 }
 
+.results_value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 0.25rem 0;
+}
+
+.results_bigValue-success {
+  color: #7dff7d;
+}
+
+.results_bigValue-warning {
+  color: #ff7b7b;
+}
+
+.results_bigValue-danger {
+  color: #fd3333;
+}
+
+.results_plotSection {
+  margin-bottom: 2rem;
+}
+
 .results_plotSection .results_sectionTitle {
   margin-bottom: 1rem;
 }
 
 .results_details {
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   font-size: 0.9rem;
-  color: #ddd;
-  font-style: italic;
+  color: #aaa;
 }

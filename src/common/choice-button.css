@@ -6,6 +6,7 @@
   margin: 0;
   position: relative;
   font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .choiceButton + .choiceButton {

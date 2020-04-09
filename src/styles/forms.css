@@ -6,6 +6,10 @@
   margin: 1rem 0;
 }
 
+.formRow-indented {
+  margin-left: 1rem;
+}
+
 .formRow-flex {
   display: flex;
   align-items: center;
@@ -19,15 +23,12 @@
   max-width: 100%;
 }
 
-.input {
-  border: 1px solid #575857;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  padding: 0.35rem 0.5rem;
-  background: #444545;
-  color: #e3e3e3;
-  outline: none;
-  min-width: 5.5rem;
+.input-year {
+  width: 4.5rem;
+}
+
+.input-percent {
+  /* width: 10rem; */
 }
 
 .input:focus {
@@ -87,6 +88,10 @@ input[type='number'] {
   fill: #999;
 }
 
+.helpIcon:focus {
+  fill: var(--accentColor);
+}
+
 .formRow_checkboxInputContainer {
   display: flex;
   align-items: center;
@@ -94,4 +99,9 @@ input[type='number'] {
 
 .formRow_checkboxInputContainer .checkbox {
   margin-right: 0.5rem;
+}
+
+.formRow_message {
+  line-height: 1.6;
+  color: #ccc;
 }

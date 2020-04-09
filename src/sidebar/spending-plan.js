@@ -3,7 +3,7 @@ import { Checkbox } from 'materialish';
 import IconHelp from 'materialish/icon-help';
 import SidebarPanel from './sidebar-panel';
 import useForm from '../hooks/use-form';
-import ValueInput from '../common/value-input';
+import Input from '../common/input';
 import useSpendingPlan from '../state/spending-plan';
 import spendingPlanForm from '../form-config/spending-plan-form';
 import Modal from '../common/modal';
@@ -41,16 +41,17 @@ export default function SpendingPlan() {
         {spendingPlan.spendingStrategy.key === 'constantSpending' && (
           <>
             <div className="formRow">
-              <ValueInput
+              <Input
                 {...inputs.annualSpending.getProps({
                   id: 'annualSpending',
+                  className: 'input-annualSpending',
                   type: 'number',
                   min: 0,
                   step: 1,
                   inputMode: 'numeric',
                   autoComplete: 'off',
-                  unit: '$',
-                  suffix: false,
+                  prefix: '$',
+                  suffix: 'per year',
                   onCommit(event, newValue) {
                     commitInput('annualSpending', newValue);
                   },
@@ -69,7 +70,7 @@ export default function SpendingPlan() {
               <label
                 htmlFor="inflationAdjustedFirstYearWithdrawal"
                 className="checkbox_label">
-                Adjust for Inflation
+                Adjust for inflation
               </label>
               <button
                 title="Learn more about inflation"
@@ -84,16 +85,17 @@ export default function SpendingPlan() {
         {spendingPlan.spendingStrategy.key === 'portfolioPercent' && (
           <>
             <div className="formRow">
-              <ValueInput
+              <Input
                 {...inputs.percentageOfPortfolio.getProps({
                   id: 'percentageOfPortfolio',
+                  className: 'input-percent',
                   type: 'number',
                   min: 0,
                   max: 1,
                   step: 0.01,
                   inputMode: 'numeric',
                   autoComplete: 'off',
-                  unit: '%',
+                  suffix: '%',
                   onCommit(event, newValue) {
                     commitInput('percentageOfPortfolio', newValue);
                   },
@@ -113,16 +115,15 @@ export default function SpendingPlan() {
                     changeCheckbox('minWithdrawalLimitEnabled', event)
                   }
                 />
-                <ValueInput
+                <Input
                   {...inputs.minWithdrawalLimit.getProps({
                     id: 'minWithdrawalLimit',
                     type: 'number',
                     min: 0,
                     inputMode: 'numeric',
                     autoComplete: 'off',
-                    unit: '$',
+                    prefix: '$',
                     disabled: !inputs.minWithdrawalLimitEnabled.value,
-                    suffix: false,
                     onCommit(event, newValue) {
                       commitInput('minWithdrawalLimit', newValue);
                     },
@@ -143,7 +144,7 @@ export default function SpendingPlan() {
                     changeCheckbox('maxWithdrawalLimitEnabled', event)
                   }
                 />
-                <ValueInput
+                <Input
                   {...inputs.maxWithdrawalLimit.getProps({
                     id: 'maxWithdrawalLimit',
                     type: 'number',
@@ -151,8 +152,7 @@ export default function SpendingPlan() {
                     inputMode: 'numeric',
                     disabled: !inputs.maxWithdrawalLimitEnabled.value,
                     autoComplete: 'off',
-                    unit: '$',
-                    suffix: false,
+                    prefix: '$',
                     onCommit(event, newValue) {
                       commitInput('maxWithdrawalLimit', newValue);
                     },
@@ -164,8 +164,16 @@ export default function SpendingPlan() {
         )}
         {spendingPlan.spendingStrategy.key === 'hebeler' && (
           <div className="formRow">
-            The Hebeler Autopilot strategy is not currently supported, but it
-            will be soon.
+            <div className="formRow_message">
+              The Hebeler Autopilot strategy is not currently supported.
+            </div>
+          </div>
+        )}
+        {spendingPlan.spendingStrategy.key === 'gk' && (
+          <div className="formRow">
+            <div className="formRow_message">
+              The Guyton-Klinger strategy is not currently supported.
+            </div>
           </div>
         )}
       </SidebarPanel>

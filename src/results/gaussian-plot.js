@@ -107,7 +107,7 @@ export default function GaussianPlot({ gaussian, mean, standardDeviation }) {
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
       // plotAxes(ctx, axes);
-      plotFunction(ctx, axes, gaussian, 'rgb(11,153,11)', 2 * multiplier);
+      plotFunction(ctx, axes, gaussian, 'rgb(105, 84, 255)', 2 * multiplier);
     },
     [mean, standardDeviation, gaussian]
   );

@@ -8,6 +8,7 @@ import Portfolio from './portfolio';
 export default function Sidebar() {
   return (
     <div className="sidebar">
+      <h1 className="sidebar_title">Configure Simulations</h1>
       <Mode />
       <LengthOfRetirement />
       <SpendingPlan />

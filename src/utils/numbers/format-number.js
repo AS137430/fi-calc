@@ -1,1 +1,1 @@
-export default new Intl.NumberFormat('en').format;
+export default new Intl.NumberFormat('en', { maximumFractionDigits: 2 }).format;

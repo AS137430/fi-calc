@@ -19,8 +19,6 @@ export default function computeResult(inputs) {
     maxWithdrawalLimitEnabled,
   } = spendingPlan;
 
-  console.log('enabled?', minWithdrawalLimitEnabled, maxWithdrawalLimitEnabled);
-
   const {
     bondsValue,
     stockInvestmentValue,
@@ -40,7 +38,7 @@ export default function computeResult(inputs) {
     startYears = getStartYears(Number(numberOfYears));
   } else {
     startYears = [Number(startYear)];
-    lengthOfCycle = endYear - startYear;
+    lengthOfCycle = endYear - startYear + 1;
   }
 
   const dipPercentage = 0.9;
@@ -113,7 +111,12 @@ export default function computeResult(inputs) {
 
   let summary = results.successRate > 0.95 ? 'SUCCESSFUL' : 'UNSUCCESSFUL';
 
+  const initialPortfolioValue =
+    portfolio.stockInvestmentValue + portfolio.bondsValue;
+
   return {
+    inputs,
+    initialPortfolioValue,
     results,
     summary,
     dipRate,

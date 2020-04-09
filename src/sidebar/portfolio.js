@@ -1,7 +1,7 @@
 import React from 'react';
 import SidebarPanel from './sidebar-panel';
 import useForm from '../hooks/use-form';
-import ValueInput from '../common/value-input';
+import Input from '../common/input';
 import usePortfolio from '../state/portfolio';
 import porfolioForm from '../form-config/portfolio-form';
 
@@ -18,7 +18,7 @@ export default function Portfolio() {
           <label htmlFor="stockInvestmentValue" className="inputLabel">
             Equities
           </label>
-          <ValueInput
+          <Input
             {...inputs.stockInvestmentValue.getProps({
               id: 'stockInvestmentValue',
               type: 'number',
@@ -26,8 +26,7 @@ export default function Portfolio() {
               min: 0,
               inputMode: 'numeric',
               autoComplete: 'off',
-              unit: '$',
-              suffix: false,
+              prefix: '$',
               onCommit(event, newValue) {
                 commitInput('stockInvestmentValue', newValue);
               },
@@ -38,15 +37,16 @@ export default function Portfolio() {
           <label htmlFor="stockInvestmentFees" className="inputLabel">
             Annual Fees
           </label>
-          <ValueInput
+          <Input
             {...inputs.stockInvestmentFees.getProps({
               id: 'stockInvestmentFees',
+              className: 'input-percent',
               type: 'number',
               pattern: '\\d*',
               min: 0,
               inputMode: 'numeric',
               autoComplete: 'off',
-              unit: '%',
+              suffix: '%',
               onCommit(event, newValue) {
                 commitInput('stockInvestmentFees', newValue);
               },
@@ -59,7 +59,7 @@ export default function Portfolio() {
           <label htmlFor="bondsValue" className="inputLabel">
             Bonds
           </label>
-          <ValueInput
+          <Input
             {...inputs.bondsValue.getProps({
               id: 'bondsValue',
               type: 'number',
@@ -67,8 +67,7 @@ export default function Portfolio() {
               min: 0,
               inputMode: 'numeric',
               autoComplete: 'off',
-              unit: '$',
-              suffix: false,
+              prefix: '$',
               onCommit(event, newValue) {
                 commitInput('bondsValue', newValue);
               },
