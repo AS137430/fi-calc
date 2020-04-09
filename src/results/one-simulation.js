@@ -11,7 +11,7 @@ function formatCycleForPortfolioChart(cycle) {
       historyKey: `${yearData.year}-01`,
       month: 1,
       year: yearData.year,
-      value: yearData.computedData.portfolio.totalValue,
+      value: yearData.computedData.portfolio.totalValueInFirstYearDollars,
     };
   });
 }
@@ -43,11 +43,12 @@ export default function OneSimulation({ result }) {
   let isDanger = false;
 
   const { lowestDippedValue } = result;
-  const firstCycle = result.results.allCycles[0];
+  const cycle = result.results.allCycles[0];
+  const lastYear = cycle.resultsByYear[cycle.resultsByYear.length - 1];
 
-  const finalRatio = firstCycle.finalValue / result.initialPortfolioValue;
+  const finalRatio = cycle.finalValue / result.initialPortfolioValue;
 
-  console.log('result', firstCycle, firstCycle.finalValue, result);
+  console.log('result', cycle, cycle.minPortfolioYear);
 
   if (oneSimulation) {
     isDanger = !isSuccessful || finalRatio < 0.2;
@@ -70,16 +71,16 @@ export default function OneSimulation({ result }) {
 
   const portfolioChartData = useMemo(
     () => {
-      return formatCycleForPortfolioChart(firstCycle);
+      return formatCycleForPortfolioChart(cycle);
     },
-    [firstCycle]
+    [cycle]
   );
 
   const spendingChartData = useMemo(
     () => {
-      return formatCycleForSpendingChart(firstCycle);
+      return formatCycleForSpendingChart(cycle);
     },
-    [firstCycle]
+    [cycle]
   );
 
   return (
@@ -109,42 +110,28 @@ export default function OneSimulation({ result }) {
       <div className="results_block">
         <h2 className="results_h2">Portfolio</h2>
         <div className="results_sectionRow">
-          {Boolean(lowestDippedValue) && (
-            <div className="results_section">
-              <div className="results_sectionTitle">Lowest Value</div>
-              <div className="results_value">
-                ${formatNumber(lowestDippedValue.value)}
-                {/* (
-                  {(
-                    (lowestDippedValue.value / result.initialPortfolioValue) *
-                    100
-                  ).toFixed(2)}
-                  %) */}
-                <span className="results_secondaryValue">
-                  ({lowestDippedValue.year})
-                </span>
-              </div>
-              {/* <div className="results_details">
-                This value occurred in the year .
-              </div> */}
+          <div className="results_section">
+            <div className="results_sectionTitle">Lowest Value</div>
+            <div className="results_value">
+              $
+              {formatNumber(
+                cycle.minPortfolioYear.computedData.portfolio
+                  .totalValueInFirstYearDollars
+              )}
+              <span className="results_secondaryValue">
+                ({cycle.minPortfolioYear.year})
+              </span>
             </div>
-          )}
+          </div>
           {isSuccessful && (
             <div className="results_section">
               <div className="results_sectionTitle">Final Value</div>
               <div className="results_value">
-                ${formatNumber(firstCycle.finalValue)}
-                {/* (
-                  {(
-                    (firstCycle.finalValue / result.initialPortfolioValue) *
-                    100
-                  ).toFixed(2)}
-                  %) */}
+                $
+                {formatNumber(
+                  lastYear.computedData.portfolio.totalValueInFirstYearDollars
+                )}
               </div>
-              {/* <div className="results_details">
-                The initial portfolio value was $
-                {formatNumber(result.initialPortfolioValue)}.
-              </div> */}
             </div>
           )}
         </div>
@@ -154,10 +141,10 @@ export default function OneSimulation({ result }) {
         {!isSuccessful && (
           <div className="results_section">
             <div className="results_sectionTitle">Year Failed</div>
-            <div className="results_bigValue">{firstCycle.yearFailed}</div>
+            <div className="results_bigValue">{cycle.yearFailed}</div>
             <div className="results_details">
-              This portfolio survived for {firstCycle.numberOfSuccessfulYears}{' '}
-              years before running out of money.
+              This portfolio survived for {cycle.numberOfSuccessfulYears} years
+              before running out of money.
             </div>
           </div>
         )}
@@ -165,6 +152,26 @@ export default function OneSimulation({ result }) {
       </div>
       <div className="results_block">
         <h2 className="results_h2">Spending</h2>
+        <div className="results_sectionRow">
+          <div className="results_section">
+            <div className="results_sectionTitle">Lowest Spend</div>
+            <div className="results_value">
+              $
+              {formatNumber(
+                cycle.minWithdrawalYear.computedData.totalWithdrawalAmount
+              )}
+              <span className="results_secondaryValue">
+                ({cycle.minWithdrawalYear.year})
+              </span>
+            </div>
+          </div>
+          <div className="results_section">
+            <div className="results_sectionTitle">Final Year Spend</div>
+            <div className="results_value">
+              ${formatNumber(lastYear.computedData.totalWithdrawalAmount)}
+            </div>
+          </div>
+        </div>
         <div className="results_plotSection">
           <Chart data={spendingChartData} />
         </div>

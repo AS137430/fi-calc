@@ -199,6 +199,8 @@ export default function computeCycle(options = {}) {
       0
     );
 
+    const endValueInFirstYearDollars = endValue / cumulativeInflation;
+
     // We only compute `isFailed` if we didn't already compute it as true before.
     if (!isFailed) {
       isFailed = endValue === 0;
@@ -230,6 +232,7 @@ export default function computeCycle(options = {}) {
         cumulativeInflation,
         totalWithdrawalAmount,
         portfolio: {
+          totalValueInFirstYearDollars: endValueInFirstYearDollars,
           totalValue: endValue,
           investments: adjustedInvestmentValues,
         },
@@ -248,6 +251,16 @@ export default function computeCycle(options = {}) {
     numberOfSuccessfulYears = yearFailed - startYear;
   }
 
+  const minWithdrawalYear = _.minBy(
+    resultsByYear,
+    year => year.computedData.totalWithdrawalAmount
+  );
+
+  const minPortfolioYear = _.minBy(
+    resultsByYear,
+    year => year.computedData.portfolio.totalValue
+  );
+
   return {
     startYear,
     duration,
@@ -261,5 +274,7 @@ export default function computeCycle(options = {}) {
     lowestSuccessfulDip,
     finalValue,
     percentOfChange,
+    minWithdrawalYear,
+    minPortfolioYear,
   };
 }
