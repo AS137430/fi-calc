@@ -35,6 +35,13 @@
   box-shadow: 0 0 0 2px var(--accentColor);
 }
 
+.input:disabled {
+  opacity: 0.5;
+  background: #393939;
+  border-color: #4c4c4c;
+  color: #888;
+}
+
 .inputLabel {
   display: block;
   color: #dfe0df;
@@ -46,6 +53,10 @@
   display: inline-block;
   margin-right: 1rem;
   margin-bottom: 0;
+}
+
+.checkbox + .checkbox_label {
+  margin-left: 0.35rem;
 }
 
 input::-webkit-outer-spin-button,
@@ -60,4 +71,27 @@ input[type='number'] {
 
 .checkbox_label {
   user-select: none;
+}
+
+.helpIcon {
+  background: transparent;
+  border: 0;
+  fill: #888;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.helpIcon:hover {
+  fill: #999;
+}
+
+.formRow_checkboxInputContainer {
+  display: flex;
+  align-items: center;
+}
+
+.formRow_checkboxInputContainer .checkbox {
+  margin-right: 0.5rem;
 }

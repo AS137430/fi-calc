@@ -5,21 +5,28 @@ import evaluateCycles from './evaluate-cycles';
 import { fromInvestments } from '../forms/normalize-portfolio';
 
 export default function computeResult(inputs) {
+  const { durationMode, lengthOfRetirement, spendingPlan, portfolio } = inputs;
+
+  const { numberOfYears, startYear, endYear } = lengthOfRetirement;
   const {
-    durationMode,
-    startYear,
-    endYear,
-    numberOfYears,
-    firstYearWithdrawal,
+    annualSpending,
     inflationAdjustedFirstYearWithdrawal,
-    bondsValue,
-    stockInvestmentValue,
-    stockInvestmentFees,
-    spendingStrategy,
-    percentageOfPortfolio,
+    spendingStrategy: spendingStrategyObject,
+    percentageOfPortfolio: percentPercentageOfPortfolio,
     minWithdrawalLimit,
     maxWithdrawalLimit,
-  } = inputs;
+  } = spendingPlan;
+
+  const {
+    bondsValue,
+    stockInvestmentValue,
+    stockInvestmentFees: percentStockInvestmentFees,
+  } = portfolio;
+
+  const firstYearWithdrawal = annualSpending;
+  const spendingStrategy = spendingStrategyObject.key;
+  const stockInvestmentFees = percentStockInvestmentFees / 100;
+  const percentageOfPortfolio = percentPercentageOfPortfolio / 100;
 
   let lengthOfCycle;
   let startYears;
@@ -68,7 +75,7 @@ export default function computeResult(inputs) {
     };
   }
 
-  const portfolio = fromInvestments({
+  const portfolioFromInvestments = fromInvestments({
     investments,
   });
 
@@ -77,7 +84,7 @@ export default function computeResult(inputs) {
       startYear,
       dipPercentage,
       rebalancePortfolioAnnually,
-      portfolio,
+      portfolio: portfolioFromInvestments,
       spendingConfiguration,
       duration: Number(lengthOfCycle),
     })

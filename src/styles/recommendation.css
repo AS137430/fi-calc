@@ -1,0 +1,7 @@
+.recommendation {
+  font-size: 0.9rem;
+  background-color: #283828;
+  color: #c1ffa8;
+  padding: 1rem var(--goodModal-contentPadding);
+  border-radius: 2px;
+}

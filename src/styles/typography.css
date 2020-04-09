@@ -27,6 +27,10 @@ a {
   text-align: center;
 }
 
+p {
+  line-height: 1.65;
+}
+
 @media (max-width: 650px) {
   .primaryHeader {
     font-size: 2.3rem;

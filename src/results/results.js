@@ -17,19 +17,9 @@ export default function Results() {
     () => {
       return computeResult({
         durationMode: calculatorMode,
-        numberOfYears: lengthOfRetirement.numberOfYears,
-        startYear: lengthOfRetirement.startYear,
-        endYear: lengthOfRetirement.endYear,
-        firstYearWithdrawal: spendingPlan.annualSpending,
-        inflationAdjustedFirstYearWithdrawal:
-          spendingPlan.inflationAdjustedFirstYearWithdrawal,
-        bondsValue: portfolio.bondsValue,
-        stockInvestmentValue: portfolio.stockInvestmentValue,
-        stockInvestmentFees: portfolio.stockInvestmentFees / 100,
-        spendingStrategy: spendingPlan.spendingStrategy.key,
-        percentageOfPortfolio: spendingPlan.percentageOfPortfolio / 100,
-        minWithdrawalLimit: spendingPlan.minWithdrawalLimit,
-        maxWithdrawalLimit: spendingPlan.maxWithdrawalLimit,
+        lengthOfRetirement,
+        spendingPlan,
+        portfolio,
       });
     },
     /* eslint react-hooks/exhaustive-deps: "off" */

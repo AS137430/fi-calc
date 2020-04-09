@@ -17,6 +17,11 @@
   user-select: none;
 }
 
+.valueInput-disabled .valueInput_unit {
+  opacity: 0.5;
+  color: #777;
+}
+
 .valueInput-suffixed > .input {
   padding-right: 1.45rem;
 }

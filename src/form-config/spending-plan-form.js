@@ -25,6 +25,16 @@ export default {
       validators: [isRequired, numberRequired, tooSmall(0), tooLarge(100)],
     },
 
+    minWithdrawalLimitEnabled: {
+      type: 'boolean',
+      default: true,
+    },
+
+    maxWithdrawalLimitEnabled: {
+      type: 'boolean',
+      default: true,
+    },
+
     minWithdrawalLimit: {
       type: 'number',
       default: 35000,
