@@ -199,7 +199,9 @@ export default function computeCycle(options = {}) {
       0
     );
 
-    const endValueInFirstYearDollars = endValue / cumulativeInflation;
+    const endValueInFirstYearDollars = Number(
+      (endValue / cumulativeInflation).toFixed(2)
+    );
 
     // We only compute `isFailed` if we didn't already compute it as true before.
     if (!isFailed) {
@@ -225,12 +227,17 @@ export default function computeCycle(options = {}) {
       }
     }
 
+    const totalWithdrawalAmountInFirstYearDollars = Number(
+      (totalWithdrawalAmount / cumulativeInflation).toFixed(2)
+    );
+
     resultsByYear.push({
       year,
       marketData: yearMarketData,
       computedData: {
         cumulativeInflation,
         totalWithdrawalAmount,
+        totalWithdrawalAmountInFirstYearDollars,
         portfolio: {
           totalValueInFirstYearDollars: endValueInFirstYearDollars,
           totalValue: endValue,
@@ -253,12 +260,12 @@ export default function computeCycle(options = {}) {
 
   const minWithdrawalYear = _.minBy(
     resultsByYear,
-    year => year.computedData.totalWithdrawalAmount
+    year => year.computedData.totalWithdrawalAmountInFirstYearDollars
   );
 
   const minPortfolioYear = _.minBy(
     resultsByYear,
-    year => year.computedData.portfolio.totalValue
+    year => year.computedData.portfolio.totalValueInFirstYearDollars
   );
 
   return {

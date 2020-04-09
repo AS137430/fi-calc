@@ -22,7 +22,7 @@ function formatCycleForSpendingChart(cycle) {
       historyKey: `${yearData.year}-01`,
       month: 1,
       year: yearData.year,
-      value: yearData.computedData.totalWithdrawalAmount,
+      value: yearData.computedData.totalWithdrawalAmountInFirstYearDollars,
     };
   });
 }
@@ -158,7 +158,8 @@ export default function OneSimulation({ result }) {
             <div className="results_value">
               $
               {formatNumber(
-                cycle.minWithdrawalYear.computedData.totalWithdrawalAmount
+                cycle.minWithdrawalYear.computedData
+                  .totalWithdrawalAmountInFirstYearDollars
               )}
               <span className="results_secondaryValue">
                 ({cycle.minWithdrawalYear.year})
@@ -168,7 +169,10 @@ export default function OneSimulation({ result }) {
           <div className="results_section">
             <div className="results_sectionTitle">Final Year Spend</div>
             <div className="results_value">
-              ${formatNumber(lastYear.computedData.totalWithdrawalAmount)}
+              $
+              {formatNumber(
+                lastYear.computedData.totalWithdrawalAmountInFirstYearDollars
+              )}
             </div>
           </div>
         </div>

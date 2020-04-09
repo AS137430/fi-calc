@@ -40,18 +40,33 @@ export default function renderData({
 
   const domain = [Math.min(...xValues), Math.max(...xValues)];
   const range = [Math.min(...yValues), Math.max(...yValues)];
+
+  const noRange = range[0] === range[1];
+
   const domainSize = domain[1] - domain[0];
   const rangeSize = range[1] - range[0];
 
-  const naiveDataYTickSpacing = rangeSize / maxYLabelCount;
+  // This ensures that there's a bit of padding in the chart between the lowest and highest
+  // value in the data.
+  let rangeIncreaseFactor;
+  if (noRange) {
+    rangeIncreaseFactor = range[0] * 0.05;
+  } else {
+    rangeIncreaseFactor = rangeSize * 0.03;
+  }
+
+  let naiveDataYTickSpacing;
+  if (noRange) {
+    naiveDataYTickSpacing = (rangeIncreaseFactor * 2) / maxYLabelCount;
+  } else {
+    naiveDataYTickSpacing = rangeSize / maxYLabelCount;
+  }
+
   const dataYTickSpacing = dollarTicks.find(v => v > naiveDataYTickSpacing);
 
   const naiveDataXTickSpacing = domainSize / maxXLabelCount;
   const dataXTickSpacing = monthTicks.find(v => v > naiveDataXTickSpacing);
 
-  // This ensures that there's a bit of padding in the chart between the lowest and highest
-  // value in the data.
-  const rangeIncreaseFactor = rangeSize * 0.03;
   const dataRange = range.map((value, index) => {
     return index === 0
       ? // This Math.max ensures that the chart never shows values below $0
