@@ -19,11 +19,12 @@
 .results_h2 {
   font-size: 1.5rem;
   font-weight: 900;
+  margin: 0 0 1.5rem;
 }
 
 .results_sectionRow {
   display: flex;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .results_block {
@@ -33,9 +34,8 @@
 .results_section {
   background: #252525;
   border-radius: 5px;
-  padding-bottom: 1.5rem;
   margin-right: 1.5rem;
-  padding: 1rem;
+  padding: 1rem 1.25rem;
 }
 
 .results_section:last-child {
