@@ -1,5 +1,9 @@
 .app_body {
-  padding: 0;
-  flex: 1;
   display: flex;
+}
+
+@media (max-width: 551px) {
+  .app_body {
+    display: block;
+  }
 }

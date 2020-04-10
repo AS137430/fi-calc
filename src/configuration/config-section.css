@@ -21,6 +21,12 @@
   padding: 1rem var(--horizontalContentPadding);
 }
 
+@media (max-width: 551px) {
+  .configSection_body {
+    font-size: 0.9375rem;
+  }
+}
+
 .configSection_block {
   padding-bottom: 1rem;
   border-bottom: 1px solid #444;

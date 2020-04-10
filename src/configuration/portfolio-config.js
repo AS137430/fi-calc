@@ -5,7 +5,7 @@ import Input from '../common/input';
 import usePortfolio from '../state/portfolio';
 import porfolioForm from '../form-config/portfolio-form';
 
-export default function Portfolio() {
+export default function PortfolioConfig() {
   const { inputs, commitInput } = useForm({
     formConfig: porfolioForm,
     useSourceOfTruth: usePortfolio,

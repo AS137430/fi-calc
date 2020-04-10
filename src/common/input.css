@@ -13,6 +13,13 @@
   font-size: 0.875rem;
 }
 
+@media (max-width: 551px) {
+  .valueInput_prefix,
+  .valueInput_suffix {
+    font-size: 0.9375rem;
+  }
+}
+
 .valueInput_prefix {
   padding-left: 0.6rem;
   pointer-events: none;
@@ -33,6 +40,12 @@
   padding: 0.41rem 0.5rem;
   outline: none;
   max-width: 100%;
+}
+
+@media (max-width: 551px) {
+  .input_innerInput {
+    font-size: 1rem;
+  }
 }
 
 .input_visuals {

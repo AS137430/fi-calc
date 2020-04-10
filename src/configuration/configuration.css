@@ -17,3 +17,16 @@
   color: #f5f5f5;
   letter-spacing: 0.5px;
 }
+
+@media (max-width: 551px) {
+  .configuration {
+    position: static;
+    padding-top: var(--navHeight);
+    width: auto;
+  }
+
+  .configuration_title {
+    font-size: 1.75rem;
+    font-weight: 900;
+  }
+}

@@ -9,7 +9,7 @@ import useSpendingPlan from '../state/spending-plan';
 import spendingPlanForm from '../form-config/spending-plan-form';
 import Modal from '../common/modal';
 
-export default function SpendingPlan() {
+export default function SpendingPlanConfig() {
   const {
     state: spendingPlan,
     inputs,
