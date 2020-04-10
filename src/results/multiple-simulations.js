@@ -9,12 +9,14 @@ export default function MultipleSimulations({ result }) {
 
   useEffect(
     () => {
+      window.scrollTo(0, 0);
       setSelectedStartYear(null);
     },
     [result]
   );
 
   function updateStartYear(startYear) {
+    window.scrollTo(0, 0);
     const target = _.find(result.results.allCycles, {
       startYear,
     });
