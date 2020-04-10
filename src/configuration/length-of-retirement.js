@@ -1,5 +1,5 @@
 import React from 'react';
-import SidebarPanel from './sidebar-panel';
+import ConfigSection from './config-section';
 import useForm from '../hooks/use-form';
 import Input from '../common/input';
 import useLengthOfRetirement from '../state/length-of-retirement';
@@ -12,7 +12,7 @@ export default function LengthOfRetirement() {
   });
 
   return (
-    <SidebarPanel title="Length of Retirement">
+    <ConfigSection title="Length of Retirement">
       <div className="formRow">
         <Input
           {...inputs.numberOfYears.getProps({
@@ -32,6 +32,6 @@ export default function LengthOfRetirement() {
           })}
         />
       </div>
-    </SidebarPanel>
+    </ConfigSection>
   );
 }

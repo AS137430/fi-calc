@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Checkbox } from 'materialish';
 import IconHelp from 'materialish/icon-help';
 import IconDone from 'materialish/icon-done';
-import SidebarPanel from './sidebar-panel';
+import ConfigSection from './config-section';
 import useForm from '../hooks/use-form';
 import Input from '../common/input';
 import useSpendingPlan from '../state/spending-plan';
@@ -25,7 +25,7 @@ export default function SpendingPlan() {
 
   return (
     <>
-      <SidebarPanel title="Spending Plan">
+      <ConfigSection title="Spending Plan">
         <div className="formRow">
           <select
             id="country"
@@ -179,7 +179,7 @@ export default function SpendingPlan() {
             </div>
           </div>
         )}
-      </SidebarPanel>
+      </ConfigSection>
       <Modal
         active={isInflationModalOpen}
         onBeginClose={() => setIsInflationModalOpen(false)}>

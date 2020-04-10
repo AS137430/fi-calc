@@ -1,5 +1,5 @@
 import React from 'react';
-import SidebarPanel from './sidebar-panel';
+import ConfigSection from './config-section';
 import useForm from '../hooks/use-form';
 import Input from '../common/input';
 import usePortfolio from '../state/portfolio';
@@ -12,8 +12,8 @@ export default function Portfolio() {
   });
 
   return (
-    <SidebarPanel title="Initial Portfolio">
-      <div className="sidebarPanel_section">
+    <ConfigSection title="Initial Portfolio">
+      <div className="configSection_block">
         <div className="formRow">
           <label htmlFor="stockInvestmentValue" className="inputLabel">
             Equities
@@ -57,7 +57,7 @@ export default function Portfolio() {
           />
         </div>
       </div>
-      <div className="sidebarPanel_section">
+      <div className="configSection_block">
         <div className="formRow">
           <label htmlFor="bondsValue" className="inputLabel">
             Bonds
@@ -79,6 +79,6 @@ export default function Portfolio() {
           />
         </div>
       </div>
-    </SidebarPanel>
+    </ConfigSection>
   );
 }
