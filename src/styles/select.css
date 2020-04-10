@@ -18,7 +18,8 @@
 @media (max-width: 551px) {
   .select {
     font-size: 1rem;
-    background: #303030;
+    background: var(--bgUrl) right 8px center no-repeat, #303030;
+    background-size: 10px 6px;
     border-color: #454545;
   }
 }

@@ -1,5 +1,15 @@
+:root {
+  --mt-checkbox-focusColor: #444;
+}
+
 .formRow {
   margin-bottom: 0.75rem;
+}
+
+@media (max-width: 551px) {
+  .formRow {
+    margin-bottom: 1rem;
+  }
 }
 
 .formRow-extraSpace {

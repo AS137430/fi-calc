@@ -22,7 +22,12 @@
 }
 
 @media (max-width: 551px) {
+  .configSection_title {
+    padding-top: 1.5rem;
+  }
+
   .configSection_body {
+    padding: 1rem var(--horizontalContentPadding) 1.5rem;
     font-size: 0.9375rem;
   }
 }
