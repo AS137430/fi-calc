@@ -1,15 +1,15 @@
-.sidebar {
+.configuration {
   max-height: 100vh;
   position: sticky;
   top: 0;
   overflow-y: scroll;
   background: #2d2e30;
   color: white;
-  flex: 0 0 var(--sidebar-width);
-  width: var(--sidebar-width);
+  flex: 0 0 var(--configuration-width);
+  width: var(--configuration-width);
 }
 
-.sidebar_title {
+.configuration_title {
   padding: 0 var(--horizontalContentPadding) 1rem;
   border-bottom: 1px solid #444;
   font-size: 1.1rem;

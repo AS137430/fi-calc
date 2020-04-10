@@ -6,7 +6,7 @@ import useCalculatorMode from '../state/calculator-mode';
 import useLengthOfRetirement from '../state/length-of-retirement';
 import lengthOfRetirementForm from '../form-config/length-of-retirement-form';
 
-export default function Mode() {
+export default function LengthOfRetirement() {
   const [mode, setMode] = useCalculatorMode();
   const { inputs, commitInput } = useForm({
     formConfig: lengthOfRetirementForm,
