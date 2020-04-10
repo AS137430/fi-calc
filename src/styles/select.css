@@ -15,6 +15,14 @@
   transition: opacity 50ms ease-out;
 }
 
+@media (max-width: 551px) {
+  .select {
+    font-size: 1rem;
+    background: #303030;
+    border-color: #454545;
+  }
+}
+
 .select:focus {
   border-color: var(--accentColor);
   box-shadow: 0 0 0 2px var(--accentColor);

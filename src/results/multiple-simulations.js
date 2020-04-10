@@ -4,7 +4,7 @@ import './multiple-simulations.css';
 import MultipleOverview from './multiple-overview';
 import OneCycle from './one-cycle';
 
-export default function MultipleSimulations({ result }) {
+export default function MultipleSimulations({ result, goToConfig }) {
   const [selectedStartYear, setSelectedStartYear] = useState(null);
 
   useEffect(
@@ -26,11 +26,18 @@ export default function MultipleSimulations({ result }) {
   return (
     <>
       {selectedStartYear === null && (
-        <MultipleOverview result={result} updateStartYear={updateStartYear} />
+        <MultipleOverview
+          goToConfig={goToConfig}
+          result={result}
+          updateStartYear={updateStartYear}
+        />
       )}
       {selectedStartYear && (
         <OneCycle
-          goBack={() => setSelectedStartYear(null)}
+          goBack={() => {
+            window.scrollTo(0, 0);
+            setSelectedStartYear(null);
+          }}
           inputs={result.inputs}
           isSuccessful={!selectedStartYear.isFailed}
           cycle={selectedStartYear}

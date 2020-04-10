@@ -1,8 +1,13 @@
 import React from 'react';
 import classnames from 'classnames';
 import IconInfoOutline from 'materialish/icon-info-outline';
+import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 
-export default function MultipleOverview({ result, updateStartYear }) {
+export default function MultipleOverview({
+  result,
+  updateStartYear,
+  goToConfig,
+}) {
   const isSuccessful = result.summary === 'SUCCESSFUL';
 
   const isDanger = !isSuccessful && result.results.successRate < 0.8;
@@ -12,6 +17,12 @@ export default function MultipleOverview({ result, updateStartYear }) {
   return (
     <>
       <div className="results_block">
+        {typeof goToConfig === 'function' && (
+          <div className="results_goBack" onClick={goToConfig}>
+            <IconKeyboardArrowLeft size="1.5rem" />
+            Return to Configuration
+          </div>
+        )}
         <h2 className="results_h2">Results</h2>
         <div className="results_sectionRow">
           <div className="results_section">

@@ -63,6 +63,13 @@
   cursor: text;
 }
 
+@media (max-width: 551px) {
+  .input_visuals {
+    background: #303030;
+    border-color: #454545;
+  }
+}
+
 .input-year input {
   width: 4.5rem;
 }

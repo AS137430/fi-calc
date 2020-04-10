@@ -1,5 +1,5 @@
 .configSection {
-  border-bottom: 1px solid #424242;
+  border-bottom: 1px solid var(--borderColor);
 }
 
 .configSection:last-child {
@@ -29,6 +29,12 @@
 
 .configSection_block {
   padding-bottom: 1rem;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid var(--borderColor);
   margin-bottom: 1rem;
+}
+
+.configSection_block:last-child {
+  margin-bottom: 0;
+  border-bottom: 0;
+  padding-bottom: 0;
 }
