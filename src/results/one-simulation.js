@@ -64,8 +64,6 @@ export default function OneSimulation({ result }) {
     [cycle]
   );
 
-  console.log('hello', spendingChartData);
-
   const isConstantSpending =
     result.inputs.spendingPlan.spendingStrategy.key === 'constantSpending';
 
