@@ -6,7 +6,6 @@ import useElSize from '../hooks/use-el-size';
 import bezierCommand from '../utils/math/bezier-command';
 import renderData from '../utils/chart/render-data';
 import formatForDisplay from '../utils/money/format-for-display';
-import formatDate from '../utils/date/format-date';
 import smallDisplay from '../utils/money/small-display';
 import addYears from '../utils/date/add-years';
 
@@ -116,15 +115,13 @@ function xAxisTicks(
 
     const dateToUse = addYears(maxPoint, -distanceFromMin);
 
-    const value = formatDate(dateToUse);
-
     return (
       <React.Fragment key={index}>
         <text
           x={tickXPosition + 5}
           y={svgElement.viewBox[1] - svgXAxisSpacing + 15}
           className="chartLabel">
-          {value}
+          {dateToUse.year}
         </text>
         <path
           key={index}

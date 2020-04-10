@@ -96,27 +96,39 @@ export default function OneSimulation({ result }) {
       <div className="results_block">
         <h2 className="results_h2">Portfolio</h2>
         <div className="results_sectionRow">
-          <div className="results_section">
-            <div className="results_sectionTitle">Lowest Value</div>
-            <div className="results_value">
-              $
-              {formatNumber(
-                cycle.minPortfolioYearInFirstYearDollars.computedData.portfolio
-                  .totalValueInFirstYearDollars
-              )}
-              <span className="results_secondaryValue">
-                ({cycle.minPortfolioYearInFirstYearDollars.year})
-              </span>
-            </div>
-          </div>
           {isSuccessful && (
+            <>
+              <div className="results_section">
+                <div className="results_sectionTitle">Lowest Value</div>
+                <div className="results_value">
+                  $
+                  {formatNumber(
+                    cycle.minPortfolioYearInFirstYearDollars.computedData
+                      .portfolio.totalValueInFirstYearDollars
+                  )}
+                  <span className="results_secondaryValue">
+                    ({cycle.minPortfolioYearInFirstYearDollars.year})
+                  </span>
+                </div>
+              </div>
+              <div className="results_section">
+                <div className="results_sectionTitle">Final Value</div>
+                <div className="results_value">
+                  $
+                  {formatNumber(
+                    lastYear.computedData.portfolio.totalValueInFirstYearDollars
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+          {!isSuccessful && (
             <div className="results_section">
-              <div className="results_sectionTitle">Final Value</div>
-              <div className="results_value">
-                $
-                {formatNumber(
-                  lastYear.computedData.portfolio.totalValueInFirstYearDollars
-                )}
+              <div className="results_sectionTitle">Lasted Until</div>
+              <div className="results_bigValue">{cycle.yearFailed}</div>
+              <div className="results_details">
+                This simulation ran for {cycle.numberOfSuccessfulYears} years
+                before running out of money.
               </div>
             </div>
           )}
@@ -124,16 +136,6 @@ export default function OneSimulation({ result }) {
         <div className="results_plotSection">
           <Chart data={portfolioChartData} />
         </div>
-        {!isSuccessful && (
-          <div className="results_section">
-            <div className="results_sectionTitle">Year Failed</div>
-            <div className="results_bigValue">{cycle.yearFailed}</div>
-            <div className="results_details">
-              This portfolio survived for {cycle.numberOfSuccessfulYears} years
-              before running out of money.
-            </div>
-          </div>
-        )}
         <div />
       </div>
       <div className="results_block">
