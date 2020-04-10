@@ -201,12 +201,6 @@ export default function Chart({ data }) {
           }`}
           version="1.1"
           xmlns="http://www.w3.org/2000/svg">
-          {/* Chart BG color */}
-          {/* <rect
-            width={dataForRender.svgElement.viewBox[0] - svgYAxisSpacing}
-            height={dataForRender.svgElement.viewBox[1] - svgXAxisSpacing}
-            fill="#141414"
-          /> */}
           {yAxisTicks(
             dataForRender.yAxis.yAxisPoints,
             dataForRender,
@@ -242,16 +236,6 @@ export default function Chart({ data }) {
             strokeWidth="1px"
             fill="transparent"
           />
-          {/* 1px border between the chart and the y-axis labels */}
-          {/* <path
-            d={`M${dataForRender.svgElement.viewBox[0] -
-              svgYAxisSpacing} 0 v ${dataForRender.svgElement.viewBox[1] -
-              svgXAxisSpacing +
-              1}`}
-            stroke="var(--boundingBorderColor)"
-            strokeWidth="1px"
-            fill="transparent"
-          /> */}
         </svg>
       )}
     </div>

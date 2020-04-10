@@ -43,14 +43,6 @@ export default function MultipleOverview({
             </div>
           </div>
         </div>
-        {/* <h2 className="results_h2">Overview</h2>
-        <div className="results_plotSection">
-          <GaussianPlot
-            gaussian={result.results.gaussian}
-            mean={result.results.mean}
-            standardDeviation={result.results.standardDeviation}
-          />
-        </div> */}
       </div>
       <div className="results_block">
         <h2 className="results_h2">Simulations By Start Year</h2>

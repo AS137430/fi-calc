@@ -33,13 +33,13 @@ export default function OneCycle({ inputs, cycle, goBack }) {
   const isFailed = cycle.status === 'FAILED';
   const isWarning = cycle.status === 'WARNING';
 
-  let oneSimulationMsg;
+  let successMessage;
   if (isFailed) {
-    oneSimulationMsg = 'No';
+    successMessage = 'No';
   } else if (isWarning) {
-    oneSimulationMsg = 'Yes, barely';
+    successMessage = 'Yes, barely';
   } else {
-    oneSimulationMsg = 'Yes';
+    successMessage = 'Yes';
   }
 
   const portfolioChartData = useMemo(
@@ -77,10 +77,6 @@ export default function OneCycle({ inputs, cycle, goBack }) {
           {!goBack && <>Simulation Overview</>}
         </h2>
         <div className="results_sectionRow">
-          {/* <div className="results_section">
-            <div className="results_sectionTitle">Length of Simulation</div>
-            <div className="results_bigValue">{cycle.duration} years</div>
-          </div> */}
           <div className="results_section">
             <div className="results_sectionTitle">Succeeded?</div>
             <div
@@ -89,7 +85,7 @@ export default function OneCycle({ inputs, cycle, goBack }) {
                 'results_bigValue-warning': isWarning,
                 'results_bigValue-danger': isFailed,
               })}>
-              {oneSimulationMsg}
+              {successMessage}
             </div>
           </div>
         </div>
