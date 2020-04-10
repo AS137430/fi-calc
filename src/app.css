@@ -1,9 +1,5 @@
 .app_body {
   padding: 0;
   flex: 1;
-  display: grid;
-
-  grid-template-areas: 'sidebar workspace';
-  grid-template-columns: var(--sidebar-width) 1fr;
-  grid-template-rows: 1fr;
+  display: flex;
 }
