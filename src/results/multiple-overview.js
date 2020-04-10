@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
+import IconInfoOutline from 'materialish/icon-info-outline';
 
 export default function MultipleOverview({ result, updateStartYear }) {
   const isSuccessful = result.summary === 'SUCCESSFUL';
@@ -12,7 +13,7 @@ export default function MultipleOverview({ result, updateStartYear }) {
   return (
     <>
       <div className="results_block">
-        <h2 className="results_h2">Simulations Results</h2>
+        <h2 className="results_h2">Results</h2>
         <div className="results_sectionRow">
           <div className="results_section">
             <div className="results_sectionTitle">Number of Simulations</div>
@@ -42,9 +43,10 @@ export default function MultipleOverview({ result, updateStartYear }) {
         </div> */}
       </div>
       <div className="results_block">
-        <h2 className="results_h2">By Start Year</h2>
+        <h2 className="results_h2">Simulations By Start Year</h2>
         <div className="tip">
-          Click on a year to view detailed information about it.
+          <IconInfoOutline />
+          Click on a start year to view more information about that simulation.
         </div>
         <div className="results_byYearGrid">
           {result.results.allCycles.map(cycle => {

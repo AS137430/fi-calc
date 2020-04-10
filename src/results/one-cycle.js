@@ -71,11 +71,15 @@ export default function OneCycle({ inputs, isSuccessful, cycle, goBack }) {
         {goBack && (
           <div className="results_goBack" onClick={goBack}>
             <IconKeyboardArrowLeft size="1.5rem" />
-            Return to Simulations Results
+            Return to Results
           </div>
         )}
         <h2 className="results_h2">
-          {goBack && <>Year Overview</>}
+          {goBack && (
+            <>
+              Simulation: {cycle.startYear} - {cycle.endYear}
+            </>
+          )}
           {!goBack && <>Simulation Overview</>}
         </h2>
         <div className="results_sectionRow">

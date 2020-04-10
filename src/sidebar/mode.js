@@ -6,17 +6,6 @@ import useCalculatorMode from '../state/calculator-mode';
 import useLengthOfRetirement from '../state/length-of-retirement';
 import lengthOfRetirementForm from '../form-config/length-of-retirement-form';
 
-const modes = [
-  {
-    key: 'allHistory',
-    display: 'Multiple simulations',
-  },
-  {
-    key: 'specificYears',
-    display: 'Single simulation',
-  },
-];
-
 export default function Mode() {
   const [mode, setMode] = useCalculatorMode();
   const { inputs, commitInput } = useForm({
@@ -25,25 +14,9 @@ export default function Mode() {
   });
 
   return (
-    <SidebarPanel>
-      <div className="formRow">
-        <select
-          id="country"
-          value={mode}
-          className="select"
-          onChange={e => setMode(e.target.value)}>
-          {modes.map(val => (
-            <option key={val.key} value={val.key}>
-              {val.display}
-            </option>
-          ))}
-        </select>
-      </div>
+    <SidebarPanel title="Length of Retirement">
       {mode === 'allHistory' && (
         <div className="formRow">
-          <label htmlFor="numberOfYears" className="inputLabel">
-            Length of Retirement
-          </label>
           <Input
             {...inputs.numberOfYears.getProps({
               id: 'numberOfYears',
