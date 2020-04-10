@@ -60,5 +60,8 @@
       "prettier --single-quote --write",
       "git add"
     ]
+  },
+  "devDependencies": {
+    "@types/lodash": "4.14.149"
   }
 }

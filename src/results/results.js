@@ -47,6 +47,8 @@ export default function Results({ goToConfig }) {
     setSelectedStartYear(target);
   }
 
+  console.log('hello', result);
+
   return (
     <div className="results">
       {selectedStartYear === null && (
