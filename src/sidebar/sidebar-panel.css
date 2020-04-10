@@ -7,7 +7,7 @@
 }
 
 .sidebarPanel_title {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -17,7 +17,7 @@
 }
 
 .sidebarPanel_body {
-  font-size: 0.825rem;
+  font-size: 0.875rem;
   padding: 1rem var(--horizontalContentPadding);
 }
 

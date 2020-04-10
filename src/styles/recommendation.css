@@ -1,7 +1,13 @@
 .recommendation {
-  font-size: 0.9rem;
-  background-color: #0f7b0f;
+  font-size: 1rem;
+  background-color: #0a8c0a;
   color: #fff;
+  fill: #fff;
+  display: flex;
+  align-items: center;
   padding: 1rem var(--goodModal-contentPadding);
-  border-radius: 2px;
+}
+
+.recommendation svg {
+  margin-right: 0.5rem;
 }

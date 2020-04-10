@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Checkbox } from 'materialish';
 import IconHelp from 'materialish/icon-help';
+import IconDone from 'materialish/icon-done';
 import SidebarPanel from './sidebar-panel';
 import useForm from '../hooks/use-form';
 import Input from '../common/input';
@@ -184,7 +185,10 @@ export default function SpendingPlan() {
         onBeginClose={() => setIsInflationModalOpen(false)}>
         <Modal.Title>Adjusting for Inflation</Modal.Title>
         <div className="recommendation">
-          We recommend <b>enabling</b> this feature.
+          <IconDone />
+          <div>
+            We recommend <b>enabling</b> this feature.
+          </div>
         </div>
         <Modal.Body>
           <p>
