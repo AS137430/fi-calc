@@ -62,4 +62,12 @@
   padding: 0.75rem 3.5rem;
   max-width: 90%;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.configuration_viewResults .button svg {
+  display: block;
+  margin-right: 5px;
 }

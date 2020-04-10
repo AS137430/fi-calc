@@ -1,4 +1,5 @@
 import React from 'react';
+import IconRepeat from 'materialish/icon-repeat';
 import './configuration.css';
 import LengthOfRetirementConfig from './length-of-retirement-config';
 import SpendingPlanConfig from './spending-plan-config';
@@ -19,6 +20,7 @@ export default function Configuration({ goToResults }) {
             type="button"
             className="button button-primary"
             onClick={goToResults}>
+            <IconRepeat fill="white" size="1.1rem" />
             Run Simulations
           </button>
         </div>
