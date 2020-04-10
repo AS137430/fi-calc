@@ -47,7 +47,7 @@ export default function MultipleOverview({
       <div className="results_block">
         <h2 className="results_h2">Simulations By Start Year</h2>
         <div className="tip">
-          <IconInfoOutline />
+          <IconInfoOutline size="1.05rem" />
           Click on a year to view more information about that simulation.
         </div>
         <div className="results_byYearGrid">
