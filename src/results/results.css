@@ -167,6 +167,10 @@
     padding-top: 1rem;
   }
 
+  .results_h2 {
+    margin: 0 0 1rem;
+  }
+
   .results_sectionRow {
     flex-direction: column;
   }
