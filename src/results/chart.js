@@ -141,6 +141,7 @@ export default function Chart({ data }) {
 
   useEffect(() => {
     setAppEl(appRef);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isSmallScreen = useIsSmallScreen();
@@ -166,8 +167,8 @@ export default function Chart({ data }) {
           svgAspectRatio: isSmallScreenRef.current ? 0.7 : 0.5,
         });
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [width, data]
   );
 
@@ -181,6 +182,7 @@ export default function Chart({ data }) {
         setRenderChart(true);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [dataForRender]
   );
 

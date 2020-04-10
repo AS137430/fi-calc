@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import _ from 'lodash';
 import './results.css';
 import OneCycle from './one-cycle';
 import MultipleSimulations from './multiple-simulations';

@@ -19,8 +19,8 @@ export default function useElSize(el) {
         elRef.current = el ? el.current : null;
         setWindowSize(getSize());
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [el]
   );
 

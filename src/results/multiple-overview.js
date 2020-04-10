@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import classnames from 'classnames';
 import IconInfoOutline from 'materialish/icon-info-outline';
 
