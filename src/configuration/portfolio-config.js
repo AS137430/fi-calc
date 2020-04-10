@@ -56,7 +56,7 @@ export default function PortfolioConfig() {
           />
         </div>
       </div>
-      <div className="configSection_block">
+      {/* <div className="configSection_block">
         <div className="formRow">
           <label htmlFor="bondsValue" className="inputLabel">
             Bonds
@@ -77,7 +77,7 @@ export default function PortfolioConfig() {
             })}
           />
         </div>
-      </div>
+      </div> */}
     </ConfigSection>
   );
 }
