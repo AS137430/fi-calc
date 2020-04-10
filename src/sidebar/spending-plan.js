@@ -118,6 +118,7 @@ export default function SpendingPlan() {
                 <Input
                   {...inputs.minWithdrawalLimit.getProps({
                     id: 'minWithdrawalLimit',
+                    className: 'input-dollars',
                     type: 'number',
                     min: 0,
                     inputMode: 'numeric',
@@ -147,6 +148,7 @@ export default function SpendingPlan() {
                 <Input
                   {...inputs.maxWithdrawalLimit.getProps({
                     id: 'maxWithdrawalLimit',
+                    className: 'input-dollars',
                     type: 'number',
                     min: 0,
                     inputMode: 'numeric',

@@ -21,6 +21,7 @@ export default function Portfolio() {
           <Input
             {...inputs.stockInvestmentValue.getProps({
               id: 'stockInvestmentValue',
+              className: 'input-dollars',
               type: 'number',
               pattern: '\\d*',
               min: 0,
@@ -44,6 +45,8 @@ export default function Portfolio() {
               type: 'number',
               pattern: '\\d*',
               min: 0,
+              max: 1,
+              step: 0.01,
               inputMode: 'numeric',
               autoComplete: 'off',
               suffix: '%',
@@ -62,6 +65,7 @@ export default function Portfolio() {
           <Input
             {...inputs.bondsValue.getProps({
               id: 'bondsValue',
+              className: 'input-dollars',
               type: 'number',
               pattern: '\\d*',
               min: 0,

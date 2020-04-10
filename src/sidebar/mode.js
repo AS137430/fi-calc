@@ -47,6 +47,7 @@ export default function Mode() {
           <Input
             {...inputs.numberOfYears.getProps({
               id: 'numberOfYears',
+              className: 'input-years',
               type: 'number',
               pattern: '\\d*',
               min: 0,

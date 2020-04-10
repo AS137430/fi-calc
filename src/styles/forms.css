@@ -23,14 +23,6 @@
   max-width: 100%;
 }
 
-.input-year {
-  width: 4.5rem;
-}
-
-.input-percent {
-  /* width: 10rem; */
-}
-
 .input:focus {
   border-color: var(--accentColor);
   box-shadow: 0 0 0 2px var(--accentColor);

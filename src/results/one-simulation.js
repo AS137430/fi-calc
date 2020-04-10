@@ -28,35 +28,16 @@ function formatCycleForSpendingChart(cycle) {
 }
 
 export default function OneSimulation({ result }) {
-  const numberOfSimulations = result.results.numberOfCycles;
-  const oneSimulation = numberOfSimulations === 1;
-
   const isSuccessful = result.summary === 'SUCCESSFUL';
-
-  // const excludedCycles =
-  //   result.results.totalNumberOfCycles - result.results.numberOfCycles;
-  // const cyclesWereExcluded = Boolean(excludedCycles);
-  // const cyclesWereWord = excludedCycles > 1 ? 'were' : 'was';
-  // const cyclesWord = excludedCycles > 1 ? 'cycles' : 'cycle';
-
-  let isWarning = false;
-  let isDanger = false;
-
-  const { lowestDippedValue } = result;
   const cycle = result.results.allCycles[0];
   const lastYear = cycle.resultsByYear[cycle.resultsByYear.length - 1];
 
-  const finalRatio = cycle.finalValue / result.initialPortfolioValue;
+  const finalRatio =
+    lastYear.computedData.portfolio.totalValueInFirstYearDollars /
+    result.initialPortfolioValue;
 
-  console.log('result', cycle, cycle.minPortfolioYear);
-
-  if (oneSimulation) {
-    isDanger = !isSuccessful || finalRatio < 0.2;
-    isWarning = isSuccessful && !isDanger && finalRatio < 0.4;
-  } else {
-    isDanger = !isSuccessful && result.results.successRate < 0.8;
-    isWarning = !isSuccessful && !isDanger && result.results.successRate < 0.95;
-  }
+  const isDanger = !isSuccessful || finalRatio < 0.15;
+  const isWarning = isSuccessful && !isDanger && finalRatio < 0.35;
 
   let oneSimulationMsg;
   if (!isSuccessful) {
@@ -82,6 +63,11 @@ export default function OneSimulation({ result }) {
     },
     [cycle]
   );
+
+  console.log('hello', spendingChartData);
+
+  const isConstantSpending =
+    result.inputs.spendingPlan.spendingStrategy.key === 'constantSpending';
 
   return (
     <>
@@ -115,11 +101,11 @@ export default function OneSimulation({ result }) {
             <div className="results_value">
               $
               {formatNumber(
-                cycle.minPortfolioYear.computedData.portfolio
+                cycle.minPortfolioYearInFirstYearDollars.computedData.portfolio
                   .totalValueInFirstYearDollars
               )}
               <span className="results_secondaryValue">
-                ({cycle.minPortfolioYear.year})
+                ({cycle.minPortfolioYearInFirstYearDollars.year})
               </span>
             </div>
           </div>
@@ -152,30 +138,32 @@ export default function OneSimulation({ result }) {
       </div>
       <div className="results_block">
         <h2 className="results_h2">Spending</h2>
-        <div className="results_sectionRow">
-          <div className="results_section">
-            <div className="results_sectionTitle">Lowest Spend</div>
-            <div className="results_value">
-              $
-              {formatNumber(
-                cycle.minWithdrawalYear.computedData
-                  .totalWithdrawalAmountInFirstYearDollars
-              )}
-              <span className="results_secondaryValue">
-                ({cycle.minWithdrawalYear.year})
-              </span>
+        {!isConstantSpending && (
+          <div className="results_sectionRow">
+            <div className="results_section">
+              <div className="results_sectionTitle">Lowest Spend</div>
+              <div className="results_value">
+                $
+                {formatNumber(
+                  cycle.minWithdrawalYearInFirstYearDollars.computedData
+                    .totalWithdrawalAmountInFirstYearDollars
+                )}
+                <span className="results_secondaryValue">
+                  ({cycle.minWithdrawalYearInFirstYearDollars.year})
+                </span>
+              </div>
+            </div>
+            <div className="results_section">
+              <div className="results_sectionTitle">Final Year Spend</div>
+              <div className="results_value">
+                $
+                {formatNumber(
+                  lastYear.computedData.totalWithdrawalAmountInFirstYearDollars
+                )}
+              </div>
             </div>
           </div>
-          <div className="results_section">
-            <div className="results_sectionTitle">Final Year Spend</div>
-            <div className="results_value">
-              $
-              {formatNumber(
-                lastYear.computedData.totalWithdrawalAmountInFirstYearDollars
-              )}
-            </div>
-          </div>
-        </div>
+        )}
         <div className="results_plotSection">
           <Chart data={spendingChartData} />
         </div>

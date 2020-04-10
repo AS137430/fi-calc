@@ -118,13 +118,17 @@ export default function computeCycle(options = {}) {
     const { spendingMethod } = spendingConfiguration;
 
     // For now, we use a simple inflation-adjusted withdrawal approach
-    const totalWithdrawalAmount = spending[spendingMethod]({
+    let totalWithdrawalAmount = spending[spendingMethod]({
       ...spendingConfiguration,
       portfolioTotalValue: yearStartValue,
       inflation: cumulativeInflation,
     });
 
     const notEnoughMoney = totalWithdrawalAmount > yearStartValue;
+
+    if (notEnoughMoney) {
+      totalWithdrawalAmount = yearStartValue;
+    }
 
     let adjustedInvestmentValues = _.map(
       portfolio.investments,
@@ -258,12 +262,12 @@ export default function computeCycle(options = {}) {
     numberOfSuccessfulYears = yearFailed - startYear;
   }
 
-  const minWithdrawalYear = _.minBy(
+  const minWithdrawalYearInFirstYearDollars = _.minBy(
     resultsByYear,
     year => year.computedData.totalWithdrawalAmountInFirstYearDollars
   );
 
-  const minPortfolioYear = _.minBy(
+  const minPortfolioYearInFirstYearDollars = _.minBy(
     resultsByYear,
     year => year.computedData.portfolio.totalValueInFirstYearDollars
   );
@@ -281,7 +285,7 @@ export default function computeCycle(options = {}) {
     lowestSuccessfulDip,
     finalValue,
     percentOfChange,
-    minWithdrawalYear,
-    minPortfolioYear,
+    minWithdrawalYearInFirstYearDollars,
+    minPortfolioYearInFirstYearDollars,
   };
 }

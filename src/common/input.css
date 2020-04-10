@@ -32,6 +32,7 @@
   font-size: 0.9rem;
   padding: 0.41rem 0.5rem;
   outline: none;
+  max-width: 100%;
 }
 
 .input_visuals {
@@ -49,8 +50,20 @@
   cursor: text;
 }
 
+.input-year input {
+  width: 4.5rem;
+}
+
 .input-annualSpending input {
   width: 6rem;
+}
+
+.input-dollars input {
+  width: 7.5rem;
+}
+
+.input-years input {
+  width: 3rem;
 }
 
 .input-disabled {
