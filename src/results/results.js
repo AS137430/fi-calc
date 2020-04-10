@@ -4,13 +4,11 @@ import './results.css';
 import OneCycle from './one-cycle';
 import MultipleSimulations from './multiple-simulations';
 import computeResult from '../utils/compute-result';
-import useCalculatorMode from '../state/calculator-mode';
 import usePortfolio from '../state/portfolio';
 import useSpendingPlan from '../state/spending-plan';
 import useLengthOfRetirement from '../state/length-of-retirement';
 
 export default function Results() {
-  const [calculatorMode] = useCalculatorMode();
   const { state: spendingPlan } = useSpendingPlan();
   const { state: lengthOfRetirement } = useLengthOfRetirement();
   const { state: portfolio } = usePortfolio();
@@ -18,7 +16,7 @@ export default function Results() {
   const result = useMemo(
     () => {
       return computeResult({
-        durationMode: calculatorMode,
+        durationMode: 'allHistory',
         lengthOfRetirement,
         spendingPlan,
         portfolio,
@@ -26,7 +24,6 @@ export default function Results() {
     },
     /* eslint react-hooks/exhaustive-deps: "off" */
     [
-      calculatorMode,
       ...Object.values(spendingPlan),
       ...Object.values(lengthOfRetirement),
       ...Object.values(portfolio),
