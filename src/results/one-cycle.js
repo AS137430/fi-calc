@@ -27,14 +27,13 @@ function formatCycleForSpendingChart(cycle) {
   });
 }
 
-export default function OneSimulation({ result }) {
-  const isSuccessful = result.summary === 'SUCCESSFUL';
-  const cycle = result.results.allCycles[0];
+export default function OneCycle({ inputs, summary, cycle }) {
+  const isSuccessful = summary === 'SUCCESSFUL';
   const lastYear = cycle.resultsByYear[cycle.resultsByYear.length - 1];
 
   const finalRatio =
     lastYear.computedData.portfolio.totalValueInFirstYearDollars /
-    result.initialPortfolioValue;
+    cycle.initialPortfolioValue;
 
   const isDanger = !isSuccessful || finalRatio < 0.15;
   const isWarning = isSuccessful && !isDanger && finalRatio < 0.35;
@@ -65,7 +64,7 @@ export default function OneSimulation({ result }) {
   );
 
   const isConstantSpending =
-    result.inputs.spendingPlan.spendingStrategy.key === 'constantSpending';
+    inputs.spendingPlan.spendingStrategy.key === 'constantSpending';
 
   return (
     <>
@@ -74,9 +73,7 @@ export default function OneSimulation({ result }) {
         <div className="results_sectionRow">
           <div className="results_section">
             <div className="results_sectionTitle">Length of Simulation</div>
-            <div className="results_bigValue">
-              {result.results.allCycles[0].duration} years
-            </div>
+            <div className="results_bigValue">{cycle.duration} years</div>
           </div>
           <div className="results_section">
             <div className="results_sectionTitle">Succeeded?</div>

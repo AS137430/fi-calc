@@ -255,7 +255,9 @@ export default function computeCycle(options = {}) {
     resultsByYear[resultsByYear.length - 1].computedData.portfolio;
   const finalValue = finalYearPortfolio.totalValue;
 
-  const percentOfChange = finalValue / initialPortfolioValueInFinalYear;
+  const percentOfChange =
+    finalYearPortfolio.totalValueInFirstYearDollars /
+    initialPortfolioValueInFinalYear;
 
   let numberOfSuccessfulYears = duration;
   if (yearFailed) {
@@ -273,6 +275,7 @@ export default function computeCycle(options = {}) {
   );
 
   return {
+    initialPortfolioValue,
     startYear,
     duration,
     endYear,

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import _ from 'lodash';
 import './results.css';
-import OneSimulation from './one-simulation';
+import OneCycle from './one-cycle';
 import MultipleSimulations from './multiple-simulations';
 import computeResult from '../utils/compute-result';
 import useCalculatorMode from '../state/calculator-mode';
@@ -39,7 +39,13 @@ export default function Results() {
   return (
     <div className="results">
       <h1 className="results_title">Results</h1>
-      {oneSimulation && <OneSimulation result={result} />}
+      {oneSimulation && (
+        <OneCycle
+          cycle={result.results.allCycles[0]}
+          summary={result.summary}
+          inputs={result.inputs}
+        />
+      )}
       {!oneSimulation && <MultipleSimulations result={result} />}
     </div>
   );
