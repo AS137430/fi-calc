@@ -74,14 +74,14 @@ export default {
           key: 'portfolioPercent',
           display: 'Percent of portfolio',
         },
-        {
-          key: 'hebeler',
-          display: 'Hebeler autopilot',
-        },
-        {
-          key: 'gk',
-          display: 'Guyton-Klinger',
-        },
+        // {
+        //   key: 'hebeler',
+        //   display: 'Hebeler autopilot',
+        // },
+        // {
+        //   key: 'gk',
+        //   display: 'Guyton-Klinger',
+        // },
       ],
     },
   },
