@@ -54,7 +54,8 @@ export default function MultipleOverview({ result, updateStartYear }) {
               <div
                 onClick={() => updateStartYear(cycle.startYear)}
                 className={classnames('byYear_cell', {
-                  'byYear_cell-isFailed': cycle.isFailed,
+                  'byYear_cell-isWarning': cycle.status === 'WARNING',
+                  'byYear_cell-isFailed': cycle.status === 'FAILED',
                   'byYear_cell-incomplete': !cycle.isComplete,
                 })}
                 key={cycle.startYear}>

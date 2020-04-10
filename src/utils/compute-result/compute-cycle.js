@@ -251,8 +251,9 @@ export default function computeCycle(options = {}) {
     });
   });
 
-  const finalYearPortfolio =
-    resultsByYear[resultsByYear.length - 1].computedData.portfolio;
+  const lastYear = resultsByYear[resultsByYear.length - 1];
+
+  const finalYearPortfolio = lastYear.computedData.portfolio;
   const finalValue = finalYearPortfolio.totalValue;
 
   const percentOfChange =
@@ -274,10 +275,24 @@ export default function computeCycle(options = {}) {
     year => year.computedData.portfolio.totalValueInFirstYearDollars
   );
 
+  const finalRatio =
+    lastYear.computedData.portfolio.totalValueInFirstYearDollars /
+    initialPortfolioValue;
+
+  let status;
+  if (finalRatio === 0) {
+    status = 'FAILED';
+  } else if (finalRatio < 0.35) {
+    status = 'WARNING';
+  } else {
+    status = 'OK';
+  }
+
   return {
     initialPortfolioValue,
     startYear,
     duration,
+    status,
     endYear,
     isComplete,
     resultsByYear,

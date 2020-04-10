@@ -27,21 +27,16 @@ function formatCycleForSpendingChart(cycle) {
   });
 }
 
-export default function OneCycle({ inputs, isSuccessful, cycle, goBack }) {
+export default function OneCycle({ inputs, cycle, goBack }) {
   const lastYear = cycle.resultsByYear[cycle.resultsByYear.length - 1];
 
-  const finalRatio =
-    lastYear.computedData.portfolio.totalValueInFirstYearDollars /
-    cycle.initialPortfolioValue;
-
-  const isDanger = !isSuccessful || finalRatio < 0.15;
-  const isWarning = isSuccessful && !isDanger && finalRatio < 0.35;
+  const isSuccess = cycle.status === 'OK';
+  const isFailed = cycle.status === 'FAILED';
+  const isWarning = cycle.status === 'WARNING';
 
   let oneSimulationMsg;
-  if (!isSuccessful) {
+  if (isFailed) {
     oneSimulationMsg = 'No';
-  } else if (isDanger) {
-    oneSimulationMsg = 'Yes, barely';
   } else if (isWarning) {
     oneSimulationMsg = 'Yes, barely';
   } else {
@@ -77,23 +72,23 @@ export default function OneCycle({ inputs, isSuccessful, cycle, goBack }) {
         <h2 className="results_h2">
           {goBack && (
             <>
-              Simulation: {cycle.startYear} - {cycle.endYear}
+              Simulation: {cycle.startYear} – {cycle.endYear}
             </>
           )}
           {!goBack && <>Simulation Overview</>}
         </h2>
         <div className="results_sectionRow">
-          <div className="results_section">
+          {/* <div className="results_section">
             <div className="results_sectionTitle">Length of Simulation</div>
             <div className="results_bigValue">{cycle.duration} years</div>
-          </div>
+          </div> */}
           <div className="results_section">
             <div className="results_sectionTitle">Succeeded?</div>
             <div
               className={classnames('results_bigValue', {
-                'results_bigValue-success': isSuccessful,
+                'results_bigValue-success': isSuccess,
                 'results_bigValue-warning': isWarning,
-                'results_bigValue-danger': isDanger,
+                'results_bigValue-danger': isFailed,
               })}>
               {oneSimulationMsg}
             </div>
@@ -103,7 +98,7 @@ export default function OneCycle({ inputs, isSuccessful, cycle, goBack }) {
       <div className="results_block">
         <h2 className="results_h2">Portfolio</h2>
         <div className="results_sectionRow">
-          {isSuccessful && (
+          {!isFailed && (
             <>
               <div className="results_section">
                 <div className="results_sectionTitle">Lowest Value</div>
@@ -129,7 +124,7 @@ export default function OneCycle({ inputs, isSuccessful, cycle, goBack }) {
               </div>
             </>
           )}
-          {!isSuccessful && (
+          {isFailed && (
             <div className="results_section">
               <div className="results_sectionTitle">Lasted Until</div>
               <div className="results_bigValue">{cycle.yearFailed}</div>

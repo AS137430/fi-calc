@@ -21,6 +21,14 @@
   background-color: #e01d1d;
 }
 
+.byYear_cell-isWarning {
+  background-color: #bb6f00;
+}
+
+.byYear_cell-isWarning:hover {
+  background-color: #c77906;
+}
+
 .byYear_cell-incomplete {
   background-color: transparent;
   border-color: #444;

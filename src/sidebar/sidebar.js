@@ -7,7 +7,7 @@ import Portfolio from './portfolio';
 export default function Sidebar() {
   return (
     <div className="sidebar">
-      <h1 className="sidebar_title">Configure Simulations</h1>
+      <h1 className="sidebar_title">Configuration</h1>
       <Mode />
       <SpendingPlan />
       <Portfolio />
