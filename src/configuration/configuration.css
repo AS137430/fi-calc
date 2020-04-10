@@ -1,5 +1,5 @@
 .configuration {
-  --resultsBtnHeight: 5rem;
+  --resultsBtnHeight: calc(5rem + var(--safeAreaInsetBottom));
   --borderColor: #424242;
 
   max-height: 100vh;
@@ -10,11 +10,11 @@
   color: white;
   flex: 0 0 var(--configuration-width);
   width: var(--configuration-width);
-  padding-left: var(--safeAreaInsetLeft);
+  /* padding-left: var(--safeAreaInsetLeft); */
 }
 
 .configuration_title {
-  padding: 0 var(--horizontalContentPadding) 1rem;
+  padding: 0 var(--baseContentSpacingRight) 1rem var(--contentSpacingLeft);
   border-bottom: 1px solid var(--borderColor);
   font-size: 1.1rem;
   margin: 1rem 0 0;
@@ -50,7 +50,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(var(--resultsBtnHeight) + var(--safeAreaInsetBottom));
+  height: var(--resultsBtnHeight);
   padding-bottom: var(--safeAreaInsetBottom);
   z-index: 100;
   background: #2b2b2b;

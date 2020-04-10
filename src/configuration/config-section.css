@@ -13,12 +13,12 @@
   letter-spacing: 1px;
   color: #dfdfdf;
   margin: 0;
-  padding: 1rem var(--horizontalContentPadding) 0;
+  padding: 1rem var(--baseContentSpacingRight) 0 var(--contentSpacingLeft);
 }
 
 .configSection_body {
   font-size: 0.875rem;
-  padding: 1rem var(--horizontalContentPadding);
+  padding: 1rem var(--baseContentSpacingRight) 1rem var(--contentSpacingLeft);
 }
 
 @media (max-width: 551px) {
@@ -27,7 +27,8 @@
   }
 
   .configSection_body {
-    padding: 1rem var(--horizontalContentPadding) 1.5rem;
+    padding: 1rem var(--baseContentSpacingRight) 1.5rem
+      var(--contentSpacingLeft);
     font-size: 0.9375rem;
   }
 }
