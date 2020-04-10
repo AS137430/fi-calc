@@ -1,47 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import classnames from 'classnames';
-import './results.css';
-import GaussianPlot from './gaussian-plot';
+import './multiple-simulations.css';
+import MultipleOverview from './multiple-overview';
+import OneCycle from './one-cycle';
 
 export default function MultipleSimulations({ result }) {
-  const isSuccessful = result.summary === 'SUCCESSFUL';
+  const [selectedStartYear, setSelectedStartYear] = useState(null);
 
-  const isDanger = !isSuccessful && result.results.successRate < 0.8;
-  const isWarning =
-    !isSuccessful && !isDanger && result.results.successRate < 0.95;
+  useEffect(
+    () => {
+      setSelectedStartYear(null);
+    },
+    [result]
+  );
+
+  function updateStartYear(startYear) {
+    const target = _.find(result.results.allCycles, {
+      startYear,
+    });
+    setSelectedStartYear(target);
+  }
 
   return (
     <>
-      <div className="results_sectionRow">
-        <div className="results_section">
-          <div className="results_sectionTitle">Number of Simulations</div>
-          <div className="results_bigValue">
-            {result.results.numberOfCycles}
-          </div>
-        </div>
-        <div className="results_section">
-          <div className="results_sectionTitle">Success Rate</div>
-          <div
-            className={classnames('results_bigValue', {
-              'results_bigValue-success': isSuccessful,
-              'results_bigValue-warning': isWarning,
-              'results_bigValue-danger': isDanger,
-            })}>
-            {result.successRate}
-          </div>
-        </div>
-      </div>
-      <div className="results_plotSection">
-        <div className="results_sectionTitle">
-          Distribution of End Portfolio Value
-        </div>
-        <GaussianPlot
-          gaussian={result.results.gaussian}
-          mean={result.results.mean}
-          standardDeviation={result.results.standardDeviation}
+      {selectedStartYear === null && (
+        <MultipleOverview result={result} updateStartYear={updateStartYear} />
+      )}
+      {selectedStartYear && (
+        <OneCycle
+          goBack={() => setSelectedStartYear(null)}
+          inputs={result.inputs}
+          isSuccessful={!selectedStartYear.isFailed}
+          cycle={selectedStartYear}
         />
-      </div>
+      )}
     </>
   );
 }

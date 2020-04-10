@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
-import './results.css';
+import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 import Chart from './chart';
 import formatNumber from '../utils/numbers/format-number';
 
@@ -27,8 +27,7 @@ function formatCycleForSpendingChart(cycle) {
   });
 }
 
-export default function OneCycle({ inputs, summary, cycle }) {
-  const isSuccessful = summary === 'SUCCESSFUL';
+export default function OneCycle({ inputs, isSuccessful, cycle, goBack }) {
   const lastYear = cycle.resultsByYear[cycle.resultsByYear.length - 1];
 
   const finalRatio =
@@ -69,7 +68,16 @@ export default function OneCycle({ inputs, summary, cycle }) {
   return (
     <>
       <div className="results_block">
-        <h2 className="results_h2">Overview</h2>
+        {goBack && (
+          <div className="results_goBack" onClick={goBack}>
+            <IconKeyboardArrowLeft size="1.5rem" />
+            Return to Simulations Results
+          </div>
+        )}
+        <h2 className="results_h2">
+          {goBack && <>Year Overview</>}
+          {!goBack && <>Simulation Overview</>}
+        </h2>
         <div className="results_sectionRow">
           <div className="results_section">
             <div className="results_sectionTitle">Length of Simulation</div>

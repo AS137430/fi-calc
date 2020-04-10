@@ -38,11 +38,11 @@ export default function Results() {
 
   return (
     <div className="results">
-      <h1 className="results_title">Results</h1>
+      {/* <h1 className="results_title">Results</h1> */}
       {oneSimulation && (
         <OneCycle
           cycle={result.results.allCycles[0]}
-          summary={result.summary}
+          isSuccessful={result.summary === 'SUCCESSFUL'}
           inputs={result.inputs}
         />
       )}

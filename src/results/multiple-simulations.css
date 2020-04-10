@@ -1,0 +1,35 @@
+.byYear_cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #333;
+  border-radius: 4px;
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.byYear_cell:hover {
+  background-color: #3a3a3a;
+}
+
+.byYear_cell-isFailed {
+  background-color: #ca1010;
+}
+
+.byYear_cell-isFailed:hover {
+  background-color: #e01d1d;
+}
+
+.byYear_cell-incomplete {
+  background-color: transparent;
+  border-color: #444;
+  opacity: 0.5;
+}
+
+.results_byYearGrid {
+  display: grid;
+  row-gap: 10px;
+  column-gap: 10px;
+  grid-template-columns: repeat(auto-fit, 5rem);
+}

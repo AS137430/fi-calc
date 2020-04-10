@@ -1,20 +1,20 @@
 .results {
-  grid-area: workspace;
   color: #fff;
   padding: 0 1.5rem;
   max-width: 800px;
+  min-height: 100vh;
   width: 100%;
-  margin: 0 auto;
+  margin: 2rem auto;
 }
 
-.results_title {
+/* .results_title {
   margin-top: 1rem;
   font-size: 1.2rem;
   margin-bottom: 2.5rem;
   letter-spacing: 0.5px;
   border-bottom: 1px solid #444;
   padding-bottom: 1rem;
-}
+} */
 
 .results_h2 {
   font-size: 1.5rem;
@@ -71,15 +71,15 @@
 }
 
 .results_bigValue-success {
-  color: #7dff7d;
+  color: #28ff28;
 }
 
 .results_bigValue-warning {
-  color: #ff7b7b;
+  color: #ffa600;
 }
 
 .results_bigValue-danger {
-  color: #fd3333;
+  color: #ff0c0c;
 }
 
 .results_plotSection {
@@ -94,4 +94,27 @@
   margin-top: 0.25rem;
   font-size: 0.9rem;
   color: #aaa;
+}
+
+.tip {
+  font-weight: 500;
+  border-radius: 0.35rem;
+  padding: 0.75rem 1rem;
+  color: white;
+  background-color: #0970da;
+  margin-bottom: 1.5rem;
+}
+
+.results_goBack {
+  color: #409dff;
+  fill: #409dff;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.results_goBack svg {
+  margin-left: -8px;
 }

@@ -1,12 +1,12 @@
 .sidebar {
-  grid-area: sidebar;
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
   overflow: hidden;
   max-height: 100vh;
   position: sticky;
   top: 0;
-  /* overflow-y: scroll; */
+  overflow-y: scroll;
+  width: var(--sidebar-width);
 
   background: #2d2e30;
   color: white;
