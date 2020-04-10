@@ -119,6 +119,7 @@ export default function GoodModal({
   return ReactDOM.createPortal(
     <FocusTrap
       focusTrapOptions={{
+        initialFocus: modalRoot,
         fallbackFocus: document.body,
       }}>
       <div>

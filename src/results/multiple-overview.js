@@ -18,10 +18,10 @@ export default function MultipleOverview({
     <>
       <div className="results_block">
         {typeof goToConfig === 'function' && (
-          <div className="results_goBack" onClick={goToConfig}>
+          <button type="button" className="results_goBack" onClick={goToConfig}>
             <IconKeyboardArrowLeft size="1.5rem" />
             Return to Configuration
-          </div>
+          </button>
         )}
         <h2 className="results_h2">Results</h2>
         <div className="results_sectionRow">
@@ -53,7 +53,8 @@ export default function MultipleOverview({
         <div className="results_byYearGrid">
           {result.results.allCycles.map(cycle => {
             return (
-              <div
+              <button
+                type="button"
                 onClick={() => updateStartYear(cycle.startYear)}
                 className={classnames('byYear_cell', {
                   'byYear_cell-isWarning': cycle.status === 'WARNING',
@@ -62,7 +63,7 @@ export default function MultipleOverview({
                 })}
                 key={cycle.startYear}>
                 {cycle.startYear}
-              </div>
+              </button>
             );
           })}
         </div>

@@ -111,6 +111,14 @@
   margin-bottom: 0.5rem;
   font-weight: 500;
   cursor: pointer;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  outline: none;
+}
+
+.results_goBack.focus-visible {
+  border-color: #409dff;
 }
 
 .results_goBack svg {
@@ -122,11 +130,18 @@
   align-items: center;
   justify-content: center;
   background-color: #333;
+  color: #fff;
   border-radius: 4px;
   padding: 0.5rem;
   font-weight: 500;
   border: 1px solid transparent;
   cursor: pointer;
+  outline: none;
+}
+
+.byYear_cell.focus-visible {
+  border-color: var(--accentColor);
+  box-shadow: 0 0 0 2px var(--accentColor);
 }
 
 .byYear_cell:hover {

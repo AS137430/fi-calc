@@ -63,10 +63,10 @@ export default function OneCycle({ inputs, cycle, goBack }) {
     <>
       <div className="results_block">
         {goBack && (
-          <div className="results_goBack" onClick={goBack}>
+          <button type="button" className="results_goBack" onClick={goBack}>
             <IconKeyboardArrowLeft size="1.5rem" />
             Return to Results
-          </div>
+          </button>
         )}
         <h2 className="results_h2">
           {goBack && (

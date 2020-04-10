@@ -7,8 +7,8 @@
 }
 
 .goodModal_footer {
-  justify-content: space-between;
   background-color: var(--containerBgColor);
+  justify-content: flex-end;
 }
 
 .goodModal_body {
@@ -60,6 +60,11 @@
   }
 }
 
+.goodModal_title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
 @media (max-width: 550px) {
   .goodModal {
     width: 100%;
@@ -75,15 +80,21 @@
 
     display: flex;
     flex-direction: column;
+    border-radius: 0.75rem 0.75rem 0 0;
   }
 
   .goodModal_body {
     flex: 1;
+    overflow-y: scroll;
   }
 
   .goodModal-active {
     /* This comes from widthOfModal/heightOfPage - 1 */
     transform: translateY(5.3%);
+  }
+
+  .goodModal_footer {
+    border-top: 1px solid #444;
   }
 }
 
@@ -97,7 +108,6 @@
 
   .goodModal_title {
     font-size: 1.4rem;
-    font-weight: 700;
     background: var(--containerBgColor);
     border-radius: 0.5rem 0.5rem 0 0;
   }
@@ -105,7 +115,6 @@
   .goodModal_footer {
     padding-top: 0;
     border-radius: 0 0 0.5rem 0.5rem;
-    justify-content: flex-end;
   }
 
   .goodModal_footer > .w-button {

@@ -11,3 +11,8 @@
 .recommendation svg {
   margin-right: 0.5rem;
 }
+
+.recommendation + .goodModal_body {
+  padding-top: 0.5rem;
+  margin-top: 0;
+}
