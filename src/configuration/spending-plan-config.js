@@ -92,7 +92,7 @@ export default function SpendingPlanConfig() {
                   className: 'input-percent',
                   type: 'number',
                   min: 0,
-                  max: 1,
+                  max: 100,
                   step: 0.01,
                   inputMode: 'numeric',
                   autoComplete: 'off',

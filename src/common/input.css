@@ -86,6 +86,10 @@
   width: 3rem;
 }
 
+.input-percent input {
+  width: 3.5rem;
+}
+
 .input-disabled {
   opacity: 0.5;
 }
