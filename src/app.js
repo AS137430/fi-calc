@@ -31,10 +31,20 @@ export default function App() {
         {isSmallScreen && (
           <>
             {appPage === 'config' && (
-              <Configuration goToResults={() => setAppPage('results')} />
+              <Configuration
+                goToResults={() => {
+                  window.scrollTo(0, 0);
+                  setAppPage('results');
+                }}
+              />
             )}
             {appPage === 'results' && (
-              <Results goToConfig={() => setAppPage('config')} />
+              <Results
+                goToConfig={() => {
+                  window.scrollTo(0, 0);
+                  setAppPage('config');
+                }}
+              />
             )}
           </>
         )}
