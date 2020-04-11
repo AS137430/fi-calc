@@ -3,6 +3,7 @@ import getStartYears from './get-start-years';
 import runSimulation from './run-simulation';
 import { fromInvestments } from '../forms/normalize-portfolio';
 import { SpendingPlan, InvestmentType } from './run-simulations-interfaces';
+import asyncMap from '../async-map';
 
 interface Portfolio {
   bondsValue: number;
@@ -41,8 +42,9 @@ interface RunSimulationsReturn {
 }
 
 export default function runSimulations(
-  inputs: RunSimulationsOptions
-): RunSimulationsReturn {
+  inputs: RunSimulationsOptions,
+  done: (ret: RunSimulationsReturn) => void
+) {
   const {
     durationMode,
     lengthOfRetirement,
@@ -93,57 +95,69 @@ export default function runSimulations(
     investments,
   });
 
-  const simulations = _.map(startYears, startYear =>
-    runSimulation({
-      startYear,
-      dipPercentage,
-      rebalancePortfolioAnnually,
-      portfolio: portfolioFromInvestments,
-      spendingPlan,
-      duration: Number(lengthOfSimulation),
-    })
+  // We do an async map to ensure that this simulation doesn't lock up the main thread.
+  // This ensures that the iteration doesn't ever add up to more than 1 frame of time.
+  // Pros:
+  //   - UI should never completely lock up, even for slow computations
+  //   - scaleable to slow + long computations
+  // Note: I would prefer this be in a WebWorker, but as of 4/11/20, CRA doesn't have great
+  // support for Workers. Once CRA adds support I should consider refactoring this. For more, see:
+  // https://github.com/facebook/create-react-app/issues/3660
+  asyncMap(
+    startYears,
+    (startYear: number) =>
+      runSimulation({
+        startYear,
+        dipPercentage,
+        rebalancePortfolioAnnually,
+        portfolio: portfolioFromInvestments,
+        spendingPlan,
+        duration: Number(lengthOfSimulation),
+      }),
+    (simulations: any) => {
+      const [completeSimulations, incompleteSimulations] = _.partition(
+        simulations,
+        'isComplete'
+      );
+      const [failedSimulations, successfulSimulations] = _.partition(
+        completeSimulations,
+        'isFailed'
+      );
+      const successRate =
+        successfulSimulations.length / completeSimulations.length;
+
+      const rawSuccessRate = successRate * 100;
+
+      let successRateDisplay;
+      if (rawSuccessRate === 100 || rawSuccessRate === 0) {
+        successRateDisplay = `${rawSuccessRate}%`;
+      } else {
+        successRateDisplay = `${rawSuccessRate.toFixed(2)}%`;
+      }
+
+      const exceedsSuccessRateThreshold = successRate > successRateThreshold;
+
+      done({
+        // All simulations (complete+incomplete, successful+failed)
+        simulations,
+        // All complete (successful + failed)
+        completeSimulations,
+        // All incomplete (successful + failed)
+        incompleteSimulations,
+        // Complete + successful
+        successfulSimulations,
+        // Complete + failed sims
+        failedSimulations,
+        // The options that were passed into this function
+        inputs,
+        // A decimal representing the ratio of successful to unsuccesful sims. i.e.; 0.92333333
+        successRate,
+        // A string for displaying the success rate. i.e.; "100%" or "93.22%"
+        successRateDisplay,
+        // A Boolean representing whether or not the sucess rate is high enough to meet
+        // the threshold of a "successful" run
+        exceedsSuccessRateThreshold,
+      });
+    }
   );
-
-  const [completeSimulations, incompleteSimulations] = _.partition(
-    simulations,
-    'isComplete'
-  );
-  const [failedSimulations, successfulSimulations] = _.partition(
-    completeSimulations,
-    'isFailed'
-  );
-  const successRate = successfulSimulations.length / completeSimulations.length;
-
-  const rawSuccessRate = successRate * 100;
-
-  let successRateDisplay;
-  if (rawSuccessRate === 100 || rawSuccessRate === 0) {
-    successRateDisplay = `${rawSuccessRate}%`;
-  } else {
-    successRateDisplay = `${rawSuccessRate.toFixed(2)}%`;
-  }
-
-  const exceedsSuccessRateThreshold = successRate > successRateThreshold;
-
-  return {
-    // All simulations (complete+incomplete, successful+failed)
-    simulations,
-    // All complete (successful + failed)
-    completeSimulations,
-    // All incomplete (successful + failed)
-    incompleteSimulations,
-    // Complete + successful
-    successfulSimulations,
-    // Complete + failed sims
-    failedSimulations,
-    // The options that were passed into this function
-    inputs,
-    // A decimal representing the ratio of successful to unsuccesful sims. i.e.; 0.92333333
-    successRate,
-    // A string for displaying the success rate. i.e.; "100%" or "93.22%"
-    successRateDisplay,
-    // A Boolean representing whether or not the sucess rate is high enough to meet
-    // the threshold of a "successful" run
-    exceedsSuccessRateThreshold,
-  };
 }
