@@ -28,7 +28,7 @@ interface LengthOfRetirement {
   endYear: number;
 }
 
-interface ComputeResultOptions {
+interface RunSimulationsOptions {
   lengthOfRetirement: LengthOfRetirement;
   spendingPlan: SpendingPlan;
   portfolio: Portfolio;
@@ -40,7 +40,7 @@ interface ComputeResultOptions {
 type Simulation = any;
 type Simulations = Array<Simulation>;
 
-interface ComputeResultReturn {
+interface RunSimulationsReturn {
   exceedsSuccessRateThreshold: boolean;
   simulations: Simulations;
   successfulSimulations: Simulations;
@@ -52,9 +52,9 @@ interface ComputeResultReturn {
   successRateDisplay: string;
 }
 
-export default function computeResult(
-  inputs: ComputeResultOptions
-): ComputeResultReturn {
+export default function runSimulations(
+  inputs: RunSimulationsOptions
+): RunSimulationsReturn {
   const {
     durationMode,
     lengthOfRetirement,
@@ -138,14 +138,24 @@ export default function computeResult(
   const exceedsSuccessRateThreshold = successRate > successRateThreshold;
 
   return {
+    // All simulations (complete+incomplete, successful+failed)
     simulations,
+    // All complete (successful + failed)
     completeSimulations,
+    // All incomplete (successful + failed)
     incompleteSimulations,
+    // Complete + successful
     successfulSimulations,
+    // Complete + failed sims
     failedSimulations,
+    // The options that were passed into this function
     inputs,
-    exceedsSuccessRateThreshold,
+    // A decimal representing the ratio of successful to unsuccesful sims. i.e.; 0.92333333
     successRate,
+    // A string for displaying the success rate. i.e.; "100%" or "93.22%"
     successRateDisplay,
+    // A Boolean representing whether or not the sucess rate is high enough to meet
+    // the threshold of a "successful" run
+    exceedsSuccessRateThreshold,
   };
 }

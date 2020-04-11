@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import './results.css';
-import computeResult from '../utils/compute-result';
+import runSimulations from '../utils/run-simulations/run-simulations';
 import usePortfolio from '../state/portfolio';
 import useSpendingPlan from '../state/spending-plan';
 import useLengthOfRetirement from '../state/length-of-retirement';
@@ -19,7 +19,7 @@ export default function Results({ goToConfig }) {
 
   const result = useMemo(
     () => {
-      return computeResult({
+      return runSimulations({
         durationMode: 'allHistory',
         lengthOfRetirement,
         spendingPlan,
