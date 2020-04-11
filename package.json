@@ -44,6 +44,9 @@
     "promote-staging": "bash deploy/promote-staging.sh",
     "prettier": "prettier --single-quote --write \"src/**/*.{js,jsx}\""
   },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "browserslist": [
     ">0.2%",
     "not dead",

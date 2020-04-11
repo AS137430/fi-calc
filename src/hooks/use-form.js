@@ -20,6 +20,7 @@ export default function useForm({ formConfig, useSourceOfTruth }) {
         initialValue: state[key],
       };
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { addReverseAction } = useUndo();
@@ -29,52 +30,46 @@ export default function useForm({ formConfig, useSourceOfTruth }) {
   const stateRef = useCurrentRef(state);
 
   // Should there be an onChange for each kind of select? Probably, why not?
-  const changeSelect = useCallback(
-    (id, e) => {
-      const prevValidValue = stateRef.current[id];
-      const { value } = e.target;
-      const valueObject = _.find(formConfig.values[id].values, { key: value });
+  const changeSelect = useCallback((id, e) => {
+    const prevValidValue = stateRef.current[id];
+    const { value } = e.target;
+    const valueObject = _.find(formConfig.values[id].values, { key: value });
 
-      if (prevValidValue === valueObject) {
-        return;
-      }
+    if (prevValidValue === valueObject) {
+      return;
+    }
 
-      addReverseAction(() => {
-        updateFormValue(id, prevValidValue.key);
-        setState({ [id]: prevValidValue });
-      });
+    addReverseAction(() => {
+      updateFormValue(id, prevValidValue.key);
+      setState({ [id]: prevValidValue });
+    });
 
-      // This is a select, so the value is also valid. We set the form AND update the "source of truth" state used in
-      // the calculation.
-      updateFormValue(id, value);
-      setState({ [id]: valueObject });
-    },
-    /* eslint react-hooks/exhaustive-deps: "off" */
-    []
-  );
+    // This is a select, so the value is also valid. We set the form AND update the "source of truth" state used in
+    // the calculation.
+    updateFormValue(id, value);
+    setState({ [id]: valueObject });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const changeCheckbox = useCallback(
-    (id, e) => {
-      const prevValidValue = stateRef.current[id];
-      const { checked } = e.target;
+  const changeCheckbox = useCallback((id, e) => {
+    const prevValidValue = stateRef.current[id];
+    const { checked } = e.target;
 
-      if (prevValidValue === checked) {
-        return;
-      }
+    if (prevValidValue === checked) {
+      return;
+    }
 
-      addReverseAction(() => {
-        updateFormValue(id, prevValidValue);
-        setState({ [id]: prevValidValue });
-      });
+    addReverseAction(() => {
+      updateFormValue(id, prevValidValue);
+      setState({ [id]: prevValidValue });
+    });
 
-      // This is a select, so the value is also valid. We set the form AND update the "source of truth" state used in
-      // the calculation.
-      updateFormValue(id, checked);
-      setState({ [id]: checked });
-    },
-    /* eslint react-hooks/exhaustive-deps: "off" */
-    []
-  );
+    // This is a select, so the value is also valid. We set the form AND update the "source of truth" state used in
+    // the calculation.
+    updateFormValue(id, checked);
+    setState({ [id]: checked });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const commitInput = useCallback((id, newValue) => {
     const prevValidValue = stateRef.current[id];
@@ -106,7 +101,8 @@ export default function useForm({ formConfig, useSourceOfTruth }) {
         });
       },
     });
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     state,

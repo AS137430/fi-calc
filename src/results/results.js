@@ -23,10 +23,13 @@ export default function Results({ goToConfig }) {
         portfolio,
       });
     },
-    /* eslint react-hooks/exhaustive-deps: "off" */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       ...Object.values(spendingPlan),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       ...Object.values(lengthOfRetirement),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       ...Object.values(portfolio),
     ]
   );
@@ -46,8 +49,6 @@ export default function Results({ goToConfig }) {
     });
     setSelectedStartYear(target);
   }
-
-  console.log('hello', result);
 
   return (
     <div className="results">
