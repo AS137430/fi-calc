@@ -74,7 +74,6 @@ export default function Results({ goToConfig }) {
             setSelectedSimulation(null);
           }}
           inputs={result.inputs}
-          isSuccessful={!selectedSimulation.isFailed}
           simulation={selectedSimulation}
         />
       )}
