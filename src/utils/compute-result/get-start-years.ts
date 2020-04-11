@@ -13,7 +13,7 @@ export default function getStartYears(duration: number): Array<number> {
 
   // This excludes cycles that would not complete.
   if (typeof duration === 'number' && !Number.isNaN(duration)) {
-    return _.dropRight(startYears, duration - 1);
+    return _.dropRight(startYears, duration);
   } else {
     return startYears;
   }
