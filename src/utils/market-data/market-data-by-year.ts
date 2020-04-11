@@ -13,7 +13,7 @@ export default function marketDataByYear(): MarketData {
 
     memoizedMarketDataByYear = _.chain(marketData)
       // We only look at the first month. Why? Because cFIREsim does, and
-      // this is trying to replicate cFIREsim's behavior (for now).
+      // this app is trying to replicate cFIREsim's behavior (for now).
       .filter(data => data.month === '01')
       .keyBy('year')
       .value();

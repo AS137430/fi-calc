@@ -66,14 +66,6 @@ export default function simulateOneYear({
   const yearStartValue = previousComputedData.portfolio.totalValue;
 
   const yearMarketData = marketData[year];
-  const nextYearMarketData = marketData[nextYear];
-
-  // If we have no data for this year, then we have nothing to return.
-  // Likewise, if there is no data for _next_ year, then this year is the
-  // last datapoint in our set, so it cannot be used.
-  if (!yearMarketData || !nextYearMarketData) {
-    return null;
-  }
 
   const cumulativeInflation = inflationFromCpi({
     startCpi: Number(firstYearCpi),
