@@ -1,9 +1,60 @@
 import _ from 'lodash';
 import getStartYears from './get-start-years';
-import computeCycle from './compute-cycle';
+import runSimulation from './run-simulation';
 import { fromInvestments } from '../forms/normalize-portfolio';
 
-export default function computeResult(inputs) {
+interface SpendingPlan {
+  annualSpending: number;
+  inflationAdjustedFirstYearWithdrawal: boolean;
+  spendingStrategy: {
+    key: string;
+  };
+  percentageOfPortfolio: number;
+  minWithdrawalLimit: number;
+  maxWithdrawalLimit: number;
+  minWithdrawalLimitEnabled: boolean;
+  maxWithdrawalLimitEnabled: boolean;
+}
+
+interface Portfolio {
+  bondsValue: number;
+  stockInvestmentValue: number;
+  stockInvestmentFees: number;
+}
+
+interface LengthOfRetirement {
+  numberOfYears: number;
+  startYear: number;
+  endYear: number;
+}
+
+interface ComputeResultOptions {
+  lengthOfRetirement: LengthOfRetirement;
+  spendingPlan: SpendingPlan;
+  portfolio: Portfolio;
+  durationMode: string;
+  dipPercentage: number;
+  successRateThreshold: number;
+}
+
+type Simulation = any;
+type Simulations = Array<Simulation>;
+
+interface ComputeResultReturn {
+  exceedsSuccessRateThreshold: boolean;
+  simulations: Simulations;
+  successfulSimulations: Simulations;
+  completeSimulations: Simulations;
+  incompleteSimulations: Simulations;
+  failedSimulations: Simulations;
+  inputs: any;
+  successRate: number;
+  successRateDisplay: string;
+}
+
+export default function computeResult(
+  inputs: ComputeResultOptions
+): ComputeResultReturn {
   const {
     durationMode,
     lengthOfRetirement,
@@ -14,16 +65,6 @@ export default function computeResult(inputs) {
   } = inputs;
 
   const { numberOfYears, startYear, endYear } = lengthOfRetirement;
-  const {
-    annualSpending,
-    inflationAdjustedFirstYearWithdrawal,
-    spendingStrategy: spendingStrategyObject,
-    percentageOfPortfolio: percentPercentageOfPortfolio,
-    minWithdrawalLimit,
-    maxWithdrawalLimit,
-    minWithdrawalLimitEnabled,
-    maxWithdrawalLimitEnabled,
-  } = spendingPlan;
 
   const {
     bondsValue,
@@ -31,16 +72,13 @@ export default function computeResult(inputs) {
     stockInvestmentFees: percentStockInvestmentFees,
   } = portfolio;
 
-  const firstYearWithdrawal = annualSpending;
-  const spendingStrategy = spendingStrategyObject.key;
   const stockInvestmentFees = percentStockInvestmentFees / 100;
-  const percentageOfPortfolio = percentPercentageOfPortfolio / 100;
 
-  let lengthOfCycle;
+  let lengthOfCycle = 0;
   let startYears;
   if (durationMode === 'allHistory') {
     lengthOfCycle = numberOfYears;
-    // An array of years that we use as a starting year for cycles
+    // An array of years that we use as a starting year for simulations
     startYears = getStartYears(Number(numberOfYears));
   } else {
     startYears = [Number(startYear)];
@@ -63,37 +101,17 @@ export default function computeResult(inputs) {
     },
   ];
 
-  let spendingConfiguration;
-  if (spendingStrategy === 'portfolioPercent') {
-    spendingConfiguration = {
-      // These are necessary for this computation...
-      minWithdrawal: minWithdrawalLimitEnabled ? minWithdrawalLimit : 0,
-      maxWithdrawal: maxWithdrawalLimitEnabled
-        ? maxWithdrawalLimit
-        : Number.MAX_SAFE_INTEGER,
-      spendingMethod: 'portfolioPercent',
-      percentageOfPortfolio,
-    };
-  } else {
-    spendingConfiguration = {
-      spendingMethod: inflationAdjustedFirstYearWithdrawal
-        ? 'inflationAdjusted'
-        : 'notInflationAdjusted',
-      firstYearWithdrawal: Number(firstYearWithdrawal),
-    };
-  }
-
   const portfolioFromInvestments = fromInvestments({
     investments,
   });
 
   const simulations = _.map(startYears, startYear =>
-    computeCycle({
+    runSimulation({
       startYear,
       dipPercentage,
       rebalancePortfolioAnnually,
       portfolio: portfolioFromInvestments,
-      spendingConfiguration,
+      spendingPlan,
       duration: Number(lengthOfCycle),
     })
   );

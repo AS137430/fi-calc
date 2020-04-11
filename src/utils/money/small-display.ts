@@ -24,7 +24,9 @@ export default function smallDisplay(
 
   if (val.length <= minimum) {
     return {
-      value: formatForDisplay(Number(val), 0, { includeDollarSign: false }),
+      value: Number(
+        formatForDisplay(Number(val), 0, { includeDollarSign: false })
+      ),
       magnitude: '',
       prefix,
     };

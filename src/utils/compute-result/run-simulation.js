@@ -16,15 +16,50 @@ const investmentTypeToGrowthMap = {
 // A cycle is one "simulation." Given a start year, a "duration,"
 // which is an integer number of years, and initial portfolio information,
 // it computes the changes to that portfolio over time.
-export default function computeCycle(options = {}) {
+export default function runSimulation(options = {}) {
   const {
     startYear,
     duration,
     portfolio,
-    spendingConfiguration,
     rebalancePortfolioAnnually,
     dipPercentage,
+    spendingPlan,
   } = options;
+
+  const {
+    annualSpending,
+    inflationAdjustedFirstYearWithdrawal,
+    spendingStrategy: spendingStrategyObject,
+    percentageOfPortfolio: percentPercentageOfPortfolio,
+    minWithdrawalLimit,
+    maxWithdrawalLimit,
+    minWithdrawalLimitEnabled,
+    maxWithdrawalLimitEnabled,
+  } = spendingPlan;
+  const firstYearWithdrawal = annualSpending;
+  const spendingStrategy = spendingStrategyObject.key;
+  const percentageOfPortfolio = percentPercentageOfPortfolio / 100;
+
+  let spendingConfiguration;
+
+  if (spendingStrategy === 'portfolioPercent') {
+    spendingConfiguration = {
+      // These are necessary for this computation...
+      minWithdrawal: minWithdrawalLimitEnabled ? minWithdrawalLimit : 0,
+      maxWithdrawal: maxWithdrawalLimitEnabled
+        ? maxWithdrawalLimit
+        : Number.MAX_SAFE_INTEGER,
+      spendingMethod: 'portfolioPercent',
+      percentageOfPortfolio,
+    };
+  } else {
+    spendingConfiguration = {
+      spendingMethod: inflationAdjustedFirstYearWithdrawal
+        ? 'inflationAdjusted'
+        : 'notInflationAdjusted',
+      firstYearWithdrawal: Number(firstYearWithdrawal),
+    };
+  }
 
   const initialPortfolioValue = portfolio.totalValue;
   const initialPortfolio = portfolio;
