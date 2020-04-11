@@ -15,6 +15,7 @@
 
 .results_sectionRow {
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 1.5rem;
 }
 
@@ -27,6 +28,7 @@
   border-radius: 5px;
   margin-right: 1.5rem;
   padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .results_section:last-child {
