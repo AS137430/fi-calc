@@ -63,7 +63,8 @@ export default function Results({ goToConfig }) {
     setSelectedSimulation(simulation);
   }
 
-  console.log('Result:', result);
+  // For debugging
+  window.result = result;
 
   return (
     <div className="results">

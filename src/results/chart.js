@@ -11,11 +11,11 @@ import addYears from '../utils/date/add-years';
 // These are SVG units, but they should probably be in absolute
 // units, so that I can control the text sizing.
 // const svgYAxisSpacing = 75;
-const svgXAxisSpacing = 35;
+const svgXAxisSpacing = 25;
 
 // The height of an SVG text element, in pixels
 const textHeight = 17;
-const xAxisLabelWidth = 62;
+const xAxisLabelWidth = 40;
 
 // The minimum padding that we want to have on our y axis.
 const yLabelPadding = textHeight * 1.5;
@@ -50,8 +50,13 @@ function yAxisTicks(
 
   return yAxisPoints.map((point, index) => {
     const tickYPosition = point.position;
-    const formatted = isSmallScreen
-      ? smallDisplay(point.label)
+
+    const useSmallDisplay = isSmallScreen;
+    const useMediumDisplay = !isSmallScreen && point.label > 10000000;
+    const useFullDisplay = !useSmallDisplay && !useMediumDisplay;
+
+    const formatted = !useFullDisplay
+      ? smallDisplay(point.label, 3, useMediumDisplay ? 'medium' : 'short')
       : formatForDisplay(point.label, 0);
     const isZero = Math.round(point.label) === 0;
 
@@ -64,14 +69,16 @@ function yAxisTicks(
             x={svgElement.viewBox[0] - svgYAxisSpacing + 5}
             y={tickYPosition - 4}
             className="chartLabel">
-            {isSmallScreen && (
+            {!useFullDisplay && (
               <>
                 {formatted.value < 0 ? formatted.prefix : ''}
+                {useMediumDisplay && '$'}
                 {formatted.value}
+                {useMediumDisplay && ' '}
                 {formatted.magnitude}
               </>
             )}
-            {!isSmallScreen && <>{formatted}</>}
+            {useFullDisplay && <>{formatted}</>}
           </text>
         )}
         <path
