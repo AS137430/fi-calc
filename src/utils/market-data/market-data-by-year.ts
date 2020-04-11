@@ -1,33 +1,8 @@
 import _ from 'lodash';
 import computedMarketData from './computed-market-data';
-import { MarketDataGrowthKeys } from '../run-simulations/run-simulations-interfaces';
+import { MarketData } from '../run-simulations/run-simulations-interfaces';
 
 let memoizedMarketDataByYear: MarketData | null;
-
-interface YearData {
-  cape: string;
-  comp: string;
-  cpi: string;
-  date: string;
-  dateFraction: string;
-  dateFractionDecimal: string;
-  dividend: string;
-  dividendYields: number;
-  earnings: string;
-  lir: string;
-  month: string;
-  realDividend: string;
-  realEarnings: string;
-  realPrice: string;
-  [MarketDataGrowthKeys.stockMarketGrowth]: number;
-  [MarketDataGrowthKeys.none]: number;
-  year: string;
-}
-
-interface MarketData {
-  [Key: string]: YearData;
-  [Key: number]: YearData;
-}
 
 // The market-data.json file is an Array. Finding the data
 // within that can be slow, so we memoize an Object, by year,

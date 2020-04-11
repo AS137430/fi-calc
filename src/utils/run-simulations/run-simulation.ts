@@ -1,14 +1,14 @@
 import _ from 'lodash';
-import spending from './spending';
 import inflationFromCpi from '../market-data/inflation-from-cpi';
 import marketDataByYear from '../market-data/market-data-by-year';
 import {
   Portfolio,
-  PortfolioInvestment,
   SpendingPlan,
   SpendingMethods,
+  YearResult,
+  DipObject
 } from './run-simulations-interfaces';
-import adjustPortfolioInvestment from './adjust-portfolio-investment';
+import simulateOneYear from './simulate-one-year';
 
 const marketData = marketDataByYear();
 const allYears = Object.keys(marketData);
@@ -21,30 +21,6 @@ interface RunSimulationOptions {
   dipPercentage: number;
   spendingPlan: SpendingPlan;
   portfolio: Portfolio;
-}
-
-interface AdjustedInvestment extends PortfolioInvestment {
-  valueBeforeChange: number;
-  valueAfterWithdrawal: number;
-  growth: number;
-  dividends: number;
-  percentage: number;
-  value: number;
-}
-
-interface YearResult {
-  year: number;
-  marketData: any;
-  computedData: {
-    cumulativeInflation: number;
-    totalWithdrawalAmount: number;
-    totalWithdrawalAmountInFirstYearDollars: number;
-    portfolio: {
-      totalValueInFirstYearDollars: number;
-      totalValue: number;
-      investments: AdjustedInvestment[];
-    };
-  };
 }
 
 function getSpendingMethod(
@@ -147,7 +123,7 @@ export default function runSimulation(options: RunSimulationOptions) {
   let isFailed = false;
   let didDip = false;
   let lowestValue = Infinity;
-  let lowestSuccessfulDip = {
+  let lowestSuccessfulDip:DipObject = {
     year: 0,
     value: Infinity,
     startYear: 0,
@@ -166,118 +142,42 @@ export default function runSimulation(options: RunSimulationOptions) {
     portfolio,
   };
 
+  // Might be faster to make this a map of `resultsByYear`?
   _.times(duration, n => {
     const isFirstYear = n === 0;
     const year = Number(startYear) + n;
     const nextYear = year + 1;
     const previousResults = resultsByYear[n - 1];
 
-    // If we had no results for last year, then we can't compute anything
-    // for this year either.
-    if (!isFirstYear && !previousResults) {
-      return null;
-    }
-
-    const previousComputedData = isFirstYear
-      ? initialComputedData
-      : resultsByYear[n - 1].computedData;
-
-    const yearStartValue = previousComputedData.portfolio.totalValue;
-
-    const yearMarketData = marketData[year];
-    const nextYearMarketData = marketData[nextYear];
-
-    // If we have no data for this year, then we have nothing to return.
-    // Likewise, if there is no data for _next_ year, then this year is the
-    // last datapoint in our set, so it cannot be used.
-    if (!yearMarketData || !nextYearMarketData) {
-      return null;
-    }
-
-    const cumulativeInflation = inflationFromCpi({
-      startCpi: Number(firstYearCpi),
-      endCpi: Number(yearMarketData.cpi),
-    });
-
-    // For now, we use a simple inflation-adjusted withdrawal approach
-    let totalWithdrawalAmount = spending[spendingMethod]({
-      ...spendingConfiguration,
-      portfolioTotalValue: yearStartValue,
-      inflation: cumulativeInflation,
-    });
-
-    const notEnoughMoney = totalWithdrawalAmount > yearStartValue;
-
-    if (notEnoughMoney) {
-      totalWithdrawalAmount = yearStartValue;
-    }
-
-    let adjustedInvestmentValues = _.map(
-      portfolio.investments,
-      (investment, index) => adjustPortfolioInvestment({
-        investment,
-        index,
-        notEnoughMoney,
-        previousComputedData,
-        rebalancePortfolioAnnually,
-        initialPortfolio,
-        totalWithdrawalAmount,
-        yearMarketData
-      })
-    );
-
-    const endValue = _.reduce(
-      adjustedInvestmentValues,
-      (result, investment) => result + investment.value,
-      0
-    );
-
-    const endValueInFirstYearDollars = Number(
-      (endValue / cumulativeInflation).toFixed(2)
-    );
-
-    // We only compute `isFailed` if we didn't already compute it as true before.
-    if (!isFailed) {
-      isFailed = endValue === 0;
-      yearFailed = year;
-    }
-
-    if (!didDip) {
-      didDip = endValue <= dipThreshold;
-    }
-
-    if (endValue < lowestValue) {
-      lowestValue = endValue;
-    }
-
-    if (didDip) {
-      if (lowestValue < lowestSuccessfulDip.value) {
-        lowestSuccessfulDip = {
-          value: lowestValue,
-          startYear,
-          year,
-        };
-      }
-    }
-
-    const totalWithdrawalAmountInFirstYearDollars = Number(
-      (totalWithdrawalAmount / cumulativeInflation).toFixed(2)
-    );
-
-    resultsByYear.push({
+    const yearResult = simulateOneYear({
+      n,
+      startYear,
+      isFirstYear,
       year,
-      marketData: yearMarketData,
-      computedData: {
-        cumulativeInflation,
-        totalWithdrawalAmount,
-        totalWithdrawalAmountInFirstYearDollars,
-        portfolio: {
-          totalValueInFirstYearDollars: endValueInFirstYearDollars,
-          totalValue: endValue,
-          investments: adjustedInvestmentValues,
-        },
-      },
+      nextYear,
+      previousResults,
+      rebalancePortfolioAnnually,
+      initialComputedData,
+      resultsByYear,
+      marketData,
+      firstYearCpi,
+      spendingMethod,
+      spendingConfiguration,
+      didDip,
+      lowestValue,
+      dipThreshold,
+      initialPortfolio,
+      portfolio,
+      lowestSuccessfulDip
     });
+
+    if (yearResult !== null) {
+      if (yearResult.isOutOfMoney) {
+        isFailed = true;
+      }
+
+      resultsByYear.push(yearResult);
+    }
   });
 
   const lastYear = resultsByYear[resultsByYear.length - 1];
