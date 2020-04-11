@@ -16,7 +16,10 @@ export default function Results({ goToConfig }) {
   const { state: lengthOfRetirement } = useLengthOfRetirement();
   const { state: portfolio } = usePortfolio();
 
-  const [result, setResult] = useState(null);
+  const [computation, setComputation] = useState({
+    result: null,
+    duration: 0,
+  });
 
   useEffect(
     () => {
@@ -32,8 +35,10 @@ export default function Results({ goToConfig }) {
             successRateThreshold: SUCCESS_RATE_THRESHOLD,
           },
           result => {
-            console.log('wot', performance.now() - start);
-            setResult(result);
+            setComputation({
+              result,
+              duration: performance.now() - start,
+            });
           }
         );
       });
@@ -48,6 +53,8 @@ export default function Results({ goToConfig }) {
       ...Object.values(portfolio),
     ]
   );
+
+  const { result } = computation;
 
   // This powers the "navigation" of the results. We're not using URLs
   // because the state is stored in-memory atm. Refreshing would wipe the
@@ -70,8 +77,7 @@ export default function Results({ goToConfig }) {
     setSelectedSimulation(simulation);
   }
 
-  // For debugging
-  window.result = result;
+  window.computation = computation;
 
   return (
     <div className="results">
