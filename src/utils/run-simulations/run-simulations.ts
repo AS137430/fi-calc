@@ -2,19 +2,7 @@ import _ from 'lodash';
 import getStartYears from './get-start-years';
 import runSimulation from './run-simulation';
 import { fromInvestments } from '../forms/normalize-portfolio';
-
-interface SpendingPlan {
-  annualSpending: number;
-  inflationAdjustedFirstYearWithdrawal: boolean;
-  spendingStrategy: {
-    key: string;
-  };
-  percentageOfPortfolio: number;
-  minWithdrawalLimit: number;
-  maxWithdrawalLimit: number;
-  minWithdrawalLimitEnabled: boolean;
-  maxWithdrawalLimitEnabled: boolean;
-}
+import { SpendingPlan, InvestmentType } from './run-simulations-interfaces';
 
 interface Portfolio {
   bondsValue: number;
@@ -88,13 +76,13 @@ export default function runSimulations(
   const rebalancePortfolioAnnually = false;
   const investments = [
     {
-      type: 'equity',
+      type: InvestmentType.equity,
       fees: stockInvestmentFees,
       value: stockInvestmentValue,
       percentage: 1,
     },
     {
-      type: 'bonds',
+      type: InvestmentType.bonds,
       fees: 0,
       value: bondsValue,
       percentage: 0,

@@ -1,22 +1,61 @@
 import _ from 'lodash';
-import * as spending from './spending';
+import spending from './spending';
 import inflationFromCpi from '../market-data/inflation-from-cpi';
 import marketDataByYear from '../market-data/market-data-by-year';
+import {
+  SpendingPlan,
+  InvestmentType,
+  SpendingMethods,
+} from './run-simulations-interfaces';
 
 const marketData = marketDataByYear();
 const allYears = Object.keys(marketData);
-const lastSupportedYear = allYears[allYears.length - 1];
+const lastSupportedYear = Number(allYears[allYears.length - 1]);
 
 // This maps an investment type to the key on marketData that
 // represents its changes in a given year
 const investmentTypeToGrowthMap = {
-  equity: 'stockMarketGrowth',
+  [InvestmentType.equity]: 'stockMarketGrowth',
+  [InvestmentType.bonds]: 'none',
 };
+
+interface PortfolioInvestment {
+  percentage: number;
+  type: InvestmentType;
+  fees: number;
+  value: number;
+  annualGrowthAmount?: number;
+}
+
+interface RunSimulationOptions {
+  startYear: number;
+  duration: number;
+  rebalancePortfolioAnnually: boolean;
+  dipPercentage: number;
+  spendingPlan: SpendingPlan;
+  portfolio: {
+    totalValue: number;
+    investments: Array<PortfolioInvestment>;
+  };
+}
+
+function getSpendingMethod(
+  spendingStrategy: string,
+  inflationAdjustedFirstYearWithdrawal: boolean
+): SpendingMethods {
+  if (spendingStrategy === 'portfolioPercent') {
+    return SpendingMethods.portfolioPercent;
+  }
+
+  return inflationAdjustedFirstYearWithdrawal
+    ? SpendingMethods.inflationAdjusted
+    : SpendingMethods.notInflationAdjusted;
+}
 
 // A simulation is one single possible retirement calculation. Given a start year, a "duration,"
 // which is an integer number of years, and initial portfolio information,
 // it computes the changes to that portfolio over time.
-export default function runSimulation(options = {}) {
+export default function runSimulation(options: RunSimulationOptions) {
   const {
     startYear,
     duration,
@@ -40,7 +79,12 @@ export default function runSimulation(options = {}) {
   const spendingStrategy = spendingStrategyObject.key;
   const percentageOfPortfolio = percentPercentageOfPortfolio / 100;
 
-  let spendingConfiguration;
+  let spendingConfiguration: any = {};
+
+  const spendingMethod = getSpendingMethod(
+    spendingStrategy,
+    inflationAdjustedFirstYearWithdrawal
+  );
 
   if (spendingStrategy === 'portfolioPercent') {
     spendingConfiguration = {
@@ -49,14 +93,10 @@ export default function runSimulation(options = {}) {
       maxWithdrawal: maxWithdrawalLimitEnabled
         ? maxWithdrawalLimit
         : Number.MAX_SAFE_INTEGER,
-      spendingMethod: 'portfolioPercent',
       percentageOfPortfolio,
     };
   } else {
     spendingConfiguration = {
-      spendingMethod: inflationAdjustedFirstYearWithdrawal
-        ? 'inflationAdjusted'
-        : 'notInflationAdjusted',
       firstYearWithdrawal: Number(firstYearWithdrawal),
     };
   }
@@ -92,7 +132,7 @@ export default function runSimulation(options = {}) {
   const initialPortfolioValueInFinalYear =
     totalInflationOverPeriod * initialPortfolioValue;
 
-  const resultsByYear = [];
+  const resultsByYear: any[] = [];
 
   // Whether or not this simulation "failed," where failure is defined as the portfolio
   // value being equal to or less than 0.
@@ -100,8 +140,9 @@ export default function runSimulation(options = {}) {
   let didDip = false;
   let lowestValue = Infinity;
   let lowestSuccessfulDip = {
-    year: null,
+    year: 0,
     value: Infinity,
+    startYear: 0,
   };
   let yearFailed = null;
 
@@ -150,8 +191,6 @@ export default function runSimulation(options = {}) {
       endCpi: yearMarketData.cpi,
     });
 
-    const { spendingMethod } = spendingConfiguration;
-
     // For now, we use a simple inflation-adjusted withdrawal approach
     let totalWithdrawalAmount = spending[spendingMethod]({
       ...spendingConfiguration,
@@ -186,7 +225,7 @@ export default function runSimulation(options = {}) {
         // If we rebalance yearly, then we keep the original percentage from the previous year.
         // This assumes that the investor reinvests at the very beginning (or very end) of each year.
         const percentage = rebalancePortfolioAnnually
-          ? initialPortfolio[index].percentage
+          ? initialPortfolio.investments[index].percentage
           : previousYearInvestment.percentage;
 
         // We assume that the total yearly withdrawal is divided evenly between the different

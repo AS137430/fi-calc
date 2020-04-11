@@ -1,4 +1,5 @@
 import clamp from '../numbers/clamp';
+import { SpendingMethods } from './run-simulations-interfaces';
 
 // These are different methods to calculate the spending amount
 // for a given year.
@@ -41,3 +42,9 @@ export function portfolioPercent({
   );
   return clamped;
 }
+
+export default {
+  [SpendingMethods.inflationAdjusted]: inflationAdjusted,
+  [SpendingMethods.notInflationAdjusted]: notInflationAdjusted,
+  [SpendingMethods.portfolioPercent]: portfolioPercent,
+};
