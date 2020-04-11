@@ -98,10 +98,15 @@ export default function computeResult(inputs) {
     })
   );
 
-  const completedSimulations = _.filter(simulations, 'isComplete');
-  const successfulSimulations = _.reject(completedSimulations, 'isFailed');
-  const successRate =
-    successfulSimulations.length / completedSimulations.length;
+  const [completeSimulations, incompleteSimulations] = _.partition(
+    simulations,
+    'isComplete'
+  );
+  const [failedSimulations, successfulSimulations] = _.partition(
+    completeSimulations,
+    'isFailed'
+  );
+  const successRate = successfulSimulations.length / completeSimulations.length;
 
   const rawSuccessRate = successRate * 100;
 
@@ -114,16 +119,13 @@ export default function computeResult(inputs) {
 
   const exceedsSuccessRateThreshold = successRate > successRateThreshold;
 
-  const initialPortfolioValue =
-    portfolio.stockInvestmentValue + portfolio.bondsValue;
-
   return {
     simulations,
-    completedSimulations,
-    numberOfSimulations: simulations.length,
-    numberOfCompletedSimulations: completedSimulations.length,
+    completeSimulations,
+    incompleteSimulations,
+    successfulSimulations,
+    failedSimulations,
     inputs,
-    initialPortfolioValue,
     exceedsSuccessRateThreshold,
     successRate,
     successRateDisplay,

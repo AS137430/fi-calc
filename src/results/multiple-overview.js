@@ -28,7 +28,7 @@ export default function MultipleOverview({
           <div className="results_section">
             <div className="results_sectionTitle">Number of Simulations</div>
             <div className="results_bigValue">
-              {result.numberOfCompletedSimulations}
+              {result.completeSimulations.length}
             </div>
           </div>
           <div className="results_section">
@@ -51,7 +51,7 @@ export default function MultipleOverview({
           Click on a year to view more information about that simulation.
         </div>
         <div className="results_byYearGrid">
-          {result.completedSimulations.map(cycle => {
+          {result.completeSimulations.map(cycle => {
             return (
               <button
                 type="button"
