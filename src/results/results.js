@@ -15,6 +15,10 @@ export default function Results({ goToConfig }) {
   const { state: spendingPlan } = useSpendingPlan();
   const { state: lengthOfRetirement } = useLengthOfRetirement();
   const { state: portfolio } = usePortfolio();
+
+  // This powers the "navigation" of the results. We're not using URLs
+  // because the state is stored in-memory atm. Refreshing would wipe the
+  // state, and without state persistence, there is no location to bookmark.
   const [selectedSimulation, setSelectedSimulation] = useState(null);
 
   const result = useMemo(
@@ -43,6 +47,9 @@ export default function Results({ goToConfig }) {
     ]
   );
 
+  // When the result changes, then that means the user must have changed
+  // the inputs. When that happens, we set the selected simulation
+  // to null, which effectively "navigates" us back to the overview.
   useEffect(
     () => {
       window.scrollTo(0, 0);
