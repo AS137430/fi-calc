@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import _ from 'lodash';
 import './results.css';
 import computeResult from '../utils/compute-result';
 import usePortfolio from '../state/portfolio';
