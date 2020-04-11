@@ -198,8 +198,6 @@ export default function Chart({ data }) {
         <svg
           className="chart"
           style={{
-            width: `${dataForRender.svgElement.svgWidth}px`,
-            height: `${dataForRender.svgElement.svgHeight}px`,
             display: 'block',
           }}
           viewBox={`0 0 ${dataForRender.svgElement.viewBox[0]} ${

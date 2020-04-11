@@ -7,7 +7,6 @@
 }
 
 .chartContainer {
-  width: 100%;
   background-color: #141414;
   border: 1px solid var(--axisColor);
   border-radius: 4px;
