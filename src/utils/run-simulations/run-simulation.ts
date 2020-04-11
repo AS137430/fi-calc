@@ -35,7 +35,31 @@ interface RunSimulationOptions {
   spendingPlan: SpendingPlan;
   portfolio: {
     totalValue: number;
-    investments: Array<PortfolioInvestment>;
+    investments: PortfolioInvestment[];
+  };
+}
+
+interface AdjustedInvestment extends PortfolioInvestment {
+  valueBeforeChange: number;
+  valueAfterWithdrawal: number;
+  growth: number;
+  dividends: number;
+  percentage: number;
+  value: number;
+}
+
+interface YearResult {
+  year: number;
+  marketData: any;
+  computedData: {
+    cumulativeInflation: number;
+    totalWithdrawalAmount: number;
+    totalWithdrawalAmountInFirstYearDollars: number;
+    portfolio: {
+      totalValueInFirstYearDollars: number;
+      totalValue: number;
+      investments: AdjustedInvestment[];
+    };
   };
 }
 
@@ -132,7 +156,7 @@ export default function runSimulation(options: RunSimulationOptions) {
   const initialPortfolioValueInFinalYear =
     totalInflationOverPeriod * initialPortfolioValue;
 
-  const resultsByYear: any[] = [];
+  const resultsByYear: YearResult[] = [];
 
   // Whether or not this simulation "failed," where failure is defined as the portfolio
   // value being equal to or less than 0.
