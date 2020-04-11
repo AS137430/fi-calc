@@ -4,7 +4,7 @@ import runSimulations from '../utils/run-simulations/run-simulations';
 import usePortfolio from '../state/portfolio';
 import useSpendingPlan from '../state/spending-plan';
 import useLengthOfRetirement from '../state/length-of-retirement';
-import MultipleOverview from './multiple-overview';
+import SimulationsOverview from './simulations-overview';
 import OneSimulation from './one-simulation';
 
 // These could one day be app-level settings that users can configure
@@ -61,7 +61,7 @@ export default function Results({ goToConfig }) {
   return (
     <div className="results">
       {selectedSimulation === null && (
-        <MultipleOverview
+        <SimulationsOverview
           goToConfig={goToConfig}
           result={result}
           updateStartYear={updateStartYear}

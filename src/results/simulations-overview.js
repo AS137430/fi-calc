@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import IconInfoOutline from 'materialish/icon-info-outline';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 
-export default function MultipleOverview({
+export default function SimulationsOverview({
   result,
   updateStartYear,
   goToConfig,
