@@ -8,6 +8,10 @@ import useLengthOfRetirement from '../state/length-of-retirement';
 import MultipleOverview from './multiple-overview';
 import OneCycle from './one-cycle';
 
+// These could one day be app-level settings that users can configure
+const DIP_PERCENTAGE = 0.9;
+const SUCCESS_RATE_THRESHOLD = 0.95;
+
 export default function Results({ goToConfig }) {
   const { state: spendingPlan } = useSpendingPlan();
   const { state: lengthOfRetirement } = useLengthOfRetirement();
@@ -21,6 +25,8 @@ export default function Results({ goToConfig }) {
         lengthOfRetirement,
         spendingPlan,
         portfolio,
+        dipPercentage: DIP_PERCENTAGE,
+        successRateThreshold: SUCCESS_RATE_THRESHOLD,
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,13 +48,12 @@ export default function Results({ goToConfig }) {
     [result]
   );
 
-  function updateStartYear(startYear) {
+  function updateStartYear(cycle) {
     window.scrollTo(0, 0);
-    const target = _.find(result.results.allCycles, {
-      startYear,
-    });
-    setSelectedStartYear(target);
+    setSelectedStartYear(cycle);
   }
+
+  console.log('hello', result);
 
   return (
     <div className="results">

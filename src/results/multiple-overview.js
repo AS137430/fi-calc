@@ -8,11 +8,11 @@ export default function MultipleOverview({
   updateStartYear,
   goToConfig,
 }) {
-  const isSuccessful = result.summary === 'SUCCESSFUL';
+  const { exceedsSuccessRateThreshold } = result;
 
-  const isDanger = !isSuccessful && result.results.successRate < 0.8;
+  const isDanger = !exceedsSuccessRateThreshold && result.successRate < 0.8;
   const isWarning =
-    !isSuccessful && !isDanger && result.results.successRate < 0.95;
+    !exceedsSuccessRateThreshold && !isDanger && result.successRate < 0.95;
 
   return (
     <>
@@ -28,18 +28,18 @@ export default function MultipleOverview({
           <div className="results_section">
             <div className="results_sectionTitle">Number of Simulations</div>
             <div className="results_bigValue">
-              {result.results.numberOfCycles}
+              {result.numberOfCompletedSimulations}
             </div>
           </div>
           <div className="results_section">
             <div className="results_sectionTitle">Success Rate</div>
             <div
               className={classnames('results_bigValue', {
-                'results_bigValue-success': isSuccessful,
+                'results_bigValue-success': exceedsSuccessRateThreshold,
                 'results_bigValue-warning': isWarning,
                 'results_bigValue-danger': isDanger,
               })}>
-              {result.successRate}
+              {result.successRateDisplay}
             </div>
           </div>
         </div>
@@ -51,11 +51,11 @@ export default function MultipleOverview({
           Click on a year to view more information about that simulation.
         </div>
         <div className="results_byYearGrid">
-          {result.results.allCycles.map(cycle => {
+          {result.completedSimulations.map(cycle => {
             return (
               <button
                 type="button"
-                onClick={() => updateStartYear(cycle.startYear)}
+                onClick={() => updateStartYear(cycle)}
                 className={classnames('byYear_cell', {
                   'byYear_cell-isWarning': cycle.status === 'WARNING',
                   'byYear_cell-isFailed': cycle.status === 'FAILED',

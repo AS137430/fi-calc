@@ -1,11 +1,17 @@
 import _ from 'lodash';
 import getStartYears from './get-start-years';
 import computeCycle from './compute-cycle';
-import evaluateCycles from './evaluate-cycles';
 import { fromInvestments } from '../forms/normalize-portfolio';
 
 export default function computeResult(inputs) {
-  const { durationMode, lengthOfRetirement, spendingPlan, portfolio } = inputs;
+  const {
+    durationMode,
+    lengthOfRetirement,
+    spendingPlan,
+    portfolio,
+    dipPercentage,
+    successRateThreshold,
+  } = inputs;
 
   const { numberOfYears, startYear, endYear } = lengthOfRetirement;
   const {
@@ -40,8 +46,6 @@ export default function computeResult(inputs) {
     startYears = [Number(startYear)];
     lengthOfCycle = endYear - startYear + 1;
   }
-
-  const dipPercentage = 0.9;
 
   const rebalancePortfolioAnnually = false;
   const investments = [
@@ -83,7 +87,7 @@ export default function computeResult(inputs) {
     investments,
   });
 
-  const cycles = _.map(startYears, startYear =>
+  const simulations = _.map(startYears, startYear =>
     computeCycle({
       startYear,
       dipPercentage,
@@ -94,33 +98,34 @@ export default function computeResult(inputs) {
     })
   );
 
-  const results = evaluateCycles({
-    cycles,
-  });
+  const completedSimulations = _.filter(simulations, 'isComplete');
+  const successfulSimulations = _.reject(completedSimulations, 'isFailed');
+  const successRate =
+    successfulSimulations.length / completedSimulations.length;
 
-  const dipRate = `${(results.dipRate * 100).toFixed(2)}%`;
+  const rawSuccessRate = successRate * 100;
 
-  const rawSuccessRate = results.successRate * 100;
-
-  let successRate;
+  let successRateDisplay;
   if (rawSuccessRate === 100 || rawSuccessRate === 0) {
-    successRate = `${rawSuccessRate}%`;
+    successRateDisplay = `${rawSuccessRate}%`;
   } else {
-    successRate = `${rawSuccessRate.toFixed(2)}%`;
+    successRateDisplay = `${rawSuccessRate.toFixed(2)}%`;
   }
 
-  let summary = results.successRate > 0.95 ? 'SUCCESSFUL' : 'UNSUCCESSFUL';
+  const exceedsSuccessRateThreshold = successRate > successRateThreshold;
 
   const initialPortfolioValue =
     portfolio.stockInvestmentValue + portfolio.bondsValue;
 
   return {
+    simulations,
+    completedSimulations,
+    numberOfSimulations: simulations.length,
+    numberOfCompletedSimulations: completedSimulations.length,
     inputs,
     initialPortfolioValue,
-    results,
-    summary,
-    dipRate,
+    exceedsSuccessRateThreshold,
     successRate,
-    lowestDippedValue: results.lowestDippedValue,
+    successRateDisplay,
   };
 }
