@@ -1,8 +1,6 @@
-import {
-  inflationAdjusted,
-  notInflationAdjusted,
-  portfolioPercent,
-} from './spending';
+import spending from './spending';
+
+const { inflationAdjusted, notInflationAdjusted, portfolioPercent } = spending;
 
 describe('spending', () => {
   describe('inflationAdjusted', () => {

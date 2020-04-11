@@ -14,20 +14,20 @@ interface SpendingOptions {
   maxWithdrawal: number;
 }
 
-export function inflationAdjusted({
+function inflationAdjusted({
   inflation,
   firstYearWithdrawal,
 }: SpendingOptions): number {
   return inflation * firstYearWithdrawal;
 }
 
-export function notInflationAdjusted({
+function notInflationAdjusted({
   firstYearWithdrawal,
 }: SpendingOptions): number {
   return firstYearWithdrawal;
 }
 
-export function portfolioPercent({
+function portfolioPercent({
   inflation,
   portfolioTotalValue,
   percentageOfPortfolio,
