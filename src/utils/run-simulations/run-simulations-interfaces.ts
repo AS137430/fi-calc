@@ -1,3 +1,16 @@
+export interface PortfolioInvestment {
+  percentage: number;
+  type: InvestmentType;
+  fees: number;
+  value: number;
+  annualGrowthAmount?: number;
+}
+
+export interface Portfolio {
+  totalValue: number;
+  investments: PortfolioInvestment[];
+}
+
 export interface SpendingPlan {
   annualSpending: number;
   inflationAdjustedFirstYearWithdrawal: boolean;

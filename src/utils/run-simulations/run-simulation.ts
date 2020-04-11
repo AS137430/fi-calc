@@ -3,30 +3,16 @@ import spending from './spending';
 import inflationFromCpi from '../market-data/inflation-from-cpi';
 import marketDataByYear from '../market-data/market-data-by-year';
 import {
+  Portfolio,
+  PortfolioInvestment,
   SpendingPlan,
-  InvestmentType,
   SpendingMethods,
-  MarketDataGrowthKeys
 } from './run-simulations-interfaces';
+import adjustPortfolioInvestment from './adjust-portfolio-investment';
 
 const marketData = marketDataByYear();
 const allYears = Object.keys(marketData);
 const lastSupportedYear = Number(allYears[allYears.length - 1]);
-
-// This maps an investment type to the key on marketData that
-// represents its changes in a given year
-const investmentTypeToGrowthMap = {
-  [InvestmentType.equity]: MarketDataGrowthKeys.stockMarketGrowth,
-  [InvestmentType.bonds]: MarketDataGrowthKeys.none,
-};
-
-interface PortfolioInvestment {
-  percentage: number;
-  type: InvestmentType;
-  fees: number;
-  value: number;
-  annualGrowthAmount?: number;
-}
 
 interface RunSimulationOptions {
   startYear: number;
@@ -34,10 +20,7 @@ interface RunSimulationOptions {
   rebalancePortfolioAnnually: boolean;
   dipPercentage: number;
   spendingPlan: SpendingPlan;
-  portfolio: {
-    totalValue: number;
-    investments: PortfolioInvestment[];
-  };
+  portfolio: Portfolio;
 }
 
 interface AdjustedInvestment extends PortfolioInvestment {
@@ -231,69 +214,16 @@ export default function runSimulation(options: RunSimulationOptions) {
 
     let adjustedInvestmentValues = _.map(
       portfolio.investments,
-      (investment, index) => {
-        if (notEnoughMoney) {
-          return {
-            ...investment,
-            valueBeforeChange: investment.value,
-            valueAfterWithdrawal: 0,
-            growth: 0,
-            dividends: 0,
-            percentage: 0,
-            value: 0,
-          };
-        }
-
-        const previousYearInvestment =
-          previousComputedData.portfolio.investments[index];
-
-        // If we rebalance yearly, then we keep the original percentage from the previous year.
-        // This assumes that the investor reinvests at the very beginning (or very end) of each year.
-        const percentage = rebalancePortfolioAnnually
-          ? initialPortfolio.investments[index].percentage
-          : previousYearInvestment.percentage;
-
-        // We assume that the total yearly withdrawal is divided evenly between the different
-        // investments.
-        const withdrawalAmount = percentage * totalWithdrawalAmount;
-        const valueAfterWithdrawal =
-          previousYearInvestment.value - withdrawalAmount;
-        const growthKey = investmentTypeToGrowthMap[investment.type];
-        const growthPercentage = yearMarketData[growthKey] || 0;
-        const growth = valueAfterWithdrawal * growthPercentage;
-
-        // This allows you to specify a fixed annual addition to this investment. This replaces
-        // the "growth of cash" feature of cFIREsim.
-        let annualGrowthAmount = investment.annualGrowthAmount
-          ? investment.annualGrowthAmount
-          : 0;
-
-        let dividends =
-          investment.type === 'equity'
-            ? valueAfterWithdrawal * yearMarketData.dividendYields
-            : 0;
-
-        const valueWithGrowth =
-          valueAfterWithdrawal + growth + annualGrowthAmount;
-
-        // Fees aren't applied to dividends. This behavior matches cFIREsim.
-        const fees = investment.fees * valueWithGrowth;
-
-        // We factor everything in to get our end result for this investment
-        const value = valueWithGrowth + dividends - fees;
-
-        return {
-          ...investment,
-          percentage,
-          growth,
-          fees,
-          dividends,
-          valueBeforeChange: investment.value,
-          valueAfterWithdrawal,
-          valueWithGrowth,
-          value,
-        };
-      }
+      (investment, index) => adjustPortfolioInvestment({
+        investment,
+        index,
+        notEnoughMoney,
+        previousComputedData,
+        rebalancePortfolioAnnually,
+        initialPortfolio,
+        totalWithdrawalAmount,
+        yearMarketData
+      })
     );
 
     const endValue = _.reduce(
