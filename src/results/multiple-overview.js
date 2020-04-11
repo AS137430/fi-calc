@@ -51,18 +51,18 @@ export default function MultipleOverview({
           Click on a year to view more information about that simulation.
         </div>
         <div className="results_byYearGrid">
-          {result.completeSimulations.map(cycle => {
+          {result.completeSimulations.map(simulation => {
             return (
               <button
                 type="button"
-                onClick={() => updateStartYear(cycle)}
+                onClick={() => updateStartYear(simulation)}
                 className={classnames('byYear_cell', {
-                  'byYear_cell-isWarning': cycle.status === 'WARNING',
-                  'byYear_cell-isFailed': cycle.status === 'FAILED',
-                  'byYear_cell-incomplete': !cycle.isComplete,
+                  'byYear_cell-isWarning': simulation.status === 'WARNING',
+                  'byYear_cell-isFailed': simulation.status === 'FAILED',
+                  'byYear_cell-incomplete': !simulation.isComplete,
                 })}
-                key={cycle.startYear}>
-                {cycle.startYear}
+                key={simulation.startYear}>
+                {simulation.startYear}
               </button>
             );
           })}

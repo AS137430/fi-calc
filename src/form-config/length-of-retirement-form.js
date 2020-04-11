@@ -12,7 +12,7 @@ import {
 import marketDataByYear from '../utils/market-data/market-data-by-year';
 
 const marketData = marketDataByYear();
-// If the duration goes higher than the number of years in our market data, then no cycles complete,
+// If the duration goes higher than the number of years in our market data, then no simulations complete,
 // and we cannot output any results.
 const maxDuration = _.size(marketData);
 

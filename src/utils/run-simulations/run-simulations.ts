@@ -74,15 +74,15 @@ export default function runSimulations(
 
   const stockInvestmentFees = percentStockInvestmentFees / 100;
 
-  let lengthOfCycle = 0;
+  let lengthOfSimulation = 0;
   let startYears;
   if (durationMode === 'allHistory') {
-    lengthOfCycle = numberOfYears;
+    lengthOfSimulation = numberOfYears;
     // An array of years that we use as a starting year for simulations
     startYears = getStartYears(Number(numberOfYears));
   } else {
     startYears = [Number(startYear)];
-    lengthOfCycle = endYear - startYear + 1;
+    lengthOfSimulation = endYear - startYear + 1;
   }
 
   const rebalancePortfolioAnnually = false;
@@ -112,7 +112,7 @@ export default function runSimulations(
       rebalancePortfolioAnnually,
       portfolio: portfolioFromInvestments,
       spendingPlan,
-      duration: Number(lengthOfCycle),
+      duration: Number(lengthOfSimulation),
     })
   );
 

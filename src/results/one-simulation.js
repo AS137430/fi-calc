@@ -4,8 +4,8 @@ import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 import Chart from './chart';
 import formatNumber from '../utils/numbers/format-number';
 
-function formatCycleForPortfolioChart(cycle) {
-  return cycle?.resultsByYear?.map(yearData => {
+function formatSimulationForPortfolioChart(simulation) {
+  return simulation?.resultsByYear?.map(yearData => {
     return {
       historyKey: `${yearData.year}-01`,
       month: 1,
@@ -15,8 +15,8 @@ function formatCycleForPortfolioChart(cycle) {
   });
 }
 
-function formatCycleForSpendingChart(cycle) {
-  return cycle?.resultsByYear?.map(yearData => {
+function formatSimulationForSpendingChart(simulation) {
+  return simulation?.resultsByYear?.map(yearData => {
     return {
       historyKey: `${yearData.year}-01`,
       month: 1,
@@ -26,12 +26,13 @@ function formatCycleForSpendingChart(cycle) {
   });
 }
 
-export default function OneCycle({ inputs, cycle, goBack }) {
-  const lastYear = cycle.resultsByYear[cycle.resultsByYear.length - 1];
+export default function OneSimulation({ inputs, simulation, goBack }) {
+  const lastYear =
+    simulation.resultsByYear[simulation.resultsByYear.length - 1];
 
-  const isSuccess = cycle.status === 'OK';
-  const isFailed = cycle.status === 'FAILED';
-  const isWarning = cycle.status === 'WARNING';
+  const isSuccess = simulation.status === 'OK';
+  const isFailed = simulation.status === 'FAILED';
+  const isWarning = simulation.status === 'WARNING';
 
   let successMessage;
   if (isFailed) {
@@ -44,16 +45,16 @@ export default function OneCycle({ inputs, cycle, goBack }) {
 
   const portfolioChartData = useMemo(
     () => {
-      return formatCycleForPortfolioChart(cycle);
+      return formatSimulationForPortfolioChart(simulation);
     },
-    [cycle]
+    [simulation]
   );
 
   const spendingChartData = useMemo(
     () => {
-      return formatCycleForSpendingChart(cycle);
+      return formatSimulationForSpendingChart(simulation);
     },
-    [cycle]
+    [simulation]
   );
 
   const isConstantSpending =
@@ -71,7 +72,7 @@ export default function OneCycle({ inputs, cycle, goBack }) {
         <h2 className="results_h2">
           {goBack && (
             <>
-              Simulation: {cycle.startYear} – {cycle.endYear}
+              Simulation: {simulation.startYear} – {simulation.endYear}
             </>
           )}
           {!goBack && <>Simulation Overview</>}
@@ -100,11 +101,11 @@ export default function OneCycle({ inputs, cycle, goBack }) {
                 <div className="results_value">
                   $
                   {formatNumber(
-                    cycle.minPortfolioYearInFirstYearDollars.computedData
+                    simulation.minPortfolioYearInFirstYearDollars.computedData
                       .portfolio.totalValueInFirstYearDollars
                   )}
                   <span className="results_secondaryValue">
-                    ({cycle.minPortfolioYearInFirstYearDollars.year})
+                    ({simulation.minPortfolioYearInFirstYearDollars.year})
                   </span>
                 </div>
               </div>
@@ -122,10 +123,10 @@ export default function OneCycle({ inputs, cycle, goBack }) {
           {isFailed && (
             <div className="results_section">
               <div className="results_sectionTitle">Lasted Until</div>
-              <div className="results_bigValue">{cycle.yearFailed}</div>
+              <div className="results_bigValue">{simulation.yearFailed}</div>
               <div className="results_details">
-                This simulation ran for {cycle.numberOfSuccessfulYears} years
-                before running out of money.
+                This simulation ran for {simulation.numberOfSuccessfulYears}{' '}
+                years before running out of money.
               </div>
             </div>
           )}
@@ -144,11 +145,11 @@ export default function OneCycle({ inputs, cycle, goBack }) {
               <div className="results_value">
                 $
                 {formatNumber(
-                  cycle.minWithdrawalYearInFirstYearDollars.computedData
+                  simulation.minWithdrawalYearInFirstYearDollars.computedData
                     .totalWithdrawalAmountInFirstYearDollars
                 )}
                 <span className="results_secondaryValue">
-                  ({cycle.minWithdrawalYearInFirstYearDollars.year})
+                  ({simulation.minWithdrawalYearInFirstYearDollars.year})
                 </span>
               </div>
             </div>

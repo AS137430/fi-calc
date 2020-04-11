@@ -5,7 +5,7 @@ import usePortfolio from '../state/portfolio';
 import useSpendingPlan from '../state/spending-plan';
 import useLengthOfRetirement from '../state/length-of-retirement';
 import MultipleOverview from './multiple-overview';
-import OneCycle from './one-cycle';
+import OneSimulation from './one-simulation';
 
 // These could one day be app-level settings that users can configure
 const DIP_PERCENTAGE = 0.9;
@@ -15,11 +15,12 @@ export default function Results({ goToConfig }) {
   const { state: spendingPlan } = useSpendingPlan();
   const { state: lengthOfRetirement } = useLengthOfRetirement();
   const { state: portfolio } = usePortfolio();
-  const [selectedStartYear, setSelectedStartYear] = useState(null);
+  const [selectedSimulation, setSelectedSimulation] = useState(null);
 
   const result = useMemo(
     () => {
-      return runSimulations({
+      // const start = performance.now();
+      const result = runSimulations({
         durationMode: 'allHistory',
         lengthOfRetirement,
         spendingPlan,
@@ -27,6 +28,9 @@ export default function Results({ goToConfig }) {
         dipPercentage: DIP_PERCENTAGE,
         successRateThreshold: SUCCESS_RATE_THRESHOLD,
       });
+      // console.log('wot', performance.now() - start);
+
+      return result;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -42,36 +46,36 @@ export default function Results({ goToConfig }) {
   useEffect(
     () => {
       window.scrollTo(0, 0);
-      setSelectedStartYear(null);
+      setSelectedSimulation(null);
     },
     [result]
   );
 
-  function updateStartYear(cycle) {
+  function updateStartYear(simulation) {
     window.scrollTo(0, 0);
-    setSelectedStartYear(cycle);
+    setSelectedSimulation(simulation);
   }
 
   console.log('hello', result);
 
   return (
     <div className="results">
-      {selectedStartYear === null && (
+      {selectedSimulation === null && (
         <MultipleOverview
           goToConfig={goToConfig}
           result={result}
           updateStartYear={updateStartYear}
         />
       )}
-      {selectedStartYear && (
-        <OneCycle
+      {selectedSimulation && (
+        <OneSimulation
           goBack={() => {
             window.scrollTo(0, 0);
-            setSelectedStartYear(null);
+            setSelectedSimulation(null);
           }}
           inputs={result.inputs}
-          isSuccessful={!selectedStartYear.isFailed}
-          cycle={selectedStartYear}
+          isSuccessful={!selectedSimulation.isFailed}
+          simulation={selectedSimulation}
         />
       )}
     </div>

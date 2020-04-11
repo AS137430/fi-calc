@@ -13,7 +13,7 @@ const investmentTypeToGrowthMap = {
   equity: 'stockMarketGrowth',
 };
 
-// A cycle is one "simulation." Given a start year, a "duration,"
+// A simulation is one single possible retirement calculation. Given a start year, a "duration,"
 // which is an integer number of years, and initial portfolio information,
 // it computes the changes to that portfolio over time.
 export default function runSimulation(options = {}) {
@@ -69,7 +69,7 @@ export default function runSimulation(options = {}) {
   const endYear = startYear + duration - 1;
   const trueEndYear = Math.min(endYear, lastSupportedYear);
 
-  // This Boolean represents whether this is cycle contains the entire
+  // This Boolean represents whether this is simulation contains the entire
   // duration or not.
   const isComplete = startYear + duration <= lastSupportedYear;
   const firstYearMarketData = _.find(marketData, {
@@ -94,7 +94,7 @@ export default function runSimulation(options = {}) {
 
   const resultsByYear = [];
 
-  // Whether or not this cycle "failed," where failure is defined as the portfolio
+  // Whether or not this simulation "failed," where failure is defined as the portfolio
   // value being equal to or less than 0.
   let isFailed = false;
   let didDip = false;

@@ -11,7 +11,10 @@ export default function getStartYears(duration: number): Array<number> {
     .map(data => Number(data.year))
     .value();
 
-  // This excludes cycles that would not complete.
+  // This is the code that excludes the simulations that would not complete.
+  // If we ever want to consider excluded simulations, then we can comment this out.
+  // Note: at this time, sims are run synchronously. We would either want to speed them up
+  // or run them async before doing this.
   if (typeof duration === 'number' && !Number.isNaN(duration)) {
     return _.dropRight(startYears, duration);
   } else {
