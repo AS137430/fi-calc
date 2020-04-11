@@ -3,7 +3,6 @@ import { useCurrentRef } from 'core-hooks';
 import './chart.css';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 import useElSize from '../hooks/use-el-size';
-import bezierCommand from '../utils/math/bezier-command';
 import renderData from '../utils/chart/render-data';
 import formatForDisplay from '../utils/money/format-for-display';
 import smallDisplay from '../utils/money/small-display';
@@ -23,7 +22,7 @@ const yLabelPadding = textHeight * 1.5;
 const xLabelPadding = xAxisLabelWidth * 0.6;
 
 // Linear function
-// const lineCommand = point => `L ${point[0]} ${point[1]}`;
+const lineCommand = point => `L ${point[0]} ${point[1]}`;
 
 // Generate a path from points
 const svgPath = (points, command) => {
@@ -215,7 +214,7 @@ export default function Chart({ data }) {
             dataForRender,
             svgYAxisSpacing
           )}
-          {svgPath(dataForRender.data, bezierCommand)}
+          {svgPath(dataForRender.data, lineCommand)}
           {/* 1px border between the chart and the x-axis labels */}
           <path
             d={`M0 ${dataForRender.svgElement.viewBox[1] -
