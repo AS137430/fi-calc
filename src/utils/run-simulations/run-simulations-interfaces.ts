@@ -11,6 +11,11 @@ export interface SpendingPlan {
   maxWithdrawalLimitEnabled: boolean;
 }
 
+export enum MarketDataGrowthKeys {
+  stockMarketGrowth = 'stockMarketGrowth',
+  none = 'none',
+}
+
 export enum InvestmentType {
   equity = 'equity',
   bonds = 'bonds',

@@ -10,5 +10,9 @@ export default function inflationFromCpi({
   startCpi,
   endCpi,
 }: InflationFromCpiOptions): number {
-  return endCpi / startCpi;
+  if (!Number.isNaN(startCpi) && !Number.isNaN(endCpi)) {
+    return endCpi / startCpi;
+  } else {
+    return 1;
+  }
 }

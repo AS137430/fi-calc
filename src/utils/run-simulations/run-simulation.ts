@@ -6,6 +6,7 @@ import {
   SpendingPlan,
   InvestmentType,
   SpendingMethods,
+  MarketDataGrowthKeys
 } from './run-simulations-interfaces';
 
 const marketData = marketDataByYear();
@@ -15,8 +16,8 @@ const lastSupportedYear = Number(allYears[allYears.length - 1]);
 // This maps an investment type to the key on marketData that
 // represents its changes in a given year
 const investmentTypeToGrowthMap = {
-  [InvestmentType.equity]: 'stockMarketGrowth',
-  [InvestmentType.bonds]: 'none',
+  [InvestmentType.equity]: MarketDataGrowthKeys.stockMarketGrowth,
+  [InvestmentType.bonds]: MarketDataGrowthKeys.none,
 };
 
 interface PortfolioInvestment {
@@ -140,17 +141,17 @@ export default function runSimulation(options: RunSimulationOptions) {
     year: String(startYear),
     month: '01',
   });
-  const firstYearCpi = firstYearMarketData.cpi;
+  const firstYearCpi = firstYearMarketData?.cpi;
 
   const endYearMarketData = _.find(marketData, {
     year: String(trueEndYear),
     month: '01',
   });
-  const endYearCpi = endYearMarketData.cpi;
+  const endYearCpi = endYearMarketData?.cpi;
 
   const totalInflationOverPeriod = inflationFromCpi({
-    startCpi: firstYearCpi,
-    endCpi: endYearCpi,
+    startCpi: Number(firstYearCpi),
+    endCpi: Number(endYearCpi),
   });
 
   const initialPortfolioValueInFinalYear =
@@ -211,8 +212,8 @@ export default function runSimulation(options: RunSimulationOptions) {
     }
 
     const cumulativeInflation = inflationFromCpi({
-      startCpi: firstYearCpi,
-      endCpi: yearMarketData.cpi,
+      startCpi: Number(firstYearCpi),
+      endCpi: Number(yearMarketData.cpi),
     });
 
     // For now, we use a simple inflation-adjusted withdrawal approach
