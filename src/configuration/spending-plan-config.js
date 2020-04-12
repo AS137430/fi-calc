@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import _ from 'lodash';
 import { Checkbox } from 'materialish';
 import IconHelp from 'materialish/icon-help';
 import IconDone from 'materialish/icon-done';
@@ -21,15 +22,22 @@ export default function SpendingPlanConfig() {
     useSourceOfTruth: useSpendingPlan,
   });
 
-  const [isTitleInfoModalOpen, setIsTitleInfoModalOpen] = useState(false);
-  const [isInflationModalOpen, setIsInflationModalOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(null);
+
+  const display = _.chain(spendingPlanForm.values.spendingStrategy.values)
+    .find({
+      key: inputs.spendingStrategy.value,
+    })
+    .get('display')
+    .startCase()
+    .value();
 
   return (
     <>
       <ConfigSection
-        title="Spending Plan"
-        onHelpClick={() => setIsTitleInfoModalOpen(true)}>
-        <div className="formRow">
+        title="Withdrawal Plan"
+        onHelpClick={() => setOpenModal('titleHelp')}>
+        <div className="formRow formRow-flex">
           <select
             id="country"
             value={inputs.spendingStrategy.value}
@@ -41,6 +49,13 @@ export default function SpendingPlanConfig() {
               </option>
             ))}
           </select>
+          <button
+            title="Learn more about this withdrawal strategy"
+            className="helpIcon"
+            type="button"
+            onClick={() => setOpenModal('withdrawalStrategy')}>
+            <IconHelp />
+          </button>
         </div>
         {spendingPlan.spendingStrategy.key === 'constantSpending' && (
           <>
@@ -79,7 +94,7 @@ export default function SpendingPlanConfig() {
                 title="Learn more about inflation"
                 className="helpIcon"
                 type="button"
-                onClick={() => setIsInflationModalOpen(true)}>
+                onClick={() => setOpenModal('inflation')}>
                 <IconHelp />
               </button>
             </div>
@@ -106,9 +121,18 @@ export default function SpendingPlanConfig() {
               />
             </div>
             <div className="formRow">
-              <label htmlFor="minWithdrawalLimit" className="inputLabel">
-                Minimum Annual Spend
-              </label>
+              <div className="inputLabel_container">
+                <label htmlFor="minWithdrawalLimit" className="inputLabel">
+                  Minimum Annual Withdrawal
+                </label>
+                <button
+                  title="Learn more"
+                  className="helpIcon"
+                  type="button"
+                  onClick={() => setOpenModal('minWithdrawalLimit')}>
+                  <IconHelp />
+                </button>
+              </div>
               <div className="formRow_checkboxInputContainer">
                 <Checkbox
                   className="checkbox"
@@ -136,9 +160,18 @@ export default function SpendingPlanConfig() {
               </div>
             </div>
             <div className="formRow">
-              <label htmlFor="minWithdrawalLimit" className="inputLabel">
-                Maximum Annual Spend
-              </label>
+              <div className="inputLabel_container">
+                <label htmlFor="minWithdrawalLimit" className="inputLabel">
+                  Maximum Annual Withdrawal
+                </label>
+                <button
+                  title="Learn more"
+                  className="helpIcon"
+                  type="button"
+                  onClick={() => setOpenModal('maxWithdrawalLimit')}>
+                  <IconHelp />
+                </button>
+              </div>
               <div className="formRow_checkboxInputContainer">
                 <Checkbox
                   className="checkbox"
@@ -183,8 +216,60 @@ export default function SpendingPlanConfig() {
         )}
       </ConfigSection>
       <Modal
-        active={isInflationModalOpen}
-        onBeginClose={() => setIsInflationModalOpen(false)}>
+        active={openModal === 'titleHelp'}
+        onBeginClose={() => setOpenModal(null)}>
+        <Modal.Title>Withdrawal Plan</Modal.Title>
+        <Modal.Body>
+          <p>
+            Your <i>withdrawal plan</i> describes two things:
+          </p>
+          <ol>
+            <li>
+              How much money you intend to withdraw from your portfolio each
+              year during retirement
+            </li>
+            <li>
+              How you plan to adjust your withdrawals, if at all, in response to
+              changes in the market
+            </li>
+          </ol>
+          <p>
+            The default plan, <b>constant withdrawal</b>, is the withdrawal plan
+            used by the studies that derived the 4% rule. It works like this:
+            you choose some amount of your initial portfolio (such as 4%), and
+            you spend that much the first year. For each subsequent year, you
+            adjust your withdrawal to account for inflation, but you otherwise
+            ignore how the market is doing, or what your portfolio is valued at.
+          </p>
+          <p>
+            It's called "constant" because the purchasing power of your annual
+            withdrawal remains constant.
+          </p>
+          <p>
+            The 4% rule is a foundational algorithm in retirement planning, and
+            there are no doubt many retirees who are successfully using it as
+            their withdrawal plan. However, some believe that it could be
+            improved, which is why this calculator includes other withdrawal
+            plans for you to explore.
+          </p>
+          <p>
+            To learn more about each of the different withdrawal plans, first
+            select the plan and then click the <IconHelp fill="white" /> icon
+            next to the plan selection dropdown.
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="button button-primary"
+            type="button"
+            onClick={() => setOpenModal(null)}>
+            Okay
+          </button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        active={openModal === 'inflation'}
+        onBeginClose={() => setOpenModal(null)}>
         <Modal.Title>Adjust Spending for Inflation</Modal.Title>
         <div className="recommendation">
           <IconDone />
@@ -224,60 +309,148 @@ export default function SpendingPlanConfig() {
           <button
             className="button button-primary"
             type="button"
-            onClick={() => setIsInflationModalOpen(false)}>
+            onClick={() => setOpenModal(null)}>
             Okay
           </button>
         </Modal.Footer>
       </Modal>
       <Modal
-        active={isTitleInfoModalOpen}
-        onBeginClose={() => setIsTitleInfoModalOpen(false)}>
-        <Modal.Title>Spending Plan</Modal.Title>
+        active={openModal === 'minWithdrawalLimit'}
+        onBeginClose={() => setOpenModal(null)}>
+        <Modal.Title>Minimum Withdrawal Limit</Modal.Title>
+        <div className="recommendation">
+          <IconDone />
+          <div>We recommend specifying a minimum withdrawal.</div>
+        </div>
         <Modal.Body>
           <p>
-            Your <i>spending plan</i> describes two things:
+            A minimum withdrawal limit ensures that your withdrawal never drops
+            below a certain amount. If you disable this feature, then your
+            retirement plan will never fail, because even if you have $1 left,
+            you'll still only be withdrawing a percentage of the $1, so your
+            portfolio will never hit $0.
           </p>
           <p>
-            <ol>
-              <li>
-                How much money you intend to spend each year during retirement
-              </li>
-              <li>
-                How you plan to adjust your spending in response to changes in
-                the market
-              </li>
-            </ol>
+            Of course, living on a few cents per year is not sustainable.
+            Accordingly, it is best to specify some kind of minimum withdrawal.
+            What is the least you could live on during economic downturns? Think
+            about it, and put that number here.
           </p>
           <p>
-            The default plan, <b>constant spending</b>, is the spending plan
-            used by the studies that derived the 4% rule. It works like this:
-            you choose some amount of your initial portfolio (such as 4%), and
-            you spend that much the first year. For each subsequent year, you
-            adjust your spending to account for inflation, but you otherwise
-            ignore how the market is doing, or what your portfolio is valued at.
+            Keep in mind that the minimum withdrawal is adjusted for inflation,
+            so the purchasing power of the minimum withdrawal remains constant
+            throughout your retirement.
           </p>
-          <p>
-            It's called "constant" because the purchasing power of your annual
-            spend remains constant.
-          </p>
-          <p>
-            The 4% rule is a foundational algorithm in retirement planning, and
-            there are no doubt many retirees who are successfully using it as
-            their spending plan. However, some believe that it could be
-            improved, which is why this calculator includes other spending plans
-            for you to explore.
-          </p>
-          {/* <p>
-            To learn more about each of the different spending plans, first
-            select the plan and then click the <IconHelp fill="white" /> icon
-            next to the plan selection dropdown.
-          </p> */}
         </Modal.Body>
         <Modal.Footer>
           <button
             className="button button-primary"
             type="button"
-            onClick={() => setIsTitleInfoModalOpen(false)}>
+            onClick={() => setOpenModal(null)}>
+            Okay
+          </button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        active={openModal === 'maxWithdrawalLimit'}
+        onBeginClose={() => setOpenModal(null)}>
+        <Modal.Title>Maximum Withdrawal Limit</Modal.Title>
+        <Modal.Body>
+          <p>
+            A maximum withdrawal limit ensures that your withdrawal never
+            increases beyond a certain amount, even when the economy is doing
+            exceptionally well.
+          </p>
+          <p>
+            You don't <i>need</i> to specify a maximum withdrawal for good
+            success rates, although a maximum withdrawal limit does typically
+            improve the rate of success.
+          </p>
+          <p>
+            However, you may still prefer to specify a maximum withdrawal for
+            psychological reasons. I believe it is more difficult to "deflate" a
+            lifestyle than it is to "inflate" it.
+          </p>
+          <p>
+            For example, if your typical withdrawal is $40,000 per year, you may
+            one day find yourself able to withdraw $120,000 if you don't specify
+            a maximum withdrawal limit. And you may even find things to spend
+            this money on. However, a recession might bring the following
+            withdrawal down to $35,000. Would you find it difficult to adjust to
+            this sudden change?
+          </p>
+          <p>
+            Specifying a maximum withdrawal limit ensures that your spending
+            does not fluctuate this much.
+          </p>
+          <p>
+            The maximum withdrawal is inflation-adjusted, so its purchasing
+            power remains constant throughout the retirement.
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="button button-primary"
+            type="button"
+            onClick={() => setOpenModal(null)}>
+            Okay
+          </button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        active={openModal === 'withdrawalStrategy'}
+        onBeginClose={() => setOpenModal(null)}>
+        <Modal.Title>
+          Withdrawal Strategy
+          {display && `: ${display}`}
+        </Modal.Title>
+        <Modal.Body>
+          {inputs.spendingStrategy.value === 'constantSpending' && (
+            <>
+              <p>
+                This is the withdrawal plan used in Bengen's original analysis,
+                as well as the Trinity Study.
+              </p>
+              <p>
+                It works like this: you choose some amount of your initial
+                portfolio (such as 4% of the total value), and you spend that
+                much the first year. For each subsequent year, you adjust your
+                withdrawal to account for inflation, but you otherwise ignore
+                how the market is doing, or what your portfolio is valued at.
+              </p>
+              <p>
+                It's called "constant" because the purchasing power of your
+                annual withdrawal remains constant.
+              </p>
+            </>
+          )}
+          {inputs.spendingStrategy.value === 'portfolioPercent' && (
+            <>
+              <p>
+                In this strategy, your withdrawal limit is a percentage of the{' '}
+                <i>current</i> value of your portfolio.
+              </p>
+              <p>
+                This strategy is similar to the constant spending withdrawal
+                plan, but it adjusts your annual withdrawal based on how the
+                market is performing. When the market is doing poorly, you
+                withdraw less, increasing your chance of success. And when the
+                market is doing well, you are able to withdraw more.
+              </p>
+              <p>
+                You may also set limits to specify the mimimum or maximum amount
+                that you would like to withdraw each year. These limits are
+                inflation adjusted, so the purchasing power of the limits
+                remains constant throughout your retirement.
+              </p>
+            </>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="button button-primary"
+            type="button"
+            onClick={() => setOpenModal(null)}>
             Okay
           </button>
         </Modal.Footer>
