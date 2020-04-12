@@ -131,8 +131,8 @@
 }
 
 .results_goBack {
-  color: #409dff;
-  fill: #409dff;
+  color: var(--primaryBlue);
+  fill: var(--primaryBlue);
   display: inline-flex;
   align-items: center;
   margin-bottom: 0.5rem;
@@ -148,7 +148,7 @@
 }
 
 .results_goBack.focus-visible {
-  border-color: #409dff;
+  border-color: var(--primaryBlue);
 }
 
 .results_goBack svg {

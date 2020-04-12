@@ -13,6 +13,7 @@
   --chartBg: #141414;
   /* rgb: 105, 84, 255 */
   --accentColor: #6954ff;
+  --primaryBlue: #409dff;
   --mt-mainColor: var(--accentColor);
   --maxAppWidth: 64rem;
   --headerHeight: 3.125rem;
