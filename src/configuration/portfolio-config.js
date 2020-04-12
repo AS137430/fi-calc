@@ -25,7 +25,7 @@ export default function PortfolioConfig() {
               type: 'number',
               pattern: '\\d*',
               min: 0,
-              inputMode: 'numeric',
+              inputMode: 'decimal',
               autoComplete: 'off',
               prefix: '$',
               onCommit(event, newValue) {
@@ -46,7 +46,7 @@ export default function PortfolioConfig() {
               step: 0.01,
               min: 0,
               max: 100,
-              inputMode: 'numeric',
+              inputMode: 'decimal',
               autoComplete: 'off',
               suffix: '%',
               onCommit(event, newValue) {
@@ -68,7 +68,7 @@ export default function PortfolioConfig() {
               type: 'number',
               pattern: '\\d*',
               min: 0,
-              inputMode: 'numeric',
+              inputMode: 'decimal',
               autoComplete: 'off',
               prefix: '$',
               onCommit(event, newValue) {
