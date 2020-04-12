@@ -5,6 +5,13 @@ import { useForm as useVendorForm } from '../vendor/forms';
 import useUndo from '../state/undo-history';
 import reactOnInputBlur from '../utils/forms/react-on-input-blur';
 
+function isObject(val) {
+  if (val === null) {
+    return false;
+  }
+  return typeof val === 'function' || typeof val === 'object';
+}
+
 // This manages the interplay between form state (which can be invalid...it is whatever the user has
 // typed in), and the "source of truth" state that's in context, which is what the results are always
 // based off of.
@@ -15,9 +22,17 @@ export default function useForm({ formConfig, useSourceOfTruth }) {
 
   const useVendorFormOptions = useMemo(() => {
     return _.mapValues(formConfig.values, (val, key) => {
+      const possibleInitialValue = state[key];
+      let initialValue;
+      if (isObject(possibleInitialValue)) {
+        initialValue = possibleInitialValue.key;
+      } else {
+        initialValue = possibleInitialValue;
+      }
+
       return {
         validators: formConfig.values[key].validators,
-        initialValue: state[key],
+        initialValue,
       };
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
