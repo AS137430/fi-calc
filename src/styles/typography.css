@@ -1,5 +1,5 @@
 a {
-  color: #7164e8;
+  color: var(--primaryBlue);
 }
 
 .primaryHeader {
