@@ -1,9 +1,5 @@
 # FI Calc
 
-[![Travis build status](http://img.shields.io/travis/jamesplease/fi-calc.svg?style=flat)](https://travis-ci.org/jamesplease/fi-calc)
-[![Dependency Status](https://david-dm.org/jamesplease/fi-calc.svg)](https://david-dm.org/jamesplease/fi-calc)
-[![devDependency Status](https://david-dm.org/jamesplease/fi-calc/dev-status.svg)](https://david-dm.org/jamesplease/fi-calc#info=devDependencies)
-
 This is the development repository for [https://ficalc.app](https://ficalc.app).
 
 ### Contributing
@@ -12,7 +8,13 @@ Looking to help out? Refer to the [Contributing Guide](./CONTRIBUTING.md). Also,
 
 ### Deploying
 
-There are [npm scripts](https://docs.npmjs.com/misc/scripts) to help with deployment.
+First, install the `now` CLI:
+
+```js
+npm i -g now
+```
+
+Once you have this installed, there are [npm scripts](https://docs.npmjs.com/misc/scripts) to help with deployment.
 
 - `npm run deploy` - Deploys the application to `staging.ficalc.app`.
 - `npm run promote-staging` - Promotes the staging environment to production.
