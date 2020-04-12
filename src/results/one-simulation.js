@@ -80,7 +80,7 @@ export default function OneSimulation() {
   if (isFailed) {
     successMessage = 'No';
   } else if (isWarning) {
-    successMessage = 'Yes, barely';
+    successMessage = 'Yes, but not much';
   } else {
     successMessage = 'Yes';
   }
@@ -102,7 +102,9 @@ export default function OneSimulation() {
         </h2>
         <div className="results_sectionRow">
           <div className="results_section">
-            <div className="results_sectionTitle">Succeeded?</div>
+            <div className="results_sectionTitle">
+              Has money remaining at end?
+            </div>
             <div
               className={classnames('results_bigValue', {
                 'results_bigValue-success': isSuccess,
