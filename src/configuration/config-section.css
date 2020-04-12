@@ -18,6 +18,11 @@
   padding: 1rem var(--baseContentSpacingRight) 0 var(--contentSpacingLeft);
 }
 
+.configSection_title .helpIcon {
+  opacity: 1;
+  pointer-events: all;
+}
+
 .configSection_body {
   font-size: 0.875rem;
   padding: 1rem var(--baseContentSpacingRight) 1rem var(--contentSpacingLeft);

@@ -76,7 +76,7 @@ export default function LengthOfRetirementConfig() {
           <p>
             The more simulations that are run, the better, because that means
             your retirement plan experiences more situations. This is why it
-            isn't useful to specify extremely long retirement lengths, like 100
+            isn't useful to specify extremely long retirement lengths, like 140
             years. With huge retirement lengths, so few simulations are run that
             the result just isn't meaningful.
           </p>
