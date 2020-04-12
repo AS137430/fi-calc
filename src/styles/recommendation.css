@@ -1,4 +1,6 @@
 .recommendation {
+  position: relative;
+  top: -1px;
   font-size: 1rem;
   background-color: #0a8c0a;
   color: #fff;

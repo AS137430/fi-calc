@@ -4,10 +4,10 @@ import IconHelp from 'materialish/icon-help';
 import IconDone from 'materialish/icon-done';
 import ConfigSection from './config-section';
 import useForm from '../hooks/use-form';
+import Modal from '../common/modal';
 import Input from '../common/input';
 import useSpendingPlan from '../state/spending-plan';
 import spendingPlanForm from '../form-config/spending-plan-form';
-import Modal from '../common/modal';
 
 export default function SpendingPlanConfig() {
   const {
@@ -21,11 +21,14 @@ export default function SpendingPlanConfig() {
     useSourceOfTruth: useSpendingPlan,
   });
 
+  const [isTitleInfoModalOpen, setIsTitleInfoModalOpen] = useState(false);
   const [isInflationModalOpen, setIsInflationModalOpen] = useState(false);
 
   return (
     <>
-      <ConfigSection title="Spending Plan">
+      <ConfigSection
+        title="Spending Plan"
+        onHelpClick={() => setIsTitleInfoModalOpen(true)}>
         <div className="formRow">
           <select
             id="country"
@@ -222,6 +225,58 @@ export default function SpendingPlanConfig() {
             className="button button-primary"
             type="button"
             onClick={() => setIsInflationModalOpen(false)}>
+            Okay
+          </button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        active={isTitleInfoModalOpen}
+        onBeginClose={() => setIsTitleInfoModalOpen(false)}>
+        <Modal.Title>Spending Plan</Modal.Title>
+        <Modal.Body>
+          <p>
+            Your <i>spending plan</i> describes two things:
+          </p>
+          <p>
+            <ol>
+              <li>
+                How much money you intend to spend each year during retirement
+              </li>
+              <li>
+                How you plan to adjust your spending in response to changes in
+                the market
+              </li>
+            </ol>
+          </p>
+          <p>
+            The default plan, <b>constant spending</b>, is the spending plan
+            used by the studies that derived the 4% rule. It works like this:
+            you choose some amount of your initial portfolio (such as 4%), and
+            you spend that much the first year. For each subsequent year, you
+            adjust the spending to account for inflation, but you otherwise
+            ignore how the market is doing, or what your portfolio is valued at.
+          </p>
+          <p>
+            It's called "constant" because the purchasing power of your annual
+            spend remains constant.
+          </p>
+          <p>
+            The 4% rule is a foundational algorithm in retirement planning, and
+            there are no doubt many retirees who are successfuly using it as
+            their spending plan. However, some believe that it could be
+            improved, which is why this calculator offers other plans.
+          </p>
+          {/* <p>
+            To learn more about each of the different spending plans, first
+            select the plan and then click the <IconHelp fill="white" /> icon
+            next to the plan selection dropdown.
+          </p> */}
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="button button-primary"
+            type="button"
+            onClick={() => setIsTitleInfoModalOpen(false)}>
             Okay
           </button>
         </Modal.Footer>

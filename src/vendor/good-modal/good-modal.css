@@ -64,19 +64,20 @@
   padding: var(--goodModal-contentPadding);
   font-size: 1.25em;
   border-bottom: 1px solid var(--goodModal-borderColor);
+  border-bottom: 1px solid #444;
 }
 
 .goodModal_body {
   padding: var(--goodModal-contentPadding);
   padding-top: 0;
-  margin-top: var(--goodModal-contentPadding);
+  /* margin-top: var(--goodModal-contentPadding); */
   flex: 1;
   overflow-y: scroll;
 }
 
 .goodModal_footer {
   flex-shrink: 0;
-  border-top: 1px solid var(--goodModal-borderColor);
+  /* border-top: 1px solid var(--goodModal-borderColor); */
   border-top: 1px solid #444;
   padding: var(--goodModal-contentPadding) var(--goodModal-contentPadding)
     var(--goodModal-footerPaddingBottom);

@@ -88,10 +88,6 @@
     /* This comes from widthOfModal/heightOfPage - 1 */
     transform: translateY(5.3%);
   }
-
-  .goodModal_footer {
-    border-top: 1px solid #444;
-  }
 }
 
 @media (min-width: 551px) {
