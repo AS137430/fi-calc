@@ -1,7 +1,11 @@
 :root {
-  --axisColor: #e5e5e5;
+  /* --axisColor: #e5e5e5;
   --zeroAxisColor: #d0d0d0;
-  --boundingBorderColor: #cfcfcf;
+  --boundingBorderColor: #cfcfcf; */
+  --chartBg: #1a1a1a;
+  --axisColor: #303030;
+  --zeroAxisColor: #303030;
+  --boundingBorderColor: #303030;
 
   --chartLabelColor: var(--fontColor);
 }
@@ -22,7 +26,7 @@
   stroke: var(--accentColor);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --axisColor: #303030;
     --zeroAxisColor: #303030;
@@ -34,4 +38,4 @@
   :root {
     --chartBg: #1a1a1a;
   }
-}
+} */
