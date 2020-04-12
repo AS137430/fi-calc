@@ -1,0 +1,18 @@
+.recommendation {
+  font-size: 1rem;
+  background-color: #0a8c0a;
+  color: #fff;
+  fill: #fff;
+  display: flex;
+  align-items: center;
+  padding: 1rem var(--goodModal-contentPadding);
+}
+
+.recommendation svg {
+  margin-right: 0.5rem;
+}
+
+.recommendation + .goodModal_body {
+  padding-top: 0.5rem;
+  margin-top: 0;
+}

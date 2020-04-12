@@ -1,0 +1,115 @@
+:root {
+  --mt-checkbox-focusColor: #444;
+}
+
+.formRow {
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width: 551px) {
+  .formRow {
+    margin-bottom: 1rem;
+  }
+}
+
+.formRow-extraSpace {
+  margin: 1rem 0;
+}
+
+.formRow-indented {
+  margin-left: 1rem;
+}
+
+.formRow-flex {
+  display: flex;
+  align-items: center;
+}
+
+.formRow:last-child {
+  margin-bottom: 0;
+}
+
+.formRow .select {
+  width: 100%;
+}
+
+.input:focus {
+  border-color: var(--accentColor);
+  box-shadow: 0 0 0 2px var(--accentColor);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  background: #393939;
+  border-color: #4c4c4c;
+  color: #888;
+}
+
+.inputLabel {
+  display: block;
+  color: #dfe0df;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 551px) {
+  .inputLabel {
+    font-size: 0.9375rem;
+  }
+}
+
+.inputLabel-inline {
+  display: inline-block;
+  margin-right: 1rem;
+  margin-bottom: 0;
+}
+
+.checkbox + .checkbox_label {
+  margin-left: 0.35rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.checkbox_label {
+  user-select: none;
+}
+
+.helpIcon {
+  background: transparent;
+  border: 0;
+  fill: #888;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.helpIcon:hover {
+  fill: #999;
+}
+
+.helpIcon:focus {
+  fill: var(--accentColor);
+}
+
+.formRow_checkboxInputContainer {
+  display: flex;
+  align-items: center;
+}
+
+.formRow_checkboxInputContainer .checkbox {
+  margin-right: 0.5rem;
+}
+
+.formRow_message {
+  line-height: 1.6;
+  color: #ccc;
+}

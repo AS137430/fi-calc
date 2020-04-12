@@ -1,0 +1,37 @@
+:root {
+  --axisColor: #e5e5e5;
+  --zeroAxisColor: #d0d0d0;
+  --boundingBorderColor: #cfcfcf;
+
+  --chartLabelColor: var(--fontColor);
+}
+
+.chartContainer {
+  background-color: #141414;
+  border: 1px solid var(--axisColor);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.chartLabel {
+  fill: var(--chartLabelColor);
+  font-size: 13px;
+}
+
+.chartLine {
+  stroke: var(--accentColor);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --axisColor: #303030;
+    --zeroAxisColor: #303030;
+    --boundingBorderColor: #303030;
+  }
+}
+
+@media (prefers-color-scheme: dark) and (min-width: 551px) {
+  :root {
+    --chartBg: #1a1a1a;
+  }
+}

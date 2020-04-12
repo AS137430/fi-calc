@@ -1,0 +1,39 @@
+:root {
+  --safeAreaInsetTop: 0;
+  --safeAreaInsetBottom: 0;
+  --safeAreaInsetLeft: 0;
+  --safeAreaInsetRight: 0;
+
+  --safeAreaInsetTop: env(safe-area-inset-top);
+  --safeAreaInsetBottom: env(safe-area-inset-bottom);
+  --safeAreaInsetLeft: env(safe-area-inset-left);
+  --safeAreaInsetRight: env(safe-area-inset-right);
+
+  --fontColor: #fff;
+  --chartBg: #141414;
+  /* rgb: 105, 84, 255 */
+  --accentColor: #6954ff;
+  --mt-mainColor: var(--accentColor);
+  --maxAppWidth: 64rem;
+  --headerHeight: 3.125rem;
+  --appHeader-height: 3.5rem;
+  --configuration-width: calc(16rem + var(--safeAreaInsetLeft));
+
+  --horizontalContentPadding: 1.375rem;
+
+  --baseContentSpacing: 1.25rem;
+
+  /* Use these for containers that don't touch app edge */
+  --baseContentSpacingLeft: var(--baseContentSpacing);
+  --baseContentSpacingRight: var(--baseContentSpacing);
+
+  /* Use these for containers that do touch app edge */
+  --contentSpacingLeft: max(
+    var(--baseContentSpacingLeft),
+    var(--safeAreaInsetLeft)
+  );
+  --contentSpacingRight: max(
+    var(--baseContentSpacingRight),
+    var(--safeAreaInsetRight)
+  );
+}

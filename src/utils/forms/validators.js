@@ -57,6 +57,28 @@ export function withinYearLimit(val) {
   }
 }
 
+export function dollarsTooLarge(limit) {
+  return val => {
+    if (Number(val) > limit) {
+      return {
+        code: 'dollarsTooLarge',
+        limit,
+      };
+    }
+  };
+}
+
+export function dollarsTooSmall(limit) {
+  return val => {
+    if (Number(val) < limit) {
+      return {
+        code: 'dollarsTooSmall',
+        limit,
+      };
+    }
+  };
+}
+
 export function tooLarge(limit) {
   return val => {
     if (Number(val) > limit) {
@@ -79,24 +101,18 @@ export function tooSmall(limit) {
   };
 }
 
-export function dollarsTooLarge(limit) {
-  return val => {
-    if (Number(val) > limit) {
-      return {
-        code: 'dollarsTooLarge',
-        limit,
-      };
-    }
-  };
-}
+export function isValidHexCode(val) {
+  // First, we ensure that the length is one of the valid lengths.
+  if (val.length !== 2 && val.length !== 3 && val.length !== 6) {
+    return {
+      code: 'invalidHex',
+    };
+  }
 
-export function dollarsTooSmall(limit) {
-  return val => {
-    if (Number(val) < limit) {
-      return {
-        code: 'dollarsTooSmall',
-        limit,
-      };
-    }
-  };
+  // Then we ensure that it is only comprised of valid characters
+  if (!/^[0-9A-Fa-f]+$/i.test(val)) {
+    return {
+      code: 'invalidHex',
+    };
+  }
 }

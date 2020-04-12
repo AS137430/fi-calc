@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import queryString from 'query-string';
-import errorMessages from './error-messages';
+// import errorMessages from './error-messages';
 
 // Pass in some `inputs`, and you'll get a copy of it back with
 // updated errors.
@@ -24,8 +23,9 @@ function computeInputErrors(inputs, validators) {
       };
     }
 
-    const validationCode = _.get(validationError, 'code', validationError);
-    let validationErrorFn = errorMessages[validationCode];
+    // const validationCode = _.get(validationError, 'code', validationError);
+    // let validationErrorFn = errorMessages[validationCode];
+    let validationErrorFn;
 
     let validationErrorMsg;
     if (validationErrorFn) {
@@ -61,11 +61,11 @@ export function getUpdatedInputFormState({ inputs, validators }) {
   };
 }
 
-export function getFormUrl(location, inputs) {
-  const { pathname } = location;
+// export function getFormUrl(location, inputs) {
+//   const { pathname } = location;
 
-  const inputValues = _.mapValues(inputs, 'value');
-  const qs = queryString.stringify(inputValues);
+//   const inputValues = _.mapValues(inputs, 'value');
+//   const qs = queryString.stringify(inputValues);
 
-  return `${window.location.origin}${pathname}?${qs}`;
-}
+//   return `${window.location.origin}${pathname}?${qs}`;
+// }

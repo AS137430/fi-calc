@@ -1,7 +1,9 @@
 .app_body {
-  max-width: var(--maxAppWidth);
-  width: 100%;
-  padding: 0;
-  margin: 0 auto;
-  flex: 1;
+  display: flex;
+}
+
+@media (max-width: 551px) {
+  .app_body {
+    display: block;
+  }
 }
