@@ -1,0 +1,4 @@
+.notFound {
+  padding: 0 var(--contentSpacingRight) 0 var(--contentSpacingLeft);
+  margin-top: 15vh;
+}

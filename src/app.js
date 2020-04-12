@@ -1,54 +1,67 @@
-import React, { useState } from 'react';
-import { Router } from 'react-router-dom';
-import createBrowserHistory from 'history/createBrowserHistory';
-import queryString from 'query-string';
+import React, { useEffect } from 'react';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import './app.css';
-import historyWithQuery from './utils/routing/history-with-query';
 import Configuration from './configuration/configuration';
-import Results from './results/results';
+import SimulationsOverview from './results/simulations-overview';
+import NotFound from './common/not-found';
 import useIsSmallScreen from './hooks/use-is-small-screen';
+import OneSimulation from './results/one-simulation';
 
-const history = historyWithQuery(
-  createBrowserHistory(),
-  queryString.stringify,
-  queryString.parse
-);
+//
+// This app has a weird URL structure right now.
+// This file handles a lot of the heavy lifting, but the OneSimulation component
+// does some of the work as well (with the URL of its back link)
+//
 
 export default function App() {
-  const [appPage, setAppPage] = useState('config');
-
   const isSmallScreen = useIsSmallScreen();
+  const { pathname } = useLocation();
+  const history = useHistory();
+
+  // Right now, the app has no state persistence. Therefore,
+  // it doesn't make sense to allow the user to visit any other URL other
+  // than the root.
+  // What this code does is redirect the user back to the homepage if they
+  // refresh on any nested routes.
+  useEffect(() => {
+    if (pathname !== '/') {
+      history.replace('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // The /results path only exists for small screens. If you
+  // attempt to access it on a large screen, we redirect you back home.
+  useEffect(
+    () => {
+      if (!isSmallScreen && pathname === '/results') {
+        history.replace('/');
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isSmallScreen, pathname]
+  );
 
   return (
-    <Router history={history}>
-      <div className="app_body">
-        {!isSmallScreen && (
-          <>
-            <Configuration />
-            <Results />
-          </>
-        )}
-        {isSmallScreen && (
-          <>
-            {appPage === 'config' && (
-              <Configuration
-                goToResults={() => {
-                  window.scrollTo(0, 0);
-                  setAppPage('results');
-                }}
-              />
-            )}
-            {appPage === 'results' && (
-              <Results
-                goToConfig={() => {
-                  window.scrollTo(0, 0);
-                  setAppPage('config');
-                }}
-              />
-            )}
-          </>
-        )}
-      </div>
-    </Router>
+    <div className="app_body">
+      {isSmallScreen && (
+        <Switch>
+          <Route exact path="/" component={Configuration} />
+          <Route path="/results" component={SimulationsOverview} />
+          <Route path="/year/:year" component={OneSimulation} />
+          <Route component={NotFound} />
+        </Switch>
+      )}
+      {!isSmallScreen && (
+        <>
+          <Configuration />
+          <Switch>
+            <Route exact path="/" component={SimulationsOverview} />
+            <Route path="/year/:year" component={OneSimulation} />
+            <Route component={NotFound} />
+          </Switch>
+        </>
+      )}
+    </div>
   );
 }
