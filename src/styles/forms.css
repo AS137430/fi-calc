@@ -45,11 +45,18 @@
   color: #888;
 }
 
+.inputLabel_container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
 .inputLabel {
   display: block;
   color: #dfe0df;
   font-size: 0.875rem;
-  margin-bottom: 0.5rem;
+  /* margin-bottom: 0.5rem; */
+  flex-grow: 0;
 }
 
 @media (max-width: 551px) {
@@ -90,6 +97,13 @@ input[type='number'] {
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  will-change: opacity;
+  pointer-events: none;
+  transition: opacity 90ms ease-out;
+  /* width: 1rem; */
+  padding: 0.1rem 0.25rem;
+  margin-left: 0.25rem;
 }
 
 .helpIcon:hover {
@@ -98,6 +112,18 @@ input[type='number'] {
 
 .helpIcon:focus {
   fill: var(--accentColor);
+}
+
+.formRow:hover .helpIcon {
+  opacity: 1;
+  pointer-events: all;
+}
+
+@media (hover: none) {
+  .helpIcon {
+    opacity: 1;
+    pointer-events: all;
+  }
 }
 
 .formRow_checkboxInputContainer {

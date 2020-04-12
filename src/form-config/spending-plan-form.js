@@ -68,7 +68,7 @@ export default {
       values: [
         {
           key: 'constantSpending',
-          display: 'Constant spending',
+          display: 'Constant withdrawal',
         },
         {
           key: 'portfolioPercent',

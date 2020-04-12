@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import IconHelp from 'materialish/icon-help';
 import ConfigSection from './config-section';
 import useForm from '../hooks/use-form';
 import Modal from '../common/modal';
@@ -12,18 +13,27 @@ export default function PortfolioConfig() {
     useSourceOfTruth: usePortfolio,
   });
 
-  const [isTitleInfoModalOpen, setIsTitleInfoModalOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(null);
 
   return (
     <>
       <ConfigSection
         title="Initial Portfolio"
-        onHelpClick={() => setIsTitleInfoModalOpen(true)}>
+        onHelpClick={() => setOpenModal('titleHelp')}>
         <div className="configSection_block">
           <div className="formRow">
-            <label htmlFor="stockInvestmentValue" className="inputLabel">
-              Equities
-            </label>
+            <div className="inputLabel_container">
+              <label htmlFor="stockInvestmentValue" className="inputLabel">
+                Equities
+              </label>
+              <button
+                title="Learn more about equities"
+                className="helpIcon"
+                type="button"
+                onClick={() => setOpenModal('equities')}>
+                <IconHelp />
+              </button>
+            </div>
             <Input
               {...inputs.stockInvestmentValue.getProps({
                 id: 'stockInvestmentValue',
@@ -41,9 +51,18 @@ export default function PortfolioConfig() {
             />
           </div>
           <div className="formRow">
-            <label htmlFor="stockInvestmentFees" className="inputLabel">
-              Annual Fees
-            </label>
+            <div className="inputLabel_container">
+              <label htmlFor="stockInvestmentFees" className="inputLabel">
+                Annual Fees
+              </label>
+              <button
+                title="Learn more about annual investment fees"
+                className="helpIcon"
+                type="button"
+                onClick={() => setOpenModal('fees')}>
+                <IconHelp />
+              </button>
+            </div>
             <Input
               {...inputs.stockInvestmentFees.getProps({
                 id: 'stockInvestmentFees',
@@ -86,21 +105,76 @@ export default function PortfolioConfig() {
       </div> */}
       </ConfigSection>
       <Modal
-        active={isTitleInfoModalOpen}
-        onBeginClose={() => setIsTitleInfoModalOpen(false)}>
+        active={openModal === 'titleHelp'}
+        onBeginClose={() => setOpenModal(null)}>
         <Modal.Title>Initial Portfolio</Modal.Title>
         <Modal.Body>
           <p>
             Your <i>portfolio</i> is made up of all of the financial assets that
             you own, such as stocks or bonds. In this section, you define what
-            your portfolio is or will be at the start of your retirement.
+            your portfolio was or will be at the start of your retirement.
           </p>
         </Modal.Body>
         <Modal.Footer>
           <button
             className="button button-primary"
             type="button"
-            onClick={() => setIsTitleInfoModalOpen(false)}>
+            onClick={() => setOpenModal(null)}>
+            Okay
+          </button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        active={openModal === 'equities'}
+        onBeginClose={() => setOpenModal(null)}>
+        <Modal.Title>Equities</Modal.Title>
+        <Modal.Body>
+          <p>
+            Equities are also known as stocks. For example, if you own shares of
+            the S&P 500, then you would place the value of those shares here.
+          </p>
+          <p>
+            This calculator only supports a single value for all of your
+            equities, so add them all up to get the value to input here.
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="button button-primary"
+            type="button"
+            onClick={() => setOpenModal(null)}>
+            Okay
+          </button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        active={openModal === 'fees'}
+        onBeginClose={() => setOpenModal(null)}>
+        <Modal.Title>Annual Fees</Modal.Title>
+        <Modal.Body>
+          <p>
+            Most equities have a yearly fee that you must pay to own the stock.
+            Sometimes, it is called an expense ratio. The default value is
+            0.04%, which was the expense ratio for{' '}
+            <a
+              href="https://investor.vanguard.com/mutual-funds/profile/VTSAX"
+              rel="noopener noreferrer"
+              target="_blank">
+              VTSAX
+            </a>{' '}
+            in April 2020.
+          </p>
+          <p>
+            Because this calculator only supports a single input for all of your
+            equities, we recommend choosing an average fee to represent all of
+            your holdings.
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="button button-primary"
+            type="button"
+            onClick={() => setOpenModal(null)}>
             Okay
           </button>
         </Modal.Footer>

@@ -49,9 +49,9 @@ export default function LengthOfRetirementConfig() {
             we can make a reasonable guess.
           </p>
           <p>
-            The studies that derived the 4% rule (Bengen, and, later, the
-            Trinity Study), both used 30 year retirements in their calculations,
-            which is why the default length of this calculator is 30 years.
+            The studies that derived the 4% rule used 30 year retirements in
+            their calculations, which is why the default length of this
+            calculator is 30 years.
           </p>
           <p>
             One thing to note is that these studies were considering retirements
@@ -64,7 +64,7 @@ export default function LengthOfRetirementConfig() {
             decide it would be more appropriate to choose a longer retirement
             length. Feel free to do this! However, keep in mind that it is
             important to balance the <b>number of simulations</b> that are run
-            in each calculation, too.
+            in each calculation with your retirement length.
           </p>
           <p>
             The way that this calculator works is by running simulations of
@@ -76,14 +76,15 @@ export default function LengthOfRetirementConfig() {
           <p>
             The more simulations that are run, the better, because that means
             your retirement plan experiences more situations. This is why it
-            isn't useful to specify extremely long retirement lengths, like 100
+            isn't useful to specify extremely long retirement lengths, like 140
             years. With huge retirement lengths, so few simulations are run that
             the result just isn't meaningful.
           </p>
           <p>
-            There is no right or wrong answer on retirement length. Many early
-            retirees feel confident using 30 years. You now have the information
-            you need to choose a retirement length that feels right to you.
+            There is no single right answer when it comes to retirement length.
+            Many early retirees feel confident using 30 years. Hopefully, you
+            now have the information you need to choose a retirement length that
+            feels right to you.
           </p>
         </Modal.Body>
         <Modal.Footer>
