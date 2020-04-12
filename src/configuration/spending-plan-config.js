@@ -185,7 +185,7 @@ export default function SpendingPlanConfig() {
       <Modal
         active={isInflationModalOpen}
         onBeginClose={() => setIsInflationModalOpen(false)}>
-        <Modal.Title>Adjusting for Inflation</Modal.Title>
+        <Modal.Title>Adjust Spending for Inflation</Modal.Title>
         <div className="recommendation">
           <IconDone />
           <div>
@@ -194,9 +194,9 @@ export default function SpendingPlanConfig() {
         </div>
         <Modal.Body>
           <p>
-            Adjusting for inflation ensures that your purchasing power – the
-            amount of stuff that you can buy each year – stays about the same
-            throughout your retirement.
+            Adjusting your spending for inflation ensures that your purchasing
+            power – the amount of stuff that you can buy each year – stays about
+            the same throughout your retirement.
           </p>
           <p>
             This is necessary because of the fact that things tend to become
@@ -253,7 +253,7 @@ export default function SpendingPlanConfig() {
             used by the studies that derived the 4% rule. It works like this:
             you choose some amount of your initial portfolio (such as 4%), and
             you spend that much the first year. For each subsequent year, you
-            adjust the spending to account for inflation, but you otherwise
+            adjust your spending to account for inflation, but you otherwise
             ignore how the market is doing, or what your portfolio is valued at.
           </p>
           <p>
@@ -262,9 +262,10 @@ export default function SpendingPlanConfig() {
           </p>
           <p>
             The 4% rule is a foundational algorithm in retirement planning, and
-            there are no doubt many retirees who are successfuly using it as
+            there are no doubt many retirees who are successfully using it as
             their spending plan. However, some believe that it could be
-            improved, which is why this calculator offers other plans.
+            improved, which is why this calculator includes other spending plans
+            for you to explore.
           </p>
           {/* <p>
             To learn more about each of the different spending plans, first

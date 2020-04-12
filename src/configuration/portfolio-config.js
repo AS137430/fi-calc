@@ -93,7 +93,7 @@ export default function PortfolioConfig() {
           <p>
             Your <i>portfolio</i> is made up of all of the financial assets that
             you own, such as stocks or bonds. In this section, you define what
-            your portfolio is or will be at the start of your retirement.
+            your portfolio was or will be at the start of your retirement.
           </p>
         </Modal.Body>
         <Modal.Footer>
