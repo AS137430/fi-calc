@@ -1,4 +1,4 @@
-now --public --name=ficalc | xargs -I {} now alias {} staging.ficalc.app
+now | xargs -I {} now alias {} staging.ficalc.app
 
 if [ $? -eq 0 ]; then
     echo Successfully deployed to staging.ficalc.app!
