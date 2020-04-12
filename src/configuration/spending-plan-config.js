@@ -223,7 +223,7 @@ export default function SpendingPlanConfig() {
             className="button button-primary"
             type="button"
             onClick={() => setIsInflationModalOpen(false)}>
-            Dismiss
+            Okay
           </button>
         </Modal.Footer>
       </Modal>

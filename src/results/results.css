@@ -93,11 +93,36 @@
   align-items: center;
   font-weight: 500;
   border-radius: 0.35rem;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
   color: white;
   fill: white;
   background-color: #0970da;
   margin-bottom: 1.5rem;
+}
+
+.tip_msg {
+  margin-right: 0.5rem;
+}
+
+.tip_btn {
+  background: transparent;
+  color: white;
+  font-weight: 500;
+  margin-left: auto;
+  border: 1px solid #3f9dff;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+}
+
+.tip_btn:hover {
+  background: #0f76e2;
+}
+
+.tip_btn.focus-visible {
+  background: white;
+  color: #0970da;
+  border-color: white;
+  /* box-shadow: 0 0 0 2px white; */
 }
 
 .tip svg {
