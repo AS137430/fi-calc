@@ -1,8 +1,13 @@
 import React, { useMemo } from 'react';
+import _ from 'lodash';
+import { Link, useParams } from 'react-router-dom';
 import classnames from 'classnames';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 import Chart from './chart';
+import useSpendingPlan from '../state/spending-plan';
 import formatNumber from '../utils/numbers/format-number';
+import useSimulationResult from '../state/simulation-result';
+import useIsSmallScreen from '../hooks/use-is-small-screen';
 
 function formatSimulationForPortfolioChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
@@ -26,7 +31,44 @@ function formatSimulationForSpendingChart(simulation) {
   });
 }
 
-export default function OneSimulation({ inputs, simulation, goBack }) {
+export default function OneSimulation() {
+  const isSmallScreen = useIsSmallScreen();
+  const { year } = useParams();
+  const { result } = useSimulationResult();
+
+  const simulation = useMemo(
+    () => {
+      const numericYear = Number(year);
+      if (!result || Number.isNaN(numericYear)) {
+        return null;
+      }
+
+      return _.find(result.completeSimulations, {
+        startYear: numericYear,
+      });
+    },
+    [result, year]
+  );
+
+  const { state: spendingPlan } = useSpendingPlan();
+  const portfolioChartData = useMemo(
+    () => {
+      return formatSimulationForPortfolioChart(simulation);
+    },
+    [simulation]
+  );
+
+  const spendingChartData = useMemo(
+    () => {
+      return formatSimulationForSpendingChart(simulation);
+    },
+    [simulation]
+  );
+
+  if (!simulation) {
+    return null;
+  }
+
   const lastYear =
     simulation.resultsByYear[simulation.resultsByYear.length - 1];
 
@@ -43,39 +85,20 @@ export default function OneSimulation({ inputs, simulation, goBack }) {
     successMessage = 'Yes';
   }
 
-  const portfolioChartData = useMemo(
-    () => {
-      return formatSimulationForPortfolioChart(simulation);
-    },
-    [simulation]
-  );
-
-  const spendingChartData = useMemo(
-    () => {
-      return formatSimulationForSpendingChart(simulation);
-    },
-    [simulation]
-  );
-
   const isConstantSpending =
-    inputs.spendingPlan.spendingStrategy.key === 'constantSpending';
+    spendingPlan.spendingStrategy.key === 'constantSpending';
 
   return (
-    <>
+    <div className="results">
       <div className="results_block">
-        {goBack && (
-          <button type="button" className="results_goBack" onClick={goBack}>
-            <IconKeyboardArrowLeft size="1.5rem" />
-            Return to Results
-          </button>
-        )}
+        <Link to={!isSmallScreen ? '/' : '/results'} className="results_goBack">
+          <IconKeyboardArrowLeft size="1.5rem" />
+          Return to Results
+        </Link>
         <h2 className="results_h2">
-          {goBack && (
-            <>
-              Simulation: {simulation.startYear} – {simulation.endYear}
-            </>
-          )}
-          {!goBack && <>Simulation Overview</>}
+          <>
+            Simulation: {simulation.startYear} – {simulation.endYear}
+          </>
         </h2>
         <div className="results_sectionRow">
           <div className="results_section">
@@ -168,6 +191,6 @@ export default function OneSimulation({ inputs, simulation, goBack }) {
           <Chart data={spendingChartData} />
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -3,6 +3,7 @@
   --borderColor: #424242;
 
   max-height: 100vh;
+  min-height: 100vh;
   position: sticky;
   top: 0;
   overflow-y: scroll;
@@ -64,6 +65,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
 }
 
 .configuration_viewResults .button svg {

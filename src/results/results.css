@@ -144,6 +144,7 @@
   outline: none;
   padding: 0.25rem 0.25rem;
   margin-left: -0.35rem;
+  text-decoration: none;
 }
 
 .results_goBack.focus-visible {
@@ -166,6 +167,7 @@
   border: 1px solid transparent;
   cursor: pointer;
   outline: none;
+  text-decoration: none;
 }
 
 .byYear_cell.focus-visible {

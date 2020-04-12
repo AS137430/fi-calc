@@ -1,19 +1,27 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import classnames from 'classnames';
+import './results.css';
 import IconInfoOutline from 'materialish/icon-info-outline';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
+import useIsSmallScreen from '../hooks/use-is-small-screen';
 import { getItem, setItem } from '../utils/storage';
+import useSimulationResult from '../state/simulation-result';
 
 const STORAGE_KEY = 'isViewYearDetailsHidden';
 
-export default function SimulationsOverview({
-  result,
-  updateStartYear,
-  goToConfig,
-}) {
+export default function SimulationsOverview() {
+  const { result } = useSimulationResult();
+
+  const isSmallScreen = useIsSmallScreen();
   const [isTipHidden, setIsTipHidden] = useState(() =>
     Boolean(getItem(STORAGE_KEY))
   );
+
+  if (!result) {
+    return null;
+  }
+
   const { exceedsSuccessRateThreshold } = result;
 
   const isDanger = !exceedsSuccessRateThreshold && result.successRate < 0.8;
@@ -28,13 +36,13 @@ export default function SimulationsOverview({
   }
 
   return (
-    <>
+    <div className="results">
       <div className="results_block">
-        {typeof goToConfig === 'function' && (
-          <button type="button" className="results_goBack" onClick={goToConfig}>
+        {isSmallScreen && (
+          <Link to="/" className="results_goBack">
             <IconKeyboardArrowLeft size="1.5rem" />
             Return to Configuration
-          </button>
+          </Link>
         )}
         <h2 className="results_h2">Results</h2>
         <div className="results_sectionRow">
@@ -76,9 +84,8 @@ export default function SimulationsOverview({
         <div className="results_byYearGrid">
           {result.completeSimulations.map(simulation => {
             return (
-              <button
-                type="button"
-                onClick={() => updateStartYear(simulation)}
+              <Link
+                to={`/year/${simulation.startYear}`}
                 className={classnames('byYear_cell', {
                   'byYear_cell-isWarning': simulation.status === 'WARNING',
                   'byYear_cell-isFailed': simulation.status === 'FAILED',
@@ -86,11 +93,11 @@ export default function SimulationsOverview({
                 })}
                 key={simulation.startYear}>
                 {simulation.startYear}
-              </button>
+              </Link>
             );
           })}
         </div>
       </div>
-    </>
+    </div>
   );
 }
