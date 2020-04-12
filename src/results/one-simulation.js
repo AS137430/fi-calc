@@ -35,10 +35,10 @@ export default function OneSimulation() {
   const isSmallScreen = useIsSmallScreen();
   const { year } = useParams();
   const { result } = useSimulationResult();
+  const numericYear = Number(year);
 
   const simulation = useMemo(
     () => {
-      const numericYear = Number(year);
       if (!result || Number.isNaN(numericYear)) {
         return null;
       }
@@ -47,7 +47,7 @@ export default function OneSimulation() {
         startYear: numericYear,
       });
     },
-    [result, year]
+    [result, numericYear]
   );
 
   const { state: spendingPlan } = useSpendingPlan();
