@@ -15,7 +15,6 @@ interface SimulateOneYearOptions {
   rebalancePortfolioAnnually: boolean;
   isFirstYear: boolean;
   year: number;
-  nextYear: number;
   previousResults: YearResult;
   initialComputedData: any;
   resultsByYear: any;
@@ -38,7 +37,6 @@ export default function simulateOneYear({
   rebalancePortfolioAnnually,
   isFirstYear,
   year,
-  nextYear,
   previousResults,
   initialComputedData,
   resultsByYear,
@@ -75,6 +73,7 @@ export default function simulateOneYear({
   // For now, we use a simple inflation-adjusted withdrawal approach
   let totalWithdrawalAmount = spending[spendingMethod]({
     ...spendingConfiguration,
+    initialPortfolio,
     portfolioTotalValue: yearStartValue,
     inflation: cumulativeInflation,
   });

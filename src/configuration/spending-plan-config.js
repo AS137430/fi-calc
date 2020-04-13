@@ -57,6 +57,7 @@ export default function SpendingPlanConfig() {
             <IconHelp />
           </button>
         </div>
+        <div className="formRow_separator" />
         {spendingPlan.spendingStrategy.key === 'constantSpending' && (
           <>
             <div className="formRow">
@@ -208,11 +209,150 @@ export default function SpendingPlanConfig() {
           </div>
         )}
         {spendingPlan.spendingStrategy.key === 'gk' && (
-          <div className="formRow">
-            <div className="formRow_message">
-              The Guyton-Klinger strategy is not currently supported.
+          <>
+            <div className="formRow">
+              <div className="inputLabel_container">
+                <label htmlFor="gkInitialSpending" className="inputLabel">
+                  Initial Withdrawal
+                </label>
+                <button
+                  title="Learn more"
+                  className="helpIcon"
+                  type="button"
+                  onClick={() => setOpenModal('gkInitialSpending')}>
+                  <IconHelp />
+                </button>
+              </div>
+              <Input
+                {...inputs.gkInitialSpending.getProps({
+                  id: 'gkInitialSpending',
+                  className: 'input-annualSpending',
+                  type: 'number',
+                  min: 0,
+                  inputMode: 'decimal',
+                  autoComplete: 'off',
+                  prefix: '$',
+                  suffix: 'per year',
+                  onCommit(event, newValue) {
+                    commitInput('gkInitialSpending', newValue);
+                  },
+                })}
+              />
             </div>
-          </div>
+            <div className="formRow_separator" />
+            <div className="formRow">
+              <div className="inputLabel_container">
+                <label htmlFor="gkWithdrawalUpperLimit" className="inputLabel">
+                  When withdrawal exceeds
+                </label>
+              </div>
+              <Input
+                {...inputs.gkWithdrawalUpperLimit.getProps({
+                  id: 'gkWithdrawalUpperLimit',
+                  className: 'input-annualSpending',
+                  type: 'number',
+                  min: 0,
+                  max: 100,
+                  inputMode: 'decimal',
+                  autoComplete: 'off',
+                  suffix: '%',
+                  onCommit(event, newValue) {
+                    commitInput('gkWithdrawalUpperLimit', newValue);
+                  },
+                })}
+              />
+            </div>
+            <div className="formRow">
+              <div className="inputLabel_container">
+                <label htmlFor="gkUpperLimitAdjustment" className="inputLabel">
+                  of initial withdrawal, then reduce it by
+                </label>
+              </div>
+              <Input
+                {...inputs.gkUpperLimitAdjustment.getProps({
+                  id: 'gkUpperLimitAdjustment',
+                  className: 'input-annualSpending',
+                  type: 'number',
+                  min: 0,
+                  max: 100,
+                  inputMode: 'decimal',
+                  autoComplete: 'off',
+                  suffix: '%',
+                  onCommit(event, newValue) {
+                    commitInput('gkUpperLimitAdjustment', newValue);
+                  },
+                })}
+              />
+            </div>
+            <div className="formRow_separator" />
+            <div className="formRow">
+              <div className="inputLabel_container">
+                <label htmlFor="gkWithdrawalLowerLimit" className="inputLabel">
+                  When withdrawal is below
+                </label>
+              </div>
+              <Input
+                {...inputs.gkWithdrawalLowerLimit.getProps({
+                  id: 'gkWithdrawalLowerLimit',
+                  className: 'input-annualSpending',
+                  type: 'number',
+                  min: 0,
+                  max: 100,
+                  inputMode: 'decimal',
+                  autoComplete: 'off',
+                  suffix: '%',
+                  onCommit(event, newValue) {
+                    commitInput('gkWithdrawalLowerLimit', newValue);
+                  },
+                })}
+              />
+            </div>
+            <div className="formRow">
+              <div className="inputLabel_container">
+                <label htmlFor="gkLowerLimitAdjustment" className="inputLabel">
+                  of initial withdrawal, then increase it by
+                </label>
+              </div>
+              <Input
+                {...inputs.gkLowerLimitAdjustment.getProps({
+                  id: 'gkLowerLimitAdjustment',
+                  className: 'input-annualSpending',
+                  type: 'number',
+                  min: 0,
+                  max: 100,
+                  inputMode: 'decimal',
+                  autoComplete: 'off',
+                  suffix: '%',
+                  onCommit(event, newValue) {
+                    commitInput('gkLowerLimitAdjustment', newValue);
+                  },
+                })}
+              />
+            </div>
+            <div className="formRow_separator" />
+            <div className="formRow formRow-flex">
+              <Checkbox
+                className="checkbox"
+                id="gkIgnoreLastFifteenYears"
+                checked={inputs.gkIgnoreLastFifteenYears.value}
+                onChange={event =>
+                  changeCheckbox('gkIgnoreLastFifteenYears', event)
+                }
+              />
+              <label
+                htmlFor="gkIgnoreLastFifteenYears"
+                className="checkbox_label">
+                Ignore the final 15 years
+              </label>
+              <button
+                title="Learn more"
+                className="helpIcon"
+                type="button"
+                onClick={() => setOpenModal('inflation')}>
+                <IconHelp />
+              </button>
+            </div>
+          </>
         )}
       </ConfigSection>
       <Modal

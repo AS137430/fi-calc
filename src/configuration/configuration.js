@@ -23,8 +23,8 @@ export default function Configuration() {
       <h1 className="configuration_title">Configuration</h1>
       <div>
         <LengthOfRetirementConfig />
-        <SpendingPlanConfig />
         <PortfolioConfig />
+        <SpendingPlanConfig />
       </div>
       {isSmallScreen && (
         <div className="configuration_viewResults">
