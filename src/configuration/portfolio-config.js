@@ -130,12 +130,28 @@ export default function PortfolioConfig() {
         <Modal.Title>Equities</Modal.Title>
         <Modal.Body>
           <p>
-            Equities are also known as stocks. For example, if you own shares of
-            the S&P 500, then you would place the value of those shares here.
+            Equities are also known as stocks. For example, if you own shares of{' '}
+            <a
+              href="https://investor.vanguard.com/mutual-funds/profile/VTSAX"
+              rel="noopener noreferrer"
+              target="_blank">
+              VTSAX
+            </a>
+            , then you would place the value of those shares here.
           </p>
           <p>
             This calculator only supports a single value for all of your
             equities, so add them all up to get the value to input here.
+          </p>
+          <p>
+            This calculator uses the S&P 500's historical performance data from{' '}
+            <a
+              href="http://www.econ.yale.edu/~shiller/data.htm"
+              target="_blank"
+              rel="noreferrer noopener">
+              Robert Shiller
+            </a>{' '}
+            for this value.
           </p>
         </Modal.Body>
         <Modal.Footer>
