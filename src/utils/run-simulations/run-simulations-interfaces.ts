@@ -34,6 +34,7 @@ export interface SpendingPlan {
   gkUpperLimitAdjustment: number;
   gkLowerLimitAdjustment: number;
   gkIgnoreLastFifteenYears: boolean;
+  gkModifiedWithdrawalRule: boolean;
 }
 
 export enum MarketDataGrowthKeys {

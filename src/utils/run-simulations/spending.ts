@@ -29,6 +29,7 @@ interface SpendingOptions {
   gkUpperLimitAdjustment: number;
   gkLowerLimitAdjustment: number;
   gkIgnoreLastFifteenYears: boolean;
+  gkModifiedWithdrawalRule: boolean;
   yearMarketData: YearData;
   previousResults: YearResult;
 }
@@ -84,6 +85,7 @@ function guytonKlinger({
   gkUpperLimitAdjustment,
   gkLowerLimitAdjustment,
   gkIgnoreLastFifteenYears,
+  gkModifiedWithdrawalRule,
   previousResults,
   yearMarketData,
 }: SpendingOptions): number {
@@ -109,46 +111,48 @@ function guytonKlinger({
   const inflationAdjustedPrevYearWithdrawal =
     previousSpending * inflationFromPreviousYear;
 
-  // The next set of lines implement's GK's "Modified Withdrawal Rule". Excerpt from their original paper:
-  //
-  // > Withdrawals increase from year to year with the inflation rate, except there is no increase
-  // > following a year where the retirement portfolio’s total return is negative and when that year’s
-  // > withdrawal rate would be greater than the initial withdrawal rate. There is no make-up for a
-  // > missed increase.
-  //
-  // In short, we need to check for two things:
-  //
-  // (1) Were our portfolio returns NEGATIVE this year?
-  // (2) Is our current withdrawal GREATER than our (inflation-adjusted) first year withdrawal?
-  // (3) Will applying inflation INCREASE our spending rate?
-  //
-  // If both of these are YES, then we "freeze" our spending and use the same exact spend as we did in the previous year.
+  if (gkModifiedWithdrawalRule) {
+    // The next set of lines implement's GK's "Modified Withdrawal Rule". Excerpt from their original paper:
+    //
+    // > Withdrawals increase from year to year with the inflation rate, except there is no increase
+    // > following a year where the retirement portfolio’s total return is negative and when that year’s
+    // > withdrawal rate would be greater than the initial withdrawal rate. There is no make-up for a
+    // > missed increase.
+    //
+    // In short, we need to check for two things:
+    //
+    // (1) Were our portfolio returns NEGATIVE this year?
+    // (2) Is our current withdrawal GREATER than our (inflation-adjusted) first year withdrawal?
+    // (3) Will applying inflation INCREASE our spending rate?
+    //
+    // If both of these are YES, then we "freeze" our spending and use the same exact spend as we did in the previous year.
 
-  // First, we calculate the inflation-adjusted first year withdrawal
-  const inflationAdjustedInitialWithdrawal = gkInitialSpending * inflation;
+    // First, we calculate the inflation-adjusted first year withdrawal
+    const inflationAdjustedInitialWithdrawal = gkInitialSpending * inflation;
 
-  // Next, we find the answer to (1) by calculating our returns
-  const thisYearTotalReturn = yearMarketData.stockMarketGrowth;
-  // NOTE: this *only* works right now because this calculator restricts you to equities! When I add in bonds and other
-  // asset types, I'll need to smarten this up.
-  const thisYearTotalReturnIsNegative = thisYearTotalReturn < 0;
+    // Next, we find the answer to (1) by calculating our returns
+    const thisYearTotalReturn = yearMarketData.stockMarketGrowth;
+    // NOTE: this *only* works right now because this calculator restricts you to equities! When I add in bonds and other
+    // asset types, I'll need to smarten this up.
+    const thisYearTotalReturnIsNegative = thisYearTotalReturn < 0;
 
-  // Solve for (2) by comparing our current withdrawal with the initial one
-  const currentWithdrawalExceedsInitialWithdrawal =
-    inflationAdjustedPrevYearWithdrawal > inflationAdjustedInitialWithdrawal;
+    // Solve for (2) by comparing our current withdrawal with the initial one
+    const currentWithdrawalExceedsInitialWithdrawal =
+      inflationAdjustedPrevYearWithdrawal > inflationAdjustedInitialWithdrawal;
 
-  // Solve for (3) by checking if our inflation is positive
-  const inflationWillIncreaseSpending = inflationFromPreviousYear > 1;
+    // Solve for (3) by checking if our inflation is positive
+    const inflationWillIncreaseSpending = inflationFromPreviousYear > 1;
 
-  // When (1), (2), and (3) are true, we freeze the withdrawal and use the previous year's result
-  const freezeWithdrawal =
-    currentWithdrawalExceedsInitialWithdrawal &&
-    thisYearTotalReturnIsNegative &&
-    inflationWillIncreaseSpending;
+    // When (1), (2), and (3) are true, we freeze the withdrawal and use the previous year's result
+    const freezeWithdrawal =
+      currentWithdrawalExceedsInitialWithdrawal &&
+      thisYearTotalReturnIsNegative &&
+      inflationWillIncreaseSpending;
 
-  if (freezeWithdrawal) {
-    // Note: this is "Outcome 1" listed above.
-    return previousSpending;
+    if (freezeWithdrawal) {
+      // Note: this is "Outcome 1" listed above.
+      return previousSpending;
+    }
   }
 
   // If we have made it this far in the calculation, then it is time to check for the remaining two rules:

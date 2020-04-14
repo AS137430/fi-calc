@@ -243,14 +243,14 @@ export default function SpendingPlanConfig() {
             <div className="formRow formRow-flex">
               <Checkbox
                 className="checkbox"
-                id="gkIgnoreLastFifteenYears"
-                checked={inputs.gkIgnoreLastFifteenYears.value}
+                id="gkModifiedWithdrawalRule"
+                checked={inputs.gkModifiedWithdrawalRule.value}
                 onChange={event =>
-                  changeCheckbox('gkIgnoreLastFifteenYears', event)
+                  changeCheckbox('gkModifiedWithdrawalRule', event)
                 }
               />
               <label
-                htmlFor="gkIgnoreLastFifteenYears"
+                htmlFor="gkModifiedWithdrawalRule"
                 className="checkbox_label">
                 Modified Withdrawal Rule
               </label>
@@ -266,7 +266,7 @@ export default function SpendingPlanConfig() {
             <div className="formRow">
               <div className="inputLabel_container">
                 <label htmlFor="gkWithdrawalUpperLimit" className="inputLabel">
-                  When withdrawal exceeds
+                  When withdrawal rate exceeds
                 </label>
               </div>
               <Input
@@ -288,7 +288,7 @@ export default function SpendingPlanConfig() {
             <div className="formRow">
               <div className="inputLabel_container">
                 <label htmlFor="gkUpperLimitAdjustment" className="inputLabel">
-                  of initial withdrawal, then reduce it by
+                  of initial withdrawal rate, then reduce it by
                 </label>
               </div>
               <Input
@@ -333,7 +333,7 @@ export default function SpendingPlanConfig() {
             <div className="formRow">
               <div className="inputLabel_container">
                 <label htmlFor="gkWithdrawalLowerLimit" className="inputLabel">
-                  When withdrawal is below
+                  When withdrawal rate is below
                 </label>
               </div>
               <Input
@@ -355,7 +355,7 @@ export default function SpendingPlanConfig() {
             <div className="formRow">
               <div className="inputLabel_container">
                 <label htmlFor="gkLowerLimitAdjustment" className="inputLabel">
-                  of initial withdrawal, then increase it by
+                  of initial withdrawal rate, then increase it by
                 </label>
               </div>
               <Input

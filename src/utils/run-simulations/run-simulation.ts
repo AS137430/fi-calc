@@ -65,7 +65,8 @@ export default function runSimulation(options: RunSimulationOptions) {
     gkWithdrawalLowerLimit,
     gkUpperLimitAdjustment,
     gkLowerLimitAdjustment,
-    gkIgnoreLastFifteenYears
+    gkIgnoreLastFifteenYears,
+    gkModifiedWithdrawalRule
   } = spendingPlan;
   const firstYearWithdrawal = annualSpending;
   const spendingStrategy = spendingStrategyObject.key;
@@ -98,7 +99,8 @@ export default function runSimulation(options: RunSimulationOptions) {
       gkWithdrawalLowerLimit: gkWithdrawalLowerLimit,
       gkUpperLimitAdjustment: gkUpperLimitAdjustment,
       gkLowerLimitAdjustment: gkLowerLimitAdjustment,
-      gkIgnoreLastFifteenYears: gkIgnoreLastFifteenYears
+      gkIgnoreLastFifteenYears: gkIgnoreLastFifteenYears,
+      gkModifiedWithdrawalRule: gkModifiedWithdrawalRule
     }
   }
 

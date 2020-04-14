@@ -123,6 +123,11 @@ export default {
       validators: [isRequired, numberRequired, tooSmall(0), tooLarge(100)],
     },
 
+    gkModifiedWithdrawalRule: {
+      type: 'boolean',
+      default: true,
+    },
+
     gkIgnoreLastFifteenYears: {
       type: 'boolean',
       default: true,
