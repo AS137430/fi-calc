@@ -159,6 +159,7 @@ export default function runSimulation(options: RunSimulationOptions) {
     portfolio,
   };
 
+  console.log('\n\nloop');
   // Might be faster to make this a map of `resultsByYear`?
   _.times(duration, n => {
     const isFirstYear = n === 0;

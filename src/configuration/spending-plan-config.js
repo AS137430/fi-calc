@@ -342,7 +342,7 @@ export default function SpendingPlanConfig() {
               <label
                 htmlFor="gkIgnoreLastFifteenYears"
                 className="checkbox_label">
-                Ignore the final 15 years
+                Ignore limits for the final 15 years
               </label>
               <button
                 title="Learn more"

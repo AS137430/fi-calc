@@ -66,6 +66,7 @@ export interface YearResult {
   year: number;
   isOutOfMoney: boolean;
   marketData: any;
+  cpi: number;
   computedData: {
     cumulativeInflation: number;
     totalWithdrawalAmount: number;
