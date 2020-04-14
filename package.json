@@ -28,11 +28,10 @@
     "typescript": "3.8.3"
   },
   "scripts": {
-    "start": "node server/index.js",
-    "watch": "react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
+    "start-server": "node server/index.js",
     "deploy": "bash deploy/to-staging.sh",
     "deploy-staging": "bash deploy/to-staging.sh",
     "deploy-test": "bash deploy/to-staging.sh",
