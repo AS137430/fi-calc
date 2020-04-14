@@ -16,6 +16,7 @@ interface SpendingOptions {
   isFirstYear: boolean;
   firstYearWithdrawal: number;
   inflation: number;
+  yearsRemaining: number;
   cpi: number;
   firstYearCpi: number;
   portfolioTotalValue: number;
@@ -61,7 +62,16 @@ function portfolioPercent({
   return clamped;
 }
 
+// Source for this calculation:
+// "Using Decision Rules to Create Retirement Withdrawal Profiles"
+// Author: William Klinger
+// Publication: Journal of Financial Planning
+// Date: August 2007
+//
+// I also referenced this excellent blog post:
+// https://jsevy.com/wordpress/index.php/finance-and-retirement/retirement-withdrawal-strategies-guyton-klinger-as-a-happy-medium/
 function guytonKlinger({
+  yearsRemaining,
   inflation,
   isFirstYear,
   cpi,
@@ -110,6 +120,7 @@ function guytonKlinger({
   //
   // (1) Were our portfolio returns NEGATIVE this year?
   // (2) Is our current withdrawal GREATER than our (inflation-adjusted) first year withdrawal?
+  // (3) Will applying inflation INCREASE our spending rate?
   //
   // If both of these are YES, then we "freeze" our spending and use the same exact spend as we did in the previous year.
 
@@ -126,9 +137,14 @@ function guytonKlinger({
   const currentWithdrawalExceedsInitialWithdrawal =
     inflationAdjustedPrevYearWithdrawal > inflationAdjustedInitialWithdrawal;
 
-  // When both (1) and (2) are true, we freeze the withdrawal and use the previous year's result
+  // Solve for (3) by checking if our inflation is positive
+  const inflationWillIncreaseSpending = inflationFromPreviousYear > 1;
+
+  // When (1), (2), and (3) are true, we freeze the withdrawal and use the previous year's result
   const freezeWithdrawal =
-    currentWithdrawalExceedsInitialWithdrawal && thisYearTotalReturnIsNegative;
+    currentWithdrawalExceedsInitialWithdrawal &&
+    thisYearTotalReturnIsNegative &&
+    inflationWillIncreaseSpending;
 
   if (freezeWithdrawal) {
     // Note: this is "Outcome 1" listed above.
@@ -193,15 +209,18 @@ function guytonKlinger({
   // If none of the conditionals below are met, then this is Outcome 2.
   let withdrawalAdjustment = 1;
 
-  // Guyton-Klinger says you can ignore the limits when there are 15 or less years left in your retirement.
-  // If the user has specified that, then we adhere to it.
-  if (!gkIgnoreLastFifteenYears /* && yearsLeft <= 15 */) {
-    // This is another situation where we return Outcome 2
-    withdrawalAdjustment = 1;
+  // Ignoring the upper limit for the final 15 years is defined in the GK paper. Excerpt:
+  // > This rule is not applied during the final 15 years of the anticipated retirement period. Guyton and Klinger (2006) found
+  // > that this restriction increased the total amount of withdrawals during the retirement period without a significant decrease in the success rate.
+  // const considerUpperLimit = yearsRemaining >= 15 && !gkIgnoreLastFifteenYears;
+  let considerUpperLimit;
+  if (gkIgnoreLastFifteenYears) {
+    considerUpperLimit = yearsRemaining >= 15;
+  } else {
+    considerUpperLimit = true;
   }
-  // Otherwise, we check if the withdrawal exceeds our limit, and if it does, we adjust the withdrawal rate
-  // according to what the user specified.
-  else if (withdrawalIsTooMuch) {
+
+  if (withdrawalIsTooMuch && considerUpperLimit) {
     // This is Outcome 3 above
     withdrawalAdjustment = 1 - gkUpperLimitAdjustment / 100;
   }

@@ -12,6 +12,7 @@ import {
 
 interface SimulateOneYearOptions {
   startYear: number;
+  yearsRemaining: number;
   rebalancePortfolioAnnually: boolean;
   isFirstYear: boolean;
   year: number;
@@ -33,6 +34,7 @@ interface SimulateOneYearOptions {
 
 export default function simulateOneYear({
   n,
+  yearsRemaining,
   startYear,
   rebalancePortfolioAnnually,
   isFirstYear,
@@ -78,6 +80,7 @@ export default function simulateOneYear({
     initialPortfolio,
     isFirstYear,
     yearMarketData,
+    yearsRemaining,
     firstYearCpi: Number(firstYearCpi),
     cpi: currentCpi,
     portfolioTotalValue: yearStartValue,

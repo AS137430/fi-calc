@@ -159,15 +159,16 @@ export default function runSimulation(options: RunSimulationOptions) {
     portfolio,
   };
 
-  console.log('\n\nloop');
   // Might be faster to make this a map of `resultsByYear`?
   _.times(duration, n => {
     const isFirstYear = n === 0;
     const year = Number(startYear) + n;
     const previousResults = resultsByYear[n - 1];
+    const yearsRemaining = duration - n;
 
     const yearResult = simulateOneYear({
       n,
+      yearsRemaining,
       startYear,
       isFirstYear,
       year,

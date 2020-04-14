@@ -57,7 +57,6 @@ export default function SpendingPlanConfig() {
             <IconHelp />
           </button>
         </div>
-        <div className="formRow_separator" />
         {spendingPlan.spendingStrategy.key === 'constantSpending' && (
           <>
             <div className="formRow">
@@ -210,6 +209,7 @@ export default function SpendingPlanConfig() {
         )}
         {spendingPlan.spendingStrategy.key === 'gk' && (
           <>
+            <div className="formRow_separator" />
             <div className="formRow">
               <div className="inputLabel_container">
                 <label htmlFor="gkInitialSpending" className="inputLabel">
@@ -238,6 +238,29 @@ export default function SpendingPlanConfig() {
                   },
                 })}
               />
+            </div>
+            <div className="formRow_separator" />
+            <div className="formRow formRow-flex">
+              <Checkbox
+                className="checkbox"
+                id="gkIgnoreLastFifteenYears"
+                checked={inputs.gkIgnoreLastFifteenYears.value}
+                onChange={event =>
+                  changeCheckbox('gkIgnoreLastFifteenYears', event)
+                }
+              />
+              <label
+                htmlFor="gkIgnoreLastFifteenYears"
+                className="checkbox_label">
+                Modified Withdrawal Rule
+              </label>
+              <button
+                title="Learn more"
+                className="helpIcon"
+                type="button"
+                onClick={() => setOpenModal('inflation')}>
+                <IconHelp />
+              </button>
             </div>
             <div className="formRow_separator" />
             <div className="formRow">
@@ -283,6 +306,28 @@ export default function SpendingPlanConfig() {
                   },
                 })}
               />
+            </div>
+            <div className="formRow formRow-flex">
+              <Checkbox
+                className="checkbox"
+                id="gkIgnoreLastFifteenYears"
+                checked={inputs.gkIgnoreLastFifteenYears.value}
+                onChange={event =>
+                  changeCheckbox('gkIgnoreLastFifteenYears', event)
+                }
+              />
+              <label
+                htmlFor="gkIgnoreLastFifteenYears"
+                className="checkbox_label">
+                Ignore for the final 15 years
+              </label>
+              <button
+                title="Learn more"
+                className="helpIcon"
+                type="button"
+                onClick={() => setOpenModal('inflation')}>
+                <IconHelp />
+              </button>
             </div>
             <div className="formRow_separator" />
             <div className="formRow">
@@ -330,28 +375,6 @@ export default function SpendingPlanConfig() {
               />
             </div>
             <div className="formRow_separator" />
-            <div className="formRow formRow-flex">
-              <Checkbox
-                className="checkbox"
-                id="gkIgnoreLastFifteenYears"
-                checked={inputs.gkIgnoreLastFifteenYears.value}
-                onChange={event =>
-                  changeCheckbox('gkIgnoreLastFifteenYears', event)
-                }
-              />
-              <label
-                htmlFor="gkIgnoreLastFifteenYears"
-                className="checkbox_label">
-                Ignore limits for the final 15 years
-              </label>
-              <button
-                title="Learn more"
-                className="helpIcon"
-                type="button"
-                onClick={() => setOpenModal('inflation')}>
-                <IconHelp />
-              </button>
-            </div>
           </>
         )}
       </ConfigSection>
