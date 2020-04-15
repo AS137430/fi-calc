@@ -10,7 +10,7 @@ import InfoModal from '../common/info-modal';
 import useSpendingPlan from '../state/spending-plan';
 import spendingPlanForm from '../form-config/spending-plan-form';
 
-export default function SpendingPlanConfig() {
+export default function WithdrawalPlanConfig() {
   const {
     state: spendingPlan,
     inputs,

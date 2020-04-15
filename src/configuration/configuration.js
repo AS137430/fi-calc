@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import IconRepeat from 'materialish/icon-repeat';
 import './configuration.css';
 import LengthOfRetirementConfig from './length-of-retirement-config';
-import SpendingPlanConfig from './spending-plan-config';
+import WithdrawalPlanConfig from './withdrawal-plan-config';
 import PortfolioConfig from './portfolio-config';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 
@@ -24,7 +24,7 @@ export default function Configuration() {
       <div>
         <LengthOfRetirementConfig />
         <PortfolioConfig />
-        <SpendingPlanConfig />
+        <WithdrawalPlanConfig />
       </div>
       {isSmallScreen && (
         <div className="configuration_viewResults">

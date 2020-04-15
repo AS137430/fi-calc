@@ -1,8 +1,12 @@
-import spending from './spending';
+import withdrawal from './withdrawal';
 
-const { inflationAdjusted, notInflationAdjusted, portfolioPercent } = spending;
+const {
+  inflationAdjusted,
+  notInflationAdjusted,
+  portfolioPercent,
+} = withdrawal;
 
-describe('spending', () => {
+describe('withdrawal', () => {
   describe('inflationAdjusted', () => {
     it('works', () => {
       expect(

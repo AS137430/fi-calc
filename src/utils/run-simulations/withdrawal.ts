@@ -7,11 +7,11 @@ import {
 } from './run-simulations-interfaces';
 import inflationFromCpi from '../market-data/inflation-from-cpi';
 
-// These are different methods to calculate the spending amount
+// These are different methods to calculate the withdrawal amount
 // for a given year.
 // They all receive the same arguments.
 
-interface SpendingOptions {
+interface WithdrawalOptions {
   initialPortfolio: Portfolio;
   isFirstYear: boolean;
   firstYearWithdrawal: number;
@@ -37,13 +37,13 @@ interface SpendingOptions {
 function inflationAdjusted({
   inflation,
   firstYearWithdrawal,
-}: SpendingOptions): number {
+}: WithdrawalOptions): number {
   return inflation * firstYearWithdrawal;
 }
 
 function notInflationAdjusted({
   firstYearWithdrawal,
-}: SpendingOptions): number {
+}: WithdrawalOptions): number {
   return firstYearWithdrawal;
 }
 
@@ -53,7 +53,7 @@ function portfolioPercent({
   percentageOfPortfolio,
   minWithdrawal,
   maxWithdrawal,
-}: SpendingOptions): number {
+}: WithdrawalOptions): number {
   const naiveComputation = portfolioTotalValue * percentageOfPortfolio;
   const clamped = clamp(
     naiveComputation,
@@ -88,9 +88,9 @@ function guytonKlinger({
   gkModifiedWithdrawalRule,
   previousResults,
   yearMarketData,
-}: SpendingOptions): number {
+}: WithdrawalOptions): number {
   // The first step in the GK computation is determining how much we spent last year. If we're in the
-  // first year, then it's just our initial spend value. Otherwise, we look at our previous year's
+  // first year, then it's just our initial withdrawal value. Otherwise, we look at our previous year's
   // results and grab it from there.
   // We may end up using this value for this year, or we may end up modifying it. These are the outcomes
   // of this calculation:
@@ -124,9 +124,10 @@ function guytonKlinger({
     //
     // (1) Were our portfolio returns NEGATIVE this year?
     // (2) Is our current withdrawal GREATER than our (inflation-adjusted) first year withdrawal?
-    // (3) Will applying inflation INCREASE our spending rate?
+    // (3) Will applying inflation INCREASE our withdrawal rate?
     //
-    // If both of these are YES, then we "freeze" our spending and use the same exact spend as we did in the previous year.
+    // If all of these are YES, then we "freeze" our withdrawal amount by not applying inflation for this year
+    // Note: we will still apply the other two rules after this
 
     // First, we calculate the inflation-adjusted first year withdrawal
     const inflationAdjustedInitialWithdrawal = gkInitialSpending * inflation;
@@ -144,14 +145,13 @@ function guytonKlinger({
     // Solve for (3) by checking if our inflation is positive
     const inflationWillIncreaseSpending = inflationFromPreviousYear > 1;
 
-    // When (1), (2), and (3) are true, we freeze the withdrawal and use the previous year's result
+    // When (1), (2), and (3) are true, we freeze the withdrawal and not apply inflation
     const freezeWithdrawal =
       currentWithdrawalExceedsInitialWithdrawal &&
       thisYearTotalReturnIsNegative &&
       inflationWillIncreaseSpending;
 
     if (freezeWithdrawal) {
-      // Note: this is "Outcome 1" listed above.
       withdrawalAmountToUse = previousSpending;
     }
   }
@@ -182,9 +182,9 @@ function guytonKlinger({
   // WRt = Current Year's Withdrawal Rate
   // IWR = Initial Withdrawal Rate
   // Exceeds = our upper boundary
-  // Cut = the amount to reduce spending by
+  // Cut = the amount to reduce withdrawal by
   // Fall = our lower boundary
-  // Raise = the amount to increase spending by
+  // Raise = the amount to increase withdrawal by
   //
 
   // To determine if we need to adjust our withdrawal, we first compute the initial year's % withdrawal. For
@@ -226,17 +226,14 @@ function guytonKlinger({
   }
 
   if (withdrawalIsTooMuch && considerUpperLimit) {
-    // This is Outcome 3 above
     withdrawalAdjustment = 1 - gkUpperLimitAdjustment / 100;
   }
   // We do a similar check for when the withdrawal is too little.
   else if (withdrawalIsTooLittle) {
-    // This is Outcome 4 above
     withdrawalAdjustment = 1 + gkLowerLimitAdjustment / 100;
   }
 
-  // Alright! We're done. We now know our adjustment, which determines whether we are in Outcome 2, 3, or 4.
-  // The last thing for us to do is to apply that adjustment and then account for inflation, and we're done.
+  // Alright! The last thing for us to do is to apply any adjustment, and we're done.
   // Phew. That was complicated, but we made it!
   return withdrawalAmountToUse * withdrawalAdjustment;
 }

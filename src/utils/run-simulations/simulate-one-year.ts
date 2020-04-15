@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import spending from './spending';
+import withdrawal from './withdrawal';
 import adjustPortfolioInvestment from './adjust-portfolio-investment';
 import inflationFromCpi from '../market-data/inflation-from-cpi';
 import {
@@ -74,7 +74,7 @@ export default function simulateOneYear({
   });
 
   // For now, we use a simple inflation-adjusted withdrawal approach
-  let totalWithdrawalAmount = spending[spendingMethod]({
+  let totalWithdrawalAmount = withdrawal[spendingMethod]({
     ...spendingConfiguration,
     previousResults,
     initialPortfolio,
