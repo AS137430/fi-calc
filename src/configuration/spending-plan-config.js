@@ -238,20 +238,26 @@ export default function SpendingPlanConfig() {
             </li>
           </ol>
           <p>
-            The default plan, <b>constant withdrawal</b>, is the withdrawal plan
+            The default plan, <b>Constant Withdrawal</b>, is the withdrawal plan
             used by the studies that derived the 4% rule.
           </p>
           <p>
             The 4% rule studies are foundational in retirement planning, and
             there are no doubt many retirees who are successfully using constant
-            withdrawal as their withdrawal plan. However, some believe that it
-            could be improved, which is why this calculator includes other
-            withdrawal plans for you to explore.
+            withdrawal as their withdrawal plan. However, it is not the only
+            withdrawal plan out there, which is why this calculator includes
+            other plans for you to explore.
+          </p>
+          <p>
+            Each withdrawal plan has its pros and cons, and the authors of this
+            calculator know of no plan that is considered by the community to be
+            "the best." We hope this calculator helps you find the plan that
+            feels right for your retirement plans.
           </p>
           <p>
             To learn more about each of the different withdrawal plans, first
-            select the plan and then click the <IconHelp /> icon next to the
-            plan selection dropdown.
+            choose the plan in the dropdown, then click the <IconHelp /> icon
+            next to its name.
           </p>
         </Modal.Body>
         <Modal.Footer>
