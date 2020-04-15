@@ -13,16 +13,16 @@ export default {
       keyType: 'string',
       values: [
         {
-          key: 'gk',
-          display: 'Guyton-Klinger',
-        },
-        {
           key: 'constantSpending',
           display: 'Constant withdrawal',
         },
         {
           key: 'portfolioPercent',
           display: 'Percent of portfolio',
+        },
+        {
+          key: 'gk',
+          display: 'Guyton-Klinger',
         },
         // {
         //   key: 'hebeler',

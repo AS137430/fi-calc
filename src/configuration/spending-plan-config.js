@@ -233,7 +233,8 @@ export default function SpendingPlanConfig() {
             </li>
             <li>
               How you plan to adjust your withdrawals, if at all, in response to
-              changes in the market
+              changes in the market, how much money remains in your portfolio,
+              or other variables
             </li>
           </ol>
           <p>
