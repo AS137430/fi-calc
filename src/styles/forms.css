@@ -112,6 +112,10 @@ input[type='number'] {
   margin-left: 0.25rem;
 }
 
+.helpIcon.focus-visible {
+  opacity: 1;
+}
+
 .helpIcon:hover {
   fill: #999;
 }
