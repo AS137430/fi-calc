@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import spending from './spending';
+import withdrawal from './withdrawal';
 import adjustPortfolioInvestment from './adjust-portfolio-investment';
 import inflationFromCpi from '../market-data/inflation-from-cpi';
 import {
@@ -24,10 +24,10 @@ interface SimulateOneYearOptions {
   firstYearCpi: string | undefined;
   didDip: boolean;
   lowestValue: number;
-  spendingConfiguration: any;
+  withdrawalConfiguration: any;
   initialPortfolio: Portfolio;
   portfolio: Portfolio;
-  spendingMethod: SpendingMethods;
+  withdrawalMethod: SpendingMethods;
   lowestSuccessfulDip: DipObject;
   n: number;
 }
@@ -44,8 +44,8 @@ export default function simulateOneYear({
   resultsByYear,
   marketData,
   firstYearCpi,
-  spendingMethod,
-  spendingConfiguration,
+  withdrawalMethod,
+  withdrawalConfiguration,
   didDip,
   lowestValue,
   dipThreshold,
@@ -74,8 +74,8 @@ export default function simulateOneYear({
   });
 
   // For now, we use a simple inflation-adjusted withdrawal approach
-  let totalWithdrawalAmount = spending[spendingMethod]({
-    ...spendingConfiguration,
+  let totalWithdrawalAmount = withdrawal[withdrawalMethod]({
+    ...withdrawalConfiguration,
     previousResults,
     initialPortfolio,
     isFirstYear,

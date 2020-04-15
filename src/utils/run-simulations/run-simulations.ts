@@ -2,7 +2,7 @@ import _ from 'lodash';
 import getStartYears from './get-start-years';
 import runSimulation from './run-simulation';
 import { fromInvestments } from '../forms/normalize-portfolio';
-import { SpendingPlan, InvestmentType } from './run-simulations-interfaces';
+import { WithdrawalPlan, InvestmentType } from './run-simulations-interfaces';
 import asyncMap from '../async-map';
 
 interface Portfolio {
@@ -19,7 +19,7 @@ interface LengthOfRetirement {
 
 interface RunSimulationsOptions {
   lengthOfRetirement: LengthOfRetirement;
-  spendingPlan: SpendingPlan;
+  withdrawalPlan: WithdrawalPlan;
   portfolio: Portfolio;
   durationMode: string;
   dipPercentage: number;
@@ -48,7 +48,7 @@ export default function runSimulations(
   const {
     durationMode,
     lengthOfRetirement,
-    spendingPlan,
+    withdrawalPlan,
     portfolio,
     dipPercentage,
     successRateThreshold,
@@ -111,7 +111,7 @@ export default function runSimulations(
         dipPercentage,
         rebalancePortfolioAnnually,
         portfolio: portfolioFromInvestments,
-        spendingPlan,
+        withdrawalPlan,
         duration: Number(lengthOfSimulation),
       }),
     (simulations: any) => {

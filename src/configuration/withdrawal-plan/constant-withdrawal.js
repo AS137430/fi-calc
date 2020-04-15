@@ -15,9 +15,9 @@ export default function ConstantWithdrawalConfiguration({
     <>
       <div className="formRow">
         <Input
-          {...inputs.annualSpending.getProps({
-            id: 'annualSpending',
-            className: 'input-annualSpending',
+          {...inputs.annualWithdrawal.getProps({
+            id: 'annualWithdrawal',
+            className: 'input-annualWithdrawal',
             type: 'number',
             min: 0,
             inputMode: 'decimal',
@@ -25,7 +25,7 @@ export default function ConstantWithdrawalConfiguration({
             prefix: '$',
             suffix: 'per year',
             onCommit(event, newValue) {
-              commitInput('annualSpending', newValue);
+              commitInput('annualWithdrawal', newValue);
             },
           })}
         />
@@ -53,12 +53,12 @@ export default function ConstantWithdrawalConfiguration({
         </button>
       </div>
       <InfoModal
-        title="Adjust Spending for Inflation"
+        title="Adjust Withdrawal for Inflation"
         active={openModal === 'inflation'}
         recommendation
         onBeginClose={() => setOpenModal(null)}>
         <p>
-          Adjusting your spending for inflation ensures that your purchasing
+          Adjusting your withdrawal for inflation ensures that your purchasing
           power – the amount of stuff that you can buy each year – stays about
           the same throughout your retirement.
         </p>
@@ -80,7 +80,7 @@ export default function ConstantWithdrawalConfiguration({
         <p>
           Disabling this feature increases success rates significantly, but the
           results are often misleading as this implicitly means that you're
-          spending less money over time.
+          withdrawing less money over time.
         </p>
       </InfoModal>
     </>

@@ -161,8 +161,8 @@ export default function PercentageOfPortfolioConfiguration({
           change?
         </p>
         <p>
-          Specifying a maximum withdrawal limit ensures that your spending does
-          not fluctuate this much.
+          Specifying a maximum withdrawal limit ensures that your withdrawal
+          does not fluctuate this much.
         </p>
         <p>
           The maximum withdrawal is inflation-adjusted, so its purchasing power

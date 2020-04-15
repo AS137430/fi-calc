@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import classnames from 'classnames';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 import Chart from './chart';
-import useSpendingPlan from '../state/spending-plan';
+import useWithdrawalPlan from '../state/withdrawal-plan';
 import formatNumber from '../utils/numbers/format-number';
 import useSimulationResult from '../state/simulation-result';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
@@ -50,7 +50,7 @@ export default function OneSimulation() {
     [result, numericYear]
   );
 
-  const { state: spendingPlan } = useSpendingPlan();
+  const { state: withdrawalPlan } = useWithdrawalPlan();
   const portfolioChartData = useMemo(
     () => {
       return formatSimulationForPortfolioChart(simulation);
@@ -58,7 +58,7 @@ export default function OneSimulation() {
     [simulation]
   );
 
-  const spendingChartData = useMemo(
+  const withdrawalChartData = useMemo(
     () => {
       return formatSimulationForSpendingChart(simulation);
     },
@@ -85,8 +85,8 @@ export default function OneSimulation() {
     successMessage = 'Yes';
   }
 
-  const isConstantSpending =
-    spendingPlan.spendingStrategy.key === 'constantSpending';
+  const isconstantWithdrawal =
+    withdrawalPlan.withdrawalStrategy.key === 'constantWithdrawal';
 
   return (
     <div className="results">
@@ -162,11 +162,11 @@ export default function OneSimulation() {
         <div />
       </div>
       <div className="results_block">
-        <h2 className="results_h2">Spending</h2>
-        {!isConstantSpending && (
+        <h2 className="results_h2">Withdrawals</h2>
+        {!isconstantWithdrawal && (
           <div className="results_sectionRow">
             <div className="results_section">
-              <div className="results_sectionTitle">Lowest Spend</div>
+              <div className="results_sectionTitle">Lowest Withdrawal</div>
               <div className="results_value">
                 $
                 {formatNumber(
@@ -179,7 +179,7 @@ export default function OneSimulation() {
               </div>
             </div>
             <div className="results_section">
-              <div className="results_sectionTitle">Final Year Spend</div>
+              <div className="results_sectionTitle">Final Year Withdrawal</div>
               <div className="results_value">
                 $
                 {formatNumber(
@@ -190,7 +190,7 @@ export default function OneSimulation() {
           </div>
         )}
         <div className="results_plotSection">
-          <Chart data={spendingChartData} />
+          <Chart data={withdrawalChartData} />
         </div>
       </div>
     </div>

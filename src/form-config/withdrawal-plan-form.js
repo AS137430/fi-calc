@@ -8,12 +8,12 @@ import maxDollarInput from '../utils/forms/max-dollar-input';
 
 export default {
   values: {
-    spendingStrategy: {
+    withdrawalStrategy: {
       type: 'enumeration',
       keyType: 'string',
       values: [
         {
-          key: 'constantSpending',
+          key: 'constantWithdrawal',
           display: 'Constant withdrawal',
         },
         {
@@ -32,7 +32,7 @@ export default {
     },
 
     /* Constant withdrawal */
-    annualSpending: {
+    annualWithdrawal: {
       type: 'number',
       default: 40000,
       validators: [

@@ -2,31 +2,31 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import IconHelp from 'materialish/icon-help';
 import ConfigSection from './config-section';
-import ConstantWithdrawal from './spending-plan/constant-withdrawal';
-import PercentageOfPortfolio from './spending-plan/percentage-of-portfolio';
-import GuytonKlinger from './spending-plan/guyton-klinger';
+import ConstantWithdrawal from './withdrawal-plan/constant-withdrawal';
+import PercentageOfPortfolio from './withdrawal-plan/percentage-of-portfolio';
+import GuytonKlinger from './withdrawal-plan/guyton-klinger';
 import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
-import useSpendingPlan from '../state/spending-plan';
-import spendingPlanForm from '../form-config/spending-plan-form';
+import useWithdrawalPlan from '../state/withdrawal-plan';
+import withdrawalPlanForm from '../form-config/withdrawal-plan-form';
 
-export default function SpendingPlanConfig() {
+export default function WithdrawalPlanConfig() {
   const {
-    state: spendingPlan,
+    state: withdrawalPlan,
     inputs,
     changeSelect,
     changeCheckbox,
     commitInput,
   } = useForm({
-    formConfig: spendingPlanForm,
-    useSourceOfTruth: useSpendingPlan,
+    formConfig: withdrawalPlanForm,
+    useSourceOfTruth: useWithdrawalPlan,
   });
 
   const [openModal, setOpenModal] = useState(null);
 
-  const display = _.chain(spendingPlanForm.values.spendingStrategy.values)
+  const display = _.chain(withdrawalPlanForm.values.withdrawalStrategy.values)
     .find({
-      key: inputs.spendingStrategy.value,
+      key: inputs.withdrawalStrategy.value,
     })
     .get('display')
     .startCase()
@@ -40,10 +40,10 @@ export default function SpendingPlanConfig() {
         <div className="formRow formRow-flex">
           <select
             id="country"
-            value={inputs.spendingStrategy.value}
+            value={inputs.withdrawalStrategy.value}
             className="select"
-            onChange={e => changeSelect('spendingStrategy', e)}>
-            {spendingPlanForm.values.spendingStrategy.values.map(val => (
+            onChange={e => changeSelect('withdrawalStrategy', e)}>
+            {withdrawalPlanForm.values.withdrawalStrategy.values.map(val => (
               <option key={val.key} value={val.key}>
                 {val.display}
               </option>
@@ -57,28 +57,28 @@ export default function SpendingPlanConfig() {
             <IconHelp />
           </button>
         </div>
-        {spendingPlan.spendingStrategy.key === 'constantSpending' && (
+        {withdrawalPlan.withdrawalStrategy.key === 'constantWithdrawal' && (
           <ConstantWithdrawal
             inputs={inputs}
             changeCheckbox={changeCheckbox}
             commitInput={commitInput}
           />
         )}
-        {spendingPlan.spendingStrategy.key === 'portfolioPercent' && (
+        {withdrawalPlan.withdrawalStrategy.key === 'portfolioPercent' && (
           <PercentageOfPortfolio
             inputs={inputs}
             changeCheckbox={changeCheckbox}
             commitInput={commitInput}
           />
         )}
-        {spendingPlan.spendingStrategy.key === 'hebeler' && (
+        {withdrawalPlan.withdrawalStrategy.key === 'hebeler' && (
           <div className="formRow">
             <div className="formRow_message">
               The Hebeler Autopilot strategy is not currently supported.
             </div>
           </div>
         )}
-        {spendingPlan.spendingStrategy.key === 'gk' && (
+        {withdrawalPlan.withdrawalStrategy.key === 'gk' && (
           <GuytonKlinger
             inputs={inputs}
             changeCheckbox={changeCheckbox}
@@ -131,7 +131,7 @@ export default function SpendingPlanConfig() {
         title={`Withdrawal Strategy${display && `: ${display}`}`}
         active={openModal === 'withdrawalStrategy'}
         onBeginClose={() => setOpenModal(null)}>
-        {inputs.spendingStrategy.value === 'constantSpending' && (
+        {inputs.withdrawalStrategy.value === 'constantWithdrawal' && (
           <>
             <p>
               This is the withdrawal plan used in Bengen's original analysis, as
@@ -139,8 +139,8 @@ export default function SpendingPlanConfig() {
             </p>
             <p>
               It works like this: you choose some amount of your initial
-              portfolio (such as 4% of the total value), and you spend that much
-              the first year. For each subsequent year, you adjust your
+              portfolio (such as 4% of the total value), and you withdraw that
+              much the first year. For each subsequent year, you adjust your
               withdrawal to account for inflation, but you otherwise ignore how
               the market is doing, or what your portfolio is valued at.
             </p>
@@ -150,15 +150,15 @@ export default function SpendingPlanConfig() {
             </p>
           </>
         )}
-        {inputs.spendingStrategy.value === 'portfolioPercent' && (
+        {inputs.withdrawalStrategy.value === 'portfolioPercent' && (
           <>
             <p>
               In this strategy, your withdrawal limit is a percentage of the{' '}
               <i>current</i> value of your portfolio.
             </p>
             <p>
-              This strategy is similar to the constant spending withdrawal plan,
-              but it adjusts your annual withdrawal based on how the market is
+              This strategy is similar to the Constant Withdrawal plan, but it
+              adjusts your annual withdrawal based on how the market is
               performing. When the market is doing poorly, you withdraw less,
               increasing your chance of success. And when the market is doing
               well, you are able to withdraw more.
@@ -171,12 +171,12 @@ export default function SpendingPlanConfig() {
             </p>
           </>
         )}
-        {inputs.spendingStrategy.value === 'gk' && (
+        {inputs.withdrawalStrategy.value === 'gk' && (
           <>
             <p>
               Guyton-Klinger is a withdrawal plan that stands out for its
               exceptional success rates. You can think of it as a modified
-              Constant Spending plan.
+              Constant Withdrawal plan.
             </p>
             <p>
               What makes Guyton-Klinger different from Constant Withdrawal are

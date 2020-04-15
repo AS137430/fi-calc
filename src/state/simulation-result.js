@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import constate from 'constate';
 import usePortfolio from './portfolio';
-import useSpendingPlan from './spending-plan';
+import useWithdrawalPlan from './withdrawal-plan';
 import useLengthOfRetirement from './length-of-retirement';
 import runSimulations from '../utils/run-simulations/run-simulations';
 
@@ -10,7 +10,7 @@ const DIP_PERCENTAGE = 0.9;
 const SUCCESS_RATE_THRESHOLD = 0.95;
 
 function useSimulationResult() {
-  const { state: spendingPlan } = useSpendingPlan();
+  const { state: withdrawalPlan } = useWithdrawalPlan();
   const { state: lengthOfRetirement } = useLengthOfRetirement();
   const { state: portfolio } = usePortfolio();
 
@@ -27,7 +27,7 @@ function useSimulationResult() {
           {
             durationMode: 'allHistory',
             lengthOfRetirement,
-            spendingPlan,
+            withdrawalPlan,
             portfolio,
             dipPercentage: DIP_PERCENTAGE,
             successRateThreshold: SUCCESS_RATE_THRESHOLD,
@@ -44,7 +44,7 @@ function useSimulationResult() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      ...Object.values(spendingPlan),
+      ...Object.values(withdrawalPlan),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       ...Object.values(lengthOfRetirement),
       // eslint-disable-next-line react-hooks/exhaustive-deps

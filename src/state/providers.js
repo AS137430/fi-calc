@@ -1,6 +1,6 @@
 import React from 'react';
 import { LengthOfRetirementProvider } from './length-of-retirement';
-import { SpendingPlanProvider } from './spending-plan';
+import { WithdrawalPlanProvider } from './withdrawal-plan';
 import { PortfolioProvider } from './portfolio';
 import { UndoProvider } from './undo-history';
 import { SimulationResultProvider } from './simulation-result';
@@ -10,9 +10,9 @@ export default function StateProviders({ children }) {
     <UndoProvider>
       <PortfolioProvider>
         <LengthOfRetirementProvider>
-          <SpendingPlanProvider>
+          <WithdrawalPlanProvider>
             <SimulationResultProvider>{children}</SimulationResultProvider>
-          </SpendingPlanProvider>
+          </WithdrawalPlanProvider>
         </LengthOfRetirementProvider>
       </PortfolioProvider>
     </UndoProvider>
