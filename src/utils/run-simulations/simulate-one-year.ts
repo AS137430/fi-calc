@@ -12,10 +12,10 @@ import {
 
 interface SimulateOneYearOptions {
   startYear: number;
+  yearsRemaining: number;
   rebalancePortfolioAnnually: boolean;
   isFirstYear: boolean;
   year: number;
-  nextYear: number;
   previousResults: YearResult;
   initialComputedData: any;
   resultsByYear: any;
@@ -34,11 +34,11 @@ interface SimulateOneYearOptions {
 
 export default function simulateOneYear({
   n,
+  yearsRemaining,
   startYear,
   rebalancePortfolioAnnually,
   isFirstYear,
   year,
-  nextYear,
   previousResults,
   initialComputedData,
   resultsByYear,
@@ -66,15 +66,23 @@ export default function simulateOneYear({
   const yearStartValue = previousComputedData.portfolio.totalValue;
 
   const yearMarketData = marketData[year];
+  const currentCpi = Number(yearMarketData.cpi);
 
   const cumulativeInflation = inflationFromCpi({
     startCpi: Number(firstYearCpi),
-    endCpi: Number(yearMarketData.cpi),
+    endCpi: currentCpi,
   });
 
   // For now, we use a simple inflation-adjusted withdrawal approach
   let totalWithdrawalAmount = spending[spendingMethod]({
     ...spendingConfiguration,
+    previousResults,
+    initialPortfolio,
+    isFirstYear,
+    yearMarketData,
+    yearsRemaining,
+    firstYearCpi: Number(firstYearCpi),
+    cpi: currentCpi,
     portfolioTotalValue: yearStartValue,
     inflation: cumulativeInflation,
   });
@@ -138,6 +146,7 @@ export default function simulateOneYear({
     year,
     isOutOfMoney,
     marketData: yearMarketData,
+    cpi: currentCpi,
     computedData: {
       cumulativeInflation,
       totalWithdrawalAmount,

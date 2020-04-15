@@ -13,6 +13,7 @@
 
 .goodModal_body {
   color: #eee;
+  fill: #eee;
 }
 
 .goodModal_errorMsg {
@@ -63,6 +64,7 @@
 .goodModal_title {
   font-size: 1.25rem;
   font-weight: 700;
+  line-height: 1.35;
 }
 
 @media (max-width: 550px) {

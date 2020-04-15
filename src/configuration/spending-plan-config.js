@@ -4,6 +4,7 @@ import { Checkbox } from 'materialish';
 import IconHelp from 'materialish/icon-help';
 import IconDone from 'materialish/icon-done';
 import ConfigSection from './config-section';
+import GuytonKlinger from './spending-plan/guyton-klinger';
 import useForm from '../hooks/use-form';
 import Modal from '../common/modal';
 import Input from '../common/input';
@@ -208,11 +209,13 @@ export default function SpendingPlanConfig() {
           </div>
         )}
         {spendingPlan.spendingStrategy.key === 'gk' && (
-          <div className="formRow">
-            <div className="formRow_message">
-              The Guyton-Klinger strategy is not currently supported.
-            </div>
-          </div>
+          <GuytonKlinger
+            spendingPlan={spendingPlan}
+            inputs={inputs}
+            changeSelect={changeSelect}
+            changeCheckbox={changeCheckbox}
+            commitInput={commitInput}
+          />
         )}
       </ConfigSection>
       <Modal
@@ -230,24 +233,31 @@ export default function SpendingPlanConfig() {
             </li>
             <li>
               How you plan to adjust your withdrawals, if at all, in response to
-              changes in the market
+              changes in the market, how much money remains in your portfolio,
+              or other variables
             </li>
           </ol>
           <p>
-            The default plan, <b>constant withdrawal</b>, is the withdrawal plan
+            The default plan, <b>Constant Withdrawal</b>, is the withdrawal plan
             used by the studies that derived the 4% rule.
           </p>
           <p>
             The 4% rule studies are foundational in retirement planning, and
             there are no doubt many retirees who are successfully using constant
-            withdrawal as their withdrawal plan. However, some believe that it
-            could be improved, which is why this calculator includes other
-            withdrawal plans for you to explore.
+            withdrawal as their withdrawal plan. However, it is not the only
+            withdrawal plan out there, which is why this calculator includes
+            other plans for you to explore.
+          </p>
+          <p>
+            Each withdrawal plan has its pros and cons, and the authors of this
+            calculator know of no plan that is considered by the community to be
+            "the best." We hope this calculator helps you find the plan that
+            feels right for your retirement plans.
           </p>
           <p>
             To learn more about each of the different withdrawal plans, first
-            select the plan and then click the <IconHelp fill="white" /> icon
-            next to the plan selection dropdown.
+            choose the plan in the dropdown, then click the <IconHelp /> icon
+            next to its name.
           </p>
         </Modal.Body>
         <Modal.Footer>
@@ -434,6 +444,33 @@ export default function SpendingPlanConfig() {
                 that you would like to withdraw each year. These limits are
                 inflation adjusted, so the purchasing power of the limits
                 remains constant throughout your retirement.
+              </p>
+            </>
+          )}
+          {inputs.spendingStrategy.value === 'gk' && (
+            <>
+              <p>
+                Guyton-Klinger is a withdrawal plan that stands out for its
+                exceptional success rates. You can think of it as a modified
+                Constant Spending plan.
+              </p>
+              <p>
+                What makes Guyton-Klinger different from Constant Withdrawal are
+                what are called the three Decision Rules. These rules adjust how
+                much you withdraw each year based on how the market is
+                performing, and how much money remains in your portfolio.
+              </p>
+              <p>
+                One of the rules determines whether or not you should adjust
+                your withdrawal rate for inflation in a given year. The other
+                two rules increase or decrease your withdrawal based on the
+                health of your portfolio.
+              </p>
+              <p>
+                Because of these Decision Rules, Guyton-Klinger is a more
+                complicated withdrawal plan. If you are new to it, we encourage
+                you to read about each of the Decision Rules by clicking on the{' '}
+                <IconHelp /> icon next to each Decision Rule name.
               </p>
             </>
           )}

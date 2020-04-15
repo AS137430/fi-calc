@@ -18,6 +18,9 @@ export default function SimulationsOverview() {
     Boolean(getItem(STORAGE_KEY))
   );
 
+  // For debugging purposes
+  window.result = result;
+
   if (!result) {
     return null;
   }

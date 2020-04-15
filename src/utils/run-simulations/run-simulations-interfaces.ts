@@ -12,16 +12,29 @@ export interface Portfolio {
 }
 
 export interface SpendingPlan {
-  annualSpending: number;
-  inflationAdjustedFirstYearWithdrawal: boolean;
   spendingStrategy: {
     key: string;
   };
+
+  /* Constant Spending */
+  annualSpending: number;
+  inflationAdjustedFirstYearWithdrawal: boolean;
+
+  /* Percentage of Portfolio */
   percentageOfPortfolio: number;
   minWithdrawalLimit: number;
   maxWithdrawalLimit: number;
   minWithdrawalLimitEnabled: boolean;
   maxWithdrawalLimitEnabled: boolean;
+
+  /* Guyton-Klinger */
+  gkInitialSpending: number;
+  gkWithdrawalUpperLimit: number;
+  gkWithdrawalLowerLimit: number;
+  gkUpperLimitAdjustment: number;
+  gkLowerLimitAdjustment: number;
+  gkIgnoreLastFifteenYears: boolean;
+  gkModifiedWithdrawalRule: boolean;
 }
 
 export enum MarketDataGrowthKeys {
@@ -38,6 +51,7 @@ export enum SpendingMethods {
   inflationAdjusted = 'inflationAdjusted',
   notInflationAdjusted = 'notInflationAdjusted',
   portfolioPercent = 'portfolioPercent',
+  guytonKlinger = 'guytonKlinger',
 }
 
 interface AdjustedInvestment extends PortfolioInvestment {
@@ -53,6 +67,7 @@ export interface YearResult {
   year: number;
   isOutOfMoney: boolean;
   marketData: any;
+  cpi: number;
   computedData: {
     cumulativeInflation: number;
     totalWithdrawalAmount: number;

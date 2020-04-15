@@ -29,6 +29,8 @@ function getSpendingMethod(
 ): SpendingMethods {
   if (spendingStrategy === 'portfolioPercent') {
     return SpendingMethods.portfolioPercent;
+  } else if (spendingStrategy === 'gk') {
+    return SpendingMethods.guytonKlinger;
   }
 
   return inflationAdjustedFirstYearWithdrawal
@@ -58,6 +60,13 @@ export default function runSimulation(options: RunSimulationOptions) {
     maxWithdrawalLimit,
     minWithdrawalLimitEnabled,
     maxWithdrawalLimitEnabled,
+    gkInitialSpending,
+    gkWithdrawalUpperLimit,
+    gkWithdrawalLowerLimit,
+    gkUpperLimitAdjustment,
+    gkLowerLimitAdjustment,
+    gkIgnoreLastFifteenYears,
+    gkModifiedWithdrawalRule
   } = spendingPlan;
   const firstYearWithdrawal = annualSpending;
   const spendingStrategy = spendingStrategyObject.key;
@@ -79,10 +88,20 @@ export default function runSimulation(options: RunSimulationOptions) {
         : Number.MAX_SAFE_INTEGER,
       percentageOfPortfolio,
     };
-  } else {
+  } else if (spendingStrategy === 'constantSpending') {
     spendingConfiguration = {
       firstYearWithdrawal: Number(firstYearWithdrawal),
     };
+  } else if (spendingStrategy === 'gk') {
+    spendingConfiguration = {
+      gkInitialSpending: gkInitialSpending,
+      gkWithdrawalUpperLimit: gkWithdrawalUpperLimit,
+      gkWithdrawalLowerLimit: gkWithdrawalLowerLimit,
+      gkUpperLimitAdjustment: gkUpperLimitAdjustment,
+      gkLowerLimitAdjustment: gkLowerLimitAdjustment,
+      gkIgnoreLastFifteenYears: gkIgnoreLastFifteenYears,
+      gkModifiedWithdrawalRule: gkModifiedWithdrawalRule
+    }
   }
 
   const initialPortfolioValue = portfolio.totalValue;
@@ -146,15 +165,15 @@ export default function runSimulation(options: RunSimulationOptions) {
   _.times(duration, n => {
     const isFirstYear = n === 0;
     const year = Number(startYear) + n;
-    const nextYear = year + 1;
     const previousResults = resultsByYear[n - 1];
+    const yearsRemaining = duration - n;
 
     const yearResult = simulateOneYear({
       n,
+      yearsRemaining,
       startYear,
       isFirstYear,
       year,
-      nextYear,
       previousResults,
       rebalancePortfolioAnnually,
       initialComputedData,
