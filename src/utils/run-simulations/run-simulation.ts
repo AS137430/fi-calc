@@ -3,7 +3,7 @@ import inflationFromCpi from '../market-data/inflation-from-cpi';
 import marketDataByYear from '../market-data/market-data-by-year';
 import {
   Portfolio,
-  SpendingPlan,
+  WithdrawalPlan,
   SpendingMethods,
   YearResult,
   DipObject
@@ -19,17 +19,17 @@ interface RunSimulationOptions {
   duration: number;
   rebalancePortfolioAnnually: boolean;
   dipPercentage: number;
-  spendingPlan: SpendingPlan;
+  withdrawalPlan: WithdrawalPlan;
   portfolio: Portfolio;
 }
 
 function getSpendingMethod(
-  spendingStrategy: string,
+  withdrawalStrategy: string,
   inflationAdjustedFirstYearWithdrawal: boolean
 ): SpendingMethods {
-  if (spendingStrategy === 'portfolioPercent') {
+  if (withdrawalStrategy === 'portfolioPercent') {
     return SpendingMethods.portfolioPercent;
-  } else if (spendingStrategy === 'gk') {
+  } else if (withdrawalStrategy === 'gk') {
     return SpendingMethods.guytonKlinger;
   }
 
@@ -48,13 +48,13 @@ export default function runSimulation(options: RunSimulationOptions) {
     portfolio,
     rebalancePortfolioAnnually,
     dipPercentage,
-    spendingPlan,
+    withdrawalPlan,
   } = options;
 
   const {
-    annualSpending,
+    annualWithdrawal,
     inflationAdjustedFirstYearWithdrawal,
-    spendingStrategy: spendingStrategyObject,
+    withdrawalStrategy: withdrawalStrategyObject,
     percentageOfPortfolio: percentPercentageOfPortfolio,
     minWithdrawalLimit,
     maxWithdrawalLimit,
@@ -67,20 +67,20 @@ export default function runSimulation(options: RunSimulationOptions) {
     gkLowerLimitAdjustment,
     gkIgnoreLastFifteenYears,
     gkModifiedWithdrawalRule
-  } = spendingPlan;
-  const firstYearWithdrawal = annualSpending;
-  const spendingStrategy = spendingStrategyObject.key;
+  } = withdrawalPlan;
+  const firstYearWithdrawal = annualWithdrawal;
+  const withdrawalStrategy = withdrawalStrategyObject.key;
   const percentageOfPortfolio = percentPercentageOfPortfolio / 100;
 
-  let spendingConfiguration: any = {};
+  let withdrawalConfiguration: any = {};
 
-  const spendingMethod = getSpendingMethod(
-    spendingStrategy,
+  const withdrawalMethod = getSpendingMethod(
+    withdrawalStrategy,
     inflationAdjustedFirstYearWithdrawal
   );
 
-  if (spendingStrategy === 'portfolioPercent') {
-    spendingConfiguration = {
+  if (withdrawalStrategy === 'portfolioPercent') {
+    withdrawalConfiguration = {
       // These are necessary for this computation...
       minWithdrawal: minWithdrawalLimitEnabled ? minWithdrawalLimit : 0,
       maxWithdrawal: maxWithdrawalLimitEnabled
@@ -88,12 +88,12 @@ export default function runSimulation(options: RunSimulationOptions) {
         : Number.MAX_SAFE_INTEGER,
       percentageOfPortfolio,
     };
-  } else if (spendingStrategy === 'constantSpending') {
-    spendingConfiguration = {
+  } else if (withdrawalStrategy === 'constantWithdrawal') {
+    withdrawalConfiguration = {
       firstYearWithdrawal: Number(firstYearWithdrawal),
     };
-  } else if (spendingStrategy === 'gk') {
-    spendingConfiguration = {
+  } else if (withdrawalStrategy === 'gk') {
+    withdrawalConfiguration = {
       gkInitialSpending: gkInitialSpending,
       gkWithdrawalUpperLimit: gkWithdrawalUpperLimit,
       gkWithdrawalLowerLimit: gkWithdrawalLowerLimit,
@@ -180,8 +180,8 @@ export default function runSimulation(options: RunSimulationOptions) {
       resultsByYear,
       marketData,
       firstYearCpi,
-      spendingMethod,
-      spendingConfiguration,
+      withdrawalMethod,
+      withdrawalConfiguration,
       didDip,
       lowestValue,
       dipThreshold,

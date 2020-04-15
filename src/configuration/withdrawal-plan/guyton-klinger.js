@@ -30,7 +30,7 @@ export default function GuytonKlingerConfiguration({
         <Input
           {...inputs.gkInitialSpending.getProps({
             id: 'gkInitialSpending',
-            className: 'input-annualSpending',
+            className: 'input-annualWithdrawal',
             type: 'number',
             min: 0,
             inputMode: 'decimal',
@@ -85,7 +85,7 @@ export default function GuytonKlingerConfiguration({
         <Input
           {...inputs.gkWithdrawalUpperLimit.getProps({
             id: 'gkWithdrawalUpperLimit',
-            className: 'input-annualSpending',
+            className: 'input-annualWithdrawal',
             type: 'number',
             min: 0,
             max: 100,
@@ -107,7 +107,7 @@ export default function GuytonKlingerConfiguration({
         <Input
           {...inputs.gkUpperLimitAdjustment.getProps({
             id: 'gkUpperLimitAdjustment',
-            className: 'input-annualSpending',
+            className: 'input-annualWithdrawal',
             type: 'number',
             min: 0,
             max: 100,
@@ -158,7 +158,7 @@ export default function GuytonKlingerConfiguration({
         <Input
           {...inputs.gkWithdrawalLowerLimit.getProps({
             id: 'gkWithdrawalLowerLimit',
-            className: 'input-annualSpending',
+            className: 'input-annualWithdrawal',
             type: 'number',
             min: 0,
             max: 100,
@@ -180,7 +180,7 @@ export default function GuytonKlingerConfiguration({
         <Input
           {...inputs.gkLowerLimitAdjustment.getProps({
             id: 'gkLowerLimitAdjustment',
-            className: 'input-annualSpending',
+            className: 'input-annualWithdrawal',
             type: 'number',
             min: 0,
             max: 100,
@@ -233,8 +233,9 @@ export default function GuytonKlingerConfiguration({
         </p>
         <p>
           Typically, Guyton-Klinger's withdrawal plan involves adjusting your
-          initial spending rate for inflation. However, the Modified Withdrawal
-          Rules specifies how, for some years, inflation will be ignored.
+          initial withdrawal rate for inflation. However, the Modified
+          Withdrawal Rules specifies how, for some years, inflation will be
+          ignored.
         </p>
         <p>Three conditions must be met for this rule to apply:</p>
         <ol>
@@ -311,8 +312,8 @@ export default function GuytonKlingerConfiguration({
           by some amount.
         </p>
         <p>
-          By default, the threshold for when spending is cut is 20% above the
-          initial withdrawal rate, and the size of the cut is 10%.
+          By default, the threshold for when withdrawals are cut is 20% above
+          the initial withdrawal rate, and the size of the cut is 10%.
         </p>
         <p>
           To give an example, consider an initial withdrawal of $40,000 and an
@@ -350,8 +351,9 @@ export default function GuytonKlingerConfiguration({
           withdrawal rate, then it is increased by some amount.
         </p>
         <p>
-          By default, the threshold for when spending is increased is 20% below
-          the initial withdrawal rate, and the size of the increase is 10%.
+          By default, the threshold for when withdrawals are increased is 20%
+          below the initial withdrawal rate, and the size of the increase is
+          10%.
         </p>
         <p>
           To give an example, consider an initial withdrawal of $40,000 and an

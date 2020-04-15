@@ -11,13 +11,13 @@ export interface Portfolio {
   investments: PortfolioInvestment[];
 }
 
-export interface SpendingPlan {
-  spendingStrategy: {
+export interface WithdrawalPlan {
+  withdrawalStrategy: {
     key: string;
   };
 
   /* Constant Spending */
-  annualSpending: number;
+  annualWithdrawal: number;
   inflationAdjustedFirstYearWithdrawal: boolean;
 
   /* Percentage of Portfolio */
