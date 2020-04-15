@@ -130,7 +130,7 @@ export default {
 
     gkIgnoreLastFifteenYears: {
       type: 'boolean',
-      default: true,
+      default: false,
     },
   },
 };

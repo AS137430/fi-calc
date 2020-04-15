@@ -249,8 +249,8 @@ export default function SpendingPlanConfig() {
           </p>
           <p>
             To learn more about each of the different withdrawal plans, first
-            select the plan and then click the <IconHelp fill="white" /> icon
-            next to the plan selection dropdown.
+            select the plan and then click the <IconHelp /> icon next to the
+            plan selection dropdown.
           </p>
         </Modal.Body>
         <Modal.Footer>
@@ -437,6 +437,33 @@ export default function SpendingPlanConfig() {
                 that you would like to withdraw each year. These limits are
                 inflation adjusted, so the purchasing power of the limits
                 remains constant throughout your retirement.
+              </p>
+            </>
+          )}
+          {inputs.spendingStrategy.value === 'gk' && (
+            <>
+              <p>
+                Guyton-Klinger is a withdrawal plan that stands out for its
+                exceptional success rates. You can think of it as a modified
+                Constant Spending plan.
+              </p>
+              <p>
+                What makes Guyton-Klinger different from Constant Withdrawal are
+                what are called the three Decision Rules. These rules adjust how
+                much you withdraw each year based on how the market is
+                performing, and how much money remains in your portfolio.
+              </p>
+              <p>
+                One of the rules determines whether or not you should adjust
+                your withdrawal rate for inflation in a given year. The other
+                two rules increase or decrease your withdrawal based on the
+                health of your portfolio.
+              </p>
+              <p>
+                Because of these Decision Rules, Guyton-Klinger is a more
+                complicated withdrawal plan. If you are new to it, we encourage
+                you to read about each of the Decision Rules by clicking on the{' '}
+                <IconHelp /> icon next to each Decision Rule name.
               </p>
             </>
           )}
