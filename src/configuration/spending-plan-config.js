@@ -4,6 +4,7 @@ import { Checkbox } from 'materialish';
 import IconHelp from 'materialish/icon-help';
 import IconDone from 'materialish/icon-done';
 import ConfigSection from './config-section';
+import GuytonKlinger from './spending-plan/guyton-klinger';
 import useForm from '../hooks/use-form';
 import Modal from '../common/modal';
 import Input from '../common/input';
@@ -208,174 +209,13 @@ export default function SpendingPlanConfig() {
           </div>
         )}
         {spendingPlan.spendingStrategy.key === 'gk' && (
-          <>
-            <div className="formRow_separator" />
-            <div className="formRow">
-              <div className="inputLabel_container">
-                <label htmlFor="gkInitialSpending" className="inputLabel">
-                  Initial Withdrawal
-                </label>
-                <button
-                  title="Learn more"
-                  className="helpIcon"
-                  type="button"
-                  onClick={() => setOpenModal('gkInitialSpending')}>
-                  <IconHelp />
-                </button>
-              </div>
-              <Input
-                {...inputs.gkInitialSpending.getProps({
-                  id: 'gkInitialSpending',
-                  className: 'input-annualSpending',
-                  type: 'number',
-                  min: 0,
-                  inputMode: 'decimal',
-                  autoComplete: 'off',
-                  prefix: '$',
-                  suffix: 'per year',
-                  onCommit(event, newValue) {
-                    commitInput('gkInitialSpending', newValue);
-                  },
-                })}
-              />
-            </div>
-            <div className="formRow_separator" />
-            <div className="formRow formRow-flex">
-              <Checkbox
-                className="checkbox"
-                id="gkModifiedWithdrawalRule"
-                checked={inputs.gkModifiedWithdrawalRule.value}
-                onChange={event =>
-                  changeCheckbox('gkModifiedWithdrawalRule', event)
-                }
-              />
-              <label
-                htmlFor="gkModifiedWithdrawalRule"
-                className="checkbox_label">
-                Modified Withdrawal Rule
-              </label>
-              <button
-                title="Learn more"
-                className="helpIcon"
-                type="button"
-                onClick={() => setOpenModal('inflation')}>
-                <IconHelp />
-              </button>
-            </div>
-            <div className="formRow_separator" />
-            <div className="formRow">
-              <div className="inputLabel_container">
-                <label htmlFor="gkWithdrawalUpperLimit" className="inputLabel">
-                  When withdrawal rate exceeds
-                </label>
-              </div>
-              <Input
-                {...inputs.gkWithdrawalUpperLimit.getProps({
-                  id: 'gkWithdrawalUpperLimit',
-                  className: 'input-annualSpending',
-                  type: 'number',
-                  min: 0,
-                  max: 100,
-                  inputMode: 'decimal',
-                  autoComplete: 'off',
-                  suffix: '%',
-                  onCommit(event, newValue) {
-                    commitInput('gkWithdrawalUpperLimit', newValue);
-                  },
-                })}
-              />
-            </div>
-            <div className="formRow">
-              <div className="inputLabel_container">
-                <label htmlFor="gkUpperLimitAdjustment" className="inputLabel">
-                  of initial withdrawal rate, then reduce it by
-                </label>
-              </div>
-              <Input
-                {...inputs.gkUpperLimitAdjustment.getProps({
-                  id: 'gkUpperLimitAdjustment',
-                  className: 'input-annualSpending',
-                  type: 'number',
-                  min: 0,
-                  max: 100,
-                  inputMode: 'decimal',
-                  autoComplete: 'off',
-                  suffix: '%',
-                  onCommit(event, newValue) {
-                    commitInput('gkUpperLimitAdjustment', newValue);
-                  },
-                })}
-              />
-            </div>
-            <div className="formRow formRow-flex">
-              <Checkbox
-                className="checkbox"
-                id="gkIgnoreLastFifteenYears"
-                checked={inputs.gkIgnoreLastFifteenYears.value}
-                onChange={event =>
-                  changeCheckbox('gkIgnoreLastFifteenYears', event)
-                }
-              />
-              <label
-                htmlFor="gkIgnoreLastFifteenYears"
-                className="checkbox_label">
-                Ignore for the final 15 years
-              </label>
-              <button
-                title="Learn more"
-                className="helpIcon"
-                type="button"
-                onClick={() => setOpenModal('inflation')}>
-                <IconHelp />
-              </button>
-            </div>
-            <div className="formRow_separator" />
-            <div className="formRow">
-              <div className="inputLabel_container">
-                <label htmlFor="gkWithdrawalLowerLimit" className="inputLabel">
-                  When withdrawal rate is below
-                </label>
-              </div>
-              <Input
-                {...inputs.gkWithdrawalLowerLimit.getProps({
-                  id: 'gkWithdrawalLowerLimit',
-                  className: 'input-annualSpending',
-                  type: 'number',
-                  min: 0,
-                  max: 100,
-                  inputMode: 'decimal',
-                  autoComplete: 'off',
-                  suffix: '%',
-                  onCommit(event, newValue) {
-                    commitInput('gkWithdrawalLowerLimit', newValue);
-                  },
-                })}
-              />
-            </div>
-            <div className="formRow">
-              <div className="inputLabel_container">
-                <label htmlFor="gkLowerLimitAdjustment" className="inputLabel">
-                  of initial withdrawal rate, then increase it by
-                </label>
-              </div>
-              <Input
-                {...inputs.gkLowerLimitAdjustment.getProps({
-                  id: 'gkLowerLimitAdjustment',
-                  className: 'input-annualSpending',
-                  type: 'number',
-                  min: 0,
-                  max: 100,
-                  inputMode: 'decimal',
-                  autoComplete: 'off',
-                  suffix: '%',
-                  onCommit(event, newValue) {
-                    commitInput('gkLowerLimitAdjustment', newValue);
-                  },
-                })}
-              />
-            </div>
-            <div className="formRow_separator" />
-          </>
+          <GuytonKlinger
+            spendingPlan={spendingPlan}
+            inputs={inputs}
+            changeSelect={changeSelect}
+            changeCheckbox={changeCheckbox}
+            commitInput={commitInput}
+          />
         )}
       </ConfigSection>
       <Modal

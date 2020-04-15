@@ -94,10 +94,10 @@ function guytonKlinger({
   // results and grab it from there.
   // We may end up using this value for this year, or we may end up modifying it. These are the outcomes
   // of this calculation:
-  //   Outcome 1. We may just use this value as-is, without even adjusting for inflation
-  //   Outcome 2. We may adjust this value for this year's inflation
-  //   Outcome 3. We may adjust this value for inflation, and then decrease it by a little bit (gkUpperLimitAdjustment)
-  //   Outcome 4. We may adjust this value for inflation, and then increase it by a little bit (gkLowerLimitAdjustment)
+  //
+  //   Inflation: we may adjust for inflation, or we may not (Modified Withdrawal Rule)
+  //   Adjustment: we may decrease it by a little bit (Capital Preservation Rule / gkUpperLimitAdjustment)
+  //   Adjustment: we may increase it by a little bit (Prosperity Rule / gkLowerLimitAdjustment)
   const previousSpending = isFirstYear
     ? gkInitialSpending
     : previousResults.computedData.totalWithdrawalAmount;
@@ -111,6 +111,7 @@ function guytonKlinger({
   const inflationAdjustedPrevYearWithdrawal =
     previousSpending * inflationFromPreviousYear;
 
+  let withdrawalAmountToUse = inflationAdjustedPrevYearWithdrawal;
   if (gkModifiedWithdrawalRule) {
     // The next set of lines implement's GK's "Modified Withdrawal Rule". Excerpt from their original paper:
     //
@@ -151,7 +152,7 @@ function guytonKlinger({
 
     if (freezeWithdrawal) {
       // Note: this is "Outcome 1" listed above.
-      return previousSpending;
+      withdrawalAmountToUse = previousSpending;
     }
   }
 
@@ -237,7 +238,7 @@ function guytonKlinger({
   // Alright! We're done. We now know our adjustment, which determines whether we are in Outcome 2, 3, or 4.
   // The last thing for us to do is to apply that adjustment and then account for inflation, and we're done.
   // Phew. That was complicated, but we made it!
-  return inflationAdjustedPrevYearWithdrawal * withdrawalAdjustment;
+  return withdrawalAmountToUse * withdrawalAdjustment;
 }
 
 export default {
