@@ -199,7 +199,7 @@ export default function GuytonKlingerConfiguration({
         active={openModal === 'initialWithdrawal'}
         onBeginClose={() => setOpenModal(null)}>
         <p>
-          Similar to the Constant Spending plan, Guyton-Klinger requires that
+          Similar to the Constant Withdrawal plan, Guyton-Klinger requires that
           you specify an initial withdrawal amount, which is how much money you
           withdraw from your portfolio on your first year. This value forms the
           foundation for how much you withdraw each year throughout your

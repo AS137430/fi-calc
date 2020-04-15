@@ -176,7 +176,7 @@ export default function SpendingPlanConfig() {
             <p>
               Guyton-Klinger is a withdrawal plan that stands out for its
               exceptional success rates. You can think of it as a modified
-              Constant Spending plan.
+              Constant Withdrawal plan.
             </p>
             <p>
               What makes Guyton-Klinger different from Constant Withdrawal are
