@@ -90,11 +90,7 @@ export default function WithdrawalPlanConfig() {
           <NinetyFivePercentRule inputs={inputs} commitInput={commitInput} />
         )}
         {withdrawalPlan.withdrawalStrategy.key === 'capeBased' && (
-          <CapeBased
-            inputs={inputs}
-            changeCheckbox={changeCheckbox}
-            commitInput={commitInput}
-          />
+          <CapeBased inputs={inputs} commitInput={commitInput} />
         )}
       </ConfigSection>
       <InfoModal

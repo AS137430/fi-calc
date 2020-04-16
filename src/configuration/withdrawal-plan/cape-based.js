@@ -1,29 +1,13 @@
-import React, { useState } from 'react';
-import { Checkbox } from 'materialish';
-import IconHelp from 'materialish/icon-help';
-import InfoModal from '../../common/info-modal';
+import React from 'react';
 import Input from '../../common/input';
 
-export default function CapeBasedConfiguration({
-  inputs,
-  changeCheckbox,
-  commitInput,
-}) {
-  const [openModal, setOpenModal] = useState(null);
-
+export default function CapeBasedConfiguration({ inputs, commitInput }) {
   return (
     <>
       <div className="inputLabel_container">
         <label htmlFor="capeWithdrawalRate" className="inputLabel">
           Combine this base withdrawal rate:
         </label>
-        <button
-          title="Learn more"
-          className="helpIcon"
-          type="button"
-          onClick={() => setOpenModal('capeWithdrawalRate')}>
-          <IconHelp />
-        </button>
       </div>
       <div className="formRow">
         <Input
@@ -47,13 +31,6 @@ export default function CapeBasedConfiguration({
         <label htmlFor="capeWeight" className="inputLabel">
           with an amount determined by multiplying this value
         </label>
-        <button
-          title="Learn more"
-          className="helpIcon"
-          type="button"
-          onClick={() => setOpenModal('capeWeight')}>
-          <IconHelp />
-        </button>
       </div>
       <div className="formRow">
         <Input
