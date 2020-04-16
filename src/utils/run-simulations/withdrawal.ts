@@ -32,6 +32,9 @@ interface WithdrawalOptions {
   gkModifiedWithdrawalRule: boolean;
   yearMarketData: YearData;
   previousResults: YearResult;
+
+  ninetyFiveInitialRate: number;
+  ninetyFivePercentage: number;
 }
 
 function inflationAdjusted({
@@ -238,9 +241,33 @@ function guytonKlinger({
   return withdrawalAmountToUse * withdrawalAdjustment;
 }
 
+function ninetyFivePercentRule({
+  ninetyFiveInitialRate,
+  initialPortfolio,
+  ninetyFivePercentage,
+  portfolioTotalValue,
+  previousResults,
+  isFirstYear,
+}: WithdrawalOptions): number {
+  const firstYearWithdrawal =
+    (initialPortfolio.totalValue * ninetyFiveInitialRate) / 100;
+
+  if (isFirstYear) {
+    return firstYearWithdrawal;
+  }
+
+  const previousWithdrawal = previousResults.computedData.totalWithdrawalAmount;
+  const reducedPreviousWithdrawal =
+    (previousWithdrawal * ninetyFivePercentage) / 100;
+  const currentWithdrawal = (portfolioTotalValue * ninetyFiveInitialRate) / 100;
+
+  return Math.max(reducedPreviousWithdrawal, currentWithdrawal);
+}
+
 export default {
   [SpendingMethods.inflationAdjusted]: inflationAdjusted,
   [SpendingMethods.notInflationAdjusted]: notInflationAdjusted,
   [SpendingMethods.portfolioPercent]: portfolioPercent,
   [SpendingMethods.guytonKlinger]: guytonKlinger,
+  [SpendingMethods.ninetyFivePercentRule]: ninetyFivePercentRule,
 };

@@ -35,6 +35,9 @@ export interface WithdrawalPlan {
   gkLowerLimitAdjustment: number;
   gkIgnoreLastFifteenYears: boolean;
   gkModifiedWithdrawalRule: boolean;
+
+  ninetyFiveInitialRate: number;
+  ninetyFivePercentage: number;
 }
 
 export enum MarketDataGrowthKeys {
@@ -52,6 +55,7 @@ export enum SpendingMethods {
   notInflationAdjusted = 'notInflationAdjusted',
   portfolioPercent = 'portfolioPercent',
   guytonKlinger = 'guytonKlinger',
+  ninetyFivePercentRule = 'ninetyFivePercentRule',
 }
 
 interface AdjustedInvestment extends PortfolioInvestment {

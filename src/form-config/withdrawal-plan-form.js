@@ -14,16 +14,21 @@ export default {
       values: [
         {
           key: 'constantWithdrawal',
-          display: 'Constant withdrawal',
+          display: 'Constant Withdrawal',
         },
         {
           key: 'portfolioPercent',
-          display: 'Percent of portfolio',
+          display: 'Percent of Portfolio',
         },
         {
           key: 'gk',
           display: 'Guyton-Klinger',
         },
+        {
+          key: '95percent',
+          display: '95% Rule',
+        },
+
         // {
         //   key: 'hebeler',
         //   display: 'Hebeler autopilot',
@@ -131,6 +136,19 @@ export default {
     gkIgnoreLastFifteenYears: {
       type: 'boolean',
       default: false,
+    },
+
+    /* 95% Rule */
+    ninetyFiveInitialRate: {
+      type: 'number',
+      default: 4,
+      validators: [isRequired, numberRequired, tooSmall(0), tooLarge(100)],
+    },
+
+    ninetyFivePercentage: {
+      type: 'number',
+      default: 95,
+      validators: [isRequired, numberRequired, tooSmall(0), tooLarge(100)],
     },
   },
 };
