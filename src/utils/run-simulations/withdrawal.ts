@@ -38,6 +38,7 @@ interface WithdrawalOptions {
 
   capeWithdrawalRate: number;
   capeWeight: number;
+  avgMarketDataCape: number;
 }
 
 function inflationAdjusted({
@@ -274,9 +275,11 @@ function capeBased({
   yearMarketData,
   capeWithdrawalRate,
   capeWeight,
+  avgMarketDataCape,
 }: WithdrawalOptions): number {
   const numericCape = Number(yearMarketData.cape);
-  const caey = 1 / numericCape;
+  const capeToUse = Number.isNaN(numericCape) ? avgMarketDataCape : numericCape;
+  const caey = 1 / capeToUse;
 
   const baseWithdrawalRate = capeWithdrawalRate / 100;
   const withdrawalRate = baseWithdrawalRate + capeWeight * caey;

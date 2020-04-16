@@ -14,6 +14,9 @@ const marketData = marketDataByYear();
 const allYears = Object.keys(marketData);
 const lastSupportedYear = Number(allYears[allYears.length - 1]);
 
+const marketDataCape = _.map(marketData, val => Number(val.cape)).filter(v => !Number.isNaN(v));
+const avgMarketDataCape = _.reduce(marketDataCape, (result, current) => result + current, 0) / marketDataCape.length;
+
 interface RunSimulationOptions {
   startYear: number;
   duration: number;
@@ -121,6 +124,7 @@ export default function runSimulation(options: RunSimulationOptions) {
     };
   } else if (withdrawalStrategy === 'capeBased') {
     withdrawalConfiguration = {
+      avgMarketDataCape,
       capeWithdrawalRate,
       capeWeight
     }
