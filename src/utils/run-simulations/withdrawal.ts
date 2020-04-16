@@ -270,7 +270,6 @@ function ninetyFivePercentRule({
 }
 
 function capeBased({
-  isFirstYear,
   portfolioTotalValue,
   yearMarketData,
   capeWithdrawalRate,
@@ -281,17 +280,6 @@ function capeBased({
 
   const baseWithdrawalRate = capeWithdrawalRate / 100;
   const withdrawalRate = baseWithdrawalRate + capeWeight * caey;
-
-  if (isFirstYear && yearMarketData.year === '1920') {
-    console.log(
-      'wot',
-      baseWithdrawalRate,
-      capeWeight,
-      numericCape,
-      caey,
-      withdrawalRate
-    );
-  }
 
   return withdrawalRate * portfolioTotalValue;
 }
