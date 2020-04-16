@@ -79,6 +79,8 @@ export default function runSimulation(options: RunSimulationOptions) {
 
   let withdrawalConfiguration: any = {};
 
+  type YearFailed = number | null;
+
   const withdrawalMethod = getSpendingMethod(
     withdrawalStrategy,
     inflationAdjustedFirstYearWithdrawal
@@ -157,7 +159,7 @@ export default function runSimulation(options: RunSimulationOptions) {
     value: Infinity,
     startYear: 0,
   };
-  let yearFailed = null;
+  let yearFailed:YearFailed = null;
 
   // This can be used to simulate a "previous" year for the 0th year,
   // simplifying the logic below.
@@ -203,6 +205,10 @@ export default function runSimulation(options: RunSimulationOptions) {
     if (yearResult !== null) {
       if (yearResult.isOutOfMoney) {
         isFailed = true;
+
+        if (yearFailed === null) {
+          yearFailed = year;
+        }
       }
 
       resultsByYear.push(yearResult);
