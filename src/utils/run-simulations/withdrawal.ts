@@ -241,6 +241,8 @@ function guytonKlinger({
   return withdrawalAmountToUse * withdrawalAdjustment;
 }
 
+// Algorithm from "Work Less, Live More"
+// Clarified by a post on this forum: https://www.early-retirement.org/forums/f28/question-on-the-95-rule-20484.html
 function ninetyFivePercentRule({
   ninetyFiveInitialRate,
   initialPortfolio,
