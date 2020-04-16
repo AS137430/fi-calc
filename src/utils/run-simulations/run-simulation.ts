@@ -33,6 +33,8 @@ function getSpendingMethod(
     return SpendingMethods.guytonKlinger;
   } else if (withdrawalStrategy === '95percent') {
     return SpendingMethods.ninetyFivePercentRule;
+  } else if (withdrawalStrategy === 'capeBased') {
+    return SpendingMethods.capeBased;
   }
 
   return inflationAdjustedFirstYearWithdrawal
@@ -71,7 +73,10 @@ export default function runSimulation(options: RunSimulationOptions) {
     gkModifiedWithdrawalRule,
 
     ninetyFiveInitialRate,
-    ninetyFivePercentage
+    ninetyFivePercentage,
+
+    capeWithdrawalRate,
+    capeWeight
   } = withdrawalPlan;
   const firstYearWithdrawal = annualWithdrawal;
   const withdrawalStrategy = withdrawalStrategyObject.key;
@@ -114,6 +119,11 @@ export default function runSimulation(options: RunSimulationOptions) {
       ninetyFiveInitialRate,
       ninetyFivePercentage
     };
+  } else if (withdrawalStrategy === 'capeBased') {
+    withdrawalConfiguration = {
+      capeWithdrawalRate,
+      capeWeight
+    }
   }
 
   const initialPortfolioValue = portfolio.totalValue;

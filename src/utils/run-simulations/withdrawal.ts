@@ -35,6 +35,9 @@ interface WithdrawalOptions {
 
   ninetyFiveInitialRate: number;
   ninetyFivePercentage: number;
+
+  capeWithdrawalRate: number;
+  capeWeight: number;
 }
 
 function inflationAdjusted({
@@ -266,10 +269,26 @@ function ninetyFivePercentRule({
   return Math.max(reducedPreviousWithdrawal, currentWithdrawal);
 }
 
+function capeBased({
+  portfolioTotalValue,
+  percentageOfPortfolio,
+  yearMarketData,
+  capeWithdrawalRate,
+  capeWeight,
+}: WithdrawalOptions): number {
+  const numericCape = Number(yearMarketData.cape);
+  const caey = 1 / numericCape;
+
+  const withdrawalRate = capeWithdrawalRate / 100;
+
+  return (withdrawalRate + capeWeight * caey) * portfolioTotalValue;
+}
+
 export default {
   [SpendingMethods.inflationAdjusted]: inflationAdjusted,
   [SpendingMethods.notInflationAdjusted]: notInflationAdjusted,
   [SpendingMethods.portfolioPercent]: portfolioPercent,
   [SpendingMethods.guytonKlinger]: guytonKlinger,
   [SpendingMethods.ninetyFivePercentRule]: ninetyFivePercentRule,
+  [SpendingMethods.capeBased]: capeBased,
 };

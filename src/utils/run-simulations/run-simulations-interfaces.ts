@@ -38,6 +38,9 @@ export interface WithdrawalPlan {
 
   ninetyFiveInitialRate: number;
   ninetyFivePercentage: number;
+
+  capeWithdrawalRate: number;
+  capeWeight: number;
 }
 
 export enum MarketDataGrowthKeys {
@@ -56,6 +59,7 @@ export enum SpendingMethods {
   portfolioPercent = 'portfolioPercent',
   guytonKlinger = 'guytonKlinger',
   ninetyFivePercentRule = 'ninetyFivePercentRule',
+  capeBased = 'capeBased',
 }
 
 interface AdjustedInvestment extends PortfolioInvestment {

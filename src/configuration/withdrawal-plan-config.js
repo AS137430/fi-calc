@@ -6,6 +6,7 @@ import ConstantWithdrawal from './withdrawal-plan/constant-withdrawal';
 import PercentageOfPortfolio from './withdrawal-plan/percentage-of-portfolio';
 import GuytonKlinger from './withdrawal-plan/guyton-klinger';
 import NinetyFivePercentRule from './withdrawal-plan/95-percent-rule';
+import CapeBased from './withdrawal-plan/cape-based';
 import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
 import useWithdrawalPlan from '../state/withdrawal-plan';
@@ -87,6 +88,13 @@ export default function WithdrawalPlanConfig() {
         )}
         {withdrawalPlan.withdrawalStrategy.key === '95percent' && (
           <NinetyFivePercentRule inputs={inputs} commitInput={commitInput} />
+        )}
+        {withdrawalPlan.withdrawalStrategy.key === 'capeBased' && (
+          <CapeBased
+            inputs={inputs}
+            changeCheckbox={changeCheckbox}
+            commitInput={commitInput}
+          />
         )}
       </ConfigSection>
       <InfoModal

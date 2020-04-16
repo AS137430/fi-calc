@@ -1,7 +1,10 @@
 import React from 'react';
 import Input from '../../common/input';
 
-export default function NinetyFivePercentRule({ inputs, commitInput }) {
+export default function NinetyFivePercentRuleConfiguration({
+  inputs,
+  commitInput,
+}) {
   return (
     <>
       <div className="inputLabel_container">
