@@ -249,6 +249,27 @@ export default function WithdrawalPlanConfig() {
             </p>
           </>
         )}
+        {inputs.withdrawalStrategy.value === 'capeBased' && (
+          <>
+            <p>
+              The CAPE-based withdrawal plan is a modified version of the
+              Percent of Portfolio withdrawal plan. It avoids extreme
+              year-to-year fluctuations in withdrawal rates by incorporating the
+              CAPE into the yearly withdrawal. The CAPE is a value that is
+              correlated with expected future earnings.
+            </p>
+            <p>
+              The equation for the CAPE-based withdrawal method is as follows:
+            </p>
+            <code>(a + b * CAEY) * P</code>
+            <p>
+              Where <code>a</code> is the base withdrawal base, <code>b</code>{' '}
+              is a weight of how much to factor in the CAPE, <code>CAEY</code>{' '}
+              is equal to <code>1/CAPE</code>, and <code>P</code> is the
+              current-year portfolio value.
+            </p>
+          </>
+        )}
       </InfoModal>
     </>
   );

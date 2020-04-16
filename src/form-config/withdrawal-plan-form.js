@@ -13,11 +13,6 @@ export default {
       keyType: 'string',
       values: [
         {
-          key: 'capeBased',
-          display: 'CAPE-based',
-        },
-
-        {
           key: 'constantWithdrawal',
           display: 'Constant Withdrawal',
         },
@@ -32,6 +27,10 @@ export default {
         {
           key: '95percent',
           display: '95% Rule',
+        },
+        {
+          key: 'capeBased',
+          display: 'CAPE-based',
         },
 
         // {

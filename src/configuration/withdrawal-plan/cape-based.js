@@ -15,7 +15,7 @@ export default function CapeBasedConfiguration({
     <>
       <div className="inputLabel_container">
         <label htmlFor="capeWithdrawalRate" className="inputLabel">
-          Withdrawal Rate
+          Combine this base withdrawal rate:
         </label>
         <button
           title="Learn more"
@@ -45,7 +45,7 @@ export default function CapeBasedConfiguration({
       </div>
       <div className="inputLabel_container">
         <label htmlFor="capeWeight" className="inputLabel">
-          CAPE Adjustment Weight
+          with an amount determined by multiplying this value
         </label>
         <button
           title="Learn more"
@@ -72,6 +72,11 @@ export default function CapeBasedConfiguration({
             },
           })}
         />
+      </div>
+      <div className="inputLabel_container">
+        <label htmlFor="capeWeight" className="inputLabel">
+          by the current year CAEY
+        </label>
       </div>
       <InfoModal
         recommendation="We recommend specifying a minimum withdrawal."
