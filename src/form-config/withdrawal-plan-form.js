@@ -28,6 +28,10 @@ export default {
           key: '95percent',
           display: '95% Rule',
         },
+        {
+          key: 'capeBased',
+          display: 'CAPE-based',
+        },
 
         // {
         //   key: 'hebeler',
@@ -139,6 +143,8 @@ export default {
     },
 
     /* 95% Rule */
+
+    // This is a bad name as it's the rate used each year
     ninetyFiveInitialRate: {
       type: 'number',
       default: 4,
@@ -148,6 +154,23 @@ export default {
     ninetyFivePercentage: {
       type: 'number',
       default: 95,
+      validators: [isRequired, numberRequired, tooSmall(0), tooLarge(100)],
+    },
+
+    /* CAPE */
+    // Formula: (a + b * CAEY) * portfolioValue
+    // where:
+    //   a = capeWithdrawalRate
+    //   b = capeWeight
+    capeWithdrawalRate: {
+      type: 'number',
+      default: 1,
+      validators: [isRequired, numberRequired, tooSmall(0), tooLarge(100)],
+    },
+
+    capeWeight: {
+      type: 'number',
+      default: 0.5,
       validators: [isRequired, numberRequired, tooSmall(0), tooLarge(100)],
     },
   },

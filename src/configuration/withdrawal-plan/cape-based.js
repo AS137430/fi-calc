@@ -1,19 +1,18 @@
 import React from 'react';
 import Input from '../../common/input';
 
-export default function NinetyFivePercentRuleConfiguration({
-  inputs,
-  commitInput,
-}) {
+export default function CapeBasedConfiguration({ inputs, commitInput }) {
   return (
     <>
       <div className="inputLabel_container">
-        <div className="inputLabel">Each year, withdraw</div>
+        <label htmlFor="capeWithdrawalRate" className="inputLabel">
+          Combine this base withdrawal rate:
+        </label>
       </div>
       <div className="formRow">
         <Input
-          {...inputs.ninetyFiveInitialRate.getProps({
-            id: 'ninetyFiveInitialRate',
+          {...inputs.capeWithdrawalRate.getProps({
+            id: 'capeWithdrawalRate',
             className: 'input-percent',
             type: 'number',
             min: 0,
@@ -23,18 +22,20 @@ export default function NinetyFivePercentRuleConfiguration({
             autoComplete: 'off',
             suffix: '%',
             onCommit(event, newValue) {
-              commitInput('ninetyFiveInitialRate', newValue);
+              commitInput('capeWithdrawalRate', newValue);
             },
           })}
         />
       </div>
       <div className="inputLabel_container">
-        <div className="inputLabel">of current portfolio value, or</div>
+        <label htmlFor="capeWeight" className="inputLabel">
+          with an amount determined by multiplying this value
+        </label>
       </div>
       <div className="formRow">
         <Input
-          {...inputs.ninetyFivePercentage.getProps({
-            id: 'ninetyFivePercentage',
+          {...inputs.capeWeight.getProps({
+            id: 'capeWeight',
             className: 'input-percent',
             type: 'number',
             min: 0,
@@ -44,15 +45,13 @@ export default function NinetyFivePercentRuleConfiguration({
             autoComplete: 'off',
             suffix: '%',
             onCommit(event, newValue) {
-              commitInput('ninetyFivePercentage', newValue);
+              commitInput('capeWeight', newValue);
             },
           })}
         />
       </div>
       <div className="inputLabel_container">
-        <div className="inputLabel">
-          of previous year's withdrawal, whichever is greater
-        </div>
+        <div className="inputLabel">by the current year CAEY</div>
       </div>
     </>
   );

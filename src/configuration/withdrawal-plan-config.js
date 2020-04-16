@@ -6,6 +6,7 @@ import ConstantWithdrawal from './withdrawal-plan/constant-withdrawal';
 import PercentageOfPortfolio from './withdrawal-plan/percentage-of-portfolio';
 import GuytonKlinger from './withdrawal-plan/guyton-klinger';
 import NinetyFivePercentRule from './withdrawal-plan/95-percent-rule';
+import CapeBased from './withdrawal-plan/cape-based';
 import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
 import useWithdrawalPlan from '../state/withdrawal-plan';
@@ -87,6 +88,9 @@ export default function WithdrawalPlanConfig() {
         )}
         {withdrawalPlan.withdrawalStrategy.key === '95percent' && (
           <NinetyFivePercentRule inputs={inputs} commitInput={commitInput} />
+        )}
+        {withdrawalPlan.withdrawalStrategy.key === 'capeBased' && (
+          <CapeBased inputs={inputs} commitInput={commitInput} />
         )}
       </ConfigSection>
       <InfoModal
@@ -238,6 +242,27 @@ export default function WithdrawalPlanConfig() {
               retirement. Looking again at the 1930 to 1959 simulation: with an
               initial 4% withdrawal of $40,000, the smallest withdrawal is
               $20,083.01 while the largest is $62,849.28.
+            </p>
+          </>
+        )}
+        {inputs.withdrawalStrategy.value === 'capeBased' && (
+          <>
+            <p>
+              The CAPE-based withdrawal plan is a modified version of the
+              Percent of Portfolio withdrawal plan. It avoids extreme
+              year-to-year fluctuations in withdrawal rates by incorporating the
+              CAPE into the yearly withdrawal. The CAPE is a value that is
+              correlated with expected future earnings.
+            </p>
+            <p>
+              The equation for the CAPE-based withdrawal method is as follows:
+            </p>
+            <code>(a + b * CAEY) * P</code>
+            <p>
+              Where <code>a</code> is the base withdrawal base, <code>b</code>{' '}
+              is a weight of how much to factor in the CAPE, <code>CAEY</code>{' '}
+              is equal to <code>1/CAPE</code>, and <code>P</code> is the
+              current-year portfolio value.
             </p>
           </>
         )}
