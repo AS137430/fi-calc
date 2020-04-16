@@ -5,6 +5,7 @@ import ConfigSection from './config-section';
 import ConstantWithdrawal from './withdrawal-plan/constant-withdrawal';
 import PercentageOfPortfolio from './withdrawal-plan/percentage-of-portfolio';
 import GuytonKlinger from './withdrawal-plan/guyton-klinger';
+import NinetyFivePercentRule from './withdrawal-plan/95-percent-rule';
 import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
 import useWithdrawalPlan from '../state/withdrawal-plan';
@@ -29,7 +30,6 @@ export default function WithdrawalPlanConfig() {
       key: inputs.withdrawalStrategy.value,
     })
     .get('display')
-    .startCase()
     .value();
 
   return (
@@ -84,6 +84,9 @@ export default function WithdrawalPlanConfig() {
             changeCheckbox={changeCheckbox}
             commitInput={commitInput}
           />
+        )}
+        {withdrawalPlan.withdrawalStrategy.key === '95percent' && (
+          <NinetyFivePercentRule inputs={inputs} commitInput={commitInput} />
         )}
       </ConfigSection>
       <InfoModal
@@ -195,6 +198,46 @@ export default function WithdrawalPlanConfig() {
               complicated withdrawal plan. If you are new to it, we encourage
               you to read about each of the Decision Rules by clicking on the{' '}
               <IconHelp /> icon next to each Decision Rule name.
+            </p>
+          </>
+        )}
+        {inputs.withdrawalStrategy.value === '95percent' && (
+          <>
+            <p>
+              The 95% Rule is a withdrawal plan with a unique priority: it aims
+              to preserve your initial portfolio value for the entire duration
+              of your retirement. Other withdrawal plans typically only care
+              about having a nonzero amount of money remaining at the end of the
+              estimated retirement.
+            </p>
+            <p>
+              Using the 95% Rule, your annual withdrawals are based off of
+              percentages, and as a result this plan will <i>never</i>{' '}
+              completely exhaust your portfolio. Unlike the Percent of Portfolio
+              plan, however, it avoids extreme year-over-year fluctuations that
+              can result from withdrawing a direct percent of your current
+              portfolio value.
+            </p>
+            <p>
+              It does this through its namesake rule: the 95% Rule. The 95% Rule
+              works like this: each year you can either withdraw your Safe
+              Withdrawal Rate (typically around 4%) <em>or</em> 95% of your
+              previous year's withdrawal.
+            </p>
+            <p>
+              What this means is that your spending will only ever drop at most
+              95% from the previous year, even if the market experiences a
+              sudden and sharp decline. This can smooth out particularly
+              turbulent retirement periods, such as the 30 year retirement from
+              1930 to 1959.
+            </p>
+            <p>
+              Keep in mind that although year-over-year withdrawal fluctuations
+              are reduced with the 95% Rule, there can still be substantial
+              fluctuations in withdrawals over the course of the entire
+              retirement. Looking again at the 1930 to 1959 simulation: with an
+              initial 4% withdrawal of $40,000, the smallest withdrawal is
+              $20,083.01 while the largest is $62,849.28.
             </p>
           </>
         )}

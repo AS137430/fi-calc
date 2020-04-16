@@ -193,7 +193,6 @@ export default function GuytonKlingerConfiguration({
           })}
         />
       </div>
-      <div className="formRow_separator" />
       <InfoModal
         title="Initial Withdrawal"
         active={openModal === 'initialWithdrawal'}
