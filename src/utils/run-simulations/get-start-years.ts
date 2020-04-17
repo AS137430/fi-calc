@@ -7,7 +7,7 @@ import marketData from 'stock-market-data';
 // this could be more customizable based on user input.
 export default function getStartYears(duration: number): Array<number> {
   const startYears = _.chain(marketData)
-    .filter(data => data.month === '01')
+    .filter(data => data.month === 1)
     .map(data => Number(data.year))
     .value();
 

@@ -21,7 +21,7 @@ interface SimulateOneYearOptions {
   resultsByYear: any;
   marketData: MarketData;
   dipThreshold: number;
-  firstYearCpi: string | undefined;
+  firstYearCpi: number;
   didDip: boolean;
   lowestValue: number;
   withdrawalConfiguration: any;
@@ -66,6 +66,11 @@ export default function simulateOneYear({
   const yearStartValue = previousComputedData.portfolio.totalValue;
 
   const yearMarketData = marketData[year];
+
+  if (!yearMarketData) {
+    console.log('hi', marketData, year);
+  }
+
   const currentCpi = Number(yearMarketData.cpi);
 
   const cumulativeInflation = inflationFromCpi({

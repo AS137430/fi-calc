@@ -89,23 +89,23 @@ export interface YearResult {
 }
 
 export interface YearData {
-  cape: string;
-  comp: string;
-  cpi: string;
-  date: string;
-  dateFraction: string;
-  dateFractionDecimal: string;
-  dividend: string;
+  cape: number | null;
+  comp: number;
+  cpi: number;
+  date: number;
+  dateFraction: number;
+  dateFractionDecimal: number;
+  dividend: number;
   dividendYields: number;
-  earnings: string;
-  lir: string;
-  month: string;
-  realDividend: string;
-  realEarnings: string;
-  realPrice: string;
+  earnings: number;
+  lir: number;
+  month: number;
+  realDividend: number;
+  realEarnings: number;
+  realPrice: number;
   [MarketDataGrowthKeys.stockMarketGrowth]: number;
   [MarketDataGrowthKeys.none]: number;
-  year: string;
+  year: number;
 }
 
 export interface MarketData {

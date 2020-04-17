@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import inflationFromCpi from '../market-data/inflation-from-cpi';
+import stockMarketData from 'stock-market-data';
 import marketDataByYear from '../market-data/market-data-by-year';
 import {
   Portfolio,
@@ -9,6 +10,8 @@ import {
   DipObject
 } from './run-simulations-interfaces';
 import simulateOneYear from './simulate-one-year';
+
+console.log('hello', stockMarketData);
 
 const marketData = marketDataByYear();
 const allYears = Object.keys(marketData);
@@ -142,14 +145,16 @@ export default function runSimulation(options: RunSimulationOptions) {
   // duration or not.
   const isComplete = startYear + duration <= lastSupportedYear;
   const firstYearMarketData = _.find(marketData, {
-    year: String(startYear),
-    month: '01',
+    year: startYear,
+    month: 1,
   });
-  const firstYearCpi = firstYearMarketData?.cpi;
+
+  // TODO: use the average CPI instead of 0
+  const firstYearCpi = firstYearMarketData ? firstYearMarketData.cpi : 0;
 
   const endYearMarketData = _.find(marketData, {
-    year: String(trueEndYear),
-    month: '01',
+    year: trueEndYear,
+    month: 1,
   });
   const endYearCpi = endYearMarketData?.cpi;
 
