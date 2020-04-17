@@ -1,8 +1,10 @@
 import React from 'react';
+import WithdrawalLimits from './withdrawal-limits';
 import Input from '../../common/input';
 
 export default function NinetyFivePercentRuleConfiguration({
   inputs,
+  changeCheckbox,
   commitInput,
 }) {
   return (
@@ -54,6 +56,11 @@ export default function NinetyFivePercentRuleConfiguration({
           of previous year's withdrawal, whichever is greater
         </div>
       </div>
+      <WithdrawalLimits
+        inputs={inputs}
+        changeCheckbox={changeCheckbox}
+        commitInput={commitInput}
+      />
     </>
   );
 }

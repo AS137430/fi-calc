@@ -1,7 +1,12 @@
 import React from 'react';
+import WithdrawalLimits from './withdrawal-limits';
 import Input from '../../common/input';
 
-export default function CapeBasedConfiguration({ inputs, commitInput }) {
+export default function CapeBasedConfiguration({
+  inputs,
+  changeCheckbox,
+  commitInput,
+}) {
   return (
     <>
       <div className="inputLabel_container">
@@ -53,6 +58,11 @@ export default function CapeBasedConfiguration({ inputs, commitInput }) {
       <div className="inputLabel_container">
         <div className="inputLabel">by the current year CAEY</div>
       </div>
+      <WithdrawalLimits
+        inputs={inputs}
+        changeCheckbox={changeCheckbox}
+        commitInput={commitInput}
+      />
     </>
   );
 }

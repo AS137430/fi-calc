@@ -94,21 +94,26 @@ export default function runSimulation(options: RunSimulationOptions) {
     inflationAdjustedFirstYearWithdrawal
   );
 
-  if (withdrawalStrategy === 'portfolioPercent') {
-    withdrawalConfiguration = {
-      // These are necessary for this computation...
-      minWithdrawal: minWithdrawalLimitEnabled ? minWithdrawalLimit : 0,
+  const baseWithdrawalConfig = {
+    minWithdrawal: minWithdrawalLimitEnabled ? minWithdrawalLimit : 0,
       maxWithdrawal: maxWithdrawalLimitEnabled
         ? maxWithdrawalLimit
-        : Number.MAX_SAFE_INTEGER,
+        : Number.MAX_SAFE_INTEGER
+  }
+
+  if (withdrawalStrategy === 'portfolioPercent') {
+    withdrawalConfiguration = {
+      ...baseWithdrawalConfig,
       percentageOfPortfolio,
     };
   } else if (withdrawalStrategy === 'constantWithdrawal') {
     withdrawalConfiguration = {
+      ...baseWithdrawalConfig,
       firstYearWithdrawal: Number(firstYearWithdrawal),
     };
   } else if (withdrawalStrategy === 'gk') {
     withdrawalConfiguration = {
+      ...baseWithdrawalConfig,
       gkInitialSpending: gkInitialSpending,
       gkWithdrawalUpperLimit: gkWithdrawalUpperLimit,
       gkWithdrawalLowerLimit: gkWithdrawalLowerLimit,
@@ -119,11 +124,13 @@ export default function runSimulation(options: RunSimulationOptions) {
     }
   } else if (withdrawalStrategy === '95percent') {
     withdrawalConfiguration = {
+      ...baseWithdrawalConfig,
       ninetyFiveInitialRate,
       ninetyFivePercentage
     };
   } else if (withdrawalStrategy === 'capeBased') {
     withdrawalConfiguration = {
+      ...baseWithdrawalConfig,
       avgMarketDataCape,
       capeWithdrawalRate,
       capeWeight

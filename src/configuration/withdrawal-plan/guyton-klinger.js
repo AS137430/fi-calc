@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Checkbox } from 'materialish';
 import IconHelp from 'materialish/icon-help';
+import WithdrawalLimits from './withdrawal-limits';
 import InfoModal from '../../common/info-modal';
 import Input from '../../common/input';
 
@@ -193,6 +194,11 @@ export default function GuytonKlingerConfiguration({
           })}
         />
       </div>
+      <WithdrawalLimits
+        inputs={inputs}
+        changeCheckbox={changeCheckbox}
+        commitInput={commitInput}
+      />
       <InfoModal
         title="Initial Withdrawal"
         active={openModal === 'initialWithdrawal'}

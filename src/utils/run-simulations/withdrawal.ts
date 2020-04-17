@@ -62,12 +62,11 @@ function portfolioPercent({
   maxWithdrawal,
 }: WithdrawalOptions): number {
   const naiveComputation = portfolioTotalValue * percentageOfPortfolio;
-  const clamped = clamp(
+  return clamp(
     naiveComputation,
     inflation * minWithdrawal,
     inflation * maxWithdrawal
   );
-  return clamped;
 }
 
 // Source for this calculation:
@@ -95,6 +94,8 @@ function guytonKlinger({
   gkModifiedWithdrawalRule,
   previousResults,
   yearMarketData,
+  minWithdrawal,
+  maxWithdrawal,
 }: WithdrawalOptions): number {
   // The first step in the GK computation is determining how much we spent last year. If we're in the
   // first year, then it's just our initial withdrawal value. Otherwise, we look at our previous year's
@@ -242,7 +243,11 @@ function guytonKlinger({
 
   // Alright! The last thing for us to do is to apply any adjustment, and we're done.
   // Phew. That was complicated, but we made it!
-  return withdrawalAmountToUse * withdrawalAdjustment;
+  return clamp(
+    withdrawalAmountToUse * withdrawalAdjustment,
+    inflation * minWithdrawal,
+    inflation * maxWithdrawal
+  );
 }
 
 // Algorithm from "Work Less, Live More"
@@ -254,6 +259,9 @@ function ninetyFivePercentRule({
   portfolioTotalValue,
   previousResults,
   isFirstYear,
+  inflation,
+  minWithdrawal,
+  maxWithdrawal,
 }: WithdrawalOptions): number {
   const firstYearWithdrawal =
     (initialPortfolio.totalValue * ninetyFiveInitialRate) / 100;
@@ -267,7 +275,11 @@ function ninetyFivePercentRule({
     (previousWithdrawal * ninetyFivePercentage) / 100;
   const currentWithdrawal = (portfolioTotalValue * ninetyFiveInitialRate) / 100;
 
-  return Math.max(reducedPreviousWithdrawal, currentWithdrawal);
+  return clamp(
+    Math.max(reducedPreviousWithdrawal, currentWithdrawal),
+    inflation * minWithdrawal,
+    inflation * maxWithdrawal
+  );
 }
 
 function capeBased({
@@ -276,6 +288,9 @@ function capeBased({
   capeWithdrawalRate,
   capeWeight,
   avgMarketDataCape,
+  inflation,
+  minWithdrawal,
+  maxWithdrawal,
 }: WithdrawalOptions): number {
   const capeToUse =
     yearMarketData.cape === null ? avgMarketDataCape : yearMarketData.cape;
@@ -284,7 +299,11 @@ function capeBased({
   const baseWithdrawalRate = capeWithdrawalRate / 100;
   const withdrawalRate = baseWithdrawalRate + capeWeight * caey;
 
-  return withdrawalRate * portfolioTotalValue;
+  return clamp(
+    withdrawalRate * portfolioTotalValue,
+    inflation * minWithdrawal,
+    inflation * maxWithdrawal
+  );
 }
 
 export default {
