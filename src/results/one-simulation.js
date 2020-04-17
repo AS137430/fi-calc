@@ -8,6 +8,8 @@ import useWithdrawalPlan from '../state/withdrawal-plan';
 import formatNumber from '../utils/numbers/format-number';
 import useSimulationResult from '../state/simulation-result';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
+import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
+import downloadDataURL from '../utils/download-data-url';
 
 function formatSimulationForPortfolioChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
@@ -65,6 +67,27 @@ export default function OneSimulation() {
     [simulation]
   );
 
+  const csvUrl = useMemo(() => {
+    if (!simulation) {
+      return null;
+    }
+
+    const csvArray = simulation.resultsByYear.reduce(
+      (arr, result, index) => {
+        arr.push([
+          result.year,
+          portfolioChartData[index].value,
+          withdrawalChartData[index].value,
+        ]);
+
+        return arr;
+      },
+      [['Year', 'Portfolio Value', 'Withdrawal Amount']]
+    );
+
+    return arrayToCsvDataURL(csvArray);
+  }, []);
+
   if (!simulation) {
     return null;
   }
@@ -100,6 +123,17 @@ export default function OneSimulation() {
             Simulation: {simulation.startYear} – {simulation.endYear}
           </>
         </h2>
+        <button
+          type="button"
+          className="button button-primary"
+          onClick={() =>
+            downloadDataURL(
+              csvUrl,
+              `single_sim-start_year_${simulation.startYear}`
+            )
+          }>
+          Download as CSV
+        </button>
         <div className="results_sectionRow">
           <div className="results_section">
             <div className="results_sectionTitle">
