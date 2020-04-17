@@ -21,7 +21,7 @@ interface SimulateOneYearOptions {
   resultsByYear: any;
   marketData: MarketData;
   dipThreshold: number;
-  firstYearCpi: string | undefined;
+  firstYearCpi: number;
   didDip: boolean;
   lowestValue: number;
   withdrawalConfiguration: any;
