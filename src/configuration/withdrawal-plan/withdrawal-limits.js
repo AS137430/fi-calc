@@ -99,10 +99,11 @@ export default function WithdrawalLimits({
         onBeginClose={() => setOpenModal(null)}>
         <p>
           A minimum withdrawal limit ensures that your withdrawal never drops
-          below a certain amount. If you disable this feature, then your
-          retirement plan will never fail, because even if you have $1 left,
-          you'll still only be withdrawing a percentage of the $1, so your
-          portfolio will never hit $0.
+          below a certain amount of dollars. This withdrawal plan is based on a
+          percentage of your current portfolio value, so if you disable this
+          feature then your retirement plan may never fail. This is because even
+          if you have $1 left, you'll still only be withdrawing a percentage of
+          the $1, so your portfolio will never hit $0.
         </p>
         <p>
           Of course, living on a few cents per year is not sustainable.
@@ -137,11 +138,11 @@ export default function WithdrawalLimits({
         </p>
         <p>
           For example, if your typical withdrawal is $40,000 per year, you may
-          one day find yourself able to withdraw $120,000 if you don't specify a
+          one day find yourself able to withdraw $90,000 if you don't specify a
           maximum withdrawal limit. And you may even find things to spend this
-          money on. However, a recession might bring the following withdrawal
-          down to $35,000. Would you find it difficult to adjust to this sudden
-          change?
+          money on. However, a recession might bring a subsequent withdrawal
+          down to $35,000. Would you find it difficult to adjust to these large
+          fluctuations?
         </p>
         <p>
           Specifying a maximum withdrawal limit ensures that your withdrawal
