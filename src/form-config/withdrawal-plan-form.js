@@ -66,12 +66,12 @@ export default {
 
     maxWithdrawalLimitEnabled: {
       type: 'boolean',
-      default: true,
+      default: false,
     },
 
     minWithdrawalLimit: {
       type: 'number',
-      default: 35000,
+      default: 20000,
       validators: [
         isRequired,
         numberRequired,
