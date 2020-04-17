@@ -66,11 +66,6 @@ export default function simulateOneYear({
   const yearStartValue = previousComputedData.portfolio.totalValue;
 
   const yearMarketData = marketData[year];
-
-  if (!yearMarketData) {
-    console.log('hi', marketData, year);
-  }
-
   const currentCpi = Number(yearMarketData.cpi);
 
   const cumulativeInflation = inflationFromCpi({

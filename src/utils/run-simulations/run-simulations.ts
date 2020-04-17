@@ -75,8 +75,6 @@ export default function runSimulations(
     lengthOfSimulation = endYear - startYear + 1;
   }
 
-  console.log('startYears', startYears);
-
   const rebalancePortfolioAnnually = false;
   const investments = [
     {

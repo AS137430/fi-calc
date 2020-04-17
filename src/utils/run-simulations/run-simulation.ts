@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import inflationFromCpi from '../market-data/inflation-from-cpi';
-import stockMarketData from 'stock-market-data';
 import marketDataByYear from '../market-data/market-data-by-year';
 import {
   Portfolio,
@@ -10,8 +9,6 @@ import {
   DipObject
 } from './run-simulations-interfaces';
 import simulateOneYear from './simulate-one-year';
-
-console.log('hello', stockMarketData);
 
 const marketData = marketDataByYear();
 const allYears = Object.keys(marketData);
