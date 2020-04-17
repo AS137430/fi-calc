@@ -1,3 +1,5 @@
+import { MarketDataValue } from 'stock-market-data';
+
 export interface PortfolioInvestment {
   percentage: number;
   type: InvestmentType;
@@ -88,24 +90,9 @@ export interface YearResult {
   };
 }
 
-export interface YearData {
-  cape: number | null;
-  comp: number;
-  cpi: number;
-  date: number;
-  dateFraction: number;
-  dateFractionDecimal: number;
-  dividend: number;
-  dividendYields: number;
-  earnings: number;
-  lir: number;
-  month: number;
-  realDividend: number;
-  realEarnings: number;
-  realPrice: number;
+export interface YearData extends MarketDataValue {
   [MarketDataGrowthKeys.stockMarketGrowth]: number;
   [MarketDataGrowthKeys.none]: number;
-  year: number;
 }
 
 export interface MarketData {

@@ -277,8 +277,8 @@ function capeBased({
   capeWeight,
   avgMarketDataCape,
 }: WithdrawalOptions): number {
-  const numericCape = Number(yearMarketData.cape);
-  const capeToUse = Number.isNaN(numericCape) ? avgMarketDataCape : numericCape;
+  const capeToUse =
+    yearMarketData.cape === null ? avgMarketDataCape : yearMarketData.cape;
   const caey = 1 / capeToUse;
 
   const baseWithdrawalRate = capeWithdrawalRate / 100;
