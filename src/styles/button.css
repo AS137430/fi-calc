@@ -23,13 +23,13 @@
   opacity: 0.6;
 }
 
-.button:focus,
+.button.focus-visible,
 .button:hover {
   background-color: var(--accentColor);
 }
 
-.button:focus {
-  box-shadow: 0 0 0 2px #f9dcff;
+.button.focus-visible {
+  box-shadow: 0 0 0 2px #fff;
 }
 
 .button-primary,
@@ -39,9 +39,9 @@
   color: #fff;
 }
 
-.button-selected:focus,
-.button-primary:focus {
-  box-shadow: 0 0 0 2px #d8b8ec;
+.button-selected.focus-visible,
+.button-primary.focus-visible {
+  box-shadow: 0 0 0 2px #fff;
 }
 
 .button-primary:hover,
