@@ -1,12 +1,6 @@
-const CSV_HEADER = 'data:text/csv;charset=utf-8,';
+const CSV_PREFIX = 'data:text/csv;charset=utf-8,%EF%BB%BF';
 
 export default function arrayToCsvDataURL(arr) {
-  let csvDataURL = CSV_HEADER;
-
-  arr.forEach(function(rowArray) {
-    let row = rowArray.join(',');
-    csvDataURL += row + '\r\n';
-  });
-
-  return csvDataURL;
+  var csvContent = arr.join('\n');
+  return CSV_PREFIX + encodeURI(csvContent);
 }

@@ -100,7 +100,7 @@ export default function SimulationsOverview() {
             <button
               type="button"
               className="button button-primary simulation_downloadCsvBtn"
-              onClick={() => downloadDataURL(csvUrl, `sim_data`)}>
+              onClick={() => downloadDataURL(csvUrl, `sim_data.csv`)}>
               <IconGetApp />
               Download as CSV
             </button>

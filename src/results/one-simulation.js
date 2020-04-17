@@ -147,7 +147,7 @@ export default function OneSimulation() {
               onClick={() =>
                 downloadDataURL(
                   csvUrl,
-                  `single_sim-start_year_${simulation.startYear}`
+                  `single_sim-start_year_${simulation.startYear}.csv`
                 )
               }>
               <IconGetApp />
