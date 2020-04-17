@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import _ from 'lodash';
 import { Link, useParams } from 'react-router-dom';
 import classnames from 'classnames';
+import IconGetApp from 'materialish/icon-get-app';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 import Chart from './chart';
 import useWithdrawalPlan from '../state/withdrawal-plan';
@@ -67,26 +68,29 @@ export default function OneSimulation() {
     [simulation]
   );
 
-  const csvUrl = useMemo(() => {
-    if (!simulation) {
-      return null;
-    }
+  const csvUrl = useMemo(
+    () => {
+      if (!simulation) {
+        return null;
+      }
 
-    const csvArray = simulation.resultsByYear.reduce(
-      (arr, result, index) => {
-        arr.push([
-          result.year,
-          portfolioChartData[index].value,
-          withdrawalChartData[index].value,
-        ]);
+      const csvArray = simulation.resultsByYear.reduce(
+        (arr, result, index) => {
+          arr.push([
+            result.year,
+            portfolioChartData[index].value,
+            withdrawalChartData[index].value,
+          ]);
 
-        return arr;
-      },
-      [['Year', 'Portfolio Value', 'Withdrawal Amount']]
-    );
+          return arr;
+        },
+        [['Year', 'Portfolio Value', 'Withdrawal Amount']]
+      );
 
-    return arrayToCsvDataURL(csvArray);
-  }, []);
+      return arrayToCsvDataURL(csvArray);
+    },
+    [portfolioChartData, simulation, withdrawalChartData]
+  );
 
   if (!simulation) {
     return null;
@@ -118,22 +122,25 @@ export default function OneSimulation() {
           <IconKeyboardArrowLeft size="1.5rem" />
           Return to Results
         </Link>
-        <h2 className="results_h2">
-          <>
+        <div className="simulationHeader">
+          <h1 className="simulationHeader_h1">
             Simulation: {simulation.startYear} – {simulation.endYear}
-          </>
-        </h2>
-        <button
-          type="button"
-          className="button button-primary"
-          onClick={() =>
-            downloadDataURL(
-              csvUrl,
-              `single_sim-start_year_${simulation.startYear}`
-            )
-          }>
-          Download as CSV
-        </button>
+          </h1>
+          <div className="simulationHeader_ctas">
+            <button
+              type="button"
+              className="button button-primary simulation_downloadCsvBtn"
+              onClick={() =>
+                downloadDataURL(
+                  csvUrl,
+                  `single_sim-start_year_${simulation.startYear}`
+                )
+              }>
+              <IconGetApp />
+              Download as CSV
+            </button>
+          </div>
+        </div>
         <div className="results_sectionRow">
           <div className="results_section">
             <div className="results_sectionTitle">

@@ -289,6 +289,7 @@ export default function runSimulation(options: RunSimulationOptions) {
     didDip,
     lowestSuccessfulDip,
     finalValue,
+    totalInflationOverPeriod,
     percentOfChange,
     minWithdrawalYearInFirstYearDollars,
     minPortfolioYearInFirstYearDollars,

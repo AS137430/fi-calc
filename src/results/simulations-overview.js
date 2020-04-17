@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
+import IconGetApp from 'materialish/icon-get-app';
 import './results.css';
 import IconInfoOutline from 'materialish/icon-info-outline';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 import { getItem, setItem } from '../utils/storage';
 import useSimulationResult from '../state/simulation-result';
+import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
+import downloadDataURL from '../utils/download-data-url';
 
 const STORAGE_KEY = 'isViewYearDetailsHidden';
 
@@ -20,6 +23,50 @@ export default function SimulationsOverview() {
 
   // For debugging purposes
   window.result = result;
+
+  const csvUrl = useMemo(
+    () => {
+      if (!result) {
+        return null;
+      }
+
+      const csvArray = result.completeSimulations.reduce(
+        (arr, result) => {
+          arr.push([
+            result.startYear,
+            result.endYear,
+            result.duration,
+            result.initialPortfolioValue,
+            result.finalValue,
+            result.isFailed,
+            result.yearFailed,
+            result.numberOfSuccessfulYears,
+            result.status,
+            result.totalInflationOverPeriod,
+          ]);
+
+          return arr;
+        },
+        [
+          [
+            'Start Year',
+            'End Year',
+            'Duration',
+            'Initial Portfolio Value',
+            'Final Portfolio Value',
+            'Ran Out of Money?',
+            'Year Failed',
+            'Number of Successful Years',
+            'Final Portfolio Value Status',
+            'Inflation Over Period',
+          ],
+        ]
+      );
+
+      return arrayToCsvDataURL(csvArray);
+    },
+    [result]
+  );
 
   if (!result) {
     return null;
@@ -47,7 +94,19 @@ export default function SimulationsOverview() {
             Return to Configuration
           </Link>
         )}
-        <h2 className="results_h2">Results</h2>
+        <div className="simulationHeader">
+          <h1 className="simulationHeader_h1">Results</h1>
+          <div className="simulationHeader_ctas">
+            <button
+              type="button"
+              className="button button-primary simulation_downloadCsvBtn"
+              onClick={() => downloadDataURL(csvUrl, `sim_data`)}>
+              <IconGetApp />
+              Download as CSV
+            </button>
+          </div>
+        </div>
+
         <div className="results_sectionRow">
           <div className="results_section">
             <div className="results_sectionTitle">Number of Simulations</div>
