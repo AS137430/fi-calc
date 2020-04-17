@@ -80,11 +80,25 @@ export default function OneSimulation() {
             result.year,
             portfolioChartData[index].value,
             withdrawalChartData[index].value,
+            result.isOutOfMoney,
+            result.computedData.totalWithdrawalAmount,
+            result.computedData.totalWithdrawalAmountInFirstYearDollars,
+            result.computedData.cumulativeInflation,
           ]);
 
           return arr;
         },
-        [['Year', 'Portfolio Value', 'Withdrawal Amount']]
+        [
+          [
+            'Year',
+            'Portfolio Value',
+            'Withdrawal Amount',
+            'Is Out of Money?',
+            'Withdrawal Amount',
+            'Withdrawal Amount (In First Year Dollars)',
+            'Cumulative Inflation',
+          ],
+        ]
       );
 
       return arrayToCsvDataURL(csvArray);
