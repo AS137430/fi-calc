@@ -34,7 +34,6 @@ export default function Home() {
           <span role="img" aria-label="Tada">
             🎉
           </span>
-          {/* <img src="/gumroad-logo.png" alt="Donate at Gumroad" /> */}
           Donate
         </a>
       </div>

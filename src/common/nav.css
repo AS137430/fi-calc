@@ -12,6 +12,7 @@
 }
 
 .nav_logoLink {
+  display: block;
   text-decoration: none;
   color: white;
   padding: 0 0.5rem;
@@ -19,6 +20,11 @@
   border: 2px solid transparent;
   border-radius: 0.25rem;
   outline: none;
+}
+
+.nav_logoLinkImg {
+  display: block;
+  height: 1.5rem;
 }
 
 .nav_logoLink.focus-visible {

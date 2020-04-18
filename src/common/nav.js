@@ -18,7 +18,11 @@ export default function Nav() {
         })}>
         <div className="nav_logo">
           <Link to="/" className="nav_logoLink">
-            FI
+            <img
+              src="/logo-small.png"
+              alt="FI Calc"
+              className="nav_logoLinkImg"
+            />
           </Link>
         </div>
         <div className="nav_cta">
