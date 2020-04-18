@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './learn.css';
 
-export default function Learn() {
+export default function GettingStarted() {
   return (
     <div className="learn page">
-      <h1 className="page_title">Planning for Retirement</h1>
+      <h1 className="page_title">Getting Started</h1>
+      <p>FI Calc is an app that helps you plan for retirement.</p>
       <p>
-        You have an important decision to make when planning your retirement:
-        how much money will you withdraw from your investments each year? Most
+        When planning a retirement, you have an important decision to make: how
+        much money will you withdraw from your investments each year? Most
         people wish to withdraw as much as they can to maximize their quality of
         life, but not so much that they run out of money.
       </p>

@@ -4,7 +4,7 @@ import './app.css';
 import Nav from './common/nav';
 import Footer from './common/footer';
 import Home from './pages/home';
-import Learn from './pages/learn';
+import GettingStarted from './pages/getting-started';
 import NotFound from './common/not-found';
 
 export default function Website() {
@@ -18,8 +18,8 @@ export default function Website() {
               <Route exact path="/">
                 <Home />
               </Route>
-              <Route path="/learn">
-                <Learn />
+              <Route path="/getting-started">
+                <GettingStarted />
               </Route>
               <Route>
                 <NotFound />

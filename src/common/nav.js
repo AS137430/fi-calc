@@ -22,13 +22,15 @@ export default function Nav() {
           </Link>
         </div>
         <div className="nav_cta">
-          <Route path="/learn">
+          <Route path="/getting-started">
             <Link className="button button-micro" to="/calculator">
               Launch Calculator
             </Link>
           </Route>
           <Route path="/calculator">
-            <Link className="button button-secondary button-micro" to="/learn">
+            <Link
+              className="button button-secondary button-micro"
+              to="/getting-started">
               Learn About This Calculator
             </Link>
           </Route>

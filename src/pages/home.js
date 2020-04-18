@@ -16,7 +16,7 @@ export default function Home() {
       </div>
       <div className="home_ctas">
         <Link
-          to="/learn"
+          to="/getting-started"
           className="home_cta button button-secondary home_learnMoreBtn">
           Learn More
         </Link>
