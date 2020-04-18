@@ -59,7 +59,11 @@ export default function GoodModal({
 
   // Creating an element to attach to the portal allows us to use the same
   // portal root node for all of the modals in the app.
-  const [el] = useState(() => document.createElement('div'));
+  const [el] = useState(() => {
+    const el = document.createElement('div');
+    el.style.height = '100%';
+    return el;
+  });
 
   const [shouldRender, useActiveClass] = useMountTransition({
     shouldBeMounted: active,
@@ -118,11 +122,17 @@ export default function GoodModal({
 
   return ReactDOM.createPortal(
     <FocusTrap
+      style={{
+        height: '100%',
+      }}
       focusTrapOptions={{
         initialFocus: modalRoot,
         fallbackFocus: document.body,
       }}>
-      <div>
+      <div
+        style={{
+          height: '100%',
+        }}>
         <div
           {...otherProps}
           style={{
