@@ -1,47 +1,26 @@
 import React from 'react';
-import classnames from 'classnames';
 import { Switch, Route } from 'react-router-dom';
 import './app.css';
-import Nav from './common/nav';
-import Footer from './common/footer';
-import Sidebar from './common/sidebar';
-import Home from './pages/home';
-import Learn from './pages/learn';
-import Calculator from './pages/calculator';
-import NotFound from './common/not-found';
-import useIsCalculator from './hooks/use-is-calculator';
+import Website from './website';
+import Calculator from './calculator';
 
 export default function App() {
-  const isCalculator = useIsCalculator();
-
   return (
-    <div
-      className={classnames('app_body', {
-        'app_body-calculator': isCalculator,
-      })}>
-      <Nav />
-      <div className="app_bodyContents">
-        <Sidebar />
-        <div className="app_mainContents">
-          <main>
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route path="/learn">
-                <Learn />
-              </Route>
-              <Route path="/calculator">
-                <Calculator />
-              </Route>
-              <Route>
-                <NotFound />
-              </Route>
-            </Switch>
-          </main>
-          <Footer />
-        </div>
-      </div>
-    </div>
+    <Switch>
+      {/*
+        Anything under /calculator is served by the calculator "sub-app". This
+        allows us to only render the data providers when this "sub-app" mounts.
+      */}
+      <Route path="/calculator">
+        <Calculator />
+      </Route>
+      {/*
+        For all other pages, we redirect to the "website", which has
+        guides and so on.
+      */}
+      <Route>
+        <Website />
+      </Route>
+    </Switch>
   );
 }

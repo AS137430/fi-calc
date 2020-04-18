@@ -9,18 +9,15 @@ import './normalize.css';
 import App from './app';
 import ScrollToTop from './common/scroll-to-top';
 import ErrorBoundary from './error-boundary';
-import StateProviders from './state/providers';
 
 const history = createHistoryWithQuery();
 
 ReactDOM.render(
   <ErrorBoundary>
-    <StateProviders>
-      <Router history={history}>
-        <App />
-        <ScrollToTop />
-      </Router>
-    </StateProviders>
+    <Router history={history}>
+      <App />
+      <ScrollToTop />
+    </Router>
   </ErrorBoundary>,
   document.getElementById('root')
 );

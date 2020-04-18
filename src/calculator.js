@@ -7,12 +7,15 @@ import {
   useHistory,
 } from 'react-router-dom';
 import './calculator.css';
-import Configuration from '../configuration/configuration';
-import SimulationsOverview from '../results/simulations-overview';
-import NotFound from '../common/not-found';
-import useIsSmallScreen from '../hooks/use-is-small-screen';
-import OneSimulation from '../results/one-simulation';
-import useSimulationResult from '../state/simulation-result';
+import Nav from './common/nav';
+import Footer from './common/footer';
+import Sidebar from './common/sidebar';
+import Configuration from './configuration/configuration';
+import SimulationsOverview from './results/simulations-overview';
+import useIsSmallScreen from './hooks/use-is-small-screen';
+import OneSimulation from './results/one-simulation';
+import StateProviders from './state/providers';
+import useSimulationResult from './state/simulation-result';
 
 const ROOT_CALCULATOR_PATH = '/calculator';
 
@@ -28,6 +31,7 @@ export default function Calculator() {
   // than the root.
   // What this code does is redirect the user back to the calculator root if they
   // refresh on any nested routes.
+  // This also catches 404s!
   useEffect(() => {
     if (pathname !== ROOT_CALCULATOR_PATH) {
       history.replace(ROOT_CALCULATOR_PATH);
@@ -57,13 +61,32 @@ export default function Calculator() {
     : [path, `${path}/results`];
 
   return (
-    <div className="calculator">
-      <Switch>
-        {isSmallScreen && <Route exact path={path} component={Configuration} />}
-        <Route exact path={overviewPaths} component={SimulationsOverview} />
-        <Route path={`/calculator/year/:year`} component={OneSimulation} />
-        <Route component={NotFound} />
-      </Switch>
-    </div>
+    <StateProviders>
+      <div className="app_body app_body-calculator">
+        <Nav />
+        <div className="app_bodyContents">
+          <Sidebar />
+          <div className="app_mainContents">
+            <main>
+              <Switch>
+                {isSmallScreen && (
+                  <Route exact path={path} component={Configuration} />
+                )}
+                <Route
+                  exact
+                  path={overviewPaths}
+                  component={SimulationsOverview}
+                />
+                <Route
+                  path={`/calculator/year/:year`}
+                  component={OneSimulation}
+                />
+              </Switch>
+            </main>
+            <Footer />
+          </div>
+        </div>
+      </div>
+    </StateProviders>
   );
 }
