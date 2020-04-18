@@ -1,16 +1,6 @@
 .configuration {
   --resultsBtnHeight: calc(5rem + var(--safeAreaInsetBottom));
   --borderColor: #424242;
-
-  max-height: 100vh;
-  min-height: 100vh;
-  position: sticky;
-  top: 0;
-  overflow-y: scroll;
-  background: #2d2e30;
-  color: white;
-  flex: 0 0 var(--configuration-width);
-  width: var(--configuration-width);
 }
 
 .configuration_title {

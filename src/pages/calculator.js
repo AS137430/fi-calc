@@ -11,26 +11,30 @@ export default function Calculator() {
   const isSmallScreen = useIsSmallScreen();
   const { path } = useRouteMatch();
 
+  const overviewPaths = isSmallScreen
+    ? `${path}/results`
+    : [path, `${path}/results`];
+
   return (
     <div className="calculator">
-      {isSmallScreen && (
-        <Switch>
-          <Route exact path={path} component={Configuration} />
-          <Route path={`${path}/results`} component={SimulationsOverview} />
-          <Route path={`${path}/year/:year`} component={OneSimulation} />
-          <Route component={NotFound} />
-        </Switch>
-      )}
-      {!isSmallScreen && (
-        <>
-          <Configuration />
+      <Switch>
+        {isSmallScreen && <Route exact path={path} component={Configuration} />}
+        <Route exact path={overviewPaths} component={SimulationsOverview} />
+        <Route path={`/calculator/year/:year`} component={OneSimulation} />
+        <Route component={NotFound} />
+      </Switch>
+
+      {/* {!isSmallScreen && (
           <Switch>
-            <Route exact path={path} component={SimulationsOverview} />
+            <Route
+              exact
+              path={}
+              component={SimulationsOverview}
+            />
             <Route path="/calculator/year/:year" component={OneSimulation} />
             <Route component={NotFound} />
           </Switch>
-        </>
-      )}
+      )} */}
     </div>
   );
 }

@@ -15,9 +15,9 @@
   --accentColor: #6954ff;
   --primaryBlue: #409dff;
   --mt-mainColor: var(--accentColor);
-  --maxAppWidth: 64rem;
-  --headerHeight: 3.125rem;
-  --appHeader-height: 3.5rem;
+  --maxAppWidth: 44rem;
+  --headerHeight: 3rem;
+  --footerHeight: 3rem;
   --configuration-width: calc(16rem + var(--safeAreaInsetLeft));
 
   --horizontalContentPadding: 1.375rem;

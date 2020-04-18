@@ -31,6 +31,9 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
           className="button donateBtn">
+          <span role="img" aria-label="Tada">
+            🎉
+          </span>
           {/* <img src="/gumroad-logo.png" alt="Donate at Gumroad" /> */}
           Donate
         </a>
