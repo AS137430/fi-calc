@@ -64,18 +64,6 @@ export default function Calculator() {
         <Route path={`/calculator/year/:year`} component={OneSimulation} />
         <Route component={NotFound} />
       </Switch>
-
-      {/* {!isSmallScreen && (
-          <Switch>
-            <Route
-              exact
-              path={}
-              component={SimulationsOverview}
-            />
-            <Route path="/calculator/year/:year" component={OneSimulation} />
-            <Route component={NotFound} />
-          </Switch>
-      )} */}
     </div>
   );
 }

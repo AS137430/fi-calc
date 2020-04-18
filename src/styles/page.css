@@ -1,9 +1,7 @@
 .page {
   max-width: var(--maxAppWidth);
-  margin: 1.5rem auto 2rem;
-  padding: 0 1rem;
-  padding-left: max(1rem, env(safe-area-inset-left));
-  padding-right: max(1rem, env(safe-area-inset-right));
+  margin: 1.5rem auto 5rem;
+  padding: 0 var(--contentSpacingRight) 0 var(--contentSpacingLeft);
 }
 
 .page_title {
