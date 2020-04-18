@@ -2,46 +2,42 @@ import {
   isRequired,
   numberRequired,
   integerRequired,
-  greaterThanZero,
   withinYearLimit,
-  lessThanEndYear,
-  greaterThanStartYear,
+  lessThanValue,
+  greaterThanValue,
 } from '../utils/forms/validators';
+import getYearRange from '../utils/market-data/get-year-range';
+
+const { minYear, maxYear } = getYearRange();
 
 export default {
   values: {
-    numberOfYears: {
-      type: 'number',
-      default: 30,
-      validators: [
-        isRequired,
-        numberRequired,
-        integerRequired,
-        greaterThanZero,
-      ],
+    useAllHistoricalData: {
+      type: 'boolean',
+      default: true,
     },
 
-    startYear: {
+    firstYear: {
       type: 'number',
-      default: 1931,
+      default: minYear,
       validators: [
         isRequired,
         numberRequired,
         integerRequired,
         withinYearLimit,
-        lessThanEndYear,
+        lessThanValue('lastYear'),
       ],
     },
 
-    endYear: {
+    lastYear: {
       type: 'number',
-      default: 1960,
+      default: maxYear,
       validators: [
         isRequired,
         numberRequired,
         integerRequired,
         withinYearLimit,
-        greaterThanStartYear,
+        greaterThanValue('firstYear'),
       ],
     },
   },

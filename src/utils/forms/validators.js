@@ -28,6 +28,22 @@ export function greaterThanStartYear(val, inputs) {
   }
 }
 
+export function lessThanValue(inputName) {
+  return (val, inputs) => {
+    if (Number(inputs[inputName].value) < Number(val)) {
+      return 'greaterThanValue';
+    }
+  };
+}
+
+export function greaterThanValue(inputName) {
+  return (val, inputs) => {
+    if (Number(inputs[inputName].value) > Number(val)) {
+      return 'lessThanValue';
+    }
+  };
+}
+
 export function greaterThanZero(val) {
   if (Number(val) <= 0) {
     return 'lessThanZero';

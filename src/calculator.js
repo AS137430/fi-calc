@@ -14,7 +14,6 @@ import Configuration from './configuration/configuration';
 import SimulationsOverview from './results/simulations-overview';
 import useIsSmallScreen from './hooks/use-is-small-screen';
 import OneSimulation from './results/one-simulation';
-import StateProviders from './state/providers';
 import useSimulationResult from './state/simulation-result';
 
 const ROOT_CALCULATOR_PATH = '/calculator';
@@ -61,32 +60,30 @@ export default function Calculator() {
     : [path, `${path}/results`];
 
   return (
-    <StateProviders>
-      <div className="app_body app_body-calculator">
-        <Nav />
-        <div className="app_bodyContents">
-          <Sidebar />
-          <div className="app_mainContents">
-            <main>
-              <Switch>
-                {isSmallScreen && (
-                  <Route exact path={path} component={Configuration} />
-                )}
-                <Route
-                  exact
-                  path={overviewPaths}
-                  component={SimulationsOverview}
-                />
-                <Route
-                  path={`/calculator/year/:year`}
-                  component={OneSimulation}
-                />
-              </Switch>
-            </main>
-            <Footer />
-          </div>
+    <div className="app_body app_body-calculator">
+      <Nav />
+      <div className="app_bodyContents">
+        <Sidebar />
+        <div className="app_mainContents">
+          <main>
+            <Switch>
+              {isSmallScreen && (
+                <Route exact path={path} component={Configuration} />
+              )}
+              <Route
+                exact
+                path={overviewPaths}
+                component={SimulationsOverview}
+              />
+              <Route
+                path={`/calculator/year/:year`}
+                component={OneSimulation}
+              />
+            </Switch>
+          </main>
+          <Footer />
         </div>
       </div>
-    </StateProviders>
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import './app.css';
 import Website from './website';
 import Calculator from './calculator';
+import StateProviders from './state/providers';
 
 export default function App() {
   return (
@@ -12,7 +13,9 @@ export default function App() {
         allows us to only render the data providers when this "sub-app" mounts.
       */}
       <Route path="/calculator">
-        <Calculator />
+        <StateProviders>
+          <Calculator />
+        </StateProviders>
       </Route>
       {/*
         For all other pages, we redirect to the "website", which has
