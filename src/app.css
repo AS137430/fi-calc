@@ -1,9 +1,47 @@
-.app_body {
+.app_body-calculator {
+  --headerHeight: 2.5rem;
+}
+
+.app_bodyContents {
   display: flex;
 }
 
+.app_mainContents {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+main {
+  min-height: calc(100vh - var(--headerHeight) - var(--footerHeight));
+  margin: 0;
+  padding: var(--appTopPadding) var(--appBodyPadding) 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1;
+}
+
+.app_content {
+  height: 100%;
+  width: 100%;
+  max-width: var(--maxAppWidth);
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.app_content-fullscreen {
+  width: 100%;
+  max-width: none;
+}
+
+.app_content-800px {
+  max-width: 800px;
+}
+
 @media (max-width: 551px) {
-  .app_body {
-    display: block;
+  .app_body-calculator {
+    --headerHeight: 3rem;
   }
 }

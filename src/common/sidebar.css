@@ -1,0 +1,12 @@
+.sidebar {
+  position: sticky;
+  flex: 0 0 var(--configuration-width);
+  top: 0;
+  width: var(--configuration-width);
+  max-height: 100vh;
+  overflow-y: scroll;
+  padding: 0 0 20px;
+  background: #262626;
+  color: white;
+  border-right: 1px solid #3c3c3c;
+}

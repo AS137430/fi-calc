@@ -1,0 +1,48 @@
+.nav {
+  border-bottom: 1px solid #2f2f2f;
+  height: var(--headerHeight);
+  flex-shrink: 0;
+  background: #232323;
+  border-bottom-color: #2e2e2e;
+}
+
+.nav-calculator {
+  background: #2a2a2a;
+  border-bottom-color: #3c3c3c;
+}
+
+.nav_logoLink {
+  display: block;
+  text-decoration: none;
+  color: white;
+  padding: 0 0.5rem;
+  margin-left: -0.5rem;
+  border: 2px solid transparent;
+  border-radius: 0.25rem;
+  outline: none;
+}
+
+.nav_logoLinkImg {
+  display: block;
+  height: 1.5rem;
+}
+
+.nav_logoLink.focus-visible {
+  border-color: var(--accentColor);
+}
+
+.nav_logo {
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.nav_cta {
+  margin-left: auto;
+}
+
+@media (max-width: 551px) {
+  .nav-calculator {
+    background: #232323;
+    border-bottom-color: #2e2e2e;
+  }
+}

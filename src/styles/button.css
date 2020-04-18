@@ -1,17 +1,12 @@
-.buttonGroup {
-  display: flex;
-}
-
-.buttonGroup-centered {
-  justify-content: center;
-}
-
 .button {
-  background-color: transparent;
-  border: 1px solid #a865bf;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  background-color: var(--accentColor);
+  border: 1px solid transparent;
   border-radius: 0.25rem;
-  color: #a865bf;
-  padding: 0.5rem 0.8rem;
+  color: white;
+  padding: 0.5em 0.8em;
   font-size: 1rem;
   outline: none;
   font-weight: 600;
@@ -19,52 +14,47 @@
   cursor: pointer;
 }
 
+.button-transparent {
+  background: transparent;
+}
+
+.button-small {
+  font-size: 0.825rem;
+}
+
+.button-micro {
+  font-size: 0.8125rem;
+  padding: 0.4em 0.75em;
+}
+
+.button-secondary {
+  background: rgba(255, 255, 255, 0.072);
+}
+
 .button:disabled {
   opacity: 0.6;
 }
 
-.button.focus-visible,
 .button:hover {
-  background-color: var(--accentColor);
+  background-color: #7763ff;
+}
+
+.button:active {
+  background-color: #634dff;
+}
+
+.button-secondary:hover {
+  background: rgba(255, 255, 255, 0.083);
+}
+
+.button-secondary:active {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .button.focus-visible {
   box-shadow: 0 0 0 2px #fff;
 }
 
-.button-primary,
-.button-selected {
-  background-color: var(--accentColor);
-  border: 0;
-  color: #fff;
-}
-
-.button-selected.focus-visible,
-.button-primary.focus-visible {
-  box-shadow: 0 0 0 2px #fff;
-}
-
-.button-primary:hover,
-.button-selected:hover {
-  background-color: var(--accentColor);
-}
-
-.buttonGroup .button {
-  border-left-width: 0;
-  margin: 0 !important;
-  border-radius: 0;
-}
-
-.buttonGroup .button:first-child {
-  border-left-width: 1px;
-}
-
-.buttonGroup .button:first-child {
-  border-top-left-radius: 0.5em;
-  border-bottom-left-radius: 0.5em;
-}
-
-.buttonGroup .button:last-child {
-  border-top-right-radius: 0.5em;
-  border-bottom-right-radius: 0.5em;
+.button-secondary.focus-visible {
+  box-shadow: 0 0 0 2px var(--accentColor);
 }

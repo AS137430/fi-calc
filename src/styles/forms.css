@@ -61,7 +61,6 @@
   display: block;
   color: #dfe0df;
   font-size: 0.875rem;
-  /* margin-bottom: 0.5rem; */
   flex-grow: 0;
   line-height: 1.35;
 }
@@ -108,7 +107,6 @@ input[type='number'] {
   will-change: opacity;
   pointer-events: none;
   transition: opacity 90ms ease-out;
-  /* width: 1rem; */
   padding: 0.1rem 0.25rem;
   margin-left: 0.25rem;
 }
@@ -154,10 +152,4 @@ input[type='number'] {
 .formRow_message {
   line-height: 1.6;
   color: #ccc;
-}
-
-.form_conditional {
-  /* text-transform: uppercase;
-  font-size: 0.75rem;
-  font-weight: 500; */
 }

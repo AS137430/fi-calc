@@ -1,0 +1,19 @@
+.footer {
+  flex-shrink: 0;
+  border-top: 1px solid #2f2f2f;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  height: var(--footerHeight);
+  color: #aaa;
+  font-size: 0.875rem;
+}
+
+.footer_content {
+  height: 100%;
+  max-width: var(--maxAppWidth);
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0 1rem;
+}

@@ -89,7 +89,7 @@ export default function SimulationsOverview() {
     <div className="results">
       <div className="results_block">
         {isSmallScreen && (
-          <Link to="/" className="results_goBack">
+          <Link to="/calculator" className="results_goBack">
             <IconKeyboardArrowLeft size="1.5rem" />
             Return to Configuration
           </Link>
@@ -99,7 +99,7 @@ export default function SimulationsOverview() {
           <div className="simulationHeader_ctas">
             <button
               type="button"
-              className="button button-primary simulation_downloadCsvBtn"
+              className="button button-secondary simulation_downloadCsvBtn"
               onClick={() => downloadDataURL(csvUrl, `sim_data.csv`)}>
               <IconGetApp />
               Download as CSV
@@ -147,7 +147,7 @@ export default function SimulationsOverview() {
           {result.completeSimulations.map(simulation => {
             return (
               <Link
-                to={`/year/${simulation.startYear}`}
+                to={`/calculator/year/${simulation.startYear}`}
                 className={classnames('byYear_cell', {
                   'byYear_cell-isWarning': simulation.status === 'WARNING',
                   'byYear_cell-isFailed': simulation.status === 'FAILED',
