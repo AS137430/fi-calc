@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
 import IconHelp from 'materialish/icon-help';
-import ConfigSection from './config-section';
+import ConfigSection from './sidebar-section';
 import ConstantWithdrawal from './withdrawal-plan/constant-withdrawal';
 import PercentageOfPortfolio from './withdrawal-plan/percentage-of-portfolio';
 import GuytonKlinger from './withdrawal-plan/guyton-klinger';
@@ -36,70 +36,73 @@ export default function WithdrawalPlanConfig() {
   return (
     <>
       <ConfigSection
+        initialIsOpen
         title="Withdrawal Plan"
         onHelpClick={() => setOpenModal('titleHelp')}>
-        <div className="formRow formRow-flex">
-          <select
-            id="country"
-            value={inputs.withdrawalStrategy.value}
-            className="select"
-            onChange={e => changeSelect('withdrawalStrategy', e)}>
-            {withdrawalPlanForm.values.withdrawalStrategy.values.map(val => (
-              <option key={val.key} value={val.key}>
-                {val.display}
-              </option>
-            ))}
-          </select>
-          <button
-            title="Learn more about this withdrawal strategy"
-            className="helpIcon"
-            type="button"
-            onClick={() => setOpenModal('withdrawalStrategy')}>
-            <IconHelp />
-          </button>
-        </div>
-        {withdrawalPlan.withdrawalStrategy.key === 'constantWithdrawal' && (
-          <ConstantWithdrawal
-            inputs={inputs}
-            changeCheckbox={changeCheckbox}
-            commitInput={commitInput}
-          />
-        )}
-        {withdrawalPlan.withdrawalStrategy.key === 'portfolioPercent' && (
-          <PercentageOfPortfolio
-            inputs={inputs}
-            changeCheckbox={changeCheckbox}
-            commitInput={commitInput}
-          />
-        )}
-        {withdrawalPlan.withdrawalStrategy.key === 'hebeler' && (
-          <div className="formRow">
-            <div className="formRow_message">
-              The Hebeler Autopilot strategy is not currently supported.
-            </div>
+        <ConfigSection.Contents>
+          <div className="formRow formRow-flex">
+            <select
+              id="country"
+              value={inputs.withdrawalStrategy.value}
+              className="select"
+              onChange={e => changeSelect('withdrawalStrategy', e)}>
+              {withdrawalPlanForm.values.withdrawalStrategy.values.map(val => (
+                <option key={val.key} value={val.key}>
+                  {val.display}
+                </option>
+              ))}
+            </select>
+            <button
+              title="Learn more about this withdrawal strategy"
+              className="helpIcon"
+              type="button"
+              onClick={() => setOpenModal('withdrawalStrategy')}>
+              <IconHelp />
+            </button>
           </div>
-        )}
-        {withdrawalPlan.withdrawalStrategy.key === 'gk' && (
-          <GuytonKlinger
-            inputs={inputs}
-            changeCheckbox={changeCheckbox}
-            commitInput={commitInput}
-          />
-        )}
-        {withdrawalPlan.withdrawalStrategy.key === '95percent' && (
-          <NinetyFivePercentRule
-            inputs={inputs}
-            changeCheckbox={changeCheckbox}
-            commitInput={commitInput}
-          />
-        )}
-        {withdrawalPlan.withdrawalStrategy.key === 'capeBased' && (
-          <CapeBased
-            inputs={inputs}
-            changeCheckbox={changeCheckbox}
-            commitInput={commitInput}
-          />
-        )}
+          {withdrawalPlan.withdrawalStrategy.key === 'constantWithdrawal' && (
+            <ConstantWithdrawal
+              inputs={inputs}
+              changeCheckbox={changeCheckbox}
+              commitInput={commitInput}
+            />
+          )}
+          {withdrawalPlan.withdrawalStrategy.key === 'portfolioPercent' && (
+            <PercentageOfPortfolio
+              inputs={inputs}
+              changeCheckbox={changeCheckbox}
+              commitInput={commitInput}
+            />
+          )}
+          {withdrawalPlan.withdrawalStrategy.key === 'hebeler' && (
+            <div className="formRow">
+              <div className="formRow_message">
+                The Hebeler Autopilot strategy is not currently supported.
+              </div>
+            </div>
+          )}
+          {withdrawalPlan.withdrawalStrategy.key === 'gk' && (
+            <GuytonKlinger
+              inputs={inputs}
+              changeCheckbox={changeCheckbox}
+              commitInput={commitInput}
+            />
+          )}
+          {withdrawalPlan.withdrawalStrategy.key === '95percent' && (
+            <NinetyFivePercentRule
+              inputs={inputs}
+              changeCheckbox={changeCheckbox}
+              commitInput={commitInput}
+            />
+          )}
+          {withdrawalPlan.withdrawalStrategy.key === 'capeBased' && (
+            <CapeBased
+              inputs={inputs}
+              changeCheckbox={changeCheckbox}
+              commitInput={commitInput}
+            />
+          )}
+        </ConfigSection.Contents>
       </ConfigSection>
       <InfoModal
         title="Withdrawal Plan"

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import IconHelp from 'materialish/icon-help';
-import ConfigSection from './config-section';
+import ConfigSection from './sidebar-section';
 import useForm from '../hooks/use-form';
 import Modal from '../common/modal';
 import Input from '../common/input';
@@ -18,9 +18,10 @@ export default function PortfolioConfig() {
   return (
     <>
       <ConfigSection
+        initialIsOpen
         title="Initial Portfolio"
         onHelpClick={() => setOpenModal('titleHelp')}>
-        <div className="configSection_block">
+        <ConfigSection.Contents>
           <div className="formRow">
             <div className="inputLabel_container">
               <label htmlFor="stockInvestmentValue" className="inputLabel">
@@ -80,8 +81,7 @@ export default function PortfolioConfig() {
               })}
             />
           </div>
-        </div>
-        {/* <div className="configSection_block">
+          {/* 
         <div className="formRow">
           <label htmlFor="bondsValue" className="inputLabel">
             Bonds
@@ -101,8 +101,8 @@ export default function PortfolioConfig() {
               },
             })}
           />
-        </div>
-      </div> */}
+        </div>*/}
+        </ConfigSection.Contents>
       </ConfigSection>
       <Modal
         active={openModal === 'titleHelp'}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ConfigSection from './config-section';
+import ConfigSection from './sidebar-section';
 import useForm from '../hooks/use-form';
 import Modal from '../common/modal';
 import Input from '../common/input';
@@ -16,27 +16,30 @@ export default function LengthOfRetirementConfig() {
   return (
     <>
       <ConfigSection
+        onHelpClick={() => setIsTitleInfoModalOpen(true)}
         title="Length of Retirement"
-        onHelpClick={() => setIsTitleInfoModalOpen(true)}>
-        <div className="formRow">
-          <Input
-            {...inputs.numberOfYears.getProps({
-              id: 'numberOfYears',
-              className: 'input-years',
-              type: 'number',
-              pattern: '\\d*',
-              min: 0,
-              max: 300,
-              step: 1,
-              inputMode: 'numeric',
-              autoComplete: 'off',
-              suffix: 'years',
-              onCommit(event, newValue) {
-                commitInput('numberOfYears', newValue);
-              },
-            })}
-          />
-        </div>
+        initialIsOpen>
+        <ConfigSection.Contents>
+          <div className="formRow">
+            <Input
+              {...inputs.numberOfYears.getProps({
+                id: 'numberOfYears',
+                className: 'input-years',
+                type: 'number',
+                pattern: '\\d*',
+                min: 0,
+                max: 300,
+                step: 1,
+                inputMode: 'numeric',
+                autoComplete: 'off',
+                suffix: 'years',
+                onCommit(event, newValue) {
+                  commitInput('numberOfYears', newValue);
+                },
+              })}
+            />
+          </div>
+        </ConfigSection.Contents>
       </ConfigSection>
       <Modal
         active={isTitleInfoModalOpen}
