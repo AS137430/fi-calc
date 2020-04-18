@@ -1,18 +1,13 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import './app.css';
-import Configuration from './configuration/configuration';
-import SimulationsOverview from './results/simulations-overview';
+import Nav from './common/nav';
+import Home from './pages/home';
+import Learn from './pages/learn';
+import Calculator from './pages/calculator';
 import NotFound from './common/not-found';
 import useIsSmallScreen from './hooks/use-is-small-screen';
-import OneSimulation from './results/one-simulation';
 import useSimulationResult from './state/simulation-result';
-
-//
-// This app has a weird URL structure right now.
-// This file handles a lot of the heavy lifting, but the OneSimulation component
-// does some of the work as well (with the URL of its back link)
-//
 
 export default function App() {
   const { result } = useSimulationResult();
@@ -26,9 +21,9 @@ export default function App() {
   // What this code does is redirect the user back to the homepage if they
   // refresh on any nested routes.
   useEffect(() => {
-    if (pathname !== '/') {
-      history.replace('/');
-    }
+    // if (pathname !== '/') {
+    //   history.replace('/');
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -43,7 +38,7 @@ export default function App() {
   // organized.
   useEffect(
     () => {
-      history.push('/');
+      // history.push('/');
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [result]
@@ -53,9 +48,9 @@ export default function App() {
   // attempt to access it on a large screen, we redirect you back home.
   useEffect(
     () => {
-      if (!isSmallScreen && pathname === '/results') {
-        history.replace('/');
-      }
+      // if (!isSmallScreen && pathname === '/results') {
+      //   history.replace('/');
+      // }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [isSmallScreen, pathname]
@@ -63,24 +58,21 @@ export default function App() {
 
   return (
     <div className="app_body">
-      {isSmallScreen && (
-        <Switch>
-          <Route exact path="/" component={Configuration} />
-          <Route path="/results" component={SimulationsOverview} />
-          <Route path="/year/:year" component={OneSimulation} />
-          <Route component={NotFound} />
-        </Switch>
-      )}
-      {!isSmallScreen && (
-        <>
-          <Configuration />
-          <Switch>
-            <Route exact path="/" component={SimulationsOverview} />
-            <Route path="/year/:year" component={OneSimulation} />
-            <Route component={NotFound} />
-          </Switch>
-        </>
-      )}
+      <Nav />
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/learn">
+          <Learn />
+        </Route>
+        <Route path="/calculator">
+          <Calculator />
+        </Route>
+        <Route>
+          <NotFound />
+        </Route>
+      </Switch>
     </div>
   );
 }

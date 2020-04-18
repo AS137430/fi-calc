@@ -132,7 +132,9 @@ export default function OneSimulation() {
   return (
     <div className="results">
       <div className="results_block">
-        <Link to={!isSmallScreen ? '/' : '/results'} className="results_goBack">
+        <Link
+          to={!isSmallScreen ? '/calculator' : '/calculator/results'}
+          className="results_goBack">
           <IconKeyboardArrowLeft size="1.5rem" />
           Return to Results
         </Link>
@@ -143,7 +145,7 @@ export default function OneSimulation() {
           <div className="simulationHeader_ctas">
             <button
               type="button"
-              className="button button-primary simulation_downloadCsvBtn"
+              className="button button-secondary simulation_downloadCsvBtn"
               onClick={() =>
                 downloadDataURL(
                   csvUrl,

@@ -1,5 +1,9 @@
+.calculator {
+  display: flex;
+}
+
 @media (max-width: 551px) {
-  .app_body {
+  .calculator {
     display: block;
   }
 }

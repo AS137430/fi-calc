@@ -1,5 +1,32 @@
-.standardPage {
+.page {
+  max-width: 750px;
+  margin: 4rem auto 2rem;
   padding: 0 20px;
   padding-left: max(20px, env(safe-area-inset-left));
   padding-right: max(20px, env(safe-area-inset-right));
+}
+
+.page_title {
+  font-weight: 900;
+  font-size: 2.4rem;
+}
+
+.page_h2 {
+  font-weight: 900;
+}
+
+.page p {
+  color: #eee;
+}
+
+.page_ctas {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page_ctaBtn {
+  font-size: 1rem;
+  padding: 0.625rem 1.5rem;
 }

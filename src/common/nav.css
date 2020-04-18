@@ -1,0 +1,22 @@
+.nav {
+  border-bottom: 1px solid #333;
+  padding: 0 1rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+}
+
+.nav_logoLink {
+  text-decoration: none;
+  color: white;
+  padding: 0 0.5rem;
+}
+
+.nav_logo {
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.nav_cta {
+  margin-left: auto;
+}
