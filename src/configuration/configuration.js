@@ -5,6 +5,7 @@ import './configuration.css';
 import LengthOfRetirementConfig from './length-of-retirement-config';
 import WithdrawalPlanConfig from './withdrawal-plan-config';
 import PortfolioConfig from './portfolio-config';
+import HistoricalData from './historical-data-config';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 
 export default function Configuration() {
@@ -17,6 +18,7 @@ export default function Configuration() {
         <LengthOfRetirementConfig />
         <PortfolioConfig />
         <WithdrawalPlanConfig />
+        <HistoricalData />
       </div>
       {isSmallScreen && (
         <div className="configuration_viewResults">

@@ -21,7 +21,7 @@ export default function ConfigSection({
       <ConfigSection.Header onClick={() => setOpen(v => !v)}>
         {title}
         {typeof onHelpClick === 'function' && (
-          <button
+          <div
             title={onHelpTitle}
             className="sidebarSection_helpIcon helpIcon"
             type="button"
@@ -31,7 +31,7 @@ export default function ConfigSection({
               onHelpClick();
             }}>
             <IconHelp />
-          </button>
+          </div>
         )}
       </ConfigSection.Header>
       {React.Children.map(children, child =>

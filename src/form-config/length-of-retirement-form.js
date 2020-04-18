@@ -3,19 +3,19 @@ import {
   isRequired,
   numberRequired,
   integerRequired,
-  tooLarge,
+  // tooLarge,
   greaterThanZero,
   withinYearLimit,
   lessThanEndYear,
   greaterThanStartYear,
 } from '../utils/forms/validators';
-import marketDataByYear from '../utils/market-data/market-data-by-year';
+// import marketDataByYear from '../utils/market-data/market-data-by-year';
 
-const marketData = marketDataByYear();
+// const marketData = marketDataByYear();
 
 // If the duration goes higher than the number of years in our market data, then no simulations complete,
 // and we cannot output any results.
-const maxDuration = _.size(marketData) - 1;
+// const maxDuration = _.size(marketData) - 1;
 
 export default {
   values: {
@@ -27,7 +27,7 @@ export default {
         numberRequired,
         integerRequired,
         greaterThanZero,
-        tooLarge(maxDuration),
+        // tooLarge(maxDuration),
       ],
     },
 

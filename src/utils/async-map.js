@@ -30,5 +30,9 @@ export default function asyncMap(arr, cb, done) {
     }
   }
 
-  execute(arr, 0, true);
+  if (arr.length) {
+    execute(arr, 0, true);
+  } else {
+    done(result);
+  }
 }

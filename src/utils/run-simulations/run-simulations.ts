@@ -5,6 +5,12 @@ import { fromInvestments } from '../forms/normalize-portfolio';
 import { WithdrawalPlan, InvestmentType } from './run-simulations-interfaces';
 import asyncMap from '../async-map';
 
+export interface SimulationData {
+  firstYear: number;
+  lastYear: number;
+  useAllHistoricalData: boolean;
+}
+
 interface Portfolio {
   bondsValue: number;
   stockInvestmentValue: number;
@@ -21,6 +27,7 @@ interface RunSimulationsOptions {
   lengthOfRetirement: LengthOfRetirement;
   withdrawalPlan: WithdrawalPlan;
   portfolio: Portfolio;
+  simulationData: SimulationData;
   durationMode: string;
   dipPercentage: number;
   successRateThreshold: number;
@@ -46,6 +53,7 @@ export default function runSimulations(
   done: (ret: RunSimulationsReturn) => void
 ) {
   const {
+    simulationData,
     durationMode,
     lengthOfRetirement,
     withdrawalPlan,
@@ -69,7 +77,10 @@ export default function runSimulations(
   if (durationMode === 'allHistory') {
     lengthOfSimulation = numberOfYears;
     // An array of years that we use as a starting year for simulations
-    startYears = getStartYears(Number(numberOfYears));
+    startYears = getStartYears(
+      Number(numberOfYears),
+      simulationData.useAllHistoricalData ? undefined : simulationData
+    );
   } else {
     startYears = [Number(startYear)];
     lengthOfSimulation = endYear - startYear + 1;
@@ -123,8 +134,9 @@ export default function runSimulations(
         completeSimulations,
         'isFailed'
       );
-      const successRate =
-        successfulSimulations.length / completeSimulations.length;
+      const successRate = completeSimulations.length
+        ? successfulSimulations.length / completeSimulations.length
+        : 0;
 
       const rawSuccessRate = successRate * 100;
 

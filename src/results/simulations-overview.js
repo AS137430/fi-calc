@@ -85,6 +85,8 @@ export default function SimulationsOverview() {
     setItem(STORAGE_KEY, 'true');
   }
 
+  const hasSimulations = Boolean(result.completeSimulations.length);
+
   return (
     <div className="results">
       <div className="results_block">
@@ -97,16 +99,28 @@ export default function SimulationsOverview() {
         <div className="simulationHeader">
           <h1 className="simulationHeader_h1">Results</h1>
           <div className="simulationHeader_ctas">
-            <button
-              type="button"
-              className="button button-secondary simulation_downloadCsvBtn"
-              onClick={() => downloadDataURL(csvUrl, `sim_data.csv`)}>
-              <IconGetApp />
-              Download as CSV
-            </button>
+            {hasSimulations && (
+              <button
+                type="button"
+                className="button button-secondary simulation_downloadCsvBtn"
+                onClick={() => downloadDataURL(csvUrl, `sim_data.csv`)}>
+                <IconGetApp />
+                Download as CSV
+              </button>
+            )}
           </div>
         </div>
-
+        {!hasSimulations && (
+          <div className="results_block">
+            <div className="tip">
+              <IconInfoOutline size="1.05rem" />
+              <div className="tip_msg">
+                No simulations were run because your length of retirement is too
+                long. Specify a shorter retirement length to see results.
+              </div>
+            </div>
+          </div>
+        )}
         <div className="results_sectionRow">
           <div className="results_section">
             <div className="results_sectionTitle">Number of Simulations</div>
@@ -114,52 +128,56 @@ export default function SimulationsOverview() {
               {result.completeSimulations.length}
             </div>
           </div>
-          <div className="results_section">
-            <div className="results_sectionTitle">Success Rate</div>
-            <div
-              className={classnames('results_bigValue', {
-                'results_bigValue-success': exceedsSuccessRateThreshold,
-                'results_bigValue-warning': isWarning,
-                'results_bigValue-danger': isDanger,
-              })}>
-              {result.successRateDisplay}
+          {hasSimulations && (
+            <div className="results_section">
+              <div className="results_sectionTitle">Success Rate</div>
+              <div
+                className={classnames('results_bigValue', {
+                  'results_bigValue-success': exceedsSuccessRateThreshold,
+                  'results_bigValue-warning': isWarning,
+                  'results_bigValue-danger': isDanger,
+                })}>
+                {result.successRateDisplay}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
-      <div className="results_block">
-        <h2 className="results_h2">Simulations By Start Year</h2>
-        {!isTipHidden && (
-          <div className="tip">
-            <IconInfoOutline size="1.05rem" />
-            <div className="tip_msg">
-              Click on a year to view more information about that simulation.
+      {hasSimulations && (
+        <div className="results_block">
+          <h2 className="results_h2">Simulations By Start Year</h2>
+          {!isTipHidden && (
+            <div className="tip">
+              <IconInfoOutline size="1.05rem" />
+              <div className="tip_msg">
+                Click on a year to view more information about that simulation.
+              </div>
+              <button
+                className="tip_btn"
+                type="button"
+                onClick={hideViewYearsDetails}>
+                Okay
+              </button>
             </div>
-            <button
-              className="tip_btn"
-              type="button"
-              onClick={hideViewYearsDetails}>
-              Okay
-            </button>
+          )}
+          <div className="results_byYearGrid">
+            {result.completeSimulations.map(simulation => {
+              return (
+                <Link
+                  to={`/calculator/year/${simulation.startYear}`}
+                  className={classnames('byYear_cell', {
+                    'byYear_cell-isWarning': simulation.status === 'WARNING',
+                    'byYear_cell-isFailed': simulation.status === 'FAILED',
+                    'byYear_cell-incomplete': !simulation.isComplete,
+                  })}
+                  key={simulation.startYear}>
+                  {simulation.startYear}
+                </Link>
+              );
+            })}
           </div>
-        )}
-        <div className="results_byYearGrid">
-          {result.completeSimulations.map(simulation => {
-            return (
-              <Link
-                to={`/calculator/year/${simulation.startYear}`}
-                className={classnames('byYear_cell', {
-                  'byYear_cell-isWarning': simulation.status === 'WARNING',
-                  'byYear_cell-isFailed': simulation.status === 'FAILED',
-                  'byYear_cell-incomplete': !simulation.isComplete,
-                })}
-                key={simulation.startYear}>
-                {simulation.startYear}
-              </Link>
-            );
-          })}
         </div>
-      </div>
+      )}
     </div>
   );
 }

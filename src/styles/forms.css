@@ -65,6 +65,14 @@
   line-height: 1.35;
 }
 
+.inputLabel-disabled {
+  opacity: 0.5;
+}
+
+.checkbox_label {
+  font-size: 0.875rem;
+}
+
 @media (max-width: 551px) {
   .inputLabel {
     font-size: 0.9375rem;
