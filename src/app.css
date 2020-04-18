@@ -2,11 +2,11 @@
   --headerHeight: 2.5rem;
 }
 
-.bodyContents {
+.app_bodyContents {
   display: flex;
 }
 
-.app_mainContent {
+.app_mainContents {
   display: flex;
   flex-direction: column;
   flex: 1;

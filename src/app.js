@@ -20,9 +20,9 @@ export default function App() {
         'app_body-calculator': isCalculator,
       })}>
       <Nav />
-      <div className="bodyContents">
+      <div className="app_bodyContents">
         <Sidebar />
-        <div className="app_mainContent">
+        <div className="app_mainContents">
           <main>
             <Switch>
               <Route exact path="/">

@@ -2,16 +2,14 @@
   border-bottom: 1px solid #2f2f2f;
   height: var(--headerHeight);
   flex-shrink: 0;
+  background: #232323;
+  border-bottom-color: #2e2e2e;
 }
 
 .nav-calculator {
   background: #2a2a2a;
   border-bottom-color: #3c3c3c;
 }
-
-/* .nav-calculator .button-secondary {
-  background-color: #444;
-} */
 
 .nav_logoLink {
   text-decoration: none;
@@ -39,7 +37,7 @@
 @media (max-width: 551px) {
   .nav-calculator {
     background: #232323;
-    border-bottom-color: #262626;
+    border-bottom-color: #2e2e2e;
   }
 
   /* .nav-calculator .button-secondary {
