@@ -13,10 +13,10 @@ export default function Learn() {
         life, but not so much that they run out of money.
       </p>
       <p>
-        It's impossible to know with certainty how much you can safely withdraw
+        It's impossible to know with certainty how much we can safely withdraw
         each year, because we can't know how the market will perform during your
-        retirement, nor how long we will live. But we do have tools we can use
-        to make an informed decision.
+        retirement, nor how long we will live. But there are ways to make an
+        informed decision.
       </p>
       <h2 className="page_h2">Finding a Safe Withdrawal Rate</h2>
       <p>
@@ -31,22 +31,26 @@ export default function Learn() {
       </p>
       <p>
         After running all of the simulations, he determined that retirement
-        plans survived about 95% of the time with a 4% withdrawal rate. A few
-        years after Bengen's study, a group of professors reconfirmed his
+        plans survived about 95% of the time with a 4% initial withdrawal rate.
+        After the first year, you adjust the withdrawal amount for inflation to
+        ensure that your purchasing power remains about the same.
+      </p>
+      <p>
+        A few years after Bengen's study, a group of professors reconfirmed his
         results in a paper called The Trinity Study. This idea is now known as
         The 4% Rule, and it remains a foundational idea in retirement planning
         even today.
       </p>
       <p>
         This method of determing a safe withdrawal strategy is powerful if you
-        believe that the market during your retirement will perform as least as
-        well as the worst period since 1871.
+        believe that the market during your retirement will perform no worse
+        than the worst market since 1871.
       </p>
       <h2 className="page_h2">Other Withdrawal Strategies</h2>
       <p>
         In the time since the 4% Rule was originally conceived, new withdrawal
-        strategies have been created that offer different pros and cons compared
-        to The 4% Rule.
+        strategies have been created that offer pros and cons compared to The 4%
+        Rule.
       </p>
       <p>
         What other strategies exist, and which one is most appropriate for you?
@@ -62,14 +66,9 @@ export default function Learn() {
       </p>
       <p>
         In addition to the withdrawal strategy used in The 4% Rule, FI Calc
-        includes others for you to explore, too, and those strategies are just
-        as configurable. After running a simulation, you can download your
-        results as an CSV and continue your investigation in your favorite
-        spreadsheet app.
-      </p>
-      <p>
-        FI Calc exists to give you additional data around your retirement plan
-        so that you can retire with confidence.
+        includes others that you can use, too, and those strategies are just as
+        configurable. You can export your results as a CSV file and continue
+        your calculations in your spreadsheet app of choice.
       </p>
       <p>
         You're now ready to jump in and start running simulations – have fun!

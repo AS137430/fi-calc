@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import classnames from 'classnames';
-import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import './app.css';
 import Nav from './common/nav';
 import Footer from './common/footer';
@@ -17,7 +17,7 @@ export default function App() {
   const { result } = useSimulationResult();
   const isSmallScreen = useIsSmallScreen();
   const { pathname } = useLocation();
-  const history = useHistory();
+  // const history = useHistory();
   const isCalculator = useIsCalculator();
 
   // Right now, the app has no state persistence. Therefore,
