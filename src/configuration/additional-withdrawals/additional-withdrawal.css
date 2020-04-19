@@ -1,0 +1,17 @@
+.additionalWithdrawal {
+  display: flex;
+  width: 100%;
+  font-size: 0.875rem;
+  border: 1px solid #3f3f3f;
+  border-radius: 0.45rem;
+  padding: 0.75rem 0.5rem;
+  background: rgba(255, 255, 255, 0.035);
+  margin-bottom: 1rem;
+  outline: none;
+  color: white;
+}
+
+.additionalWithdrawal.focus-visible,
+.additionalWithdrawal:hover {
+  border-color: var(--accentColor);
+}

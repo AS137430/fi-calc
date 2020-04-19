@@ -48,8 +48,6 @@ export default function useForm(initialData) {
   const valuesRef = useRef({});
   const setFormValuesRef = useRef();
 
-  console.log('\n\ninitialData', initialData);
-
   function updateFormValue(inputName, newValue) {
     const currentVal = _.get(valuesRef, `current.${inputName}`, {});
     const isCheckbox = currentVal.isCheckbox;
@@ -205,8 +203,6 @@ export default function useForm(initialData) {
   function resetForm() {
     setFormValues(computeInputErrors(initialState));
   }
-
-  console.log('helo', values);
 
   return {
     inputs: values,

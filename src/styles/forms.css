@@ -43,15 +43,6 @@
   padding: 0.75rem 0.5rem 1rem 0.5rem;
 }
 
-.formRow_block {
-  font-size: 0.875rem;
-  border: 1px solid #3f3f3f;
-  border-radius: 0.45rem;
-  padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.035);
-  margin-bottom: 1rem;
-}
-
 .input:focus {
   border-color: var(--accentColor);
   box-shadow: 0 0 0 2px var(--accentColor);
