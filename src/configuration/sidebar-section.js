@@ -24,7 +24,6 @@ export default function ConfigSection({
           <div
             title={onHelpTitle}
             className="sidebarSection_helpIcon helpIcon"
-            type="button"
             onClick={e => {
               e.preventDefault();
               e.stopPropagation();
