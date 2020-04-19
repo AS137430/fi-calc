@@ -19,12 +19,21 @@ function useSimulationResult() {
   const [computation, setComputation] = useState({
     result: null,
     duration: 0,
+    status: 'IDLE',
   });
 
   useEffect(
     () => {
       setTimeout(() => {
         const start = performance.now();
+
+        setComputation(prev => {
+          return {
+            ...prev,
+            status: 'COMPUTING',
+          };
+        });
+
         runSimulations(
           {
             durationMode: 'allHistory',
@@ -39,6 +48,7 @@ function useSimulationResult() {
             setComputation({
               result,
               duration: performance.now() - start,
+              status: 'COMPLETE',
             });
           }
         );

@@ -14,7 +14,7 @@ import downloadDataURL from '../utils/download-data-url';
 const STORAGE_KEY = 'isViewYearDetailsHidden';
 
 export default function SimulationsOverview() {
-  const { result } = useSimulationResult();
+  const { result, status } = useSimulationResult();
 
   const isSmallScreen = useIsSmallScreen();
   const [isTipHidden, setIsTipHidden] = useState(() =>
@@ -68,15 +68,11 @@ export default function SimulationsOverview() {
     [result]
   );
 
-  if (!result) {
-    return null;
-  }
+  const exceedsSuccessRateThreshold = result?.exceedsSuccessRateThreshold;
 
-  const { exceedsSuccessRateThreshold } = result;
-
-  const isDanger = !exceedsSuccessRateThreshold && result.successRate < 0.8;
+  const isDanger = !exceedsSuccessRateThreshold && result?.successRate < 0.8;
   const isWarning =
-    !exceedsSuccessRateThreshold && !isDanger && result.successRate < 0.95;
+    !exceedsSuccessRateThreshold && !isDanger && result?.successRate < 0.95;
 
   function hideViewYearsDetails() {
     setIsTipHidden(true);
@@ -85,7 +81,8 @@ export default function SimulationsOverview() {
     setItem(STORAGE_KEY, 'true');
   }
 
-  const hasSimulations = Boolean(result.completeSimulations.length);
+  const hasResult = Boolean(result);
+  const hasSimulations = Boolean(result?.completeSimulations.length);
 
   return (
     <div className="results">
@@ -110,22 +107,27 @@ export default function SimulationsOverview() {
             )}
           </div>
         </div>
-        {!hasSimulations && (
-          <div className="results_block">
-            <div className="tip">
-              <IconInfoOutline size="1.05rem" />
-              <div className="tip_msg">
-                No simulations were run because your length of retirement is too
-                long. Specify a shorter retirement length to see results.
+        {!hasSimulations &&
+          hasResult && (
+            <div className="results_block">
+              <div className="tip">
+                <IconInfoOutline size="1.05rem" />
+                <div className="tip_msg">
+                  No simulations were run because your length of retirement is
+                  too long. Specify a shorter retirement length to see results.
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
         <div className="results_sectionRow">
           <div className="results_section">
             <div className="results_sectionTitle">Number of Simulations</div>
-            <div className="results_bigValue">
-              {result.completeSimulations.length}
+            <div
+              className={classnames('results_bigValue', {
+                'results_bigValue-loading': !hasResult,
+              })}>
+              {!hasResult && <>-</>}
+              {hasResult && <>{result?.completeSimulations.length}</>}
             </div>
           </div>
           {hasSimulations && (
@@ -137,7 +139,7 @@ export default function SimulationsOverview() {
                   'results_bigValue-warning': isWarning,
                   'results_bigValue-danger': isDanger,
                 })}>
-                {result.successRateDisplay}
+                {result?.successRateDisplay}
               </div>
             </div>
           )}
