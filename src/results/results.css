@@ -76,6 +76,10 @@
   font-weight: bold;
 }
 
+.results_bigValue-loading {
+  opacity: 0.35;
+}
+
 .results_value {
   font-size: 1.1rem;
   font-weight: 700;
