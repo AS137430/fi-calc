@@ -3,3 +3,11 @@
   display: flex;
   justify-content: center;
 }
+
+.additionalWithdrawalsConfig_noWithdrawals {
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+  opacity: 0.75;
+  text-align: center;
+}

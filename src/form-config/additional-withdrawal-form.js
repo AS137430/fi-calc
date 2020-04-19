@@ -2,9 +2,6 @@ import {
   isRequired,
   numberRequired,
   integerRequired,
-  withinYearLimit,
-  lessThanEndYear,
-  greaterThanStartYear,
   tooSmall,
   tooLarge,
 } from '../utils/forms/validators';
@@ -20,7 +17,7 @@ export default {
 
     value: {
       type: 'number',
-      default: 1000000,
+      default: 0,
       validators: [
         isRequired,
         numberRequired,
@@ -29,28 +26,26 @@ export default {
       ],
     },
 
+    inflationAdjusted: {
+      type: 'boolean',
+      default: false,
+    },
+
+    repeats: {
+      type: 'boolean',
+      default: false,
+    },
+
     startYear: {
       type: 'number',
-      default: 1931,
-      validators: [
-        isRequired,
-        numberRequired,
-        integerRequired,
-        withinYearLimit,
-        lessThanEndYear,
-      ],
+      default: 5,
+      validators: [isRequired, numberRequired, integerRequired, tooSmall(0)],
     },
 
     endYear: {
       type: 'number',
-      default: 1960,
-      validators: [
-        isRequired,
-        numberRequired,
-        integerRequired,
-        withinYearLimit,
-        greaterThanStartYear,
-      ],
+      default: 9,
+      validators: [isRequired, numberRequired, integerRequired, tooSmall(0)],
     },
   },
 };

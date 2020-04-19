@@ -4,33 +4,60 @@ import ConfigSection from '../sidebar-section';
 import AdditionalWithdrawal from './additional-withdrawal';
 import UpsertAdditionalWIthdrawalModal from './upsert-additional-withdrawal-modal';
 
-const DEFAULT_INITIAL_WITHDRAWAL = {
-  value: 40000,
-};
-
 export default function AdditionalWithdrawals() {
   const [openModal, setOpenModal] = useState(null);
   const [additionalWithdrawals, setAdditionalWithdrawals] = useState(() => {
-    return [DEFAULT_INITIAL_WITHDRAWAL];
+    return [];
   });
 
-  function onSave(inputs) {
+  function onSaveNewWithdrawal(newWithdrawal) {
     setAdditionalWithdrawals(prev => {
-      const newSpending = [...prev];
-      newSpending.push({ ...inputs });
-      return newSpending;
+      const updatedWithdrawals = [...prev];
+      updatedWithdrawals.push({ ...newWithdrawal });
+      return updatedWithdrawals;
     });
 
     setOpenModal(null);
   }
 
+  function onEditWithdrawal(index, withdrawal) {
+    setAdditionalWithdrawals(prev => {
+      const updatedWithdrawals = [...prev];
+      updatedWithdrawals[index] = withdrawal;
+      return updatedWithdrawals;
+    });
+  }
+
+  function onDeleteWithdrawal(index) {
+    setAdditionalWithdrawals(prev => {
+      const updatedWithdrawals = [...prev];
+      updatedWithdrawals.splice(index, 1);
+      return updatedWithdrawals;
+    });
+  }
+
+  const hasAdditionalWithdrawals = Boolean(additionalWithdrawals.length);
+
   return (
     <>
       <ConfigSection title="Additional Withdrawals" initialIsOpen>
         <ConfigSection.Contents className="form_blockSection">
-          {additionalWithdrawals.map((spending, index) => {
-            return <AdditionalWithdrawal key={index} />;
-          })}
+          {!hasAdditionalWithdrawals && (
+            <div className="additionalWithdrawalsConfig_noWithdrawals">
+              You have no additional withdrawals.
+            </div>
+          )}
+          {hasAdditionalWithdrawals &&
+            additionalWithdrawals.map((withdrawal, index) => {
+              return (
+                <AdditionalWithdrawal
+                  key={index}
+                  withdrawal={withdrawal}
+                  onDelete={() => onDeleteWithdrawal(index)}
+                  onSave={withdrawal => onEditWithdrawal(index, withdrawal)}
+                />
+              );
+            })}
           <button
             className="button button-secondary button-small additionalWithdrawals_createBtn"
             onClick={() => setOpenModal('create')}>
@@ -40,7 +67,7 @@ export default function AdditionalWithdrawals() {
       </ConfigSection>
       <UpsertAdditionalWIthdrawalModal
         isCreate
-        onConfirm={onSave}
+        onConfirm={onSaveNewWithdrawal}
         onCancel={() => setOpenModal(null)}
         active={openModal === 'create'}
       />
