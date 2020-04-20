@@ -66,7 +66,7 @@ export default function UpsertAdditionalWithdrawalModalBody({
               id: 'additionalWithdrawalName',
               className: 'modal_input modal_standardWidthInput',
               type: 'text',
-              placeholder: 'i.e.; College, New Car, etc.',
+              placeholder: 'i.e.; College, new car, etc.',
             })}
           />
         </div>

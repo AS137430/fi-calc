@@ -3,6 +3,7 @@ import './additional-withdrawals-config.css';
 import ConfigSection from '../sidebar-section';
 import AdditionalWithdrawal from './additional-withdrawal';
 import UpsertAdditionalWIthdrawalModal from './upsert-additional-withdrawal-modal';
+import InfoModal from '../../common/info-modal';
 
 export default function AdditionalWithdrawals() {
   const [openModal, setOpenModal] = useState(null);
@@ -40,7 +41,10 @@ export default function AdditionalWithdrawals() {
 
   return (
     <>
-      <ConfigSection title="Additional Withdrawals" initialIsOpen>
+      <ConfigSection
+        title="Additional Withdrawals"
+        initialIsOpen
+        onHelpClick={() => setOpenModal('titleHelp')}>
         <ConfigSection.Contents>
           {!hasAdditionalWithdrawals && (
             <div className="additionalWithdrawalsConfig_noWithdrawals">
@@ -71,6 +75,26 @@ export default function AdditionalWithdrawals() {
         onCancel={() => setOpenModal(null)}
         active={openModal === 'create'}
       />
+      <InfoModal
+        title="Additional Withdrawals"
+        active={openModal === 'titleHelp'}
+        onBeginClose={() => setOpenModal(null)}>
+        <p>
+          You might know that you will need to make a larger withdrawal for
+          certain years of your retirement. For instance, you may be planning to
+          contribute to a child's college education, or you may be expecting to
+          replace your car in a couple of years.
+        </p>
+        <p>
+          You can account for these in this calculator by creating{' '}
+          <b>additional withdrawals</b>.
+        </p>
+        <p>
+          Additional withdrawals can be a one-time thing, or you can specify
+          them as reccurring for a number of years in a row. You can also choose
+          to adjust the amount of the withdrawal for inflation or not.
+        </p>
+      </InfoModal>
     </>
   );
 }
