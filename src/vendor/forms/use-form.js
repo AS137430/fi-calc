@@ -100,6 +100,7 @@ export default function useForm(initialData) {
 
     const initialInputState = {
       ...val,
+      isArray: val.isArray,
       value: val.initialValue,
       error: null,
       errorMsg: null,
@@ -108,6 +109,8 @@ export default function useForm(initialData) {
       getProps({ onCommit, ...props }) {
         const valueKey = isCheckbox ? 'checked' : 'value';
         const defaultValue = isCheckbox ? undefined : '';
+
+        const hasCommit = onCommit === 'function';
 
         function commit(event) {
           const currentVal = valuesRef.current[inputName] || {};
@@ -133,7 +136,7 @@ export default function useForm(initialData) {
           // and I was unable to resolve the problem in any other way
           _.invoke(setFormValuesRef, 'current', newFormState);
 
-          if (typeof onCommit === 'function') {
+          if (hasCommit) {
             onCommit(event, newValue);
           }
         }
@@ -165,9 +168,11 @@ export default function useForm(initialData) {
             }
           },
           onKeyDown(event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              commit(event);
+            if (hasCommit) {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                commit(event);
+              }
             }
 
             if (props && typeof props.onKeyDown === 'function') {

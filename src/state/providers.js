@@ -4,6 +4,7 @@ import { LengthOfRetirementProvider } from './length-of-retirement';
 import { WithdrawalPlanProvider } from './withdrawal-plan';
 import { PortfolioProvider } from './portfolio';
 import { UndoProvider } from './undo-history';
+import { AdditionalWithdrawalsProvider } from './additional-withdrawals';
 import { SimulationResultProvider } from './simulation-result';
 
 export default function StateProviders({ children }) {
@@ -13,7 +14,9 @@ export default function StateProviders({ children }) {
         <PortfolioProvider>
           <LengthOfRetirementProvider>
             <WithdrawalPlanProvider>
-              <SimulationResultProvider>{children}</SimulationResultProvider>
+              <AdditionalWithdrawalsProvider>
+                <SimulationResultProvider>{children}</SimulationResultProvider>
+              </AdditionalWithdrawalsProvider>
             </WithdrawalPlanProvider>
           </LengthOfRetirementProvider>
         </PortfolioProvider>

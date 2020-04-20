@@ -7,6 +7,7 @@ import Expandable from '../common/expandable';
 export default function ConfigSection({
   title,
   children,
+  count,
   onHelpClick,
   initialIsOpen = false,
   onHelpTitle = 'Learn more',
@@ -20,6 +21,9 @@ export default function ConfigSection({
       }`}>
       <ConfigSection.Header onClick={() => setOpen(v => !v)}>
         {title}
+        {typeof count !== 'undefined' && (
+          <span className="sidebarSection_titleCount">{count}</span>
+        )}
         {typeof onHelpClick === 'function' && (
           <div
             title={onHelpTitle}

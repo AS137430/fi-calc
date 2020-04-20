@@ -1,0 +1,14 @@
+.additionalWithdrawals_createBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+}
+
+.additionalWithdrawalsConfig_noWithdrawals {
+  font-size: 0.875rem;
+  margin: 0 0 1rem;
+  font-style: italic;
+  opacity: 0.7;
+  text-align: center;
+}

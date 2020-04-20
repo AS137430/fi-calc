@@ -1,5 +1,15 @@
 import { MarketDataValue } from 'stock-market-data';
 
+export interface AdditionalWithdrawal {
+  name: string;
+  value: number;
+  inflationAdjusted: boolean;
+  duration: number;
+  startYear: number;
+}
+
+export type AdditionalWithdrawals = AdditionalWithdrawal[];
+
 export interface PortfolioInvestment {
   percentage: number;
   type: InvestmentType;
