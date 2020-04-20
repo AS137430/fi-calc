@@ -48,7 +48,11 @@ export default function UpsertAdditionalWithdrawalModalBody({
     }
   }
 
-  const isRecurring = inputs.repeats.value;
+  const startYear = Number(inputs.startYear.value);
+  const duration = Number(inputs.duration.value);
+  const startYearWord = startYear === 1 ? 'year' : 'years';
+  const durationYearWord = duration === 1 ? 'year' : 'years';
+
   return (
     <>
       <Modal.Title>{title}</Modal.Title>
@@ -108,28 +112,12 @@ export default function UpsertAdditionalWithdrawalModalBody({
         </div>
         <div className="formRow_separator" />
         <h2 className="modalForm_h2">Withdrawal Frequency</h2>
-        <div className="modalForm_row modalForm_row-flex">
-          <Checkbox
-            className="checkbox"
-            id="additionalWithdrawalRepeats"
-            checked={!isRecurring}
-            onChange={e => {
-              updateFormValue('repeats', !e.target.checked);
-            }}
-          />
-          <label
-            htmlFor="additionalWithdrawalRepeats"
-            className="checkbox_label">
-            Only occurs in one year
-          </label>
-        </div>
         <div className="modalForm_row">
           <div className="modalForm_labelContainer">
             <label
               className="modalForm_label"
               htmlFor="additionalWithdrawalStartYear">
-              {isRecurring && <>Withdrawal starts</>}
-              {!isRecurring && <>Withdrawal occurs</>}
+              Withdrawal starts
             </label>
           </div>
           <Input
@@ -141,33 +129,31 @@ export default function UpsertAdditionalWithdrawalModalBody({
               min: 0,
               inputMode: 'numeric',
               autoComplete: 'off',
-              suffix: 'years into retirement',
+              suffix: `${startYearWord} into retirement`,
             })}
           />
         </div>
-        {isRecurring && (
-          <div className="modalForm_row">
-            <div className="modalForm_labelContainer">
-              <label
-                className="modalForm_label"
-                htmlFor="additionalWithdrawalEndYear">
-                and ends
-              </label>
-            </div>
-            <Input
-              {...inputs.endYear.getProps({
-                id: 'additionalWithdrawalEndYear',
-                className: 'modal_input modal_smallNumberInput',
-                type: 'number',
-                pattern: '\\d*',
-                min: 0,
-                inputMode: 'numeric',
-                autoComplete: 'off',
-                suffix: 'years into retirement',
-              })}
-            />
+        <div className="modalForm_row">
+          <div className="modalForm_labelContainer">
+            <label
+              className="modalForm_label"
+              htmlFor="additionalWithdrawalDuration">
+              and lasts for
+            </label>
           </div>
-        )}
+          <Input
+            {...inputs.duration.getProps({
+              id: 'additionalWithdrawalDuration',
+              className: 'modal_input modal_smallNumberInput',
+              type: 'number',
+              pattern: '\\d*',
+              min: 0,
+              inputMode: 'numeric',
+              autoComplete: 'off',
+              suffix: durationYearWord,
+            })}
+          />
+        </div>
       </Modal.Body>
       <Modal.Footer>
         {!isCreate && (

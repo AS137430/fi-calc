@@ -31,20 +31,15 @@ export default {
       default: false,
     },
 
-    repeats: {
-      type: 'boolean',
-      default: false,
+    duration: {
+      type: 'number',
+      default: 1,
+      validators: [isRequired, numberRequired, integerRequired, tooSmall(1)],
     },
 
     startYear: {
       type: 'number',
       default: 5,
-      validators: [isRequired, numberRequired, integerRequired, tooSmall(0)],
-    },
-
-    endYear: {
-      type: 'number',
-      default: 8,
       validators: [isRequired, numberRequired, integerRequired, tooSmall(0)],
     },
   },

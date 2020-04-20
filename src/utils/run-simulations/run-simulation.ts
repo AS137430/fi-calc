@@ -209,14 +209,14 @@ export default function runSimulation(options: RunSimulationOptions) {
     const yearsRemaining = duration - n;
 
     const additionalWithdrawalsForYear = additionalWithdrawals.filter(withdrawal => {
-      const withdrawalStartYear = numericStartYear + withdrawal.startYear;
-      const withdrawalEndYear = numericStartYear + withdrawal.endYear;
-
-      if (!withdrawal.repeats) {
-        return year === withdrawalStartYear;
-      } else {
-        return year >= withdrawalStartYear && year <= withdrawalEndYear;
+      if (withdrawal.duration === 0) {
+        return false;
       }
+
+      const withdrawalStartYear = numericStartYear + withdrawal.startYear;
+      const withdrawalEndYear = withdrawalStartYear + withdrawal.duration;
+
+      return year >= withdrawalStartYear && year <= withdrawalEndYear;
     });
 
     const yearResult = simulateOneYear({

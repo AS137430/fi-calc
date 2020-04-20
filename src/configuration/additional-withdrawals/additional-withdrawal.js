@@ -5,14 +5,7 @@ import formatNumber from '../../utils/numbers/format-number';
 
 export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
   const [openModal, setOpenModal] = useState(null);
-  const {
-    name,
-    value,
-    inflationAdjusted,
-    repeats,
-    startYear,
-    endYear,
-  } = withdrawal;
+  const { name, value, inflationAdjusted, startYear, duration } = withdrawal;
 
   function onSaveChanges(withdrawal) {
     setOpenModal(null);
@@ -27,7 +20,8 @@ export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
   const hasName = Boolean(name);
   const isSingularYears = Number(startYear) === 1;
   const startYearsWord = isSingularYears ? 'year' : 'years';
-  const duration = Math.max(0, endYear - startYear + 1);
+  const numericDuration = Number(duration);
+  const repeats = numericDuration > 1;
 
   return (
     <>
@@ -45,15 +39,18 @@ export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
         <div className="additionalWithdrawal_frequency">
           {repeats && (
             <>
-              Repeats {duration} times, beginning {startYear} {startYearsWord}{' '}
-              into retirement
+              Repeats {numericDuration} times, beginning {startYear}{' '}
+              {startYearsWord} into retirement
             </>
           )}
-          {!repeats && (
-            <>
-              Occurs once, {startYear} {startYearsWord} into retirement
-            </>
-          )}
+          {!repeats &&
+            numericDuration === 1 && (
+              <>
+                Occurs once, {startYear} {startYearsWord} into retirement
+              </>
+            )}
+          {!repeats &&
+            numericDuration === 0 && <>This withdrawal has a duration of 0.</>}
         </div>
       </button>
       <UpsertAdditionalWithdrawalModal

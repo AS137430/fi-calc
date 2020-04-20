@@ -4,9 +4,8 @@ export interface AdditionalWithdrawal {
   name: string;
   value: number;
   inflationAdjusted: boolean;
-  repeats: boolean;
+  duration: number;
   startYear: number;
-  endYear: number;
 }
 
 export type AdditionalWithdrawals = AdditionalWithdrawal[];

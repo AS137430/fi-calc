@@ -6,6 +6,15 @@ import useAdditionalWithdrawals from '../../state/additional-withdrawals';
 import UpsertAdditionalWIthdrawalModal from './upsert-additional-withdrawal-modal';
 import InfoModal from '../../common/info-modal';
 
+function mapWithdrawalInputToWithdrawal(withdrawal) {
+  return {
+    ...withdrawal,
+    value: Number(withdrawal.value),
+    duration: Number(withdrawal.duration),
+    startYear: Number(withdrawal.startYear),
+  };
+}
+
 export default function AdditionalWithdrawals() {
   const [openModal, setOpenModal] = useState(null);
   const [
@@ -16,7 +25,7 @@ export default function AdditionalWithdrawals() {
   function onSaveNewWithdrawal(newWithdrawal) {
     setAdditionalWithdrawals(prev => {
       const updatedWithdrawals = [...prev];
-      updatedWithdrawals.push({ ...newWithdrawal });
+      updatedWithdrawals.push(mapWithdrawalInputToWithdrawal(newWithdrawal));
       return updatedWithdrawals;
     });
 
@@ -26,7 +35,7 @@ export default function AdditionalWithdrawals() {
   function onEditWithdrawal(index, withdrawal) {
     setAdditionalWithdrawals(prev => {
       const updatedWithdrawals = [...prev];
-      updatedWithdrawals[index] = withdrawal;
+      updatedWithdrawals[index] = mapWithdrawalInputToWithdrawal(withdrawal);
       return updatedWithdrawals;
     });
   }
@@ -86,10 +95,10 @@ export default function AdditionalWithdrawals() {
         active={openModal === 'titleHelp'}
         onBeginClose={() => setOpenModal(null)}>
         <p>
-          You might know that you will need to make a larger withdrawal for
-          certain years of your retirement. For instance, you may be planning to
-          contribute to a child's college education, or you may be expecting to
-          replace your car in a couple of years.
+          You may be planning to make a larger withdrawal for certain years of
+          your retirement. For instance, for some years you may be contributing
+          to a child's college education, or you may be expecting to replace
+          your car in a couple of years.
         </p>
         <p>
           You can account for these in this calculator by creating{' '}
