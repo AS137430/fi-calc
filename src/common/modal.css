@@ -50,6 +50,18 @@
   margin-bottom: 0;
 }
 
+.goodModal_footer > .button {
+  margin-right: 10px;
+}
+
+.goodModal_footer > .button:last-child {
+  margin-right: 0;
+}
+
+.goodModal_footer > .modal_deleteBtn {
+  margin-right: auto;
+}
+
 @supports (padding: max(0px)) {
   @media (max-width: 550px) {
     .goodModal {
@@ -109,14 +121,6 @@
   .goodModal_footer {
     padding-top: 0.85em;
     border-radius: 0 0 0.5rem 0.5rem;
-  }
-
-  .goodModal_footer > .w-button {
-    margin-right: 10px;
-  }
-
-  .goodModal_footer > .w-button:last-child {
-    margin-right: 0;
   }
 }
 

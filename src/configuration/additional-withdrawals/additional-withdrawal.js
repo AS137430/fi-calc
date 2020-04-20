@@ -29,6 +29,7 @@ export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
         <div>${formatNumber(value)}</div>
       </button>
       <UpsertAdditionalWithdrawalModal
+        withdrawal={withdrawal}
         isCreate={false}
         active={openModal === 'edit'}
         onDelete={onClickDelete}

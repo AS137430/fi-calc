@@ -41,7 +41,7 @@ export default function AdditionalWithdrawals() {
   return (
     <>
       <ConfigSection title="Additional Withdrawals" initialIsOpen>
-        <ConfigSection.Contents className="form_blockSection">
+        <ConfigSection.Contents>
           {!hasAdditionalWithdrawals && (
             <div className="additionalWithdrawalsConfig_noWithdrawals">
               You have no additional withdrawals.

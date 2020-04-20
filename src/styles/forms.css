@@ -39,10 +39,6 @@
   width: 100%;
 }
 
-.form_blockSection .sidebarSection_contentsWrapper {
-  padding: 0.75rem 0.5rem 1rem 0.5rem;
-}
-
 .input:focus {
   border-color: var(--accentColor);
   box-shadow: 0 0 0 2px var(--accentColor);

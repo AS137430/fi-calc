@@ -11,6 +11,7 @@
 @import './styles/cursor.css';
 
 @import './common/modal.css';
+@import './common/modal-form.css';
 
 html,
 body {
