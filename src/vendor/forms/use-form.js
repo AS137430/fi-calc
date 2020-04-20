@@ -110,7 +110,7 @@ export default function useForm(initialData) {
         const valueKey = isCheckbox ? 'checked' : 'value';
         const defaultValue = isCheckbox ? undefined : '';
 
-        const hasCommit = onCommit === 'function';
+        const hasCommit = typeof onCommit === 'function';
 
         function commit(event) {
           const currentVal = valuesRef.current[inputName] || {};
