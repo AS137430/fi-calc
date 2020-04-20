@@ -5,6 +5,7 @@ import useSimulationData from './simulation-data';
 import useWithdrawalPlan from './withdrawal-plan';
 import useLengthOfRetirement from './length-of-retirement';
 import useAdditionalWithdrawals from './additional-withdrawals';
+import useAdditionalIncome from './additional-income';
 import runSimulations from '../utils/run-simulations/run-simulations';
 
 // These could one day be app-level settings that users can configure
@@ -17,6 +18,7 @@ function useSimulationResult() {
   const { state: lengthOfRetirement } = useLengthOfRetirement();
   const { state: portfolio } = usePortfolio();
   const [additionalWithdrawals] = useAdditionalWithdrawals();
+  const [additionalIncome] = useAdditionalIncome();
 
   const [computation, setComputation] = useState({
     result: null,
@@ -44,6 +46,7 @@ function useSimulationResult() {
             portfolio,
             simulationData,
             additionalWithdrawals,
+            additionalIncome,
             dipPercentage: DIP_PERCENTAGE,
             successRateThreshold: SUCCESS_RATE_THRESHOLD,
           },
@@ -67,8 +70,8 @@ function useSimulationResult() {
       ...Object.values(portfolio),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       ...Object.values(simulationData),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       additionalWithdrawals,
+      additionalIncome,
     ]
   );
 

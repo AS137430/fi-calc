@@ -14,9 +14,7 @@ export default function UpsertAdditionalWithdrawalModalBody({
   onDelete,
   withdrawal,
 }) {
-  const title = isCreate
-    ? 'Add Additional Withdrawal'
-    : 'Edit Additional Withdrawal';
+  const title = isCreate ? 'Add Additional Income' : 'Edit Additional Income';
 
   const useFormInput = useMemo(() => {
     const hasWithdrawal = Boolean(withdrawal);
@@ -70,7 +68,7 @@ export default function UpsertAdditionalWithdrawalModalBody({
               id: 'additionalWithdrawalName',
               className: 'modal_input modal_standardWidthInput',
               type: 'text',
-              placeholder: 'College, new car, etc.',
+              placeholder: 'Social security, pension, etc...',
             })}
           />
         </div>
@@ -111,13 +109,13 @@ export default function UpsertAdditionalWithdrawalModalBody({
           </label>
         </div>
         <div className="formRow_separator" />
-        <h2 className="modalForm_h2">Withdrawal Frequency</h2>
+        <h2 className="modalForm_h2">Income Frequency</h2>
         <div className="modalForm_row">
           <div className="modalForm_labelContainer">
             <label
               className="modalForm_label"
               htmlFor="additionalWithdrawalStartYear">
-              Withdrawal starts
+              Income starts
             </label>
           </div>
           <Input
