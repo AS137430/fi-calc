@@ -20,7 +20,7 @@ export default function ConfigSection({
         open ? 'sidebarSection-open' : 'sidebarSection-closed'
       }`}>
       <ConfigSection.Header onClick={() => setOpen(v => !v)}>
-        {title}
+        <span className="sidebarSection_headerText">{title}</span>
         {typeof count !== 'undefined' && (
           <span className="sidebarSection_titleCount">{count}</span>
         )}

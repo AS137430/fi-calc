@@ -27,6 +27,12 @@
   outline: none;
 }
 
+.sidebarSection_headerText {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .sidebarSection_titleCount {
   display: inline-block;
   margin-left: 0.5rem;
