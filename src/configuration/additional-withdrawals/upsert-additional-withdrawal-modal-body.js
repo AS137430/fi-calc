@@ -175,7 +175,7 @@ export default function UpsertAdditionalWithdrawalModalBody({
           type="button"
           disabled={!formIsValid}
           onClick={handleClickConfirm}>
-          {isCreate ? 'Add' : 'Save Changes'}
+          {isCreate ? 'Add' : 'Save'}
         </button>
       </Modal.Footer>
     </>
