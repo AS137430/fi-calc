@@ -14,7 +14,7 @@ import downloadDataURL from '../utils/download-data-url';
 const STORAGE_KEY = 'isViewYearDetailsHidden';
 
 export default function SimulationsOverview() {
-  const { result, status } = useSimulationResult();
+  const { result } = useSimulationResult();
 
   const isSmallScreen = useIsSmallScreen();
   const [isTipHidden, setIsTipHidden] = useState(() =>
