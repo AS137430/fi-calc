@@ -96,18 +96,18 @@ export default function AdditionalWithdrawals() {
         onBeginClose={() => setOpenModal(null)}>
         <p>
           You may be planning to make a larger withdrawal for certain years of
-          your retirement. For instance, for some years you may be contributing
-          to a child's college education, or you may be expecting to replace
-          your car in a couple of years.
+          your retirement. For instance, you may decide to contribute to a
+          child's college education, or you may have a car that will need to be
+          replaced.
         </p>
         <p>
-          You can account for these in this calculator by creating{' '}
-          <b>additional withdrawals</b>.
+          You can account for these kinds of purchases in this calculator by
+          creating <b>additional withdrawals</b>.
         </p>
         <p>
           Additional withdrawals can be a one-time thing, or you can specify
           them as reccurring for a number of years in a row. You can also choose
-          to adjust the amount of the withdrawal for inflation or not.
+          whether or not to adjust the amount of the withdrawal for inflation.
         </p>
       </InfoModal>
     </>

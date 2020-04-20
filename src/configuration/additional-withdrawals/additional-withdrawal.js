@@ -37,8 +37,17 @@ export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
           </div>
         )}
         <div className="additionalWithdrawal_frequency">
-          Starts {startYear} {startYearsWord} into retirement and lasts for{' '}
-          {numericDuration} {durationYearsWord}.
+          {numericDuration === 1 && (
+            <>
+              Occurs {startYear} {startYearsWord} into retirement
+            </>
+          )}
+          {numericDuration > 1 && (
+            <>
+              Starts {startYear} {startYearsWord} into retirement and lasts for{' '}
+              {numericDuration} {durationYearsWord}.
+            </>
+          )}
         </div>
       </button>
       <UpsertAdditionalWithdrawalModal
