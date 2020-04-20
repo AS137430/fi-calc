@@ -58,7 +58,6 @@ export default function AdditionalWithdrawals() {
       <ConfigSection
         title="Additional Withdrawals"
         count={count}
-        initialIsOpen
         onHelpClick={() => setOpenModal('titleHelp')}>
         <ConfigSection.Contents>
           {!hasAdditionalWithdrawals && (
