@@ -8,6 +8,7 @@ import {
   SpendingMethods,
   Portfolio,
   DipObject,
+  AdditionalWithdrawals,
 } from './run-simulations-interfaces';
 
 interface SimulateOneYearOptions {
@@ -29,6 +30,7 @@ interface SimulateOneYearOptions {
   portfolio: Portfolio;
   withdrawalMethod: SpendingMethods;
   lowestSuccessfulDip: DipObject;
+  additionalWithdrawalsForYear: AdditionalWithdrawals;
   n: number;
 }
 
@@ -52,6 +54,7 @@ export default function simulateOneYear({
   initialPortfolio,
   portfolio,
   lowestSuccessfulDip,
+  additionalWithdrawalsForYear,
 }: SimulateOneYearOptions): YearResult | null {
   // If we had no results for last year, then we can't compute anything
   // for this year either.
@@ -73,8 +76,7 @@ export default function simulateOneYear({
     endCpi: currentCpi,
   });
 
-  // For now, we use a simple inflation-adjusted withdrawal approach
-  let totalWithdrawalAmount = withdrawal[withdrawalMethod]({
+  const withdrawalPlanWithdrawal = withdrawal[withdrawalMethod]({
     ...withdrawalConfiguration,
     previousResults,
     initialPortfolio,
@@ -86,6 +88,20 @@ export default function simulateOneYear({
     portfolioTotalValue: yearStartValue,
     inflation: cumulativeInflation,
   });
+
+  const additionalWithdrawalAmount = additionalWithdrawalsForYear.reduce(
+    (result, withdrawal) => {
+      if (!withdrawal.inflationAdjusted) {
+        return result + withdrawal.value;
+      } else {
+        return result + withdrawal.value * cumulativeInflation;
+      }
+    },
+    0
+  );
+
+  let totalWithdrawalAmount =
+    withdrawalPlanWithdrawal + additionalWithdrawalAmount;
 
   const notEnoughMoney = totalWithdrawalAmount > yearStartValue;
 

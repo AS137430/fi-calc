@@ -27,7 +27,7 @@ export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
   const hasName = Boolean(name);
   const isSingularYears = Number(startYear) === 1;
   const startYearsWord = isSingularYears ? 'year' : 'years';
-  const duration = Math.max(0, endYear - startYear);
+  const duration = Math.max(0, endYear - startYear + 1);
 
   return (
     <>

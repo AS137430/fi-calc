@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import './additional-withdrawals-config.css';
 import ConfigSection from '../sidebar-section';
 import AdditionalWithdrawal from './additional-withdrawal';
+import useAdditionalWithdrawals from '../../state/additional-withdrawals';
 import UpsertAdditionalWIthdrawalModal from './upsert-additional-withdrawal-modal';
 import InfoModal from '../../common/info-modal';
 
 export default function AdditionalWithdrawals() {
   const [openModal, setOpenModal] = useState(null);
-  const [additionalWithdrawals, setAdditionalWithdrawals] = useState(() => {
-    return [];
-  });
+  const [
+    additionalWithdrawals,
+    setAdditionalWithdrawals,
+  ] = useAdditionalWithdrawals();
 
   function onSaveNewWithdrawal(newWithdrawal) {
     setAdditionalWithdrawals(prev => {
@@ -39,10 +41,14 @@ export default function AdditionalWithdrawals() {
 
   const hasAdditionalWithdrawals = Boolean(additionalWithdrawals.length);
 
+  const count =
+    additionalWithdrawals.length < 10 ? additionalWithdrawals.length : '9+';
+
   return (
     <>
       <ConfigSection
         title="Additional Withdrawals"
+        count={count}
         initialIsOpen
         onHelpClick={() => setOpenModal('titleHelp')}>
         <ConfigSection.Contents>

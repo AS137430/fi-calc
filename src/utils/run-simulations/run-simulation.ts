@@ -6,7 +6,8 @@ import {
   WithdrawalPlan,
   SpendingMethods,
   YearResult,
-  DipObject
+  DipObject,
+  AdditionalWithdrawals,
 } from './run-simulations-interfaces';
 import simulateOneYear from './simulate-one-year';
 
@@ -24,6 +25,7 @@ interface RunSimulationOptions {
   dipPercentage: number;
   withdrawalPlan: WithdrawalPlan;
   portfolio: Portfolio;
+  additionalWithdrawals: AdditionalWithdrawals;
 }
 
 function getSpendingMethod(
@@ -56,6 +58,7 @@ export default function runSimulation(options: RunSimulationOptions) {
     rebalancePortfolioAnnually,
     dipPercentage,
     withdrawalPlan,
+    additionalWithdrawals
   } = options;
 
   const {
@@ -196,12 +199,25 @@ export default function runSimulation(options: RunSimulationOptions) {
     portfolio,
   };
 
+  const numericStartYear = Number(startYear);
+
   // Might be faster to make this a map of `resultsByYear`?
   _.times(duration, n => {
     const isFirstYear = n === 0;
-    const year = Number(startYear) + n;
+    const year = numericStartYear + n;
     const previousResults = resultsByYear[n - 1];
     const yearsRemaining = duration - n;
+
+    const additionalWithdrawalsForYear = additionalWithdrawals.filter(withdrawal => {
+      const withdrawalStartYear = numericStartYear + withdrawal.startYear;
+      const withdrawalEndYear = numericStartYear + withdrawal.endYear;
+
+      if (!withdrawal.repeats) {
+        return year === withdrawalStartYear;
+      } else {
+        return year >= withdrawalStartYear && year <= withdrawalEndYear;
+      }
+    });
 
     const yearResult = simulateOneYear({
       n,
@@ -222,7 +238,8 @@ export default function runSimulation(options: RunSimulationOptions) {
       dipThreshold,
       initialPortfolio,
       portfolio,
-      lowestSuccessfulDip
+      lowestSuccessfulDip,
+      additionalWithdrawalsForYear
     });
 
     if (yearResult !== null) {

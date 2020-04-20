@@ -44,7 +44,7 @@ export default {
 
     endYear: {
       type: 'number',
-      default: 9,
+      default: 8,
       validators: [isRequired, numberRequired, integerRequired, tooSmall(0)],
     },
   },
