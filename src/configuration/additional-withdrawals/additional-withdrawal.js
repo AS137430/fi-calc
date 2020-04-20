@@ -21,7 +21,7 @@ export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
   const isSingularYears = Number(startYear) === 1;
   const startYearsWord = isSingularYears ? 'year' : 'years';
   const numericDuration = Number(duration);
-  const repeats = numericDuration > 1;
+  const durationYearsWord = numericDuration === 1 ? 'year' : 'years';
 
   return (
     <>
@@ -37,20 +37,8 @@ export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
           </div>
         )}
         <div className="additionalWithdrawal_frequency">
-          {repeats && (
-            <>
-              Repeats {numericDuration} times, beginning {startYear}{' '}
-              {startYearsWord} into retirement
-            </>
-          )}
-          {!repeats &&
-            numericDuration === 1 && (
-              <>
-                Occurs once, {startYear} {startYearsWord} into retirement
-              </>
-            )}
-          {!repeats &&
-            numericDuration === 0 && <>This withdrawal has a duration of 0.</>}
+          Starts {startYear} {startYearsWord} into retirement and lasts for{' '}
+          {numericDuration} {durationYearsWord}.
         </div>
       </button>
       <UpsertAdditionalWithdrawalModal

@@ -214,7 +214,7 @@ export default function runSimulation(options: RunSimulationOptions) {
       }
 
       const withdrawalStartYear = numericStartYear + withdrawal.startYear;
-      const withdrawalEndYear = withdrawalStartYear + withdrawal.duration;
+      const withdrawalEndYear = withdrawalStartYear + withdrawal.duration - 1;
 
       return year >= withdrawalStartYear && year <= withdrawalEndYear;
     });
