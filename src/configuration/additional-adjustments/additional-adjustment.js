@@ -3,7 +3,12 @@ import './additional-adjustment.css';
 import UpsertAdditionalAdjustmentModal from './upsert-additional-adjustment-modal';
 import formatNumber from '../../utils/numbers/format-number';
 
-export default function AdditionalAdjustment({ adjustment, onSave, onDelete }) {
+export default function AdditionalAdjustment({
+  type,
+  adjustment,
+  onSave,
+  onDelete,
+}) {
   const [openModal, setOpenModal] = useState(null);
   const { name, value, inflationAdjusted, startYear, duration } = adjustment;
 
@@ -51,6 +56,7 @@ export default function AdditionalAdjustment({ adjustment, onSave, onDelete }) {
         </div>
       </button>
       <UpsertAdditionalAdjustmentModal
+        type={type}
         adjustment={adjustment}
         isCreate={false}
         active={openModal === 'edit'}

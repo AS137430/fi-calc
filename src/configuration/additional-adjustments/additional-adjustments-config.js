@@ -76,6 +76,7 @@ export default function AdditionalIncome({
               return (
                 <AdditionalAdjustment
                   key={index}
+                  type={type}
                   adjustment={adjustment}
                   onDelete={() => onDeleteAdjustment(index)}
                   onSave={adjustment => onEditAdjustment(index, adjustment)}
