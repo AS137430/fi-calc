@@ -8,7 +8,6 @@ import {
   YearResult,
   DipObject,
   AdditionalWithdrawals,
-  AdditionalWithdrawal,
 } from './run-simulations-interfaces';
 import simulateOneYear from './simulate-one-year';
 
