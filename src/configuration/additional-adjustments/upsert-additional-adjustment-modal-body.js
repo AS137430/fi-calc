@@ -4,21 +4,28 @@ import { Checkbox } from 'materialish';
 import { useCurrentRef } from 'core-hooks';
 import Modal from '../../common/modal';
 import Input from '../../common/input';
-import additionalWithdrawalForm from '../../form-config/additional-withdrawal-form';
+import adjustmentForm from '../../form-config/adjustment-form';
 import { useForm } from '../../vendor/forms';
 
-export default function UpsertAdditionalWithdrawalModalBody({
+export default function UpsertAdditionalAdjustmentModalBody({
+  type,
   isCreate,
   onCancel,
   onConfirm,
   onDelete,
   withdrawal,
 }) {
-  const title = isCreate ? 'Add Additional Income' : 'Edit Additional Income';
+  const isIncome = type === 'income';
+  const singularResourceWord = isIncome ? 'Income' : 'Withdrawal';
+  const pluralResourceWord = isIncome ? 'Income' : 'Withdrawals';
+
+  const title = isCreate
+    ? `Add Additional ${singularResourceWord}`
+    : `Edit Additional ${singularResourceWord}`;
 
   const useFormInput = useMemo(() => {
     const hasWithdrawal = Boolean(withdrawal);
-    return _.mapValues(additionalWithdrawalForm.values, (val, key) => {
+    return _.mapValues(adjustmentForm.values, (val, key) => {
       const valToUse =
         hasWithdrawal && typeof withdrawal[key] !== 'undefined'
           ? withdrawal[key]
@@ -68,7 +75,9 @@ export default function UpsertAdditionalWithdrawalModalBody({
               id: 'additionalWithdrawalName',
               className: 'modal_input modal_standardWidthInput',
               type: 'text',
-              placeholder: 'Social security, pension, etc...',
+              placeholder: isIncome
+                ? 'Social security, pension, etc.'
+                : 'College, new car, etc.',
             })}
           />
         </div>
@@ -109,13 +118,13 @@ export default function UpsertAdditionalWithdrawalModalBody({
           </label>
         </div>
         <div className="formRow_separator" />
-        <h2 className="modalForm_h2">Income Frequency</h2>
+        <h2 className="modalForm_h2">{singularResourceWord} Frequency</h2>
         <div className="modalForm_row">
           <div className="modalForm_labelContainer">
             <label
               className="modalForm_label"
               htmlFor="additionalWithdrawalStartYear">
-              Income starts
+              {singularResourceWord} starts
             </label>
           </div>
           <Input

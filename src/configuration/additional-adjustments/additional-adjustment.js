@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './additional-withdrawal.css';
-import UpsertAdditionalWithdrawalModal from './upsert-additional-withdrawal-modal';
+import './additional-adjustment.css';
+import UpsertAdditionalAdjustmentModal from './upsert-additional-adjustment-modal';
 import formatNumber from '../../utils/numbers/format-number';
 
-export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
+export default function AdditionalAdjustment({ withdrawal, onSave, onDelete }) {
   const [openModal, setOpenModal] = useState(null);
   const { name, value, inflationAdjusted, startYear, duration } = withdrawal;
 
@@ -50,7 +50,7 @@ export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
           )}
         </div>
       </button>
-      <UpsertAdditionalWithdrawalModal
+      <UpsertAdditionalAdjustmentModal
         withdrawal={withdrawal}
         isCreate={false}
         active={openModal === 'edit'}

@@ -6,8 +6,8 @@ import LengthOfRetirementConfig from './length-of-retirement-config';
 import WithdrawalPlanConfig from './withdrawal-plan-config';
 import PortfolioConfig from './portfolio-config';
 import HistoricalData from './historical-data-config';
-import AdditionalWithdrawals from './additional-withdrawals/additional-withdrawals-config';
-import AdditionalIncome from './additional-income/additional-income-config';
+import AdditionalWithdrawals from './additional-adjustments/additional-withdrawals-config';
+import AdditionalIncome from './additional-adjustments/additional-income-config';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 
 export default function Configuration() {
