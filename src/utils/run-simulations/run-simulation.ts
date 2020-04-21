@@ -26,6 +26,7 @@ interface RunSimulationOptions {
   withdrawalPlan: WithdrawalPlan;
   portfolio: Portfolio;
   additionalWithdrawals: AdditionalWithdrawals;
+  additionalIncome: AdditionalWithdrawals;
 }
 
 function getSpendingMethod(
@@ -58,7 +59,8 @@ export default function runSimulation(options: RunSimulationOptions) {
     rebalancePortfolioAnnually,
     dipPercentage,
     withdrawalPlan,
-    additionalWithdrawals
+    additionalWithdrawals,
+    additionalIncome,
   } = options;
 
   const {
@@ -219,6 +221,17 @@ export default function runSimulation(options: RunSimulationOptions) {
       return year >= withdrawalStartYear && year <= withdrawalEndYear;
     });
 
+    const additionalIncomeForYear = additionalIncome.filter(income => {
+      if (income.duration === 0) {
+        return false;
+      }
+
+      const incomeStartYear = numericStartYear + income.startYear;
+      const incomeEndYear = incomeStartYear + income.duration - 1;
+
+      return year >= incomeStartYear && year <= incomeEndYear;
+    })
+
     const yearResult = simulateOneYear({
       n,
       yearsRemaining,
@@ -239,7 +252,8 @@ export default function runSimulation(options: RunSimulationOptions) {
       initialPortfolio,
       portfolio,
       lowestSuccessfulDip,
-      additionalWithdrawalsForYear
+      additionalWithdrawalsForYear,
+      additionalIncomeForYear
     });
 
     if (yearResult !== null) {

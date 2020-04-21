@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
-import './additional-withdrawal.css';
-import UpsertAdditionalWithdrawalModal from './upsert-additional-withdrawal-modal';
+import './additional-adjustment.css';
+import UpsertAdditionalAdjustmentModal from './upsert-additional-adjustment-modal';
 import formatNumber from '../../utils/numbers/format-number';
 
-export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
+export default function AdditionalAdjustment({
+  type,
+  adjustment,
+  onSave,
+  onDelete,
+}) {
   const [openModal, setOpenModal] = useState(null);
-  const { name, value, inflationAdjusted, startYear, duration } = withdrawal;
+  const { name, value, inflationAdjusted, startYear, duration } = adjustment;
 
-  function onSaveChanges(withdrawal) {
+  function onSaveChanges(adjustment) {
     setOpenModal(null);
-    onSave(withdrawal);
+    onSave(adjustment);
   }
 
   function onClickDelete() {
@@ -27,16 +32,16 @@ export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
     <>
       <button
         type="button"
-        className="additionalWithdrawal"
+        className="additionalAdjustment"
         onClick={() => setOpenModal('edit')}>
-        {hasName && <div className="additionalWithdrawal_title">{name}</div>}
-        <div className="additionalWithdrawal_value">${formatNumber(value)}</div>
+        {hasName && <div className="additionalAdjustment_title">{name}</div>}
+        <div className="additionalAdjustment_value">${formatNumber(value)}</div>
         {inflationAdjusted && (
-          <div className="additionalWithdrawal_inflationAdjusted">
+          <div className="additionalAdjustment_inflationAdjusted">
             (Inflation adjusted)
           </div>
         )}
-        <div className="additionalWithdrawal_frequency">
+        <div className="additionalAdjustment_frequency">
           {numericDuration === 1 && (
             <>
               Occurs {startYear} {startYearsWord} into retirement
@@ -50,8 +55,9 @@ export default function AdditionalWithdrawal({ withdrawal, onSave, onDelete }) {
           )}
         </div>
       </button>
-      <UpsertAdditionalWithdrawalModal
-        withdrawal={withdrawal}
+      <UpsertAdditionalAdjustmentModal
+        type={type}
+        adjustment={adjustment}
         isCreate={false}
         active={openModal === 'edit'}
         onDelete={onClickDelete}

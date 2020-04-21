@@ -21,6 +21,7 @@ interface adjustPortfolioInvestmentOptions {
   yearMarketData: any;
   previousComputedData: any;
   initialPortfolio: Portfolio;
+  additionalIncomeAmount: number;
 }
 
 export default function adjustPortfolioInvestment({
@@ -32,6 +33,7 @@ export default function adjustPortfolioInvestment({
   initialPortfolio,
   totalWithdrawalAmount,
   yearMarketData,
+  additionalIncomeAmount,
 }: adjustPortfolioInvestmentOptions) {
   if (notEnoughMoney) {
     return {
@@ -57,7 +59,10 @@ export default function adjustPortfolioInvestment({
   // We assume that the total yearly withdrawal is divided evenly between the different
   // investments.
   const withdrawalAmount = percentage * totalWithdrawalAmount;
-  const valueAfterWithdrawal = previousYearInvestment.value - withdrawalAmount;
+  const incomeAmount = percentage * additionalIncomeAmount;
+
+  const valueAfterWithdrawal =
+    previousYearInvestment.value - withdrawalAmount + incomeAmount;
   const growthKey = investmentTypeToGrowthMap[investment.type];
   const growthPercentage = yearMarketData[growthKey] || 0;
   const growth = valueAfterWithdrawal * growthPercentage;

@@ -36,6 +36,7 @@ interface RunSimulationsOptions {
   dipPercentage: number;
   successRateThreshold: number;
   additionalWithdrawals: AdditionalWithdrawals;
+  additionalIncome: AdditionalWithdrawals;
 }
 
 type Simulation = any;
@@ -66,6 +67,7 @@ export default function runSimulations(
     dipPercentage,
     successRateThreshold,
     additionalWithdrawals,
+    additionalIncome,
   } = inputs;
 
   const { numberOfYears, startYear, endYear } = lengthOfRetirement;
@@ -130,6 +132,7 @@ export default function runSimulations(
         portfolio: portfolioFromInvestments,
         withdrawalPlan,
         additionalWithdrawals,
+        additionalIncome,
         duration: Number(lengthOfSimulation),
       }),
     (simulations: any) => {

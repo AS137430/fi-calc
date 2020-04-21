@@ -1,20 +1,21 @@
 import React from 'react';
-import './additional-withdrawal.css';
 import Modal from '../../common/modal';
-import UpsertAdditionalWithdrawalModalBody from './upsert-additional-withdrawal-modal-body';
+import UpsertAdditionalAdjustmentModalBody from './upsert-additional-adjustment-modal-body';
 
-export default function AdditionalWithdrawal({
+export default function UpsertAdditionalAdjustmentModal({
+  type,
   isCreate,
   active,
   onCancel,
   onConfirm,
   onDelete,
-  withdrawal,
+  adjustment,
 }) {
   return (
     <Modal active={active} onBeginClose={onCancel}>
-      <UpsertAdditionalWithdrawalModalBody
-        withdrawal={withdrawal}
+      <UpsertAdditionalAdjustmentModalBody
+        type={type}
+        adjustment={adjustment}
         isCreate={isCreate}
         onConfirm={onConfirm}
         onCancel={onCancel}

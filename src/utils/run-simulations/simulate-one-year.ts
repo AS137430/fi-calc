@@ -31,6 +31,7 @@ interface SimulateOneYearOptions {
   withdrawalMethod: SpendingMethods;
   lowestSuccessfulDip: DipObject;
   additionalWithdrawalsForYear: AdditionalWithdrawals;
+  additionalIncomeForYear: AdditionalWithdrawals;
   n: number;
 }
 
@@ -55,6 +56,7 @@ export default function simulateOneYear({
   portfolio,
   lowestSuccessfulDip,
   additionalWithdrawalsForYear,
+  additionalIncomeForYear,
 }: SimulateOneYearOptions): YearResult | null {
   // If we had no results for last year, then we can't compute anything
   // for this year either.
@@ -89,6 +91,17 @@ export default function simulateOneYear({
     inflation: cumulativeInflation,
   });
 
+  const additionalIncomeAmount = additionalIncomeForYear.reduce(
+    (result, withdrawal) => {
+      if (!withdrawal.inflationAdjusted) {
+        return result + withdrawal.value;
+      } else {
+        return result + withdrawal.value * cumulativeInflation;
+      }
+    },
+    0
+  );
+
   const additionalWithdrawalAmount = additionalWithdrawalsForYear.reduce(
     (result, withdrawal) => {
       if (!withdrawal.inflationAdjusted) {
@@ -103,10 +116,11 @@ export default function simulateOneYear({
   let totalWithdrawalAmount =
     withdrawalPlanWithdrawal + additionalWithdrawalAmount;
 
-  const notEnoughMoney = totalWithdrawalAmount > yearStartValue;
+  const availableFundsToWithdraw = yearStartValue + additionalIncomeAmount;
+  const notEnoughMoney = totalWithdrawalAmount > availableFundsToWithdraw;
 
   if (notEnoughMoney) {
-    totalWithdrawalAmount = yearStartValue;
+    totalWithdrawalAmount = availableFundsToWithdraw;
   }
 
   let adjustedInvestmentValues = _.map(
@@ -121,6 +135,7 @@ export default function simulateOneYear({
         initialPortfolio,
         totalWithdrawalAmount,
         yearMarketData,
+        additionalIncomeAmount,
       })
   );
 

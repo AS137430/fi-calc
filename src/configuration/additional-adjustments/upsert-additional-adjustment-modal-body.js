@@ -4,26 +4,30 @@ import { Checkbox } from 'materialish';
 import { useCurrentRef } from 'core-hooks';
 import Modal from '../../common/modal';
 import Input from '../../common/input';
-import additionalWithdrawalForm from '../../form-config/additional-withdrawal-form';
+import adjustmentForm from '../../form-config/adjustment-form';
 import { useForm } from '../../vendor/forms';
 
-export default function UpsertAdditionalWithdrawalModalBody({
+export default function UpsertAdditionalAdjustmentModalBody({
+  type,
   isCreate,
   onCancel,
   onConfirm,
   onDelete,
-  withdrawal,
+  adjustment,
 }) {
+  const isIncome = type === 'income';
+  const singularResourceWord = isIncome ? 'Income' : 'Withdrawal';
+
   const title = isCreate
-    ? 'Add Additional Withdrawal'
-    : 'Edit Additional Withdrawal';
+    ? `Add Additional ${singularResourceWord}`
+    : `Edit Additional ${singularResourceWord}`;
 
   const useFormInput = useMemo(() => {
-    const hasWithdrawal = Boolean(withdrawal);
-    return _.mapValues(additionalWithdrawalForm.values, (val, key) => {
+    const hasAdjustment = Boolean(adjustment);
+    return _.mapValues(adjustmentForm.values, (val, key) => {
       const valToUse =
-        hasWithdrawal && typeof withdrawal[key] !== 'undefined'
-          ? withdrawal[key]
+        hasAdjustment && typeof adjustment[key] !== 'undefined'
+          ? adjustment[key]
           : val.default;
 
       return {
@@ -61,16 +65,18 @@ export default function UpsertAdditionalWithdrawalModalBody({
           <div className="modalForm_labelContainer">
             <label
               className="modalForm_label"
-              htmlFor="additionalWithdrawalName">
+              htmlFor="additionalAdjustmentName">
               Name <span className="modalForm_optional">(Optional)</span>
             </label>
           </div>
           <Input
             {...inputs.name.getProps({
-              id: 'additionalWithdrawalName',
+              id: 'additionalAdjustmentName',
               className: 'modal_input modal_standardWidthInput',
               type: 'text',
-              placeholder: 'i.e.; College, new car, etc.',
+              placeholder: isIncome
+                ? 'Social security, pension, etc.'
+                : 'College, new car, etc.',
             })}
           />
         </div>
@@ -78,13 +84,13 @@ export default function UpsertAdditionalWithdrawalModalBody({
           <div className="modalForm_labelContainer">
             <label
               className="modalForm_label"
-              htmlFor="additionalWithdrawalValue">
+              htmlFor="additionalAdjustmentValue">
               Amount
             </label>
           </div>
           <Input
             {...inputs.value.getProps({
-              id: 'additionalWithdrawalValue',
+              id: 'additionalAdjustmentValue',
               className: 'modal_input modal_standardWidthInput',
               type: 'number',
               pattern: '\\d*',
@@ -98,31 +104,31 @@ export default function UpsertAdditionalWithdrawalModalBody({
         <div className="modalForm_row modalForm_row-flex">
           <Checkbox
             className="checkbox"
-            id="additionalWithdrawalInflationAdjusted"
+            id="additionalAdjustmentInflationAdjusted"
             checked={inputs.inflationAdjusted.value}
             onChange={e => {
               updateFormValue('inflationAdjusted', e.target.checked);
             }}
           />
           <label
-            htmlFor="additionalWithdrawalInflationAdjusted"
+            htmlFor="additionalAdjustmentInflationAdjusted"
             className="checkbox_label">
             Adjust amount for inflation
           </label>
         </div>
         <div className="formRow_separator" />
-        <h2 className="modalForm_h2">Withdrawal Frequency</h2>
+        <h2 className="modalForm_h2">{singularResourceWord} Frequency</h2>
         <div className="modalForm_row">
           <div className="modalForm_labelContainer">
             <label
               className="modalForm_label"
-              htmlFor="additionalWithdrawalStartYear">
-              Withdrawal starts
+              htmlFor="additionalAdjustmentStartYear">
+              {singularResourceWord} starts
             </label>
           </div>
           <Input
             {...inputs.startYear.getProps({
-              id: 'additionalWithdrawalStartYear',
+              id: 'additionalAdjustmentStartYear',
               className: 'modal_input modal_smallNumberInput',
               type: 'number',
               pattern: '\\d*',
@@ -137,13 +143,13 @@ export default function UpsertAdditionalWithdrawalModalBody({
           <div className="modalForm_labelContainer">
             <label
               className="modalForm_label"
-              htmlFor="additionalWithdrawalDuration">
+              htmlFor="additionalAdjustmentDuration">
               and lasts for
             </label>
           </div>
           <Input
             {...inputs.duration.getProps({
-              id: 'additionalWithdrawalDuration',
+              id: 'additionalAdjustmentDuration',
               className: 'modal_input modal_smallNumberInput',
               type: 'number',
               pattern: '\\d*',
