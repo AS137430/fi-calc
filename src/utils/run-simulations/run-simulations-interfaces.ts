@@ -116,3 +116,33 @@ export interface DipObject {
   value: number;
   startYear: number;
 }
+
+export enum SimulationStatus {
+  FAILED = 'FAILED',
+  WARNING = 'WARNING',
+  OK = 'OK',
+}
+
+export interface Simulation {
+  initialPortfolioValue: number;
+  startYear: number;
+  endYear: number;
+  duration: number;
+
+  isComplete: boolean;
+  isFailed: boolean;
+  yearFailed: number | null;
+  numberOfSuccessfulYears: number;
+  didDip: boolean;
+  lowestSuccessfulDip: any;
+  finalValue: number;
+  totalInflationOverPeriod: number;
+  percentOfChange: number;
+  minWithdrawalYearInFirstYearDollars: YearResult | undefined;
+  minPortfolioYearInFirstYearDollars: YearResult | undefined;
+
+  status: SimulationStatus;
+  resultsByYear: ResultsByYear;
+}
+
+export type Simulations = Array<Simulation>;
