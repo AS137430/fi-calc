@@ -8,8 +8,8 @@ export default function AdditionalIncome() {
   return (
     <AdditionalAdjustments
       type="withdrawals"
-      additionalIncome={additionalIncome}
-      setAdditionalIncome={setAdditionalIncome}
+      additionalAdjustment={additionalIncome}
+      setAdditionalAdjustment={setAdditionalIncome}
     />
   );
 }

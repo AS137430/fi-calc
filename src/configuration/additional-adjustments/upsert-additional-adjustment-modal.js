@@ -9,13 +9,13 @@ export default function UpsertAdditionalAdjustmentModal({
   onCancel,
   onConfirm,
   onDelete,
-  withdrawal,
+  adjustment,
 }) {
   return (
     <Modal active={active} onBeginClose={onCancel}>
       <UpsertAdditionalAdjustmentModalBody
         type={type}
-        withdrawal={withdrawal}
+        adjustment={adjustment}
         isCreate={isCreate}
         onConfirm={onConfirm}
         onCancel={onCancel}

@@ -5,51 +5,54 @@ import AdditionalAdjustment from './additional-adjustment';
 import UpsertAdditionalAdjustmentModal from './upsert-additional-adjustment-modal';
 import InfoModal from '../../common/info-modal';
 
-function mapWithdrawalInputToWithdrawal(withdrawal) {
+// Input values are always strings, so this converts the numeric values
+// to numbers.
+function mapAdjustmentInputToAdjustment(adjustment) {
   return {
-    ...withdrawal,
-    value: Number(withdrawal.value),
-    duration: Number(withdrawal.duration),
-    startYear: Number(withdrawal.startYear),
+    ...adjustment,
+    value: Number(adjustment.value),
+    duration: Number(adjustment.duration),
+    startYear: Number(adjustment.startYear),
   };
 }
 
 export default function AdditionalIncome({
   type,
-  additionalIncome,
-  setAdditionalIncome,
+  additionalAdjustment,
+  setAdditionalAdjustment,
 }) {
   const [openModal, setOpenModal] = useState(null);
 
-  function onSaveNewWithdrawal(newWithdrawal) {
-    setAdditionalIncome(prev => {
-      const updatedWithdrawals = [...prev];
-      updatedWithdrawals.push(mapWithdrawalInputToWithdrawal(newWithdrawal));
-      return updatedWithdrawals;
+  function onSaveNewAdjustment(newAdjustment) {
+    setAdditionalAdjustment(prev => {
+      const updatedAdjustments = [...prev];
+      updatedAdjustments.push(mapAdjustmentInputToAdjustment(newAdjustment));
+      return updatedAdjustments;
     });
 
     setOpenModal(null);
   }
 
-  function onEditWithdrawal(index, withdrawal) {
-    setAdditionalIncome(prev => {
-      const updatedWithdrawals = [...prev];
-      updatedWithdrawals[index] = mapWithdrawalInputToWithdrawal(withdrawal);
-      return updatedWithdrawals;
+  function onEditAdjustment(index, adjustment) {
+    setAdditionalAdjustment(prev => {
+      const updatedAdjustments = [...prev];
+      updatedAdjustments[index] = mapAdjustmentInputToAdjustment(adjustment);
+      return updatedAdjustments;
     });
   }
 
-  function onDeleteWithdrawal(index) {
-    setAdditionalIncome(prev => {
-      const updatedWithdrawals = [...prev];
-      updatedWithdrawals.splice(index, 1);
-      return updatedWithdrawals;
+  function onDeleteAdjustment(index) {
+    setAdditionalAdjustment(prev => {
+      const updatedAdjustments = [...prev];
+      updatedAdjustments.splice(index, 1);
+      return updatedAdjustments;
     });
   }
 
-  const hasAdditionalIncome = Boolean(additionalIncome.length);
+  const hasAdditionalAdjustment = Boolean(additionalAdjustment.length);
 
-  const count = additionalIncome.length < 10 ? additionalIncome.length : '9+';
+  const count =
+    additionalAdjustment.length < 10 ? additionalAdjustment.length : '9+';
   const isIncome = type === 'income';
   const singularResourceWord = isIncome ? 'Income' : 'Withdrawal';
   const pluralResourceWord = isIncome ? 'Income' : 'Withdrawals';
@@ -60,27 +63,27 @@ export default function AdditionalIncome({
       <ConfigSection
         title={title}
         initialIsOpen
-        count={hasAdditionalIncome ? count : undefined}
+        count={hasAdditionalAdjustment ? count : undefined}
         onHelpClick={() => setOpenModal('titleHelp')}>
         <ConfigSection.Contents>
-          {!hasAdditionalIncome && (
-            <div className="additionalWithdrawalsConfig_noWithdrawals">
+          {!hasAdditionalAdjustment && (
+            <div className="additionalAdjustmentsConfig_noWithdrawals">
               You have no additional {pluralResourceWord.toLowerCase()}.
             </div>
           )}
-          {hasAdditionalIncome &&
-            additionalIncome.map((withdrawal, index) => {
+          {hasAdditionalAdjustment &&
+            additionalAdjustment.map((adjustment, index) => {
               return (
                 <AdditionalAdjustment
                   key={index}
-                  withdrawal={withdrawal}
-                  onDelete={() => onDeleteWithdrawal(index)}
-                  onSave={withdrawal => onEditWithdrawal(index, withdrawal)}
+                  adjustment={adjustment}
+                  onDelete={() => onDeleteAdjustment(index)}
+                  onSave={adjustment => onEditAdjustment(index, adjustment)}
                 />
               );
             })}
           <button
-            className="button button-secondary button-small additionalWithdrawals_createBtn"
+            className="button button-secondary button-small additionalAdjustments_createBtn"
             onClick={() => setOpenModal('create')}>
             + Add Additional {singularResourceWord}
           </button>
@@ -89,7 +92,7 @@ export default function AdditionalIncome({
       <UpsertAdditionalAdjustmentModal
         isCreate
         type={type}
-        onConfirm={onSaveNewWithdrawal}
+        onConfirm={onSaveNewAdjustment}
         onCancel={() => setOpenModal(null)}
         active={openModal === 'create'}
       />
