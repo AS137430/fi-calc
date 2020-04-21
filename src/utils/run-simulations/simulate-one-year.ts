@@ -127,6 +127,7 @@ export default function simulateOneYear({
     portfolio.investments,
     (investment, index) =>
       adjustPortfolioInvestment({
+        startYear,
         investment,
         index,
         notEnoughMoney,

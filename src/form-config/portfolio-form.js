@@ -10,7 +10,7 @@ export default {
   values: {
     stockInvestmentValue: {
       type: 'number',
-      default: 1000000,
+      default: 750000,
       validators: [
         isRequired,
         numberRequired,
@@ -27,7 +27,7 @@ export default {
 
     bondsValue: {
       type: 'number',
-      default: 0,
+      default: 250000,
       validators: [
         isRequired,
         numberRequired,

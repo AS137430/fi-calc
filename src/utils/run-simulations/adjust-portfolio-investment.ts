@@ -22,9 +22,11 @@ interface adjustPortfolioInvestmentOptions {
   previousComputedData: any;
   initialPortfolio: Portfolio;
   additionalIncomeAmount: number;
+  startYear: number;
 }
 
 export default function adjustPortfolioInvestment({
+  startYear,
   investment,
   index,
   notEnoughMoney,
@@ -85,6 +87,10 @@ export default function adjustPortfolioInvestment({
 
   // We factor everything in to get our end result for this investment
   const value = valueWithGrowth + dividends - fees;
+
+  if (startYear === 1920) {
+    console.log('hello', investment, growthPercentage);
+  }
 
   return {
     ...investment,

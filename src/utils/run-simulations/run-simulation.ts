@@ -306,6 +306,10 @@ export default function runSimulation(options: RunSimulationOptions) {
     status = 'OK';
   }
 
+  if (startYear === 1920) {
+    console.log('ok', resultsByYear.map(v => v.computedData.portfolio));
+  }
+
   return {
     initialPortfolioValue,
     startYear,
