@@ -62,7 +62,6 @@ export default function AdditionalIncome({
     <>
       <ConfigSection
         title={title}
-        initialIsOpen
         count={hasAdditionalAdjustment ? count : undefined}
         onHelpClick={() => setOpenModal('titleHelp')}>
         <ConfigSection.Contents>
