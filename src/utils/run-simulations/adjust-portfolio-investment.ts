@@ -3,6 +3,7 @@ import {
   PortfolioInvestment,
   InvestmentType,
   MarketDataGrowthKeys,
+  ComputedData,
 } from './run-simulations-interfaces';
 
 // This maps an investment type to the key on marketData that
@@ -13,23 +14,25 @@ const investmentTypeToGrowthMap = {
 };
 
 interface adjustPortfolioInvestmentOptions {
+  portfolioValueBeforeMarketChanges: number;
   investment: PortfolioInvestment;
   index: number;
-  notEnoughMoney: boolean;
+  isOutOfMoney: boolean;
   rebalancePortfolioAnnually: boolean;
   totalWithdrawalAmount: number;
   yearMarketData: any;
-  previousComputedData: any;
+  previousComputedData: ComputedData;
   initialPortfolio: Portfolio;
   additionalIncomeAmount: number;
   startYear: number;
 }
 
 export default function adjustPortfolioInvestment({
+  portfolioValueBeforeMarketChanges,
   startYear,
   investment,
   index,
-  notEnoughMoney,
+  isOutOfMoney,
   previousComputedData,
   rebalancePortfolioAnnually,
   initialPortfolio,
@@ -37,7 +40,7 @@ export default function adjustPortfolioInvestment({
   yearMarketData,
   additionalIncomeAmount,
 }: adjustPortfolioInvestmentOptions) {
-  if (notEnoughMoney) {
+  if (isOutOfMoney) {
     return {
       ...investment,
       valueBeforeChange: investment.value,
@@ -52,19 +55,22 @@ export default function adjustPortfolioInvestment({
   const previousYearInvestment =
     previousComputedData.portfolio.investments[index];
 
-  // If we rebalance yearly, then we keep the original percentage from the previous year.
-  // This assumes that the investor reinvests at the very beginning (or very end) of each year.
   const percentage = rebalancePortfolioAnnually
     ? initialPortfolio.investments[index].percentage
-    : previousYearInvestment.percentage;
+    : previousYearInvestment.value / previousComputedData.portfolio.totalValue;
+
+  // If we rebalance yearly, then we keep the original percentage from the previous year.
+  // This assumes that the investor reinvests at the very beginning (or very end) of each year.
 
   // We assume that the total yearly withdrawal is divided evenly between the different
   // investments.
-  const withdrawalAmount = percentage * totalWithdrawalAmount;
-  const incomeAmount = percentage * additionalIncomeAmount;
+  // const withdrawalAmount = percentage * totalWithdrawalAmount;
+  // const incomeAmount = percentage * additionalIncomeAmount;
 
-  const valueAfterWithdrawal =
-    previousYearInvestment.value - withdrawalAmount + incomeAmount;
+  const valueAfterWithdrawal = portfolioValueBeforeMarketChanges * percentage;
+
+  // const valueAfterWithdrawal =
+  //   previousYearInvestment.value - withdrawalAmount + incomeAmount;
   const growthKey = investmentTypeToGrowthMap[investment.type];
   const growthPercentage = yearMarketData[growthKey] || 0;
   const growth = valueAfterWithdrawal * growthPercentage;
@@ -88,13 +94,13 @@ export default function adjustPortfolioInvestment({
   // We factor everything in to get our end result for this investment
   const value = valueWithGrowth + dividends - fees;
 
-  if (startYear === 1920) {
-    console.log('hello', investment, growthPercentage);
-  }
+  // if (startYear === 1920) {
+  //   console.log('hello', investment, growthPercentage);
+  // }
 
   return {
     ...investment,
-    percentage,
+    startingPercentage: percentage,
     growth,
     fees,
     dividends,

@@ -8,6 +8,7 @@ import {
   YearResult,
   DipObject,
   AdditionalWithdrawals,
+  ComputedData
 } from './run-simulations-interfaces';
 import simulateOneYear from './simulate-one-year';
 
@@ -191,13 +192,10 @@ export default function runSimulation(options: RunSimulationOptions) {
 
   // This can be used to simulate a "previous" year for the 0th year,
   // simplifying the logic below.
-  const initialComputedData = {
+  const initialComputedData:ComputedData = {
     cumulativeInflation: 1,
-    withdrawalAmount: 0,
-    naiveEndValue: initialPortfolioValue,
-    realisticEndValue: initialPortfolioValue,
-    investmentGains: 0,
-    dividendGains: 0,
+    totalWithdrawalAmount: 0,
+    totalWithdrawalAmountInFirstYearDollars: 0,
     portfolio,
   };
 

@@ -9,6 +9,8 @@ import {
   Portfolio,
   DipObject,
   AdditionalWithdrawals,
+  ComputedData,
+  ResultsByYear,
 } from './run-simulations-interfaces';
 
 interface SimulateOneYearOptions {
@@ -18,8 +20,8 @@ interface SimulateOneYearOptions {
   isFirstYear: boolean;
   year: number;
   previousResults: YearResult;
-  initialComputedData: any;
-  resultsByYear: any;
+  initialComputedData: ComputedData;
+  resultsByYear: ResultsByYear;
   marketData: MarketData;
   dipThreshold: number;
   firstYearCpi: number;
@@ -113,24 +115,25 @@ export default function simulateOneYear({
     0
   );
 
-  let totalWithdrawalAmount =
-    withdrawalPlanWithdrawal + additionalWithdrawalAmount;
-
   const availableFundsToWithdraw = yearStartValue + additionalIncomeAmount;
-  const notEnoughMoney = totalWithdrawalAmount > availableFundsToWithdraw;
+  const totalWithdrawalAmount = Math.min(
+    withdrawalPlanWithdrawal + additionalWithdrawalAmount,
+    availableFundsToWithdraw
+  );
 
-  if (notEnoughMoney) {
-    totalWithdrawalAmount = availableFundsToWithdraw;
-  }
+  const portfolioValueBeforeMarketChanges =
+    yearStartValue + additionalIncomeAmount - totalWithdrawalAmount;
+  const isOutOfMoney = portfolioValueBeforeMarketChanges === 0;
 
   let adjustedInvestmentValues = _.map(
     portfolio.investments,
     (investment, index) =>
       adjustPortfolioInvestment({
+        portfolioValueBeforeMarketChanges,
         startYear,
         investment,
         index,
-        notEnoughMoney,
+        isOutOfMoney,
         previousComputedData,
         rebalancePortfolioAnnually,
         initialPortfolio,
@@ -149,8 +152,6 @@ export default function simulateOneYear({
   const endValueInFirstYearDollars = Number(
     (endValue / cumulativeInflation).toFixed(2)
   );
-
-  const isOutOfMoney = endValue === 0;
 
   if (!didDip) {
     didDip = endValue <= dipThreshold;

@@ -20,6 +20,7 @@ export interface PortfolioInvestment {
 
 export interface Portfolio {
   totalValue: number;
+  totalValueInFirstYearDollars: number;
   investments: PortfolioInvestment[];
 }
 
@@ -83,22 +84,22 @@ interface AdjustedInvestment extends PortfolioInvestment {
   value: number;
 }
 
+export interface ComputedData {
+  cumulativeInflation: number;
+  totalWithdrawalAmount: number;
+  totalWithdrawalAmountInFirstYearDollars: number;
+  portfolio: Portfolio;
+}
+
 export interface YearResult {
   year: number;
   isOutOfMoney: boolean;
   marketData: any;
   cpi: number;
-  computedData: {
-    cumulativeInflation: number;
-    totalWithdrawalAmount: number;
-    totalWithdrawalAmountInFirstYearDollars: number;
-    portfolio: {
-      totalValueInFirstYearDollars: number;
-      totalValue: number;
-      investments: AdjustedInvestment[];
-    };
-  };
+  computedData: ComputedData;
 }
+
+export type ResultsByYear = YearResult[];
 
 export interface YearData extends MarketDataValue {
   [MarketDataGrowthKeys.stockMarketGrowth]: number;
