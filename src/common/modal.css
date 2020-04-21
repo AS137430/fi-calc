@@ -46,6 +46,10 @@
   background: var(--touchIndicatorColor);
 }
 
+.goodModal_body li {
+  line-height: 1.65;
+}
+
 .goodModal_body p:last-child {
   margin-bottom: 0;
 }
