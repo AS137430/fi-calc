@@ -1,6 +1,6 @@
 .results {
   color: #fff;
-  padding: 1.5rem 1.5rem;
+  padding: 1.5rem var(--contentSpacingRight) 1.5rem 1.5rem;
   max-width: 800px;
   min-height: 100vh;
   width: 100%;
