@@ -62,8 +62,6 @@ export default function adjustPortfolioInvestment({
 
   const valueAfterWithdrawal = portfolioValueBeforeMarketChanges * percentage;
 
-  // const valueAfterWithdrawal =
-  //   previousYearInvestment.value - withdrawalAmount + incomeAmount;
   const growthKey = investmentTypeToGrowthMap[investment.type];
   const growthPercentage = yearMarketData[growthKey] || 0;
   const growth = valueAfterWithdrawal * growthPercentage;
