@@ -28,7 +28,7 @@ main {
   display: flex;
   align-items: center;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 var(--contentSpacingRight) 0 var(--contentSpacingLeft);
 }
 
 .app_content-fullscreen {

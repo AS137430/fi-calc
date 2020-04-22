@@ -6,6 +6,7 @@ import {
   useLocation,
   useHistory,
 } from 'react-router-dom';
+import { useCurrentRef } from 'core-hooks';
 import './calculator.css';
 import Nav from './common/nav';
 import Footer from './common/footer';
@@ -24,6 +25,8 @@ export default function Calculator() {
   const { path } = useRouteMatch();
   const { pathname } = useLocation();
   const { result } = useSimulationResult();
+
+  const pathnameRef = useCurrentRef(pathname);
 
   // Right now, the app has no state persistence. Therefore,
   // it doesn't make sense to allow the user to visit any other URL other
@@ -49,7 +52,9 @@ export default function Calculator() {
   // organized.
   useEffect(
     () => {
-      history.push(ROOT_CALCULATOR_PATH);
+      if (pathnameRef.current !== ROOT_CALCULATOR_PATH) {
+        history.push(ROOT_CALCULATOR_PATH);
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [result]

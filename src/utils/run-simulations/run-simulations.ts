@@ -6,6 +6,7 @@ import {
   WithdrawalPlan,
   InvestmentType,
   AdditionalWithdrawals,
+  Simulation,
   Simulations,
 } from './run-simulations-interfaces';
 import asyncMap from '../async-map';
@@ -47,7 +48,7 @@ interface RunSimulationsReturn {
   completeSimulations: Simulations;
   incompleteSimulations: Simulations;
   failedSimulations: Simulations;
-  inputs: any;
+  inputs: RunSimulationsOptions;
   successRate: number;
   successRateDisplay: string;
 }
@@ -88,7 +89,7 @@ export default function runSimulations(
       simulationData.useAllHistoricalData ? undefined : simulationData
     );
   } else {
-    startYears = [Number(startYear)];
+    startYears = [startYear];
     lengthOfSimulation = endYear - startYear + 1;
   }
 
@@ -120,9 +121,9 @@ export default function runSimulations(
   // Note: I would prefer this be in a WebWorker, but as of 4/11/20, CRA doesn't have great
   // support for Workers. Once CRA adds support I should consider refactoring this. For more, see:
   // https://github.com/facebook/create-react-app/issues/3660
-  asyncMap(
+  asyncMap<number, Simulation>(
     startYears,
-    (startYear: number) =>
+    startYear =>
       runSimulation({
         startYear,
         dipPercentage,
@@ -131,9 +132,9 @@ export default function runSimulations(
         withdrawalPlan,
         additionalWithdrawals,
         additionalIncome,
-        duration: Number(lengthOfSimulation),
+        duration: lengthOfSimulation,
       }),
-    (simulations: any) => {
+    simulations => {
       const [completeSimulations, incompleteSimulations] = _.partition(
         simulations,
         'isComplete'

@@ -19,13 +19,22 @@ export default function ConfigSection({
       className={`sidebarSection ${
         open ? 'sidebarSection-open' : 'sidebarSection-closed'
       }`}>
-      <ConfigSection.Header onClick={() => setOpen(v => !v)}>
-        <span className="sidebarSection_headerText">{title}</span>
-        {typeof count !== 'undefined' && (
-          <span className="sidebarSection_titleCount">{count}</span>
-        )}
+      <div className="sidebarSection_header">
+        <button
+          className="sidebarSection_expandBtn"
+          onClick={() => setOpen(v => !v)}>
+          <IconKeyboardArrowRight
+            className="sidebarSection_headerIcon"
+            size="1.2rem"
+          />
+          <span className="sidebarSection_headerText">{title}</span>
+          {typeof count !== 'undefined' && (
+            <span className="sidebarSection_titleCount">{count}</span>
+          )}
+        </button>
         {typeof onHelpClick === 'function' && (
-          <div
+          <button
+            type="button"
             title={onHelpTitle}
             className="sidebarSection_helpIcon helpIcon"
             onClick={e => {
@@ -34,27 +43,16 @@ export default function ConfigSection({
               onHelpClick();
             }}>
             <IconHelp />
-          </div>
+          </button>
         )}
-      </ConfigSection.Header>
+        <div className="sidebarSection_display" />
+      </div>
       {React.Children.map(children, child =>
         React.cloneElement(child, { open })
       )}
     </div>
   );
 }
-
-ConfigSection.Header = function({ children, ...props }) {
-  return (
-    <button className="sidebarSection_header" {...props}>
-      <IconKeyboardArrowRight
-        className="sidebarSection_headerIcon"
-        size="1.2rem"
-      />
-      {children}
-    </button>
-  );
-};
 
 ConfigSection.Contents = function({ children, open, className, ...props }) {
   return (

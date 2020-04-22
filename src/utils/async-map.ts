@@ -1,10 +1,14 @@
 // Maps an array.
 // This fn fits as many iterations as it can into a single frame.
-export default function asyncMap(arr, cb, done) {
-  let start;
-  let result = [];
+export default function asyncMap<InputObject, OutputObject>(
+  arr: InputObject[],
+  cb: (d: InputObject, index: number) => OutputObject,
+  done: (k: OutputObject[]) => any
+) {
+  let start: any;
+  let result: OutputObject[] = [];
 
-  function execute(arr, i, deferred) {
+  function execute(arr: InputObject[], i: number, deferred: boolean) {
     if (deferred) {
       start = performance.now();
     }
