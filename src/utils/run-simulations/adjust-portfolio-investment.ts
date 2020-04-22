@@ -4,13 +4,14 @@ import {
   InvestmentType,
   MarketDataGrowthKeys,
   ComputedData,
+  YearData,
 } from './run-simulations-interfaces';
 
 // This maps an investment type to the key on marketData that
 // represents its changes in a given year
 const investmentTypeToGrowthMap = {
   [InvestmentType.equity]: MarketDataGrowthKeys.stockMarketGrowth,
-  [InvestmentType.bonds]: MarketDataGrowthKeys.none,
+  [InvestmentType.bonds]: MarketDataGrowthKeys.bondsGrowth,
 };
 
 interface adjustPortfolioInvestmentOptions {
@@ -20,7 +21,7 @@ interface adjustPortfolioInvestmentOptions {
   isOutOfMoney: boolean;
   rebalancePortfolioAnnually: boolean;
   totalWithdrawalAmount: number;
-  yearMarketData: any;
+  yearMarketData: YearData;
   previousComputedData: ComputedData;
   initialPortfolio: Portfolio;
   additionalIncomeAmount: number;
@@ -59,6 +60,15 @@ export default function adjustPortfolioInvestment({
     ? initialPortfolio.investments[index].percentage
     : previousYearInvestment.value / previousComputedData.portfolio.totalValue;
 
+  // if (startYear === 1920) {
+  //   console.log(
+  //     'hello',
+  //     rebalancePortfolioAnnually,
+  //     previousYearInvestment.value,
+  //     previousComputedData.portfolio.totalValue
+  //   );
+  // }
+
   // If we rebalance yearly, then we keep the original percentage from the previous year.
   // This assumes that the investor reinvests at the very beginning (or very end) of each year.
 
@@ -92,7 +102,7 @@ export default function adjustPortfolioInvestment({
   const fees = investment.fees * valueWithGrowth;
 
   // We factor everything in to get our end result for this investment
-  const value = valueWithGrowth + dividends - fees;
+  const value = Number((valueWithGrowth + dividends - fees).toFixed(2));
 
   // if (startYear === 1920) {
   //   console.log('hello', investment, growthPercentage);
@@ -100,6 +110,7 @@ export default function adjustPortfolioInvestment({
 
   return {
     ...investment,
+    percentage,
     startingPercentage: percentage,
     growth,
     fees,

@@ -307,7 +307,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   }
 
   if (startYear === 1920) {
-    console.log('ok', resultsByYear.map(v => v.computedData.portfolio));
+    console.log('ok', resultsByYear.map(v => v.computedData.portfolio.investments));
   }
 
   return {

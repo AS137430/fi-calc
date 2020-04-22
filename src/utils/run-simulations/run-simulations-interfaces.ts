@@ -57,6 +57,7 @@ export interface WithdrawalPlan {
 }
 
 export enum MarketDataGrowthKeys {
+  bondsGrowth = 'bondsGrowth',
   stockMarketGrowth = 'stockMarketGrowth',
   none = 'none',
 }
@@ -75,15 +76,6 @@ export enum SpendingMethods {
   capeBased = 'capeBased',
 }
 
-interface AdjustedInvestment extends PortfolioInvestment {
-  valueBeforeChange: number;
-  valueAfterWithdrawal: number;
-  growth: number;
-  dividends: number;
-  percentage: number;
-  value: number;
-}
-
 export interface ComputedData {
   cumulativeInflation: number;
   totalWithdrawalAmount: number;
@@ -91,25 +83,27 @@ export interface ComputedData {
   portfolio: Portfolio;
 }
 
-export interface YearResult {
-  year: number;
-  isOutOfMoney: boolean;
-  marketData: any;
-  cpi: number;
-  computedData: ComputedData;
-}
-
-export type ResultsByYear = YearResult[];
-
 export interface YearData extends MarketDataValue {
+  [MarketDataGrowthKeys.bondsGrowth]: number;
   [MarketDataGrowthKeys.stockMarketGrowth]: number;
   [MarketDataGrowthKeys.none]: number;
+  dividendYields: number;
 }
 
 export interface MarketData {
   [Key: string]: YearData;
   [Key: number]: YearData;
 }
+
+export interface YearResult {
+  year: number;
+  isOutOfMoney: boolean;
+  marketData: YearData;
+  cpi: number;
+  computedData: ComputedData;
+}
+
+export type ResultsByYear = YearResult[];
 
 export interface DipObject {
   year: number;
