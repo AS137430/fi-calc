@@ -131,6 +131,10 @@
   margin-bottom: 1.5rem;
 }
 
+.tip-danger {
+  background-color: #c50100;
+}
+
 .tip_msg {
   margin-right: 0.5rem;
 }

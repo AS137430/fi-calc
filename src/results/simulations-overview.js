@@ -84,6 +84,10 @@ export default function SimulationsOverview() {
   const hasResult = Boolean(result);
   const hasSimulations = Boolean(result?.completeSimulations.length);
 
+  const numberOfSims = hasSimulations ? result?.completeSimulations.length : 0;
+  const numberOfSimsAlert =
+    hasResult && numberOfSims <= 10 && numberOfSims !== 0;
+
   return (
     <div className="results">
       <div className="results_block">
@@ -107,8 +111,8 @@ export default function SimulationsOverview() {
             )}
           </div>
         </div>
-        {!hasSimulations &&
-          hasResult && (
+        {hasResult &&
+          !hasSimulations && (
             <div className="results_block">
               <div className="tip">
                 <IconInfoOutline size="1.05rem" />
@@ -119,12 +123,26 @@ export default function SimulationsOverview() {
               </div>
             </div>
           )}
+        {hasResult &&
+          numberOfSimsAlert && (
+            <div className="results_block">
+              <div className="tip tip-danger">
+                <IconInfoOutline size="1.05rem" />
+                <div className="tip_msg">
+                  A very small number of simulations were run in this
+                  calculation. Results are more useful with more simulations.
+                  Reduce the length of your retirement to run more simulations.
+                </div>
+              </div>
+            </div>
+          )}
         <div className="results_sectionRow">
           <div className="results_section">
             <div className="results_sectionTitle">Number of Simulations</div>
             <div
               className={classnames('results_bigValue', {
                 'results_bigValue-loading': !hasResult,
+                'results_bigValue-danger': numberOfSimsAlert,
               })}>
               {!hasResult && <>-</>}
               {hasResult && <>{result?.completeSimulations.length}</>}
