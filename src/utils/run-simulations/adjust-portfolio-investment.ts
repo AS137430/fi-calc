@@ -30,16 +30,13 @@ interface adjustPortfolioInvestmentOptions {
 
 export default function adjustPortfolioInvestment({
   portfolioValueBeforeMarketChanges,
-  startYear,
   investment,
   index,
   isOutOfMoney,
   previousComputedData,
   rebalancePortfolioAnnually,
   initialPortfolio,
-  totalWithdrawalAmount,
   yearMarketData,
-  additionalIncomeAmount,
 }: adjustPortfolioInvestmentOptions) {
   if (isOutOfMoney) {
     return {
@@ -60,22 +57,8 @@ export default function adjustPortfolioInvestment({
     ? initialPortfolio.investments[index].percentage
     : previousYearInvestment.value / previousComputedData.portfolio.totalValue;
 
-  // if (startYear === 1920) {
-  //   console.log(
-  //     'hello',
-  //     rebalancePortfolioAnnually,
-  //     previousYearInvestment.value,
-  //     previousComputedData.portfolio.totalValue
-  //   );
-  // }
-
   // If we rebalance yearly, then we keep the original percentage from the previous year.
   // This assumes that the investor reinvests at the very beginning (or very end) of each year.
-
-  // We assume that the total yearly withdrawal is divided evenly between the different
-  // investments.
-  // const withdrawalAmount = percentage * totalWithdrawalAmount;
-  // const incomeAmount = percentage * additionalIncomeAmount;
 
   const valueAfterWithdrawal = portfolioValueBeforeMarketChanges * percentage;
 
@@ -103,10 +86,6 @@ export default function adjustPortfolioInvestment({
 
   // We factor everything in to get our end result for this investment
   const value = Number((valueWithGrowth + dividends - fees).toFixed(2));
-
-  // if (startYear === 1920) {
-  //   console.log('hello', investment, growthPercentage);
-  // }
 
   return {
     ...investment,

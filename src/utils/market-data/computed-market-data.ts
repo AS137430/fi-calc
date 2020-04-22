@@ -19,6 +19,7 @@ export default function computedMarketData(): YearData[] {
       stockMarketGrowth = nextYearData.comp / data.comp - 1;
     }
 
+    // TODO: look into correct bonds growth rate formula
     let bondsGrowth = 0;
     if (nextYearData) {
       bondsGrowth = nextYearData.lir / data.lir - 1;
