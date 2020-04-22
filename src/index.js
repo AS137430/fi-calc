@@ -16,12 +16,15 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const history = createHistoryWithQuery();
 
-if (isProduction) {
+if (isProduction && window.location.hostname === 'ficalc.app') {
+  console.log('Registering Google Analytics');
   registerGoogleAnalytics();
 
   history.listen(location => {
     ReactGA.pageview(location.pathname);
   });
+} else {
+  console.log('Not registering Google Analytics.');
 }
 
 ReactDOM.render(
