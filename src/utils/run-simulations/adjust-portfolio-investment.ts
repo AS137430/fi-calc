@@ -19,13 +19,10 @@ interface adjustPortfolioInvestmentOptions {
   investment: PortfolioInvestment;
   index: number;
   isOutOfMoney: boolean;
-  rebalancePortfolioAnnually: boolean;
-  totalWithdrawalAmount: number;
-  yearMarketData: YearData;
   previousComputedData: ComputedData;
+  rebalancePortfolioAnnually: boolean;
+  yearMarketData: YearData;
   initialPortfolio: Portfolio;
-  additionalIncomeAmount: number;
-  startYear: number;
 }
 
 export default function adjustPortfolioInvestment({

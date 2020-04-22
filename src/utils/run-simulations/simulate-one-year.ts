@@ -130,16 +130,13 @@ export default function simulateOneYear({
     (investment, index) =>
       adjustPortfolioInvestment({
         portfolioValueBeforeMarketChanges,
-        startYear,
         investment,
         index,
         isOutOfMoney,
         previousComputedData,
         rebalancePortfolioAnnually,
         initialPortfolio,
-        totalWithdrawalAmount,
         yearMarketData,
-        additionalIncomeAmount,
       })
   );
 
