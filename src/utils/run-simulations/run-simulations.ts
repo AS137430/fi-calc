@@ -6,6 +6,7 @@ import {
   WithdrawalPlan,
   InvestmentType,
   AdditionalWithdrawals,
+  Simulations,
 } from './run-simulations-interfaces';
 import asyncMap from '../async-map';
 
@@ -38,9 +39,6 @@ interface RunSimulationsOptions {
   additionalWithdrawals: AdditionalWithdrawals;
   additionalIncome: AdditionalWithdrawals;
 }
-
-type Simulation = any;
-type Simulations = Array<Simulation>;
 
 interface RunSimulationsReturn {
   exceedsSuccessRateThreshold: boolean;

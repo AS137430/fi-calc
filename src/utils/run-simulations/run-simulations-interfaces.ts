@@ -20,6 +20,7 @@ export interface PortfolioInvestment {
 
 export interface Portfolio {
   totalValue: number;
+  totalValueInFirstYearDollars: number;
   investments: PortfolioInvestment[];
 }
 
@@ -56,6 +57,7 @@ export interface WithdrawalPlan {
 }
 
 export enum MarketDataGrowthKeys {
+  bondsGrowth = 'bondsGrowth',
   stockMarketGrowth = 'stockMarketGrowth',
   none = 'none',
 }
@@ -74,35 +76,18 @@ export enum SpendingMethods {
   capeBased = 'capeBased',
 }
 
-interface AdjustedInvestment extends PortfolioInvestment {
-  valueBeforeChange: number;
-  valueAfterWithdrawal: number;
-  growth: number;
-  dividends: number;
-  percentage: number;
-  value: number;
-}
-
-export interface YearResult {
-  year: number;
-  isOutOfMoney: boolean;
-  marketData: any;
-  cpi: number;
-  computedData: {
-    cumulativeInflation: number;
-    totalWithdrawalAmount: number;
-    totalWithdrawalAmountInFirstYearDollars: number;
-    portfolio: {
-      totalValueInFirstYearDollars: number;
-      totalValue: number;
-      investments: AdjustedInvestment[];
-    };
-  };
+export interface ComputedData {
+  cumulativeInflation: number;
+  totalWithdrawalAmount: number;
+  totalWithdrawalAmountInFirstYearDollars: number;
+  portfolio: Portfolio;
 }
 
 export interface YearData extends MarketDataValue {
+  [MarketDataGrowthKeys.bondsGrowth]: number;
   [MarketDataGrowthKeys.stockMarketGrowth]: number;
   [MarketDataGrowthKeys.none]: number;
+  dividendYields: number;
 }
 
 export interface MarketData {
@@ -110,8 +95,48 @@ export interface MarketData {
   [Key: number]: YearData;
 }
 
+export interface YearResult {
+  year: number;
+  isOutOfMoney: boolean;
+  marketData: YearData;
+  cpi: number;
+  computedData: ComputedData;
+}
+
+export type ResultsByYear = YearResult[];
+
 export interface DipObject {
   year: number;
   value: number;
   startYear: number;
 }
+
+export enum SimulationStatus {
+  FAILED = 'FAILED',
+  WARNING = 'WARNING',
+  OK = 'OK',
+}
+
+export interface Simulation {
+  initialPortfolioValue: number;
+  startYear: number;
+  endYear: number;
+  duration: number;
+
+  isComplete: boolean;
+  isFailed: boolean;
+  yearFailed: number | null;
+  numberOfSuccessfulYears: number;
+  didDip: boolean;
+  lowestSuccessfulDip: any;
+  finalValue: number;
+  totalInflationOverPeriod: number;
+  percentOfChange: number;
+  minWithdrawalYearInFirstYearDollars: YearResult | undefined;
+  minPortfolioYearInFirstYearDollars: YearResult | undefined;
+
+  status: SimulationStatus;
+  resultsByYear: ResultsByYear;
+}
+
+export type Simulations = Array<Simulation>;

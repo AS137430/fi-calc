@@ -19,5 +19,5 @@ export default function marketDataByYear(): MarketData {
       .value();
   }
 
-  return memoizedMarketDataByYear as MarketData;
+  return memoizedMarketDataByYear;
 }

@@ -8,6 +8,9 @@ import {
   YearResult,
   DipObject,
   AdditionalWithdrawals,
+  ComputedData,
+  SimulationStatus,
+  Simulation
 } from './run-simulations-interfaces';
 import simulateOneYear from './simulate-one-year';
 
@@ -51,7 +54,7 @@ function getSpendingMethod(
 // A simulation is one single possible retirement calculation. Given a start year, a "duration,"
 // which is an integer number of years, and initial portfolio information,
 // it computes the changes to that portfolio over time.
-export default function runSimulation(options: RunSimulationOptions) {
+export default function runSimulation(options: RunSimulationOptions):Simulation {
   const {
     startYear,
     duration,
@@ -191,13 +194,10 @@ export default function runSimulation(options: RunSimulationOptions) {
 
   // This can be used to simulate a "previous" year for the 0th year,
   // simplifying the logic below.
-  const initialComputedData = {
+  const initialComputedData:ComputedData = {
     cumulativeInflation: 1,
-    withdrawalAmount: 0,
-    naiveEndValue: initialPortfolioValue,
-    realisticEndValue: initialPortfolioValue,
-    investmentGains: 0,
-    dividendGains: 0,
+    totalWithdrawalAmount: 0,
+    totalWithdrawalAmountInFirstYearDollars: 0,
     portfolio,
   };
 
@@ -299,19 +299,19 @@ export default function runSimulation(options: RunSimulationOptions) {
 
   let status;
   if (finalRatio === 0) {
-    status = 'FAILED';
+    status = SimulationStatus.FAILED;
   } else if (finalRatio < 0.35) {
-    status = 'WARNING';
+    status = SimulationStatus.WARNING;
   } else {
-    status = 'OK';
+    status = SimulationStatus.OK;
   }
 
   return {
     initialPortfolioValue,
     startYear,
+    endYear,
     duration,
     status,
-    endYear,
     isComplete,
     resultsByYear,
     isFailed,
