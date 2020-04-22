@@ -48,7 +48,7 @@ interface RunSimulationsReturn {
   completeSimulations: Simulations;
   incompleteSimulations: Simulations;
   failedSimulations: Simulations;
-  inputs: any;
+  inputs: RunSimulationsOptions;
   successRate: number;
   successRateDisplay: string;
 }
@@ -89,7 +89,7 @@ export default function runSimulations(
       simulationData.useAllHistoricalData ? undefined : simulationData
     );
   } else {
-    startYears = [Number(startYear)];
+    startYears = [startYear];
     lengthOfSimulation = endYear - startYear + 1;
   }
 
@@ -132,7 +132,7 @@ export default function runSimulations(
         withdrawalPlan,
         additionalWithdrawals,
         additionalIncome,
-        duration: Number(lengthOfSimulation),
+        duration: lengthOfSimulation,
       }),
     simulations => {
       const [completeSimulations, incompleteSimulations] = _.partition(

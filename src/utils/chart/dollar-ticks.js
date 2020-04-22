@@ -1,6 +1,4 @@
 // Possible ticks for the Y Axis.
-// I only go to $50,000,000/tick, because any more
-// than that seems outrageous!
 export default [
   // $1
   1,

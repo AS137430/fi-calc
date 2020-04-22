@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import linearScale from '../math/linear-scale';
 import dollarTicks from './dollar-ticks';
-import monthTicks from './month-ticks';
+import timeTicks from './time-ticks';
 
 export default function renderData({
   data,
@@ -65,7 +65,7 @@ export default function renderData({
   const dataYTickSpacing = dollarTicks.find(v => v > naiveDataYTickSpacing);
 
   const naiveDataXTickSpacing = domainSize / maxXLabelCount;
-  const dataXTickSpacing = monthTicks.find(v => v > naiveDataXTickSpacing);
+  const dataXTickSpacing = timeTicks.find(v => v > naiveDataXTickSpacing);
 
   const dataRange = range.map((value, index) => {
     return index === 0
