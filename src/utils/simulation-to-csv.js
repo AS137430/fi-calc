@@ -2,7 +2,9 @@ export const simulationCsvHeader = [
   'Row ID',
   'Simulation Number',
   'Year Number',
-  'Year',
+  'Start Year',
+  'End Year',
+  'Current Year',
 
   'Portfolio Value',
   'Is Out of Money?',
@@ -25,6 +27,8 @@ export default function simulationToCsv(simulation, simulationNumber) {
       itemId,
       simulationNumber,
       yearNumber,
+      simulation.startYear,
+      simulation.endYear,
       result.year,
 
       result.computedData.portfolio.totalValue,
