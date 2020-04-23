@@ -198,6 +198,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     cumulativeInflation: 1,
     totalWithdrawalAmount: 0,
     baseWithdrawalAmount: 0,
+    additionalWithdrawalAmount: 0,
     totalWithdrawalAmountInFirstYearDollars: 0,
     portfolio,
   };

@@ -9,6 +9,9 @@ import useWithdrawalPlan from '../state/withdrawal-plan';
 import formatNumber from '../utils/numbers/format-number';
 import useSimulationResult from '../state/simulation-result';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
+import simulationToCsv, {
+  simulationCsvHeader,
+} from '../utils/simulation-to-csv';
 import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
 import downloadDataURL from '../utils/download-data-url';
 
@@ -74,36 +77,12 @@ export default function OneSimulation() {
         return null;
       }
 
-      const csvArray = simulation.resultsByYear.reduce(
-        (arr, result, index) => {
-          arr.push([
-            result.year,
-            portfolioChartData[index].value,
-            withdrawalChartData[index].value,
-            result.isOutOfMoney,
-            result.computedData.totalWithdrawalAmount,
-            result.computedData.totalWithdrawalAmountInFirstYearDollars,
-            result.computedData.cumulativeInflation,
-          ]);
+      console.log('sim', simulation);
 
-          return arr;
-        },
-        [
-          [
-            'Year',
-            'Portfolio Value',
-            'Withdrawal Amount',
-            'Is Out of Money?',
-            'Withdrawal Amount',
-            'Withdrawal Amount (In First Year Dollars)',
-            'Cumulative Inflation',
-          ],
-        ]
-      );
-
-      return arrayToCsvDataURL(csvArray);
+      const csvArray = simulationToCsv(simulation, 1);
+      return arrayToCsvDataURL([simulationCsvHeader, ...csvArray]);
     },
-    [portfolioChartData, simulation, withdrawalChartData]
+    [simulation]
   );
 
   if (!simulation) {
