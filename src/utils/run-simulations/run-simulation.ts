@@ -197,6 +197,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   const initialComputedData:ComputedData = {
     cumulativeInflation: 1,
     totalWithdrawalAmount: 0,
+    baseWithdrawalAmount: 0,
     totalWithdrawalAmountInFirstYearDollars: 0,
     portfolio,
   };

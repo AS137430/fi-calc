@@ -79,6 +79,7 @@ export enum SpendingMethods {
 export interface ComputedData {
   cumulativeInflation: number;
   totalWithdrawalAmount: number;
+  baseWithdrawalAmount: number;
   totalWithdrawalAmountInFirstYearDollars: number;
   portfolio: Portfolio;
 }
