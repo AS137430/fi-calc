@@ -80,6 +80,7 @@ export interface ComputedData {
   cumulativeInflation: number;
   totalWithdrawalAmount: number;
   baseWithdrawalAmount: number;
+  additionalWithdrawalAmount: number;
   totalWithdrawalAmountInFirstYearDollars: number;
   portfolio: Portfolio;
 }

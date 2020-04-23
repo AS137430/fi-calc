@@ -10,6 +10,9 @@ import { getItem, setItem } from '../utils/storage';
 import useSimulationResult from '../state/simulation-result';
 import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
 import downloadDataURL from '../utils/download-data-url';
+import simulationToCsv, {
+  simulationCsvHeader,
+} from '../utils/simulation-to-csv';
 
 const STORAGE_KEY = 'isViewYearDetailsHidden';
 
@@ -30,40 +33,13 @@ export default function SimulationsOverview() {
         return null;
       }
 
-      const csvArray = result.completeSimulations.reduce(
-        (arr, result) => {
-          arr.push([
-            result.startYear,
-            result.endYear,
-            result.duration,
-            result.initialPortfolioValue,
-            result.finalValue,
-            result.isFailed,
-            result.yearFailed,
-            result.numberOfSuccessfulYears,
-            result.status,
-            result.totalInflationOverPeriod,
-          ]);
-
-          return arr;
-        },
-        [
-          [
-            'Start Year',
-            'End Year',
-            'Duration',
-            'Initial Portfolio Value',
-            'Final Portfolio Value',
-            'Ran Out of Money?',
-            'Year Failed',
-            'Number of Successful Years',
-            'Final Portfolio Value Status',
-            'Inflation Over Period',
-          ],
-        ]
+      const csvArray = result.completeSimulations.flatMap(
+        (simulation, zeroIndexedSimulationNumber) => {
+          return simulationToCsv(simulation, zeroIndexedSimulationNumber + 1);
+        }
       );
 
-      return arrayToCsvDataURL(csvArray);
+      return arrayToCsvDataURL([simulationCsvHeader, ...csvArray]);
     },
     [result]
   );
