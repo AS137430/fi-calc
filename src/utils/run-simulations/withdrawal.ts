@@ -108,7 +108,7 @@ function guytonKlinger({
   //   Adjustment: we may increase it by a little bit (Prosperity Rule / gkLowerLimitAdjustment)
   const previousSpending = isFirstYear
     ? gkInitialSpending
-    : previousResults.computedData.totalWithdrawalAmount;
+    : previousResults.computedData.baseWithdrawalAmount;
 
   const prevCpi = isFirstYear ? firstYearCpi : previousResults.cpi;
   const inflationFromPreviousYear = inflationFromCpi({
@@ -270,7 +270,7 @@ function ninetyFivePercentRule({
     return firstYearWithdrawal;
   }
 
-  const previousWithdrawal = previousResults.computedData.totalWithdrawalAmount;
+  const previousWithdrawal = previousResults.computedData.baseWithdrawalAmount;
   const reducedPreviousWithdrawal =
     (previousWithdrawal * ninetyFivePercentage) / 100;
   const currentWithdrawal = (portfolioTotalValue * ninetyFiveInitialRate) / 100;

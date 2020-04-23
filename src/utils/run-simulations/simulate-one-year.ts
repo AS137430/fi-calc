@@ -121,6 +121,11 @@ export default function simulateOneYear({
     availableFundsToWithdraw
   );
 
+  const baseWithdrawalAmount = Math.min(
+    withdrawalPlanWithdrawal,
+    availableFundsToWithdraw
+  );
+
   const portfolioValueBeforeMarketChanges =
     yearStartValue + additionalIncomeAmount - totalWithdrawalAmount;
   const isOutOfMoney = portfolioValueBeforeMarketChanges === 0;
@@ -180,6 +185,7 @@ export default function simulateOneYear({
     computedData: {
       cumulativeInflation,
       totalWithdrawalAmount,
+      baseWithdrawalAmount,
       totalWithdrawalAmountInFirstYearDollars,
       portfolio: {
         totalValueInFirstYearDollars: endValueInFirstYearDollars,
