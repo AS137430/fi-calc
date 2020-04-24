@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import ReactGA from 'react-ga';
-import createHistoryWithQuery from './vendor/history';
+import createQueryHistory from 'query-history';
 import 'materialish/materialish.css';
 import './index.css';
 import './normalize.css';
@@ -14,7 +14,7 @@ import registerGoogleAnalytics from './utils/analytics/register-google-analytics
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const history = createHistoryWithQuery();
+const history = createQueryHistory();
 
 if (isProduction && window.location.hostname === 'ficalc.app') {
   console.log('Registering Google Analytics');
