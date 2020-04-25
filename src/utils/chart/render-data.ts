@@ -3,6 +3,78 @@ import linearScale from '../math/linear-scale';
 import dollarTicks from './dollar-ticks';
 import timeTicks from './time-ticks';
 
+interface ChartData {
+  historyKey: string;
+  month: number;
+  year: number;
+  value: number;
+}
+
+interface RenderDataOption {
+  data: ChartData[];
+  svgWidth: number;
+  svgYAxisSpacing: number;
+  svgXAxisSpacing: number;
+  textHeight: number;
+  yLabelPadding: number;
+  xAxisLabelWidth: number;
+  xLabelPadding: number;
+  svgAspectRatio: number;
+}
+
+type Scale = [number, number];
+
+interface TickSpacing {
+  svg: number;
+  dom: number;
+  data: number;
+}
+
+interface ScaleReturn {
+  dom: Scale;
+  svg: Scale;
+  data: Scale;
+}
+
+interface DomainScaleReturn {
+  dom: Scale;
+  svg: Scale;
+  data: 'TO_ADD';
+}
+
+type MappedDataPoint = Scale[];
+
+interface RenderDataReturn {
+  input: {
+    data: ChartData[];
+    domain: Scale;
+    range: Scale;
+  };
+
+  svgElement: {
+    viewBox: Scale;
+    svgHeight: number;
+    svgWidth: number;
+  };
+
+  yAxis: {
+    yAxisPoints: any;
+    numberOfTicks: number;
+    tickSpacing: TickSpacing;
+  };
+
+  xAxis: {
+    dataXTickSpacing: number;
+    numberOfTicks: number;
+    tickSpacing: TickSpacing;
+  };
+
+  data: MappedDataPoint[];
+
+  range: ScaleReturn;
+  domain: DomainScaleReturn;
+}
+
 export default function renderData({
   data,
   svgWidth,
@@ -16,7 +88,7 @@ export default function renderData({
   // are always the same aspect ratio. This ensures that no weird
   // rendering effects occur as a result of preserveAspectRatio.
   svgAspectRatio = 0.5,
-}) {
+}: RenderDataOption): RenderDataReturn {
   const svgHeight = svgWidth * svgAspectRatio;
 
   const minYLabelHeight = textHeight + yLabelPadding;
@@ -27,7 +99,7 @@ export default function renderData({
 
   const viewBoxHeight = svgWidth * svgAspectRatio;
   // The height and width of the SVG viewBox.
-  const viewBox = [svgWidth, viewBoxHeight];
+  const viewBox: Scale = [svgWidth, viewBoxHeight];
 
   const xValues = data.map((v, index) => index);
   const yValues = data.map(v => v.value);
@@ -38,8 +110,8 @@ export default function renderData({
   const chartRangeSize = chartRange[1] - chartRange[0];
   const chartDomainSize = chartDomain[1] - chartDomain[0];
 
-  const domain = [Math.min(...xValues), Math.max(...xValues)];
-  const range = [Math.min(...yValues), Math.max(...yValues)];
+  const domain: Scale = [Math.min(...xValues), Math.max(...xValues)];
+  const range: Scale = [Math.min(...yValues), Math.max(...yValues)];
 
   const noRange = range[0] === range[1];
 
@@ -48,31 +120,33 @@ export default function renderData({
 
   // This ensures that there's a bit of padding in the chart between the lowest and highest
   // value in the data.
-  let rangeIncreaseFactor;
+  let rangeIncreaseFactor = Number.NaN;
   if (noRange) {
     rangeIncreaseFactor = range[0] * 0.05;
   } else {
     rangeIncreaseFactor = rangeSize * 0.03;
   }
 
-  let naiveDataYTickSpacing;
+  let naiveDataYTickSpacing = Number.NaN;
   if (noRange) {
     naiveDataYTickSpacing = (rangeIncreaseFactor * 2) / maxYLabelCount;
   } else {
     naiveDataYTickSpacing = rangeSize / maxYLabelCount;
   }
 
-  const dataYTickSpacing = dollarTicks.find(v => v > naiveDataYTickSpacing);
+  const dataYTickSpacing =
+    dollarTicks.find(v => v > naiveDataYTickSpacing) || NaN;
 
   const naiveDataXTickSpacing = domainSize / maxXLabelCount;
-  const dataXTickSpacing = timeTicks.find(v => v > naiveDataXTickSpacing);
+  const dataXTickSpacing =
+    timeTicks.find(v => v > naiveDataXTickSpacing) || NaN;
 
-  const dataRange = range.map((value, index) => {
+  const dataRange: Scale = range.map((value, index) => {
     return index === 0
       ? // This Math.max ensures that the chart never shows values below $0
         Math.max(0, value - rangeIncreaseFactor)
       : value + rangeIncreaseFactor;
-  });
+  }) as Scale;
 
   const trueRangeSize = dataRange[1] - dataRange[0];
 
@@ -87,13 +161,9 @@ export default function renderData({
 
   const svgXTickSpacing = chartDomainSize / numberOfXTickSegments;
 
-  // NEW STUFF
-
-  let firstTick;
-  {
-    const thing = Math.ceil(dataRange[1] / dataYTickSpacing);
-    firstTick = thing * dataYTickSpacing - dataYTickSpacing;
-  }
+  // TODO: come up with a better name for this. What does it represent?
+  const valueForFirstTick = Math.ceil(dataRange[1] / dataYTickSpacing);
+  const firstTick = valueForFirstTick * dataYTickSpacing - dataYTickSpacing;
 
   const diff = dataRange[1] - firstTick;
   const axisRangeSize = dataRange[1] - diff - dataRange[0];
@@ -115,16 +185,14 @@ export default function renderData({
     };
   });
 
-  // END NEW STUFF
-
-  let hasIncludedZero;
-  const mappedData = data
+  let hasIncludedZero = false;
+  const mappedData = (data
     .map((point, index) => {
-      const xDomainInput = [domain[0], domain[1]];
+      const xDomainInput: Scale = [domain[0], domain[1]];
 
       // We flip the y axis so that larger values render _above_
       // lower values. This is necessary because tthe SVG y-axis points down.
-      const yDomainInput = [-dataRange[1], -dataRange[0]];
+      const yDomainInput: Scale = [-dataRange[1], -dataRange[0]];
 
       // The following conditionals ensure that once we plot a zero value, we stop
       // plotting.
@@ -153,7 +221,7 @@ export default function renderData({
         }),
       ];
     })
-    .filter(Boolean);
+    .filter(Boolean) as unknown) as MappedDataPoint[];
 
   return {
     // Raw values from what the user passes in
@@ -183,8 +251,8 @@ export default function renderData({
     },
 
     xAxis: {
-      numberOfTicks: numberOfXTickSegments,
       dataXTickSpacing,
+      numberOfTicks: numberOfXTickSegments,
 
       tickSpacing: {
         dom: domXTickSpacing,
