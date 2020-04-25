@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import linearScale from '../math/linear-scale';
+import linearScale from '../../../utils/math/linear-scale';
 import dollarTicks from './dollar-ticks';
 import timeTicks from './time-ticks';
 

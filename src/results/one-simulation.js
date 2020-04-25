@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import classnames from 'classnames';
 import IconGetApp from 'materialish/icon-get-app';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
-import Chart from './chart';
+import Chart from '../vendor/chart/chart';
 import useWithdrawalPlan from '../state/withdrawal-plan';
 import formatForDisplay from '../utils/money/format-for-display';
 import useSimulationResult from '../state/simulation-result';

@@ -1,19 +1,19 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { useCurrentRef } from 'core-hooks';
 import './chart.css';
-import useIsSmallScreen from '../hooks/use-is-small-screen';
-import useElSize from '../hooks/use-el-size';
+import useIsSmallScreen from '../../hooks/use-is-small-screen';
+import useElSize from '../../hooks/use-el-size';
 import renderData, {
   RenderDataReturn,
   YAxisPoint,
   SvgElementObject,
   ChartData,
-} from '../utils/chart/render-data';
-import formatForDisplay from '../utils/money/format-for-display';
+} from './utils/render-data';
+import formatForDisplay from '../../utils/money/format-for-display';
 import smallDisplay, {
   SmallDisplayMagnitude,
-} from '../utils/money/small-display';
-import addYears from '../utils/date/add-years';
+} from '../../utils/money/small-display';
+import addYears from '../../utils/date/add-years';
 
 // These are SVG units, but they should probably be in absolute
 // units, so that I can control the text sizing.
