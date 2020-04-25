@@ -6,7 +6,7 @@ export enum SmallDisplayMagnitude {
 }
 
 export interface SmallUnitValue {
-  value: number | string;
+  value: number;
   magnitude: string;
   prefix: string;
 }

@@ -3,11 +3,16 @@ import linearScale from '../math/linear-scale';
 import dollarTicks from './dollar-ticks';
 import timeTicks from './time-ticks';
 
-interface ChartData {
+export interface ChartData {
   historyKey: string;
   month: number;
   year: number;
   value: number;
+}
+
+export interface YAxisPoint {
+  position: number;
+  label: number;
 }
 
 interface RenderDataOption {
@@ -20,6 +25,12 @@ interface RenderDataOption {
   xAxisLabelWidth: number;
   xLabelPadding: number;
   svgAspectRatio: number;
+}
+
+export interface SvgElementObject {
+  viewBox: Scale;
+  svgHeight: number;
+  svgWidth: number;
 }
 
 type Scale = [number, number];
@@ -42,23 +53,20 @@ interface DomainScaleReturn {
   data: 'TO_ADD';
 }
 
-type MappedDataPoint = Scale[];
+// TODO: may need to be Scale[]
+type MappedDataPoint = Scale;
 
-interface RenderDataReturn {
+export interface RenderDataReturn {
   input: {
     data: ChartData[];
     domain: Scale;
     range: Scale;
   };
 
-  svgElement: {
-    viewBox: Scale;
-    svgHeight: number;
-    svgWidth: number;
-  };
+  svgElement: SvgElementObject;
 
   yAxis: {
-    yAxisPoints: any;
+    yAxisPoints: YAxisPoint[];
     numberOfTicks: number;
     tickSpacing: TickSpacing;
   };

@@ -3,9 +3,16 @@ import { useCurrentRef } from 'core-hooks';
 import './chart.css';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 import useElSize from '../hooks/use-el-size';
-import renderData from '../utils/chart/render-data';
+import renderData, {
+  RenderDataReturn,
+  YAxisPoint,
+  SvgElementObject,
+  ChartData,
+} from '../utils/chart/render-data';
 import formatForDisplay from '../utils/money/format-for-display';
-import smallDisplay from '../utils/money/small-display';
+import smallDisplay, {
+  SmallDisplayMagnitude,
+} from '../utils/money/small-display';
 import addYears from '../utils/date/add-years';
 
 // These are SVG units, but they should probably be in absolute
@@ -21,11 +28,16 @@ const xAxisLabelWidth = 40;
 const yLabelPadding = textHeight * 1.5;
 const xLabelPadding = xAxisLabelWidth * 0.6;
 
+type OrderedPair = [number, number];
+
 // Linear function
-const lineCommand = point => `L ${point[0]} ${point[1]}`;
+const lineCommand = (point: OrderedPair): string => `L ${point[0]} ${point[1]}`;
 
 // Generate a path from points
-const svgPath = (points, command) => {
+const svgPath = (
+  points: OrderedPair[],
+  command: (point: OrderedPair, index: number, arr: OrderedPair[]) => string
+) => {
   // build the d attributes by looping over the points
   const d = points.reduce(
     (acc, point, i, a) =>
@@ -40,10 +52,10 @@ const svgPath = (points, command) => {
 };
 
 function yAxisTicks(
-  yAxisPoints,
-  dataForRender,
-  svgYAxisSpacing,
-  isSmallScreen
+  yAxisPoints: YAxisPoint[],
+  dataForRender: RenderDataReturn,
+  svgYAxisSpacing: number,
+  isSmallScreen: boolean
 ) {
   const { svgElement } = dataForRender;
   const tickWidth = dataForRender.svgElement.viewBox[0];
@@ -56,7 +68,13 @@ function yAxisTicks(
     const useFullDisplay = !useSmallDisplay && !useMediumDisplay;
 
     const formatted = !useFullDisplay
-      ? smallDisplay(point.label, 3, useMediumDisplay ? 'medium' : 'short')
+      ? smallDisplay(
+          point.label,
+          3,
+          useMediumDisplay
+            ? SmallDisplayMagnitude.medium
+            : SmallDisplayMagnitude.short
+        )
       : formatForDisplay(point.label, { digits: 0 });
     const isZero = Math.round(point.label) === 0;
 
@@ -69,7 +87,7 @@ function yAxisTicks(
             x={svgElement.viewBox[0] - svgYAxisSpacing + 5}
             y={tickYPosition - 4}
             className="chartLabel">
-            {!useFullDisplay && (
+            {typeof formatted !== 'string' && (
               <>
                 {formatted.value < 0 ? formatted.prefix : ''}
                 {useMediumDisplay && '$'}
@@ -78,7 +96,7 @@ function yAxisTicks(
                 {formatted.magnitude}
               </>
             )}
-            {useFullDisplay && <>{formatted}</>}
+            {typeof formatted === 'string' && <>{formatted}</>}
           </text>
         )}
         <path
@@ -94,12 +112,12 @@ function yAxisTicks(
 }
 
 function xAxisTicks(
-  numberOfBars,
-  svgBarWidth,
-  data,
-  svgElement,
-  dataForRender,
-  svgYAxisSpacing
+  numberOfBars: number,
+  svgBarWidth: number,
+  data: ChartData[],
+  svgElement: SvgElementObject,
+  dataForRender: RenderDataReturn,
+  svgYAxisSpacing: number
 ) {
   return Array.from({ length: numberOfBars }).map((val, index) => {
     const drawIndex = index;
@@ -141,9 +159,13 @@ function xAxisTicks(
   });
 }
 
-export default function Chart({ data }) {
-  const appRef = useRef();
-  const [appEl, setAppEl] = useState(null);
+interface ChartProps {
+  data: ChartData[];
+}
+
+export default function Chart({ data }: ChartProps) {
+  const appRef = useRef<any>();
+  const [appEl, setAppEl] = useState<any>(null);
 
   useEffect(() => {
     setAppEl(appRef);
@@ -157,7 +179,7 @@ export default function Chart({ data }) {
 
   const { width } = useElSize(appEl);
 
-  const dataForRender = useMemo(
+  const dataForRender = useMemo<RenderDataReturn | undefined>(
     () => {
       if (width) {
         return renderData({
@@ -178,23 +200,9 @@ export default function Chart({ data }) {
     [width, data]
   );
 
-  const [renderChart, setRenderChart] = useState(false);
-  const renderChartRef = useRef(renderChart);
-  renderChartRef.current = renderChart;
-
-  useEffect(
-    () => {
-      if (dataForRender) {
-        setRenderChart(true);
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dataForRender]
-  );
-
   return (
     <div className="chartContainer" ref={appRef}>
-      {renderChart && (
+      {dataForRender && (
         <svg
           className="chart"
           style={{
