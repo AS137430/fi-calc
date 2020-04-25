@@ -1,8 +1,6 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { useCurrentRef } from 'core-hooks';
 import './chart.css';
-import useIsSmallScreen from '../../hooks/use-is-small-screen';
-import useElSize from '../../hooks/use-el-size';
+import useElSize from './hooks/use-el-size';
 import renderData, {
   RenderDataReturn,
   YAxisPoint,
@@ -128,7 +126,6 @@ function xAxisTicks(
       dataForRender.domain.svg[1] - svgYAxisSpacing - svgBarWidth * drawIndex;
     const tickHeight = dataForRender.svgElement.viewBox[1];
 
-    // const xAxisRange = dataForRender.domain.data;
     const maxPoint = data[data.length - 1];
 
     const dataSpacing = dataForRender.xAxis.tickSpacing.data;
@@ -161,19 +158,25 @@ function xAxisTicks(
 
 interface ChartProps {
   data: ChartData[];
+  isSmallScreen: boolean;
+  yTicks: number[];
+  xTicks: number[];
 }
 
-export default function Chart({ data }: ChartProps) {
+export default function Chart({
+  data,
+  isSmallScreen = false,
+  xTicks,
+  yTicks,
+}: ChartProps) {
   const appRef = useRef<any>();
   const [appEl, setAppEl] = useState<any>(null);
 
   useEffect(() => {
+    // This ensures that `useElSize` is called by forcing a re-render of the component
     setAppEl(appRef);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const isSmallScreen = useIsSmallScreen();
-  const isSmallScreenRef = useCurrentRef(isSmallScreen);
 
   const svgYAxisSpacing = isSmallScreen ? 45 : 100;
 
@@ -183,7 +186,6 @@ export default function Chart({ data }: ChartProps) {
     () => {
       if (width) {
         return renderData({
-          // Note: data will be stale
           data,
           svgWidth: width,
           svgYAxisSpacing,
@@ -192,12 +194,14 @@ export default function Chart({ data }: ChartProps) {
           yLabelPadding,
           xAxisLabelWidth,
           xLabelPadding,
-          svgAspectRatio: isSmallScreenRef.current ? 0.7 : 0.5,
+          xTicks,
+          yTicks,
+          svgAspectRatio: isSmallScreen ? 0.7 : 0.5,
         });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [width, data]
+    [width, data, isSmallScreen, svgYAxisSpacing, xTicks, yTicks]
   );
 
   return (

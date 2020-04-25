@@ -1,7 +1,5 @@
 import _ from 'lodash';
-import linearScale from '../../../utils/math/linear-scale';
-import dollarTicks from './dollar-ticks';
-import timeTicks from './time-ticks';
+import linearScale from './linear-scale';
 
 export interface ChartData {
   historyKey: string;
@@ -25,6 +23,8 @@ interface RenderDataOption {
   xAxisLabelWidth: number;
   xLabelPadding: number;
   svgAspectRatio: number;
+  yTicks: number[];
+  xTicks: number[];
 }
 
 export interface SvgElementObject {
@@ -96,6 +96,8 @@ export default function renderData({
   // are always the same aspect ratio. This ensures that no weird
   // rendering effects occur as a result of preserveAspectRatio.
   svgAspectRatio = 0.5,
+  xTicks,
+  yTicks,
 }: RenderDataOption): RenderDataReturn {
   const svgHeight = svgWidth * svgAspectRatio;
 
@@ -142,12 +144,10 @@ export default function renderData({
     naiveDataYTickSpacing = rangeSize / maxYLabelCount;
   }
 
-  const dataYTickSpacing =
-    dollarTicks.find(v => v > naiveDataYTickSpacing) || NaN;
+  const dataYTickSpacing = yTicks.find(v => v > naiveDataYTickSpacing) || NaN;
 
   const naiveDataXTickSpacing = domainSize / maxXLabelCount;
-  const dataXTickSpacing =
-    timeTicks.find(v => v > naiveDataXTickSpacing) || NaN;
+  const dataXTickSpacing = xTicks.find(v => v > naiveDataXTickSpacing) || NaN;
 
   const dataRange: Scale = range.map((value, index) => {
     return index === 0

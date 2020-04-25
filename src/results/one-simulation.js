@@ -14,6 +14,8 @@ import simulationToCsv, {
 } from '../utils/simulation-to-csv';
 import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
 import downloadDataURL from '../utils/download-data-url';
+import dollarTicks from '../utils/chart/dollar-ticks';
+import yearTicks from '../utils/chart/year-ticks';
 
 function formatSimulationForPortfolioChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
@@ -189,7 +191,12 @@ export default function OneSimulation() {
           )}
         </div>
         <div className="results_plotSection">
-          <Chart data={portfolioChartData} />
+          <Chart
+            data={portfolioChartData}
+            isSmallScreen={isSmallScreen}
+            yTicks={dollarTicks}
+            xTicks={yearTicks}
+          />
         </div>
         <div />
       </div>
@@ -220,7 +227,12 @@ export default function OneSimulation() {
           </div>
         )}
         <div className="results_plotSection">
-          <Chart data={withdrawalChartData} />
+          <Chart
+            data={withdrawalChartData}
+            isSmallScreen={isSmallScreen}
+            yTicks={dollarTicks}
+            xTicks={yearTicks}
+          />
         </div>
       </div>
     </div>
