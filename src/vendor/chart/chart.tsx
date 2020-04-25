@@ -100,7 +100,7 @@ export default function Chart({
             xAxisLabelFromInfo={xAxisLabelFromInfo}
           />
           <ChartLine data={dataForRender.data} command={lineCommand} />
-          {/* 1px border between the chart and the x-axis labels */}
+          {/* This is the 1px border between the chart and the x-axis labels */}
           <path
             d={`M0 ${dataForRender.svgElement.viewBox[1] -
               svgXAxisSpacing} h ${dataForRender.svgElement.viewBox[0] -
@@ -110,7 +110,7 @@ export default function Chart({
             strokeWidth="var(--axisLineWidth)"
             fill="transparent"
           />
-          {/* 1px border between the chart and the x-axis labels */}
+          {/* This is the 1px border between the chart and the x-axis labels */}
           <path
             d={`M0 ${dataForRender.svgElement.viewBox[1] -
               svgXAxisSpacing} h ${dataForRender.svgElement.viewBox[0] -
