@@ -23,6 +23,9 @@ export default function XAxisTicks({
   xAxisLabelFromInfo,
   svgXAxisSpacing,
 }: XAxisTicksOptions) {
+  const maxPoint = data[data.length - 1];
+  const tickHeight = dataForRender.svgElement.viewBox[1];
+
   return (
     <>
       {Array.from({ length: numberOfBars }).map((val, index) => {
@@ -34,16 +37,11 @@ export default function XAxisTicks({
           dataForRender.domain.svg[1] -
           svgYAxisSpacing -
           svgBarWidth * drawIndex;
-        const tickHeight = dataForRender.svgElement.viewBox[1];
-
-        const maxPoint = data[data.length - 1];
-
         const dataSpacing = dataForRender.xAxis.tickSpacing.data;
 
         // I should instead use a system that allows me to add/subtract
-        // months from the largest month in the dataset.
+        // x-values from the largest x-value in the dataset.
         const distanceFromMin = index * dataSpacing;
-
         const label = xAxisLabelFromInfo(maxPoint, -distanceFromMin);
 
         return (

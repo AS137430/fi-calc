@@ -157,7 +157,7 @@ export default function renderData({
   const numberOfXTickSegments = trueDomainSize / dataXTickSpacing;
   const domXTickSpacing = svgWidth / numberOfXTickSegments;
 
-  const svgXTickSpacing = chartDomainSize / numberOfXTickSegments;
+  const svgXTickSpacing = chartDomainSize / Math.max(1, numberOfXTickSegments);
 
   // TODO: come up with a better name for this. What does it represent?
   const valueForFirstTick = Math.ceil(dataRange[1] / dataYTickSpacing);
