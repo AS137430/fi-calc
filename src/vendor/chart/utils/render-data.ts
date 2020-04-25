@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import linearScale from './linear-scale';
 import {
   ChartDataPoint,
@@ -64,6 +63,14 @@ export interface RenderDataReturn {
 
   range: ScaleReturn;
   domain: DomainScaleReturn;
+}
+
+function times(n: number, cb: (n: number) => any) {
+  let result = [];
+  for (let i = 0; i < n; i++) {
+    result.push(cb(i));
+  }
+  return result;
 }
 
 export default function renderData({
@@ -161,7 +168,7 @@ export default function renderData({
 
   const actualNumOfYTickSegments = axisRangeSize / dataYTickSpacing + 1;
 
-  const yAxisPoints = _.times(Math.floor(actualNumOfYTickSegments), n => {
+  const yAxisPoints = times(Math.floor(actualNumOfYTickSegments), n => {
     const dollarAmount = firstTick - n * dataYTickSpacing;
 
     const position = linearScale({

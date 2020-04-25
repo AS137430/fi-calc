@@ -8,14 +8,15 @@ interface ChartLineOptions {
 
 // This draws the line that represents the data
 export default function ChartLine({ data, command }: ChartLineOptions) {
-  const d = data.reduce(
-    (acc, point, i, a) =>
-      i === 0
-        ? // if first point
-          `M ${point[0]},${point[1]}`
-        : // else
-          `${acc} ${command(point, i, a)}`,
-    ''
-  );
-  return <path className="chartLine" d={d} fill="none" strokeWidth="3px" />;
+  const d = data.reduce((result, point, index, allData) => {
+    const isFirstPoint = index === 0;
+
+    if (isFirstPoint) {
+      return `M ${point[0]},${point[1]}`;
+    } else {
+      return `${result} ${command(point, index, allData)}`;
+    }
+  }, '');
+
+  return <path className="chartLine" d={d} fill="none" />;
 }

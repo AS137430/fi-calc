@@ -6,6 +6,7 @@
   --axisColor: #303030;
   --zeroAxisColor: #303030;
   --boundingBorderColor: #303030;
+  --chartLineWidth: 3px;
 
   --chartLabelColor: var(--fontColor);
 }
@@ -23,6 +24,7 @@
 }
 
 .chartLine {
+  stroke-width: var(--chartLineWidth);
   stroke: var(--accentColor);
 }
 
