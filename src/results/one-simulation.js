@@ -6,7 +6,7 @@ import IconGetApp from 'materialish/icon-get-app';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 import Chart from './chart';
 import useWithdrawalPlan from '../state/withdrawal-plan';
-import formatNumber from '../utils/numbers/format-number';
+import formatNumber from '../utils/numbers/format-dollars';
 import useSimulationResult from '../state/simulation-result';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 import simulationToCsv, {
@@ -158,7 +158,6 @@ export default function OneSimulation() {
               <div className="results_section">
                 <div className="results_sectionTitle">Lowest Value</div>
                 <div className="results_value">
-                  $
                   {formatNumber(
                     simulation.minPortfolioYearInFirstYearDollars.computedData
                       .portfolio.totalValueInFirstYearDollars
@@ -171,7 +170,6 @@ export default function OneSimulation() {
               <div className="results_section">
                 <div className="results_sectionTitle">Final Value</div>
                 <div className="results_value">
-                  $
                   {formatNumber(
                     lastYear.computedData.portfolio.totalValueInFirstYearDollars
                   )}
@@ -202,7 +200,6 @@ export default function OneSimulation() {
             <div className="results_section">
               <div className="results_sectionTitle">Lowest Withdrawal</div>
               <div className="results_value">
-                $
                 {formatNumber(
                   simulation.minWithdrawalYearInFirstYearDollars.computedData
                     .totalWithdrawalAmountInFirstYearDollars
@@ -215,7 +212,6 @@ export default function OneSimulation() {
             <div className="results_section">
               <div className="results_sectionTitle">Final Year Withdrawal</div>
               <div className="results_value">
-                $
                 {formatNumber(
                   lastYear.computedData.totalWithdrawalAmountInFirstYearDollars
                 )}

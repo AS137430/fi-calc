@@ -4,7 +4,7 @@
 //
 // Will one day be replaced with:
 // https://github.com/rwaldron/proposal-math-extensions
-export default function clamp(x, min, max) {
+export default function clamp(x: number, min: number, max: number): number {
   if (min > max) {
     throw new RangeError('`min` should be lower than `max`');
   }
