@@ -4,9 +4,9 @@ import { Link, useParams } from 'react-router-dom';
 import classnames from 'classnames';
 import IconGetApp from 'materialish/icon-get-app';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
-import Chart from './chart';
+import Chart from '../vendor/chart/chart';
 import useWithdrawalPlan from '../state/withdrawal-plan';
-import formatNumber from '../utils/numbers/format-number';
+import formatForDisplay from '../utils/money/format-for-display';
 import useSimulationResult from '../state/simulation-result';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 import simulationToCsv, {
@@ -14,14 +14,16 @@ import simulationToCsv, {
 } from '../utils/simulation-to-csv';
 import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
 import downloadDataURL from '../utils/download-data-url';
+import dollarTicks from '../utils/chart/dollar-ticks';
+import yearTicks from '../utils/chart/year-ticks';
+import smallDisplay from '../utils/money/small-display';
+import addYears from '../utils/date/add-years';
 
 function formatSimulationForPortfolioChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
     return {
-      historyKey: `${yearData.year}-01`,
-      month: 1,
-      year: yearData.year,
-      value: yearData.computedData.portfolio.totalValueInFirstYearDollars,
+      x: `${yearData.year}.1`,
+      y: yearData.computedData.portfolio.totalValueInFirstYearDollars,
     };
   });
 }
@@ -29,15 +31,46 @@ function formatSimulationForPortfolioChart(simulation) {
 function formatSimulationForSpendingChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
     return {
-      historyKey: `${yearData.year}-01`,
-      month: 1,
-      year: yearData.year,
-      value: yearData.computedData.totalWithdrawalAmountInFirstYearDollars,
+      x: `${yearData.year}.1`,
+      y: yearData.computedData.totalWithdrawalAmountInFirstYearDollars,
     };
   });
 }
 
-export default function OneSimulation() {
+function yAxisLabelFromValue(value, isSmallScreen) {
+  const useSmallDisplay = isSmallScreen;
+  const useMediumDisplay = !isSmallScreen && value > 10000000;
+  const useFullDisplay = !useSmallDisplay && !useMediumDisplay;
+
+  const formatted = !useFullDisplay
+    ? smallDisplay(value, 3, useMediumDisplay ? 'medium' : 'short')
+    : formatForDisplay(value, { digits: 0 });
+
+  if (typeof formatted === 'string') {
+    return formatted;
+  } else {
+    return `${formatted.value < 0 ? formatted.prefix : ''}
+      ${useMediumDisplay && '$'}
+      ${formatted.value}
+      ${useMediumDisplay && ' '}
+      ${formatted.magnitude}`;
+  }
+}
+
+function xAxisLabelFromInfo(maxChartDataPoint, distanceFromMaxChartDataPoint) {
+  const [stringYear, stringMonth] = maxChartDataPoint.x.split('.');
+
+  const dateToUse = addYears(
+    {
+      month: Number(stringMonth),
+      year: Number(stringYear),
+    },
+    distanceFromMaxChartDataPoint
+  );
+  return dateToUse.year;
+}
+
+export default function Simulation() {
   const isSmallScreen = useIsSmallScreen();
   const { year } = useParams();
   const { result } = useSimulationResult();
@@ -158,8 +191,7 @@ export default function OneSimulation() {
               <div className="results_section">
                 <div className="results_sectionTitle">Lowest Value</div>
                 <div className="results_value">
-                  $
-                  {formatNumber(
+                  {formatForDisplay(
                     simulation.minPortfolioYearInFirstYearDollars.computedData
                       .portfolio.totalValueInFirstYearDollars
                   )}
@@ -171,8 +203,7 @@ export default function OneSimulation() {
               <div className="results_section">
                 <div className="results_sectionTitle">Final Value</div>
                 <div className="results_value">
-                  $
-                  {formatNumber(
+                  {formatForDisplay(
                     lastYear.computedData.portfolio.totalValueInFirstYearDollars
                   )}
                 </div>
@@ -191,7 +222,16 @@ export default function OneSimulation() {
           )}
         </div>
         <div className="results_plotSection">
-          <Chart data={portfolioChartData} />
+          <Chart
+            yAxisLabelFromValue={value =>
+              yAxisLabelFromValue(value, isSmallScreen)
+            }
+            xAxisLabelFromInfo={xAxisLabelFromInfo}
+            data={portfolioChartData}
+            isSmallScreen={isSmallScreen}
+            yTicks={dollarTicks}
+            xTicks={yearTicks}
+          />
         </div>
         <div />
       </div>
@@ -202,8 +242,7 @@ export default function OneSimulation() {
             <div className="results_section">
               <div className="results_sectionTitle">Lowest Withdrawal</div>
               <div className="results_value">
-                $
-                {formatNumber(
+                {formatForDisplay(
                   simulation.minWithdrawalYearInFirstYearDollars.computedData
                     .totalWithdrawalAmountInFirstYearDollars
                 )}
@@ -215,8 +254,7 @@ export default function OneSimulation() {
             <div className="results_section">
               <div className="results_sectionTitle">Final Year Withdrawal</div>
               <div className="results_value">
-                $
-                {formatNumber(
+                {formatForDisplay(
                   lastYear.computedData.totalWithdrawalAmountInFirstYearDollars
                 )}
               </div>
@@ -224,7 +262,16 @@ export default function OneSimulation() {
           </div>
         )}
         <div className="results_plotSection">
-          <Chart data={withdrawalChartData} />
+          <Chart
+            yAxisLabelFromValue={point =>
+              yAxisLabelFromValue(point, isSmallScreen)
+            }
+            xAxisLabelFromInfo={xAxisLabelFromInfo}
+            data={withdrawalChartData}
+            isSmallScreen={isSmallScreen}
+            yTicks={dollarTicks}
+            xTicks={yearTicks}
+          />
         </div>
       </div>
     </div>

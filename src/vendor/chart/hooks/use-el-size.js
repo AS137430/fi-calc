@@ -30,7 +30,9 @@ export default function useElSize(el) {
 
   useEffect(() => {
     function handleResize() {
-      setWindowSize(getSize());
+      requestAnimationFrame(() => {
+        setWindowSize(getSize());
+      });
     }
 
     window.addEventListener('resize', handleResize);

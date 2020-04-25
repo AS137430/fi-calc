@@ -6,7 +6,7 @@ export enum SmallDisplayMagnitude {
 }
 
 export interface SmallUnitValue {
-  value: number | string;
+  value: number;
   magnitude: string;
   prefix: string;
 }
@@ -33,7 +33,7 @@ export default function smallDisplay(
   if (val.length <= minimum) {
     return {
       value: Number(
-        formatForDisplay(Number(val), 0, { includeDollarSign: false })
+        formatForDisplay(Number(val), { digits: 0, includeDollarSign: false })
       ),
       magnitude: '',
       prefix,

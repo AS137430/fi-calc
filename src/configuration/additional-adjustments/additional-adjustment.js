@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './additional-adjustment.css';
 import UpsertAdditionalAdjustmentModal from './upsert-additional-adjustment-modal';
-import formatNumber from '../../utils/numbers/format-number';
+import formatForDisplay from '../../utils/money/format-for-display';
 
 export default function AdditionalAdjustment({
   type,
@@ -35,7 +35,9 @@ export default function AdditionalAdjustment({
         className="additionalAdjustment"
         onClick={() => setOpenModal('edit')}>
         {hasName && <div className="additionalAdjustment_title">{name}</div>}
-        <div className="additionalAdjustment_value">${formatNumber(value)}</div>
+        <div className="additionalAdjustment_value">
+          {formatForDisplay(value)}
+        </div>
         {inflationAdjusted && (
           <div className="additionalAdjustment_inflationAdjusted">
             (Inflation adjusted)

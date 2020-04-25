@@ -14,7 +14,7 @@ import Sidebar from './common/sidebar';
 import Configuration from './configuration/configuration';
 import SimulationsOverview from './results/simulations-overview';
 import useIsSmallScreen from './hooks/use-is-small-screen';
-import OneSimulation from './results/one-simulation';
+import Simulation from './results/simulation';
 import useSimulationResult from './state/simulation-result';
 
 const ROOT_CALCULATOR_PATH = '/calculator';
@@ -80,10 +80,7 @@ export default function Calculator() {
                 path={overviewPaths}
                 component={SimulationsOverview}
               />
-              <Route
-                path={`/calculator/year/:year`}
-                component={OneSimulation}
-              />
+              <Route path={`/calculator/year/:year`} component={Simulation} />
             </Switch>
           </main>
           <Footer />

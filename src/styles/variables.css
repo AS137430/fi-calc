@@ -17,7 +17,7 @@
   --mt-mainColor: var(--accentColor);
   --maxAppWidth: 44rem;
   --headerHeight: 3rem;
-  --footerHeight: 3rem;
+  --footerHeight: 4rem;
   --configuration-width: calc(16rem + var(--safeAreaInsetLeft));
 
   --horizontalContentPadding: 1.375rem;
@@ -37,6 +37,14 @@
     var(--baseContentSpacingRight),
     var(--safeAreaInsetRight)
   );
+}
+
+.chartContainer {
+  --chartBg: #141414;
+  --axisColor: #303030;
+  --zeroAxisColor: #303030;
+  --boundingBorderColor: #303030;
+  --chartLabelColor: var(--fontColor, #fff);
 }
 
 @media (min-width: 1200px) {

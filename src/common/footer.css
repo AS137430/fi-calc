@@ -3,9 +3,10 @@
   border-top: 1px solid #2f2f2f;
   display: flex;
   align-items: center;
-  height: var(--footerHeight);
+  height: calc(var(--footerHeight) + var(--safeAreaInsetBottom));
   color: #aaa;
   font-size: 0.875rem;
+  padding-bottom: var(--safeAreaInsetBottom);
 }
 
 .footer_content {
