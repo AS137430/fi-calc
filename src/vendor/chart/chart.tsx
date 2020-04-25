@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
 import './chart.css';
-import svgPath from './components/svg-path';
-import yAxisTicks from './components/y-axis-ticks';
-import xAxisTicks from './components/x-axis-ticks';
+import ChartLine from './components/chart-line';
+import YAxisTicks from './components/y-axis-ticks';
+import XAxisTicks from './components/x-axis-ticks';
 import useElSize from './hooks/use-el-size';
 import renderData, { RenderDataReturn } from './utils/render-data';
 import {
@@ -84,22 +84,22 @@ export default function Chart({
           }`}
           version="1.1"
           xmlns="http://www.w3.org/2000/svg">
-          {yAxisTicks(
-            dataForRender.yAxis.yAxisPoints,
-            dataForRender,
-            svgYAxisSpacing,
-            yAxisLabelFromPoint
-          )}
-          {xAxisTicks(
-            dataForRender.xAxis.numberOfTicks + 1,
-            dataForRender.xAxis.tickSpacing.svg,
-            data,
-            dataForRender.svgElement,
-            dataForRender,
-            svgYAxisSpacing,
-            xAxisLabelFromInfo
-          )}
-          {svgPath(dataForRender.data, lineCommand)}
+          <YAxisTicks
+            yAxisPoints={dataForRender.yAxis.yAxisPoints}
+            dataForRender={dataForRender}
+            svgYAxisSpacing={svgYAxisSpacing}
+            yAxisLabelFromPoint={yAxisLabelFromPoint}
+          />
+          <XAxisTicks
+            numberOfBars={dataForRender.xAxis.numberOfTicks + 1}
+            svgBarWidth={dataForRender.xAxis.tickSpacing.svg}
+            data={data}
+            svgElement={dataForRender.svgElement}
+            dataForRender={dataForRender}
+            svgYAxisSpacing={svgYAxisSpacing}
+            xAxisLabelFromInfo={xAxisLabelFromInfo}
+          />
+          <ChartLine data={dataForRender.data} command={lineCommand} />
           {/* 1px border between the chart and the x-axis labels */}
           <path
             d={`M0 ${dataForRender.svgElement.viewBox[1] -
