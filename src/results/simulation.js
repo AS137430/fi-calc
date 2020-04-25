@@ -22,7 +22,7 @@ import addYears from '../utils/date/add-years';
 function formatSimulationForPortfolioChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
     return {
-      month: 1,
+      x: `${yearData.year}.1`,
       year: yearData.year,
       value: yearData.computedData.portfolio.totalValueInFirstYearDollars,
     };
@@ -32,8 +32,7 @@ function formatSimulationForPortfolioChart(simulation) {
 function formatSimulationForSpendingChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
     return {
-      month: 1,
-      year: yearData.year,
+      x: `${yearData.year}.1`,
       value: yearData.computedData.totalWithdrawalAmountInFirstYearDollars,
     };
   });
@@ -59,8 +58,16 @@ function yAxisLabelFromPoint(point, isSmallScreen) {
   }
 }
 
-function xAxisLabelFromInfo(chartDataPoint, distance) {
-  const dateToUse = addYears(chartDataPoint, distance);
+function xAxisLabelFromInfo(maxChartDataPoint, distanceFromMaxChartDataPoint) {
+  const [stringYear, stringMonth] = maxChartDataPoint.x.split('.');
+
+  const dateToUse = addYears(
+    {
+      month: Number(stringMonth),
+      year: Number(stringYear),
+    },
+    distanceFromMaxChartDataPoint
+  );
   return dateToUse.year;
 }
 

@@ -5,7 +5,7 @@ import renderData, {
   RenderDataReturn,
   YAxisPoint,
   SvgElementObject,
-  ChartData,
+  ChartDataPoint,
 } from './utils/render-data';
 
 // These are SVG units, but they should probably be in absolute
@@ -24,7 +24,10 @@ const xLabelPadding = xAxisLabelWidth * 0.6;
 type OrderedPair = [number, number];
 
 type YAxisLabelFromPoint = (point: YAxisPoint) => string;
-type XAxisLabelFromInfo = (chartData: ChartData, distance: number) => string;
+type XAxisLabelFromInfo = (
+  maxChartDataPoint: ChartDataPoint,
+  distanceFromMaxChartDataPoint: number
+) => string;
 
 // Linear function
 const lineCommand = (point: OrderedPair): string => `L ${point[0]} ${point[1]}`;
@@ -88,7 +91,7 @@ function yAxisTicks(
 function xAxisTicks(
   numberOfBars: number,
   svgBarWidth: number,
-  data: ChartData[],
+  data: ChartDataPoint[],
   svgElement: SvgElementObject,
   dataForRender: RenderDataReturn,
   svgYAxisSpacing: number,
@@ -134,7 +137,7 @@ function xAxisTicks(
 }
 
 interface ChartProps {
-  data: ChartData[];
+  data: ChartDataPoint[];
   isSmallScreen: boolean;
   yTicks: number[];
   xTicks: number[];

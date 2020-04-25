@@ -1,9 +1,8 @@
 import _ from 'lodash';
 import linearScale from './linear-scale';
 
-export interface ChartData {
-  month: number;
-  year: number;
+export interface ChartDataPoint {
+  x: number | string;
   value: number;
 }
 
@@ -13,7 +12,7 @@ export interface YAxisPoint {
 }
 
 interface RenderDataOption {
-  data: ChartData[];
+  data: ChartDataPoint[];
   svgWidth: number;
   svgYAxisSpacing: number;
   svgXAxisSpacing: number;
@@ -57,7 +56,7 @@ type MappedDataPoint = Scale;
 
 export interface RenderDataReturn {
   input: {
-    data: ChartData[];
+    data: ChartDataPoint[];
     domain: Scale;
     range: Scale;
   };
