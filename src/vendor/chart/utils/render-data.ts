@@ -185,7 +185,14 @@ export default function renderData({
     };
   });
 
-  const xAxisPoints: XAxisPoint[] = times(numberOfXTickSegments, index => {
+  const spacingFitsDomain = trueDomainSize % dataXTickSpacing === 0;
+  // Sometimes, the number of ticks lines up with our domain of data. In these situations,
+  // we can render an extra label without cutting them off.
+  const xTicksToRender = spacingFitsDomain
+    ? numberOfXTickSegments + 1
+    : numberOfXTickSegments;
+
+  const xAxisPoints: XAxisPoint[] = times(xTicksToRender, index => {
     const drawIndex = index;
 
     // We render from the right toward the left, so that the most recent date

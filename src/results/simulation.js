@@ -20,12 +20,23 @@ import smallDisplay from '../utils/money/small-display';
 import addYears from '../utils/date/add-years';
 
 function formatSimulationForPortfolioChart(simulation) {
-  return simulation?.resultsByYear?.map(yearData => {
+  if (!simulation) {
+    return [];
+  }
+
+  const chartData = simulation.resultsByYear.map(yearData => {
     return {
-      x: `${yearData.year}.1`,
+      x: `${yearData.year + 1}.1`,
       y: yearData.computedData.portfolio.totalValueInFirstYearDollars,
     };
   });
+
+  chartData.unshift({
+    x: `${simulation.startYear}.1`,
+    y: simulation.initialPortfolioValue,
+  });
+
+  return chartData;
 }
 
 function formatSimulationForSpendingChart(simulation) {
@@ -150,7 +161,7 @@ export default function Simulation() {
         </Link>
         <div className="simulationHeader">
           <h1 className="simulationHeader_h1">
-            Simulation: {simulation.startYear} – {simulation.endYear}
+            Jan {simulation.startYear} – Jan {simulation.endYear + 1}
           </h1>
           <div className="simulationHeader_ctas">
             <button
@@ -196,7 +207,7 @@ export default function Simulation() {
                       .portfolio.totalValueInFirstYearDollars
                   )}
                   <span className="results_secondaryValue">
-                    ({simulation.minPortfolioYearInFirstYearDollars.year})
+                    ({simulation.minPortfolioYearInFirstYearDollars.year + 1})
                   </span>
                 </div>
               </div>
