@@ -1,18 +1,12 @@
-:root {
-  /* --axisColor: #e5e5e5;
-  --zeroAxisColor: #d0d0d0;
-  --boundingBorderColor: #cfcfcf; */
-  --chartBg: #1a1a1a;
-  --axisColor: #303030;
-  --zeroAxisColor: #303030;
-  --boundingBorderColor: #303030;
-  --chartLineWidth: 3px;
-
-  --chartLabelColor: var(--fontColor);
-}
-
 .chartContainer {
-  background-color: #141414;
+  --chartBg: #fff;
+  --axisColor: #e5e5e5;
+  --zeroAxisColor: #d0d0d0;
+  --boundingBorderColor: #cfcfcf;
+  --chartLabelColor: var(--fontColor, #000);
+
+  --chartLineWidth: 3px;
+  background-color: var(--chartBg);
   border: 1px solid var(--axisColor);
   border-radius: 4px;
   overflow: hidden;
@@ -28,16 +22,10 @@
   stroke: var(--accentColor);
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --axisColor: #303030;
-    --zeroAxisColor: #303030;
-    --boundingBorderColor: #303030;
-  }
+.chartContainer-darkMode {
+  --chartBg: #141414;
+  --axisColor: #303030;
+  --zeroAxisColor: #303030;
+  --boundingBorderColor: #303030;
+  --chartLabelColor: var(--fontColor, #fff);
 }
-
-@media (prefers-color-scheme: dark) and (min-width: 551px) {
-  :root {
-    --chartBg: #1a1a1a;
-  }
-} */

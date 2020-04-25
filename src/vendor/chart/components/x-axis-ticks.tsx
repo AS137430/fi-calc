@@ -1,6 +1,5 @@
 import React from 'react';
 import { RenderDataReturn } from '../utils/render-data';
-import { svgXAxisSpacing } from '../utils/constant-values';
 import { ChartDataPoint, SvgElementObject, XAxisLabelFromInfo } from '../types';
 
 interface XAxisTicksOptions {
@@ -11,6 +10,7 @@ interface XAxisTicksOptions {
   dataForRender: RenderDataReturn;
   svgYAxisSpacing: number;
   xAxisLabelFromInfo: XAxisLabelFromInfo;
+  svgXAxisSpacing: number;
 }
 
 export default function XAxisTicks({
@@ -21,6 +21,7 @@ export default function XAxisTicks({
   dataForRender,
   svgYAxisSpacing,
   xAxisLabelFromInfo,
+  svgXAxisSpacing,
 }: XAxisTicksOptions) {
   return (
     <>

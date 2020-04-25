@@ -11,13 +11,7 @@ import {
   XAxisLabelFromInfo,
 } from './types';
 import lineCommand from './utils/line-command';
-import {
-  svgXAxisSpacing,
-  textHeight,
-  yLabelPadding,
-  xAxisLabelWidth,
-  xLabelPadding,
-} from './utils/constant-values';
+import * as defaultConstants from './utils/default-constant-values';
 
 interface ChartProps {
   data: ChartDataPoint[];
@@ -26,6 +20,11 @@ interface ChartProps {
   xTicks: number[];
   yAxisLabelFromPoint: YAxisLabelFromPoint;
   xAxisLabelFromInfo: XAxisLabelFromInfo;
+  svgXAxisSpacing?: number;
+  textHeight?: number;
+  xAxisLabelWidth?: number;
+  className?: string;
+  darkMode?: boolean;
 }
 
 export default function Chart({
@@ -35,6 +34,11 @@ export default function Chart({
   yTicks,
   yAxisLabelFromPoint,
   xAxisLabelFromInfo,
+  svgXAxisSpacing = defaultConstants.svgXAxisSpacing,
+  textHeight = defaultConstants.textHeight,
+  xAxisLabelWidth = defaultConstants.xAxisLabelWidth,
+  className = '',
+  darkMode = false,
 }: ChartProps) {
   const appRef = useRef<any>();
   const [appEl, setAppEl] = useState<any>(null);
@@ -48,6 +52,9 @@ export default function Chart({
   const svgYAxisSpacing = isSmallScreen ? 45 : 100;
 
   const { width } = useElSize(appEl);
+
+  const yLabelPadding = textHeight * 1.5;
+  const xLabelPadding = xAxisLabelWidth * 0.6;
 
   const dataForRender = useMemo<RenderDataReturn | undefined>(
     () => {
@@ -72,7 +79,11 @@ export default function Chart({
   );
 
   return (
-    <div className="chartContainer" ref={appRef}>
+    <div
+      className={`chartContainer ${
+        darkMode ? 'chartContainer-darkMode' : ''
+      } ${className}`}
+      ref={appRef}>
       {dataForRender && (
         <svg
           className="chart"
@@ -89,6 +100,7 @@ export default function Chart({
             dataForRender={dataForRender}
             svgYAxisSpacing={svgYAxisSpacing}
             yAxisLabelFromPoint={yAxisLabelFromPoint}
+            textHeight={textHeight}
           />
           <XAxisTicks
             numberOfBars={dataForRender.xAxis.numberOfTicks + 1}
@@ -98,6 +110,7 @@ export default function Chart({
             dataForRender={dataForRender}
             svgYAxisSpacing={svgYAxisSpacing}
             xAxisLabelFromInfo={xAxisLabelFromInfo}
+            svgXAxisSpacing={svgXAxisSpacing}
           />
           <ChartLine data={dataForRender.data} command={lineCommand} />
           {/* 1px border between the chart and the x-axis labels */}

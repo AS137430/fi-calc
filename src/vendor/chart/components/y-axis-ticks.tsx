@@ -1,6 +1,5 @@
 import React from 'react';
 import { RenderDataReturn } from '../utils/render-data';
-import { textHeight } from '../utils/constant-values';
 import { YAxisLabelFromPoint, YAxisPoint } from '../types';
 
 interface YAxisTicksOptions {
@@ -8,6 +7,7 @@ interface YAxisTicksOptions {
   dataForRender: RenderDataReturn;
   svgYAxisSpacing: number;
   yAxisLabelFromPoint: YAxisLabelFromPoint;
+  textHeight: number;
 }
 
 export default function YAxisTicks({
@@ -15,6 +15,7 @@ export default function YAxisTicks({
   dataForRender,
   svgYAxisSpacing,
   yAxisLabelFromPoint,
+  textHeight,
 }: YAxisTicksOptions) {
   const { svgElement } = dataForRender;
   const tickWidth = dataForRender.svgElement.viewBox[0];

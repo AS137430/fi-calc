@@ -231,6 +231,7 @@ export default function Simulation() {
             isSmallScreen={isSmallScreen}
             yTicks={dollarTicks}
             xTicks={yearTicks}
+            darkMode
           />
         </div>
         <div />
@@ -271,6 +272,7 @@ export default function Simulation() {
             isSmallScreen={isSmallScreen}
             yTicks={dollarTicks}
             xTicks={yearTicks}
+            darkMode
           />
         </div>
       </div>
