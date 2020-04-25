@@ -1,6 +1,11 @@
 import _ from 'lodash';
 import linearScale from './linear-scale';
-import { ChartDataPoint, YAxisPoint, Scale, SvgElementObject } from '../types';
+import {
+  ChartDataPoint,
+  YAxisPoint,
+  OrderedPair,
+  SvgElementObject,
+} from '../types';
 
 interface RenderDataOption {
   data: ChartDataPoint[];
@@ -23,25 +28,22 @@ interface TickSpacing {
 }
 
 interface ScaleReturn {
-  dom: Scale;
-  svg: Scale;
-  data: Scale;
+  dom: OrderedPair;
+  svg: OrderedPair;
+  data: OrderedPair;
 }
 
 interface DomainScaleReturn {
-  dom: Scale;
-  svg: Scale;
+  dom: OrderedPair;
+  svg: OrderedPair;
   data: 'TO_ADD';
 }
-
-// TODO: may need to be Scale[]
-type MappedDataPoint = Scale;
 
 export interface RenderDataReturn {
   input: {
     data: ChartDataPoint[];
-    domain: Scale;
-    range: Scale;
+    domain: OrderedPair;
+    range: OrderedPair;
   };
 
   svgElement: SvgElementObject;
@@ -58,7 +60,7 @@ export interface RenderDataReturn {
     tickSpacing: TickSpacing;
   };
 
-  data: MappedDataPoint[];
+  data: OrderedPair[];
 
   range: ScaleReturn;
   domain: DomainScaleReturn;
@@ -90,10 +92,10 @@ export default function renderData({
 
   const viewBoxHeight = svgWidth * svgAspectRatio;
   // The height and width of the SVG viewBox.
-  const viewBox: Scale = [svgWidth, viewBoxHeight];
+  const viewBox: OrderedPair = [svgWidth, viewBoxHeight];
 
   const xValues = data.map((v, index) => index);
-  const yValues = data.map(v => v.value);
+  const yValues = data.map(dataPoint => dataPoint.y);
 
   // This is the range of the data that can be drawn in the chart
   const chartRange = [0, viewBoxHeight - svgXAxisSpacing];
@@ -101,8 +103,8 @@ export default function renderData({
   const chartRangeSize = chartRange[1] - chartRange[0];
   const chartDomainSize = chartDomain[1] - chartDomain[0];
 
-  const domain: Scale = [Math.min(...xValues), Math.max(...xValues)];
-  const range: Scale = [Math.min(...yValues), Math.max(...yValues)];
+  const domain: OrderedPair = [Math.min(...xValues), Math.max(...xValues)];
+  const range: OrderedPair = [Math.min(...yValues), Math.max(...yValues)];
 
   const noRange = range[0] === range[1];
 
@@ -130,12 +132,12 @@ export default function renderData({
   const naiveDataXTickSpacing = domainSize / maxXLabelCount;
   const dataXTickSpacing = xTicks.find(v => v > naiveDataXTickSpacing) || NaN;
 
-  const dataRange: Scale = range.map((value, index) => {
+  const dataRange: OrderedPair = range.map((value, index) => {
     return index === 0
       ? // This Math.max ensures that the chart never shows values below $0
         Math.max(0, value - rangeIncreaseFactor)
       : value + rangeIncreaseFactor;
-  }) as Scale;
+  }) as OrderedPair;
 
   const trueRangeSize = dataRange[1] - dataRange[0];
 
@@ -177,15 +179,15 @@ export default function renderData({
   let hasIncludedZero = false;
   const mappedData = (data
     .map((point, index) => {
-      const xDomainInput: Scale = [domain[0], domain[1]];
+      const xDomainInput: OrderedPair = [domain[0], domain[1]];
 
       // We flip the y axis so that larger values render _above_
       // lower values. This is necessary because tthe SVG y-axis points down.
-      const yDomainInput: Scale = [-dataRange[1], -dataRange[0]];
+      const yDomainInput: OrderedPair = [-dataRange[1], -dataRange[0]];
 
       // The following conditionals ensure that once we plot a zero value, we stop
       // plotting.
-      if (point.value === 0) {
+      if (point.y === 0) {
         // If this value is 0, and we already have a 0 value, then we don't include
         // the point.
         if (hasIncludedZero) {
@@ -206,11 +208,11 @@ export default function renderData({
         linearScale({
           domain: yDomainInput,
           range: [chartRange[0], chartRange[1]],
-          value: -point.value,
+          value: -point.y,
         }),
       ];
     })
-    .filter(Boolean) as unknown) as MappedDataPoint[];
+    .filter(Boolean) as unknown) as OrderedPair[];
 
   return {
     // Raw values from what the user passes in

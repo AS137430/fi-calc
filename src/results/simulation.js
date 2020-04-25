@@ -23,8 +23,7 @@ function formatSimulationForPortfolioChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
     return {
       x: `${yearData.year}.1`,
-      year: yearData.year,
-      value: yearData.computedData.portfolio.totalValueInFirstYearDollars,
+      y: yearData.computedData.portfolio.totalValueInFirstYearDollars,
     };
   });
 }
@@ -33,7 +32,7 @@ function formatSimulationForSpendingChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
     return {
       x: `${yearData.year}.1`,
-      value: yearData.computedData.totalWithdrawalAmountInFirstYearDollars,
+      y: yearData.computedData.totalWithdrawalAmountInFirstYearDollars,
     };
   });
 }

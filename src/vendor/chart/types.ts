@@ -1,6 +1,6 @@
 export interface ChartDataPoint {
   x: number | string;
-  value: number;
+  y: number;
 }
 
 export interface YAxisPoint {
@@ -9,10 +9,9 @@ export interface YAxisPoint {
 }
 
 export type OrderedPair = [number, number];
-export type Scale = [number, number];
 
 export interface SvgElementObject {
-  viewBox: Scale;
+  viewBox: OrderedPair;
   svgHeight: number;
   svgWidth: number;
 }
