@@ -57,7 +57,7 @@ function yAxisTicks(
 
     const formatted = !useFullDisplay
       ? smallDisplay(point.label, 3, useMediumDisplay ? 'medium' : 'short')
-      : formatForDisplay(point.label, 0);
+      : formatForDisplay(point.label, { digits: 0 });
     const isZero = Math.round(point.label) === 0;
 
     const renderLabel = tickYPosition > textHeight * 1.2;

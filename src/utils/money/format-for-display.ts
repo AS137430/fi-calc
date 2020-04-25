@@ -1,8 +1,7 @@
 export default function formatForDisplay(
   value: number,
-  digits: number = 2,
-  { includeDollarSign = true } = {}
-) {
+  { digits = 2, includeDollarSign = true } = {}
+): string {
   const isNegative = value < 0;
   const suffix = isNegative ? '-' : '';
   const dollarSign = includeDollarSign ? '$' : '';
