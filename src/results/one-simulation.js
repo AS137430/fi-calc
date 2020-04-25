@@ -77,8 +77,6 @@ export default function OneSimulation() {
         return null;
       }
 
-      console.log('sim', simulation);
-
       const csvArray = simulationToCsv(simulation, 1);
       return arrayToCsvDataURL([simulationCsvHeader, ...csvArray]);
     },
