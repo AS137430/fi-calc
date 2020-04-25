@@ -61,9 +61,9 @@ function yAxisLabelFromValue(value, isSmallScreen) {
     return formatted;
   } else {
     return `${formatted.value < 0 ? formatted.prefix : ''}
-      ${useMediumDisplay && '$'}
+      ${useMediumDisplay ? '$' : ''}
       ${formatted.value}
-      ${useMediumDisplay && ' '}
+      ${useMediumDisplay ? ' ' : ''}
       ${formatted.magnitude}`;
   }
 }
