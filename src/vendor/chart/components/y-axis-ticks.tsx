@@ -1,30 +1,26 @@
 import React from 'react';
-import { RenderDataReturn } from '../utils/render-data';
-import { YAxisLabelFromPoint, YAxisPoint } from '../types';
+import { YAxisLabelFromValue, YAxisPoint } from '../types';
 
 interface YAxisTicksOptions {
   yAxisPoints: YAxisPoint[];
-  dataForRender: RenderDataReturn;
   svgYAxisSpacing: number;
-  yAxisLabelFromPoint: YAxisLabelFromPoint;
+  yAxisLabelFromValue: YAxisLabelFromValue;
   textHeight: number;
+  graphWidth: number;
 }
 
 export default function YAxisTicks({
   yAxisPoints,
-  dataForRender,
   svgYAxisSpacing,
-  yAxisLabelFromPoint,
+  yAxisLabelFromValue,
   textHeight,
+  graphWidth,
 }: YAxisTicksOptions) {
-  const { svgElement } = dataForRender;
-  const tickWidth = dataForRender.svgElement.viewBox[0];
-
   return (
     <>
       {yAxisPoints.map((point, index) => {
         const tickYPosition = point.position;
-        const label = yAxisLabelFromPoint(point);
+        const label = yAxisLabelFromValue(point.label);
         const isZero = Math.round(point.label) === 0;
 
         const renderLabel = tickYPosition > textHeight * 1.2;
@@ -33,7 +29,7 @@ export default function YAxisTicks({
           <React.Fragment key={index}>
             {renderLabel && (
               <text
-                x={svgElement.viewBox[0] - svgYAxisSpacing + 5}
+                x={graphWidth - svgYAxisSpacing + 5}
                 y={tickYPosition - 4}
                 className="chartLabel">
                 {label}
@@ -41,10 +37,10 @@ export default function YAxisTicks({
             )}
             <path
               key={index}
-              d={`M0 ${tickYPosition + 0.5} h ${tickWidth}`}
+              d={`M0 ${tickYPosition + 0.5} h ${graphWidth}`}
               fill="transparent"
               stroke={isZero ? 'var(--zeroAxisColor)' : 'var(--axisColor)'}
-              strokeWidth="1px"
+              strokeWidth="var(--axisLineWidth)"
             />
           </React.Fragment>
         );

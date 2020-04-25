@@ -3,29 +3,29 @@
   --axisColor: #e5e5e5;
   --zeroAxisColor: #d0d0d0;
   --boundingBorderColor: #cfcfcf;
-  --chartLabelColor: var(--fontColor, #000);
-
+  --chartLabelColor: #000;
+  --chartBorderRadius: 4px;
+  --chartBorderWidth: 1px;
   --chartLineWidth: 3px;
+  --chartFontSize: 13px;
+  --axisLineWidth: 1px;
+
   background-color: var(--chartBg);
-  border: 1px solid var(--axisColor);
-  border-radius: 4px;
+  border: var(--chartBorderWidth) solid var(--axisColor);
+  border-radius: var(--chartBorderRadius);
   overflow: hidden;
+}
+
+.chart {
+  display: block;
 }
 
 .chartLabel {
   fill: var(--chartLabelColor);
-  font-size: 13px;
+  font-size: var(--chartFontSize);
 }
 
 .chartLine {
   stroke-width: var(--chartLineWidth);
   stroke: var(--accentColor);
-}
-
-.chartContainer-darkMode {
-  --chartBg: #141414;
-  --axisColor: #303030;
-  --zeroAxisColor: #303030;
-  --boundingBorderColor: #303030;
-  --chartLabelColor: var(--fontColor, #fff);
 }

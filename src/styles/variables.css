@@ -39,6 +39,14 @@
   );
 }
 
+.chartContainer {
+  --chartBg: #141414;
+  --axisColor: #303030;
+  --zeroAxisColor: #303030;
+  --boundingBorderColor: #303030;
+  --chartLabelColor: var(--fontColor, #fff);
+}
+
 @media (min-width: 1200px) {
   :root {
     --configuration-width: calc(20rem + var(--safeAreaInsetLeft));

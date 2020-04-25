@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
-import './chart.css';
 import ChartLine from './components/chart-line';
 import YAxisTicks from './components/y-axis-ticks';
 import XAxisTicks from './components/x-axis-ticks';
@@ -7,7 +6,7 @@ import useElSize from './hooks/use-el-size';
 import renderData, { RenderDataReturn } from './utils/render-data';
 import {
   ChartDataPoint,
-  YAxisLabelFromPoint,
+  YAxisLabelFromValue,
   XAxisLabelFromInfo,
 } from './types';
 import lineCommand from './utils/line-command';
@@ -18,13 +17,12 @@ interface ChartProps {
   isSmallScreen: boolean;
   yTicks: number[];
   xTicks: number[];
-  yAxisLabelFromPoint: YAxisLabelFromPoint;
+  yAxisLabelFromValue: YAxisLabelFromValue;
   xAxisLabelFromInfo: XAxisLabelFromInfo;
   svgXAxisSpacing?: number;
   textHeight?: number;
   xAxisLabelWidth?: number;
   className?: string;
-  darkMode?: boolean;
 }
 
 export default function Chart({
@@ -32,13 +30,12 @@ export default function Chart({
   isSmallScreen = false,
   xTicks,
   yTicks,
-  yAxisLabelFromPoint,
+  yAxisLabelFromValue,
   xAxisLabelFromInfo,
   svgXAxisSpacing = defaultConstants.svgXAxisSpacing,
   textHeight = defaultConstants.textHeight,
   xAxisLabelWidth = defaultConstants.xAxisLabelWidth,
   className = '',
-  darkMode = false,
 }: ChartProps) {
   const appRef = useRef<any>();
   const [appEl, setAppEl] = useState<any>(null);
@@ -79,17 +76,10 @@ export default function Chart({
   );
 
   return (
-    <div
-      className={`chartContainer ${
-        darkMode ? 'chartContainer-darkMode' : ''
-      } ${className}`}
-      ref={appRef}>
+    <div className={`chartContainer  ${className}`} ref={appRef}>
       {dataForRender && (
         <svg
           className="chart"
-          style={{
-            display: 'block',
-          }}
           viewBox={`0 0 ${dataForRender.svgElement.viewBox[0]} ${
             dataForRender.svgElement.viewBox[1]
           }`}
@@ -97,20 +87,17 @@ export default function Chart({
           xmlns="http://www.w3.org/2000/svg">
           <YAxisTicks
             yAxisPoints={dataForRender.yAxis.yAxisPoints}
-            dataForRender={dataForRender}
+            graphWidth={dataForRender.svgElement.viewBox[0]}
             svgYAxisSpacing={svgYAxisSpacing}
-            yAxisLabelFromPoint={yAxisLabelFromPoint}
+            yAxisLabelFromValue={yAxisLabelFromValue}
             textHeight={textHeight}
           />
           <XAxisTicks
-            numberOfBars={dataForRender.xAxis.numberOfTicks + 1}
-            svgBarWidth={dataForRender.xAxis.tickSpacing.svg}
-            data={data}
-            svgElement={dataForRender.svgElement}
-            dataForRender={dataForRender}
-            svgYAxisSpacing={svgYAxisSpacing}
-            xAxisLabelFromInfo={xAxisLabelFromInfo}
+            xAxisPoints={dataForRender.xAxis.xAxisPoints}
             svgXAxisSpacing={svgXAxisSpacing}
+            graphHeight={dataForRender.svgElement.viewBox[1]}
+            firstPoint={data[data.length - 1]}
+            xAxisLabelFromInfo={xAxisLabelFromInfo}
           />
           <ChartLine data={dataForRender.data} command={lineCommand} />
           {/* 1px border between the chart and the x-axis labels */}
@@ -120,7 +107,7 @@ export default function Chart({
               0 +
               1}`}
             stroke="var(--boundingBorderColor)"
-            strokeWidth="1px"
+            strokeWidth="var(--axisLineWidth)"
             fill="transparent"
           />
           {/* 1px border between the chart and the x-axis labels */}
@@ -130,7 +117,7 @@ export default function Chart({
               svgYAxisSpacing +
               1}`}
             stroke="var(--boundingBorderColor)"
-            strokeWidth="1px"
+            strokeWidth="var(--axisLineWidth)"
             fill="transparent"
           />
         </svg>

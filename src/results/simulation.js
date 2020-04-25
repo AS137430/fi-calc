@@ -37,14 +37,14 @@ function formatSimulationForSpendingChart(simulation) {
   });
 }
 
-function yAxisLabelFromPoint(point, isSmallScreen) {
+function yAxisLabelFromValue(value, isSmallScreen) {
   const useSmallDisplay = isSmallScreen;
-  const useMediumDisplay = !isSmallScreen && point.label > 10000000;
+  const useMediumDisplay = !isSmallScreen && value > 10000000;
   const useFullDisplay = !useSmallDisplay && !useMediumDisplay;
 
   const formatted = !useFullDisplay
-    ? smallDisplay(point.label, 3, useMediumDisplay ? 'medium' : 'short')
-    : formatForDisplay(point.label, { digits: 0 });
+    ? smallDisplay(value, 3, useMediumDisplay ? 'medium' : 'short')
+    : formatForDisplay(value, { digits: 0 });
 
   if (typeof formatted === 'string') {
     return formatted;
@@ -223,15 +223,14 @@ export default function Simulation() {
         </div>
         <div className="results_plotSection">
           <Chart
-            yAxisLabelFromPoint={point =>
-              yAxisLabelFromPoint(point, isSmallScreen)
+            yAxisLabelFromValue={value =>
+              yAxisLabelFromValue(value, isSmallScreen)
             }
             xAxisLabelFromInfo={xAxisLabelFromInfo}
             data={portfolioChartData}
             isSmallScreen={isSmallScreen}
             yTicks={dollarTicks}
             xTicks={yearTicks}
-            darkMode
           />
         </div>
         <div />
@@ -264,15 +263,14 @@ export default function Simulation() {
         )}
         <div className="results_plotSection">
           <Chart
-            yAxisLabelFromPoint={point =>
-              yAxisLabelFromPoint(point, isSmallScreen)
+            yAxisLabelFromValue={point =>
+              yAxisLabelFromValue(point, isSmallScreen)
             }
             xAxisLabelFromInfo={xAxisLabelFromInfo}
             data={withdrawalChartData}
             isSmallScreen={isSmallScreen}
             yTicks={dollarTicks}
             xTicks={yearTicks}
-            darkMode
           />
         </div>
       </div>

@@ -2,6 +2,7 @@ import linearScale from './linear-scale';
 import {
   ChartDataPoint,
   YAxisPoint,
+  XAxisPoint,
   OrderedPair,
   SvgElementObject,
 } from '../types';
@@ -54,6 +55,7 @@ export interface RenderDataReturn {
   };
 
   xAxis: {
+    xAxisPoints: XAxisPoint[];
     dataXTickSpacing: number;
     numberOfTicks: number;
     tickSpacing: TickSpacing;
@@ -183,6 +185,24 @@ export default function renderData({
     };
   });
 
+  const xAxisPoints: XAxisPoint[] = times(numberOfXTickSegments, index => {
+    const drawIndex = index;
+
+    // We render from the right toward the left, so that the most recent date
+    // is always labeled.
+    const tickXPosition =
+      svgWidth - svgYAxisSpacing - svgXTickSpacing * drawIndex;
+
+    // I should instead use a system that allows me to add/subtract
+    // x-values from the largest x-value in the dataset.
+    const distanceFromMin = index * dataXTickSpacing;
+
+    return {
+      position: tickXPosition,
+      distance: -distanceFromMin,
+    };
+  });
+
   let hasIncludedZero = false;
   const mappedData = (data
     .map((point, index) => {
@@ -249,6 +269,7 @@ export default function renderData({
     },
 
     xAxis: {
+      xAxisPoints,
       dataXTickSpacing,
       numberOfTicks: numberOfXTickSegments,
 

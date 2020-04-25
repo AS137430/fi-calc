@@ -8,6 +8,11 @@ export interface YAxisPoint {
   label: number;
 }
 
+export interface XAxisPoint {
+  position: number;
+  distance: number;
+}
+
 export type OrderedPair = [number, number];
 
 export interface SvgElementObject {
@@ -16,7 +21,7 @@ export interface SvgElementObject {
   svgWidth: number;
 }
 
-export type YAxisLabelFromPoint = (point: YAxisPoint) => string;
+export type YAxisLabelFromValue = (value: number) => string | number;
 export type XAxisLabelFromInfo = (
   maxChartDataPoint: ChartDataPoint,
   distanceFromMaxChartDataPoint: number
