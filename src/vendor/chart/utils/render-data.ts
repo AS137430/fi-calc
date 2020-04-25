@@ -1,15 +1,6 @@
 import _ from 'lodash';
 import linearScale from './linear-scale';
-
-export interface ChartDataPoint {
-  x: number | string;
-  value: number;
-}
-
-export interface YAxisPoint {
-  position: number;
-  label: number;
-}
+import { ChartDataPoint, YAxisPoint, Scale, SvgElementObject } from '../types';
 
 interface RenderDataOption {
   data: ChartDataPoint[];
@@ -24,14 +15,6 @@ interface RenderDataOption {
   yTicks: number[];
   xTicks: number[];
 }
-
-export interface SvgElementObject {
-  viewBox: Scale;
-  svgHeight: number;
-  svgWidth: number;
-}
-
-type Scale = [number, number];
 
 interface TickSpacing {
   svg: number;

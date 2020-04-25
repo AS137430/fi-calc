@@ -1,140 +1,23 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
 import './chart.css';
+import svgPath from './components/svg-path';
+import yAxisTicks from './components/y-axis-ticks';
+import xAxisTicks from './components/x-axis-ticks';
 import useElSize from './hooks/use-el-size';
-import renderData, {
-  RenderDataReturn,
-  YAxisPoint,
-  SvgElementObject,
+import renderData, { RenderDataReturn } from './utils/render-data';
+import {
   ChartDataPoint,
-} from './utils/render-data';
-
-// These are SVG units, but they should probably be in absolute
-// units, so that I can control the text sizing.
-// const svgYAxisSpacing = 75;
-const svgXAxisSpacing = 25;
-
-// The height of an SVG text element, in pixels
-const textHeight = 17;
-const xAxisLabelWidth = 40;
-
-// The minimum padding that we want to have on our y axis.
-const yLabelPadding = textHeight * 1.5;
-const xLabelPadding = xAxisLabelWidth * 0.6;
-
-type OrderedPair = [number, number];
-
-type YAxisLabelFromPoint = (point: YAxisPoint) => string;
-type XAxisLabelFromInfo = (
-  maxChartDataPoint: ChartDataPoint,
-  distanceFromMaxChartDataPoint: number
-) => string;
-
-// Linear function
-const lineCommand = (point: OrderedPair): string => `L ${point[0]} ${point[1]}`;
-
-// Generate a path from points
-const svgPath = (
-  points: OrderedPair[],
-  command: (point: OrderedPair, index: number, arr: OrderedPair[]) => string
-) => {
-  // build the d attributes by looping over the points
-  const d = points.reduce(
-    (acc, point, i, a) =>
-      i === 0
-        ? // if first point
-          `M ${point[0]},${point[1]}`
-        : // else
-          `${acc} ${command(point, i, a)}`,
-    ''
-  );
-  return <path className="chartLine" d={d} fill="none" strokeWidth="3px" />;
-};
-
-function yAxisTicks(
-  yAxisPoints: YAxisPoint[],
-  dataForRender: RenderDataReturn,
-  svgYAxisSpacing: number,
-  yAxisLabelFromPoint: YAxisLabelFromPoint
-) {
-  const { svgElement } = dataForRender;
-  const tickWidth = dataForRender.svgElement.viewBox[0];
-
-  return yAxisPoints.map((point, index) => {
-    const tickYPosition = point.position;
-    const label = yAxisLabelFromPoint(point);
-    const isZero = Math.round(point.label) === 0;
-
-    const renderLabel = tickYPosition > textHeight * 1.2;
-
-    return (
-      <React.Fragment key={index}>
-        {renderLabel && (
-          <text
-            x={svgElement.viewBox[0] - svgYAxisSpacing + 5}
-            y={tickYPosition - 4}
-            className="chartLabel">
-            {label}
-          </text>
-        )}
-        <path
-          key={index}
-          d={`M0 ${tickYPosition + 0.5} h ${tickWidth}`}
-          fill="transparent"
-          stroke={isZero ? 'var(--zeroAxisColor)' : 'var(--axisColor)'}
-          strokeWidth="1px"
-        />
-      </React.Fragment>
-    );
-  });
-}
-
-function xAxisTicks(
-  numberOfBars: number,
-  svgBarWidth: number,
-  data: ChartDataPoint[],
-  svgElement: SvgElementObject,
-  dataForRender: RenderDataReturn,
-  svgYAxisSpacing: number,
-  xAxisLabelFromInfo: XAxisLabelFromInfo
-) {
-  return Array.from({ length: numberOfBars }).map((val, index) => {
-    const drawIndex = index;
-
-    // We render from the right toward the left, so that the most recent date
-    // is always labeled.
-    const tickXPosition =
-      dataForRender.domain.svg[1] - svgYAxisSpacing - svgBarWidth * drawIndex;
-    const tickHeight = dataForRender.svgElement.viewBox[1];
-
-    const maxPoint = data[data.length - 1];
-
-    const dataSpacing = dataForRender.xAxis.tickSpacing.data;
-
-    // I should instead use a system that allows me to add/subtract
-    // months from the largest month in the dataset.
-    const distanceFromMin = index * dataSpacing;
-
-    const label = xAxisLabelFromInfo(maxPoint, -distanceFromMin);
-
-    return (
-      <React.Fragment key={index}>
-        <text
-          x={tickXPosition + 5}
-          y={svgElement.viewBox[1] - svgXAxisSpacing + 15}
-          className="chartLabel">
-          {label}
-        </text>
-        <path
-          key={index}
-          d={`M${tickXPosition + 0.5} 0 v ${tickHeight}`}
-          fill="transparent"
-          strokeWidth="1px"
-          stroke="var(--axisColor)"
-        />
-      </React.Fragment>
-    );
-  });
-}
+  YAxisLabelFromPoint,
+  XAxisLabelFromInfo,
+} from './types';
+import lineCommand from './utils/line-command';
+import {
+  svgXAxisSpacing,
+  textHeight,
+  yLabelPadding,
+  xAxisLabelWidth,
+  xLabelPadding,
+} from './utils/constant-values';
 
 interface ChartProps {
   data: ChartDataPoint[];
