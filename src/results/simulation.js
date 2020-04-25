@@ -16,11 +16,12 @@ import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
 import downloadDataURL from '../utils/download-data-url';
 import dollarTicks from '../utils/chart/dollar-ticks';
 import yearTicks from '../utils/chart/year-ticks';
+import smallDisplay from '../utils/money/small-display';
+import addYears from '../utils/date/add-years';
 
 function formatSimulationForPortfolioChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
     return {
-      historyKey: `${yearData.year}-01`,
       month: 1,
       year: yearData.year,
       value: yearData.computedData.portfolio.totalValueInFirstYearDollars,
@@ -31,7 +32,6 @@ function formatSimulationForPortfolioChart(simulation) {
 function formatSimulationForSpendingChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
     return {
-      historyKey: `${yearData.year}-01`,
       month: 1,
       year: yearData.year,
       value: yearData.computedData.totalWithdrawalAmountInFirstYearDollars,
@@ -39,7 +39,32 @@ function formatSimulationForSpendingChart(simulation) {
   });
 }
 
-export default function OneSimulation() {
+function yAxisLabelFromPoint(point, isSmallScreen) {
+  const useSmallDisplay = isSmallScreen;
+  const useMediumDisplay = !isSmallScreen && point.label > 10000000;
+  const useFullDisplay = !useSmallDisplay && !useMediumDisplay;
+
+  const formatted = !useFullDisplay
+    ? smallDisplay(point.label, 3, useMediumDisplay ? 'medium' : 'short')
+    : formatForDisplay(point.label, { digits: 0 });
+
+  if (typeof formatted === 'string') {
+    return formatted;
+  } else {
+    return `${formatted.value < 0 ? formatted.prefix : ''}
+      ${useMediumDisplay && '$'}
+      ${formatted.value}
+      ${useMediumDisplay && ' '}
+      ${formatted.magnitude}`;
+  }
+}
+
+function xAxisLabelFromInfo(chartDataPoint, distance) {
+  const dateToUse = addYears(chartDataPoint, distance);
+  return dateToUse.year;
+}
+
+export default function Simulation() {
   const isSmallScreen = useIsSmallScreen();
   const { year } = useParams();
   const { result } = useSimulationResult();
@@ -192,6 +217,10 @@ export default function OneSimulation() {
         </div>
         <div className="results_plotSection">
           <Chart
+            yAxisLabelFromPoint={point =>
+              yAxisLabelFromPoint(point, isSmallScreen)
+            }
+            xAxisLabelFromInfo={xAxisLabelFromInfo}
             data={portfolioChartData}
             isSmallScreen={isSmallScreen}
             yTicks={dollarTicks}
@@ -228,6 +257,10 @@ export default function OneSimulation() {
         )}
         <div className="results_plotSection">
           <Chart
+            yAxisLabelFromPoint={point =>
+              yAxisLabelFromPoint(point, isSmallScreen)
+            }
+            xAxisLabelFromInfo={xAxisLabelFromInfo}
             data={withdrawalChartData}
             isSmallScreen={isSmallScreen}
             yTicks={dollarTicks}

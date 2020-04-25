@@ -7,11 +7,6 @@ import renderData, {
   SvgElementObject,
   ChartData,
 } from './utils/render-data';
-import formatForDisplay from '../../utils/money/format-for-display';
-import smallDisplay, {
-  SmallDisplayMagnitude,
-} from '../../utils/money/small-display';
-import addYears from '../../utils/date/add-years';
 
 // These are SVG units, but they should probably be in absolute
 // units, so that I can control the text sizing.
@@ -27,6 +22,9 @@ const yLabelPadding = textHeight * 1.5;
 const xLabelPadding = xAxisLabelWidth * 0.6;
 
 type OrderedPair = [number, number];
+
+type YAxisLabelFromPoint = (point: YAxisPoint) => string;
+type XAxisLabelFromInfo = (chartData: ChartData, distance: number) => string;
 
 // Linear function
 const lineCommand = (point: OrderedPair): string => `L ${point[0]} ${point[1]}`;
@@ -53,27 +51,14 @@ function yAxisTicks(
   yAxisPoints: YAxisPoint[],
   dataForRender: RenderDataReturn,
   svgYAxisSpacing: number,
-  isSmallScreen: boolean
+  yAxisLabelFromPoint: YAxisLabelFromPoint
 ) {
   const { svgElement } = dataForRender;
   const tickWidth = dataForRender.svgElement.viewBox[0];
 
   return yAxisPoints.map((point, index) => {
     const tickYPosition = point.position;
-
-    const useSmallDisplay = isSmallScreen;
-    const useMediumDisplay = !isSmallScreen && point.label > 10000000;
-    const useFullDisplay = !useSmallDisplay && !useMediumDisplay;
-
-    const formatted = !useFullDisplay
-      ? smallDisplay(
-          point.label,
-          3,
-          useMediumDisplay
-            ? SmallDisplayMagnitude.medium
-            : SmallDisplayMagnitude.short
-        )
-      : formatForDisplay(point.label, { digits: 0 });
+    const label = yAxisLabelFromPoint(point);
     const isZero = Math.round(point.label) === 0;
 
     const renderLabel = tickYPosition > textHeight * 1.2;
@@ -85,16 +70,7 @@ function yAxisTicks(
             x={svgElement.viewBox[0] - svgYAxisSpacing + 5}
             y={tickYPosition - 4}
             className="chartLabel">
-            {typeof formatted !== 'string' && (
-              <>
-                {formatted.value < 0 ? formatted.prefix : ''}
-                {useMediumDisplay && '$'}
-                {formatted.value}
-                {useMediumDisplay && ' '}
-                {formatted.magnitude}
-              </>
-            )}
-            {typeof formatted === 'string' && <>{formatted}</>}
+            {label}
           </text>
         )}
         <path
@@ -115,7 +91,8 @@ function xAxisTicks(
   data: ChartData[],
   svgElement: SvgElementObject,
   dataForRender: RenderDataReturn,
-  svgYAxisSpacing: number
+  svgYAxisSpacing: number,
+  xAxisLabelFromInfo: XAxisLabelFromInfo
 ) {
   return Array.from({ length: numberOfBars }).map((val, index) => {
     const drawIndex = index;
@@ -134,7 +111,7 @@ function xAxisTicks(
     // months from the largest month in the dataset.
     const distanceFromMin = index * dataSpacing;
 
-    const dateToUse = addYears(maxPoint, -distanceFromMin);
+    const label = xAxisLabelFromInfo(maxPoint, -distanceFromMin);
 
     return (
       <React.Fragment key={index}>
@@ -142,7 +119,7 @@ function xAxisTicks(
           x={tickXPosition + 5}
           y={svgElement.viewBox[1] - svgXAxisSpacing + 15}
           className="chartLabel">
-          {dateToUse.year}
+          {label}
         </text>
         <path
           key={index}
@@ -161,6 +138,8 @@ interface ChartProps {
   isSmallScreen: boolean;
   yTicks: number[];
   xTicks: number[];
+  yAxisLabelFromPoint: YAxisLabelFromPoint;
+  xAxisLabelFromInfo: XAxisLabelFromInfo;
 }
 
 export default function Chart({
@@ -168,6 +147,8 @@ export default function Chart({
   isSmallScreen = false,
   xTicks,
   yTicks,
+  yAxisLabelFromPoint,
+  xAxisLabelFromInfo,
 }: ChartProps) {
   const appRef = useRef<any>();
   const [appEl, setAppEl] = useState<any>(null);
@@ -221,7 +202,7 @@ export default function Chart({
             dataForRender.yAxis.yAxisPoints,
             dataForRender,
             svgYAxisSpacing,
-            isSmallScreen
+            yAxisLabelFromPoint
           )}
           {xAxisTicks(
             dataForRender.xAxis.numberOfTicks + 1,
@@ -229,7 +210,8 @@ export default function Chart({
             data,
             dataForRender.svgElement,
             dataForRender,
-            svgYAxisSpacing
+            svgYAxisSpacing,
+            xAxisLabelFromInfo
           )}
           {svgPath(dataForRender.data, lineCommand)}
           {/* 1px border between the chart and the x-axis labels */}

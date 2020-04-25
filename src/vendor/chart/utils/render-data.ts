@@ -2,7 +2,6 @@ import _ from 'lodash';
 import linearScale from './linear-scale';
 
 export interface ChartData {
-  historyKey: string;
   month: number;
   year: number;
   value: number;
