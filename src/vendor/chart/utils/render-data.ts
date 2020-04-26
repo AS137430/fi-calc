@@ -215,7 +215,7 @@ export default function renderData({
     const distanceFromMin = distanceIndex * dataXTickSpacing;
 
     return {
-      width: spaceBetweenXAxisLabels,
+      width: index === 0 ? svgYAxisSpacing : spaceBetweenXAxisLabels,
       position: tickXPosition,
       distance: -distanceFromMin,
     };
