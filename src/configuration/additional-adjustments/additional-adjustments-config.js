@@ -117,6 +117,10 @@ export default function AdditionalIncome({
               You can account for these and other sources of income by creating{' '}
               <b>additional income</b> in this calculator.
             </p>
+            <p>
+              Note that additional income in this calculator is specified as the{' '}
+              <b>yearly sum</b> of source of income.
+            </p>
           </>
         )}
         {!isIncome && (

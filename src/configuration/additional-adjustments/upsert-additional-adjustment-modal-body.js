@@ -85,7 +85,7 @@ export default function UpsertAdditionalAdjustmentModalBody({
             <label
               className="modalForm_label"
               htmlFor="additionalAdjustmentValue">
-              Amount
+              Annual Amount
             </label>
           </div>
           <Input
