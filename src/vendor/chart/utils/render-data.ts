@@ -154,7 +154,15 @@ export default function renderData({
   const domYTickSpacing = svgHeight / numberOfYTickSegments;
   const svgYTickSpacing = chartRangeSize / numberOfYTickSegments;
 
-  const trueDomainSize = domain[1] - domain[0];
+  let trueDomainSize = domain[1] - domain[0];
+
+  const isRenderingSinglePoint = trueDomainSize === 0;
+
+  // When we render a single point, we render it in the middle of the point to the left
+  // and right of it.
+  if (isRenderingSinglePoint) {
+    trueDomainSize = 2;
+  }
 
   const numberOfXTickSegments = trueDomainSize / dataXTickSpacing;
   const domXTickSpacing = svgWidth / numberOfXTickSegments;
@@ -194,6 +202,7 @@ export default function renderData({
   const spaceBetweenXAxisLabels = svgWidth / xTicksToRender;
 
   const xAxisPoints: XAxisPoint[] = times(xTicksToRender, index => {
+    const distanceIndex = isRenderingSinglePoint ? index - 1 : index;
     const drawIndex = index;
 
     // We render from the right toward the left, so that the most recent date
@@ -203,7 +212,7 @@ export default function renderData({
 
     // I should instead use a system that allows me to add/subtract
     // x-values from the largest x-value in the dataset.
-    const distanceFromMin = index * dataXTickSpacing;
+    const distanceFromMin = distanceIndex * dataXTickSpacing;
 
     return {
       width: spaceBetweenXAxisLabels,
@@ -235,11 +244,16 @@ export default function renderData({
         }
       }
 
+      const xIndexToUse = isRenderingSinglePoint ? 1 : index;
+      const xDomainToUse: [number, number] = isRenderingSinglePoint
+        ? [0, 2]
+        : xDomainInput;
+
       return [
         linearScale({
-          domain: xDomainInput,
+          domain: xDomainToUse,
           range: [chartDomain[0], chartDomain[1]],
-          value: index,
+          value: xIndexToUse,
         }),
         linearScale({
           domain: yDomainInput,
