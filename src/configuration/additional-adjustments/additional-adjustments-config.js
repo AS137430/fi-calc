@@ -119,7 +119,7 @@ export default function AdditionalIncome({
             </p>
             <p>
               Note that additional income in this calculator is specified as the{' '}
-              <b>yearly sum</b> of source of income.
+              <b>yearly sum</b> of each source of income.
             </p>
           </>
         )}
