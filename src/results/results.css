@@ -229,6 +229,10 @@
   background-color: #3a3a3a;
 }
 
+.byYear_cell:active {
+  background-color: #303030;
+}
+
 .byYear_cell-isFailed {
   background-color: #ca1010;
 }
@@ -237,12 +241,20 @@
   background-color: #e01d1d;
 }
 
+.byYear_cell-isFailed:active {
+  background-color: #b90d0d;
+}
+
 .byYear_cell-isWarning {
-  background-color: #bb6f00;
+  background-color: #b36300;
 }
 
 .byYear_cell-isWarning:hover {
-  background-color: #c77906;
+  background-color: #bf6a00;
+}
+
+.byYear_cell-isWarning:active {
+  background-color: #a75c00;
 }
 
 .byYear_cell-incomplete {
