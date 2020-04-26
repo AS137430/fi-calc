@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import IconGetApp from 'materialish/icon-get-app';
@@ -6,7 +6,6 @@ import './results.css';
 import IconInfoOutline from 'materialish/icon-info-outline';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
-import { getItem, setItem } from '../utils/storage';
 import useSimulationResult from '../state/simulation-result';
 import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
 import downloadDataURL from '../utils/download-data-url';
@@ -14,15 +13,10 @@ import simulationToCsv, {
   simulationCsvHeader,
 } from '../utils/simulation-to-csv';
 
-const STORAGE_KEY = 'isViewYearDetailsHidden';
-
 export default function SimulationsOverview() {
   const { result } = useSimulationResult();
 
   const isSmallScreen = useIsSmallScreen();
-  const [isTipHidden, setIsTipHidden] = useState(() =>
-    Boolean(getItem(STORAGE_KEY))
-  );
 
   // For debugging purposes
   window.result = result;
@@ -49,13 +43,6 @@ export default function SimulationsOverview() {
   const isDanger = !exceedsSuccessRateThreshold && result?.successRate < 0.8;
   const isWarning =
     !exceedsSuccessRateThreshold && !isDanger && result?.successRate < 0.95;
-
-  function hideViewYearsDetails() {
-    setIsTipHidden(true);
-    // localStorage values are all strings, which is why we store this as the string "true"
-    // rather than as a boolean.
-    setItem(STORAGE_KEY, 'true');
-  }
 
   const hasResult = Boolean(result);
   const hasSimulations = Boolean(result?.completeSimulations.length);
@@ -142,20 +129,9 @@ export default function SimulationsOverview() {
       {hasSimulations && (
         <div className="results_block">
           <h2 className="results_h2">Simulations By Start Year</h2>
-          {!isTipHidden && (
-            <div className="tip">
-              <IconInfoOutline size="1.05rem" />
-              <div className="tip_msg">
-                Click on a year to view more information about that simulation.
-              </div>
-              <button
-                className="tip_btn"
-                type="button"
-                onClick={hideViewYearsDetails}>
-                Okay
-              </button>
-            </div>
-          )}
+          <div className="results_help">
+            Click on a year to view more information about that simulation.
+          </div>
           <div className="results_byYearGrid">
             {result.completeSimulations.map(simulation => {
               return (

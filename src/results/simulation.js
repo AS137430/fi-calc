@@ -165,7 +165,9 @@ export default function Simulation() {
         </Link>
         <div className="simulationHeader">
           <h1 className="simulationHeader_h1">
-            Jan {simulation.startYear} – Jan {simulation.endYear + 1}
+            Jan&nbsp;
+            {simulation.startYear} – Jan&nbsp;
+            {simulation.endYear + 1}
           </h1>
           <div className="simulationHeader_ctas">
             <button
