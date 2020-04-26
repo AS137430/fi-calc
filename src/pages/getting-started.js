@@ -24,9 +24,9 @@ export default function GettingStarted() {
         a novel idea to determine a safe withdrawal rate: simulating retirements
         using historical data. He took a retirement plan and calculated how it
         would have performed if an individual had started their retirement in
-        1871. After some number of years (he used 30 in his study), he
+        1926. After some number of years (he used 30 in his study), he
         determined if there was any money left in the portfolio. Then, he ran
-        the simulation again, starting in the year 1872, and continued all the
+        the simulation again, starting in the year 1927, and continued all the
         way through the present day.
       </p>
       <p>
@@ -44,7 +44,7 @@ export default function GettingStarted() {
       <p>
         This method of determing a safe withdrawal strategy is powerful if you
         believe that the market during your retirement will perform no worse
-        than the worst market since 1871.
+        than the worst market in the available data set.
       </p>
       <h2 className="page_h2">Other Withdrawal Strategies</h2>
       <p>

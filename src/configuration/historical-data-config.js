@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames';
 import { Checkbox } from 'materialish';
 import ConfigSection from './sidebar-section';
 import useForm from '../hooks/use-form';
+import InfoModal from '../common/info-modal';
 import Input from '../common/input';
 import useSimulationData from '../state/simulation-data';
 import simulationDataForm from '../form-config/simulation-data-form';
@@ -12,10 +13,13 @@ export default function HistoricalDataConfig() {
     formConfig: simulationDataForm,
     useSourceOfTruth: useSimulationData,
   });
+  const [openModal, setOpenModal] = useState(null);
 
   return (
     <>
-      <ConfigSection title="Historical Data">
+      <ConfigSection
+        title="Historical Data"
+        onHelpClick={() => setOpenModal('titleHelp')}>
         <ConfigSection.Contents>
           <div className="formRow formRow-flex">
             <Checkbox
@@ -87,6 +91,20 @@ export default function HistoricalDataConfig() {
           </div>
         </ConfigSection.Contents>
       </ConfigSection>
+      <InfoModal
+        title="Historical Data"
+        active={openModal === 'titleHelp'}
+        onBeginClose={() => setOpenModal(null)}>
+        <p>
+          This calculator works by simulating retirements using historical data.
+          The full data set spans back to 1871, but sometimes, you may wish to
+          restrict your your retirements to a subset of the available data.
+        </p>
+        <p>
+          The original studies that used this method of analysis, for instance,
+          only used data from 1926 and later.
+        </p>
+      </InfoModal>
     </>
   );
 }

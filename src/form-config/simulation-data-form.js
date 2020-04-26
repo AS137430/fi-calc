@@ -19,7 +19,7 @@ export default {
 
     firstYear: {
       type: 'number',
-      default: minYear,
+      default: 1926,
       validators: [
         isRequired,
         numberRequired,
