@@ -19,7 +19,7 @@ export default function XAxisTicks({
   return (
     <>
       {xAxisPoints.map((point, index) => {
-        const label = xAxisLabelFromInfo(firstPoint, point.distance);
+        const label = xAxisLabelFromInfo(firstPoint, point);
 
         return (
           <React.Fragment key={index}>

@@ -68,7 +68,7 @@ function yAxisLabelFromValue(value, isSmallScreen) {
   }
 }
 
-function xAxisLabelFromInfo(maxChartDataPoint, distanceFromMaxChartDataPoint) {
+function xAxisLabelFromInfo(maxChartDataPoint, point) {
   const [stringYear, stringMonth] = maxChartDataPoint.x.split('.');
 
   const dateToUse = addYears(
@@ -76,9 +76,13 @@ function xAxisLabelFromInfo(maxChartDataPoint, distanceFromMaxChartDataPoint) {
       month: Number(stringMonth),
       year: Number(stringYear),
     },
-    distanceFromMaxChartDataPoint
+    point.distance
   );
-  return dateToUse.year;
+
+  const isWideEnoughForMonth = point.width > 100;
+  const monthString = isWideEnoughForMonth ? 'Jan ' : '';
+
+  return `${monthString}${dateToUse.year}`;
 }
 
 export default function Simulation() {

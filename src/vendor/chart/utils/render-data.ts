@@ -191,6 +191,7 @@ export default function renderData({
   const xTicksToRender = spacingFitsDomain
     ? numberOfXTickSegments + 1
     : numberOfXTickSegments;
+  const spaceBetweenXAxisLabels = svgWidth / xTicksToRender;
 
   const xAxisPoints: XAxisPoint[] = times(xTicksToRender, index => {
     const drawIndex = index;
@@ -205,6 +206,7 @@ export default function renderData({
     const distanceFromMin = index * dataXTickSpacing;
 
     return {
+      width: spaceBetweenXAxisLabels,
       position: tickXPosition,
       distance: -distanceFromMin,
     };
