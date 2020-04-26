@@ -252,30 +252,34 @@ export default function Simulation() {
       </div>
       <div className="results_block">
         <h2 className="results_h2">Withdrawals</h2>
-        {!isconstantWithdrawal && (
-          <div className="results_sectionRow">
-            <div className="results_section">
-              <div className="results_sectionTitle">Lowest Withdrawal</div>
-              <div className="results_value">
-                {formatForDisplay(
-                  simulation.minWithdrawalYearInFirstYearDollars.computedData
-                    .totalWithdrawalAmountInFirstYearDollars
-                )}
-                <span className="results_secondaryValue">
-                  ({simulation.minWithdrawalYearInFirstYearDollars.year})
-                </span>
+        {!isconstantWithdrawal &&
+          simulation.duration > 1 && (
+            <div className="results_sectionRow">
+              <div className="results_section">
+                <div className="results_sectionTitle">Lowest Withdrawal</div>
+                <div className="results_value">
+                  {formatForDisplay(
+                    simulation.minWithdrawalYearInFirstYearDollars.computedData
+                      .totalWithdrawalAmountInFirstYearDollars
+                  )}
+                  <span className="results_secondaryValue">
+                    ({simulation.minWithdrawalYearInFirstYearDollars.year})
+                  </span>
+                </div>
+              </div>
+              <div className="results_section">
+                <div className="results_sectionTitle">
+                  Final Year Withdrawal
+                </div>
+                <div className="results_value">
+                  {formatForDisplay(
+                    lastYear.computedData
+                      .totalWithdrawalAmountInFirstYearDollars
+                  )}
+                </div>
               </div>
             </div>
-            <div className="results_section">
-              <div className="results_sectionTitle">Final Year Withdrawal</div>
-              <div className="results_value">
-                {formatForDisplay(
-                  lastYear.computedData.totalWithdrawalAmountInFirstYearDollars
-                )}
-              </div>
-            </div>
-          </div>
-        )}
+          )}
         <div className="results_plotSection">
           <Chart
             yAxisLabelFromValue={point =>
