@@ -15,19 +15,21 @@
 
 .simulationHeader {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 2.5rem;
+  justify-content: space-between;
+  margin-bottom: 2.25rem;
 }
 
 .simulationHeader_h1 {
   font-size: 1.75rem;
   font-weight: 900;
-  margin: 0;
+  margin: 0 0.5rem 0.75rem 0;
 }
 
 .simulationHeader_ctas {
-  margin-left: auto;
   flex-shrink: 0;
+  margin-bottom: 0.75rem;
 }
 
 .simulation_downloadCsvBtn {
