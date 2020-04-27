@@ -14,7 +14,9 @@ import simulationToCsv, {
 } from '../utils/simulation-to-csv';
 
 export default function SimulationsOverview() {
-  const { result } = useSimulationResult();
+  const { result, inputs } = useSimulationResult();
+
+  console.log('hi', inputs);
 
   const isSmallScreen = useIsSmallScreen();
 
