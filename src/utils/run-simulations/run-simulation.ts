@@ -69,7 +69,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   const {
     annualWithdrawal,
     inflationAdjustedFirstYearWithdrawal,
-    withdrawalStrategyName: withdrawalStrategyObject,
+    withdrawalStrategyName: withdrawalStrategyNameObject,
     percentageOfPortfolio: percentPercentageOfPortfolio,
     minWithdrawalLimit,
     maxWithdrawalLimit,
@@ -90,7 +90,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     capeWeight
   } = withdrawalStrategy;
   const firstYearWithdrawal = annualWithdrawal;
-  const withdrawalStrategyName = withdrawalStrategyObject.key;
+  const withdrawalStrategyName = withdrawalStrategyNameObject.key;
   const percentageOfPortfolio = percentPercentageOfPortfolio / 100;
 
   let withdrawalConfiguration: any = {};
