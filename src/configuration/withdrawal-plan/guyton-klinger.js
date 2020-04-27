@@ -17,7 +17,7 @@ export default function GuytonKlingerConfiguration({
       <div className="formRow_separator" />
       <div className="formRow">
         <div className="inputLabel_container">
-          <label htmlFor="gkInitialSpending" className="inputLabel">
+          <label htmlFor="gkInitialWithdrawal" className="inputLabel">
             Initial Withdrawal
           </label>
           <button
@@ -29,8 +29,8 @@ export default function GuytonKlingerConfiguration({
           </button>
         </div>
         <Input
-          {...inputs.gkInitialSpending.getProps({
-            id: 'gkInitialSpending',
+          {...inputs.gkInitialWithdrawal.getProps({
+            id: 'gkInitialWithdrawal',
             className: 'input-annualWithdrawal',
             type: 'number',
             min: 0,
@@ -39,7 +39,7 @@ export default function GuytonKlingerConfiguration({
             prefix: '$',
             suffix: 'per year',
             onCommit(event, newValue) {
-              commitInput('gkInitialSpending', newValue);
+              commitInput('gkInitialWithdrawal', newValue);
             },
           })}
         />

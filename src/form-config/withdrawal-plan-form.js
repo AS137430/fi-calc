@@ -97,7 +97,7 @@ export default {
     },
 
     /* Guyton-Klinger */
-    gkInitialSpending: {
+    gkInitialWithdrawal: {
       type: 'number',
       default: 40000,
       validators: [

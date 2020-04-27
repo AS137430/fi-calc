@@ -1,6 +1,6 @@
 import clamp from '../numbers/clamp';
 import {
-  SpendingMethods,
+  WithdrawalStrategies,
   Portfolio,
   YearResult,
   YearData,
@@ -23,7 +23,7 @@ interface WithdrawalOptions {
   percentageOfPortfolio: number;
   minWithdrawal: number;
   maxWithdrawal: number;
-  gkInitialSpending: number;
+  gkInitialWithdrawal: number;
   gkWithdrawalUpperLimit: number;
   gkWithdrawalLowerLimit: number;
   gkUpperLimitAdjustment: number;
@@ -84,7 +84,7 @@ function guytonKlinger({
   cpi,
   firstYearCpi,
   portfolioTotalValue,
-  gkInitialSpending,
+  gkInitialWithdrawal,
   initialPortfolio,
   gkWithdrawalUpperLimit,
   gkWithdrawalLowerLimit,
@@ -97,7 +97,7 @@ function guytonKlinger({
   minWithdrawal,
   maxWithdrawal,
 }: WithdrawalOptions): number {
-  // The first step in the GK computation is determining how much we spent last year. If we're in the
+  // The first step in the GK computation is determining how much we withdrew last year. If we're in the
   // first year, then it's just our initial withdrawal value. Otherwise, we look at our previous year's
   // results and grab it from there.
   // We may end up using this value for this year, or we may end up modifying it. These are the outcomes
@@ -106,8 +106,8 @@ function guytonKlinger({
   //   Inflation: we may adjust for inflation, or we may not (Modified Withdrawal Rule)
   //   Adjustment: we may decrease it by a little bit (Capital Preservation Rule / gkUpperLimitAdjustment)
   //   Adjustment: we may increase it by a little bit (Prosperity Rule / gkLowerLimitAdjustment)
-  const previousSpending = isFirstYear
-    ? gkInitialSpending
+  const previousWithdrawal = isFirstYear
+    ? gkInitialWithdrawal
     : previousResults.computedData.baseWithdrawalAmount;
 
   const prevCpi = isFirstYear ? firstYearCpi : previousResults.cpi;
@@ -117,7 +117,7 @@ function guytonKlinger({
   });
 
   const inflationAdjustedPrevYearWithdrawal =
-    previousSpending * inflationFromPreviousYear;
+    previousWithdrawal * inflationFromPreviousYear;
 
   let withdrawalAmountToUse = inflationAdjustedPrevYearWithdrawal;
   if (gkModifiedWithdrawalRule) {
@@ -138,7 +138,7 @@ function guytonKlinger({
     // Note: we will still apply the other two rules after this
 
     // First, we calculate the inflation-adjusted first year withdrawal
-    const inflationAdjustedInitialWithdrawal = gkInitialSpending * inflation;
+    const inflationAdjustedInitialWithdrawal = gkInitialWithdrawal * inflation;
 
     // Next, we find the answer to (1) by calculating our returns
     const thisYearTotalReturn = yearMarketData.stockMarketGrowth;
@@ -151,16 +151,16 @@ function guytonKlinger({
       inflationAdjustedPrevYearWithdrawal > inflationAdjustedInitialWithdrawal;
 
     // Solve for (3) by checking if our inflation is positive
-    const inflationWillIncreaseSpending = inflationFromPreviousYear > 1;
+    const inflationWillIncreaseWithdrawal = inflationFromPreviousYear > 1;
 
     // When (1), (2), and (3) are true, we freeze the withdrawal and not apply inflation
     const freezeWithdrawal =
       currentWithdrawalExceedsInitialWithdrawal &&
       thisYearTotalReturnIsNegative &&
-      inflationWillIncreaseSpending;
+      inflationWillIncreaseWithdrawal;
 
     if (freezeWithdrawal) {
-      withdrawalAmountToUse = previousSpending;
+      withdrawalAmountToUse = previousWithdrawal;
     }
   }
 
@@ -197,7 +197,8 @@ function guytonKlinger({
 
   // To determine if we need to adjust our withdrawal, we first compute the initial year's % withdrawal. For
   // instance, 40k out of $1mil would be a 4% withdrawal.
-  const initialWithdrawalRate = gkInitialSpending / initialPortfolio.totalValue;
+  const initialWithdrawalRate =
+    gkInitialWithdrawal / initialPortfolio.totalValue;
 
   // We use that initial withdrawal rate to compute the max/min withdrawals that apply for every subsequent year
   // This is "Exceeds" in the equations above
@@ -307,10 +308,10 @@ function capeBased({
 }
 
 export default {
-  [SpendingMethods.inflationAdjusted]: inflationAdjusted,
-  [SpendingMethods.notInflationAdjusted]: notInflationAdjusted,
-  [SpendingMethods.portfolioPercent]: portfolioPercent,
-  [SpendingMethods.guytonKlinger]: guytonKlinger,
-  [SpendingMethods.ninetyFivePercentRule]: ninetyFivePercentRule,
-  [SpendingMethods.capeBased]: capeBased,
+  [WithdrawalStrategies.inflationAdjusted]: inflationAdjusted,
+  [WithdrawalStrategies.notInflationAdjusted]: notInflationAdjusted,
+  [WithdrawalStrategies.portfolioPercent]: portfolioPercent,
+  [WithdrawalStrategies.guytonKlinger]: guytonKlinger,
+  [WithdrawalStrategies.ninetyFivePercentRule]: ninetyFivePercentRule,
+  [WithdrawalStrategies.capeBased]: capeBased,
 };

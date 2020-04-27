@@ -29,7 +29,7 @@ export interface WithdrawalPlan {
     key: string;
   };
 
-  /* Constant Spending */
+  /* Constant Withdrawal */
   annualWithdrawal: number;
   inflationAdjustedFirstYearWithdrawal: boolean;
 
@@ -41,7 +41,7 @@ export interface WithdrawalPlan {
   maxWithdrawalLimitEnabled: boolean;
 
   /* Guyton-Klinger */
-  gkInitialSpending: number;
+  gkInitialWithdrawal: number;
   gkWithdrawalUpperLimit: number;
   gkWithdrawalLowerLimit: number;
   gkUpperLimitAdjustment: number;
@@ -67,7 +67,7 @@ export enum InvestmentType {
   bonds = 'bonds',
 }
 
-export enum SpendingMethods {
+export enum WithdrawalStrategies {
   inflationAdjusted = 'inflationAdjusted',
   notInflationAdjusted = 'notInflationAdjusted',
   portfolioPercent = 'portfolioPercent',
