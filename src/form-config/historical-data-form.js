@@ -8,7 +8,7 @@ import {
 } from '../utils/forms/validators';
 import getYearRange from '../utils/market-data/get-year-range';
 
-const { minYear, maxYear } = getYearRange();
+const { maxYear } = getYearRange();
 
 export default {
   values: {

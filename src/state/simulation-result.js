@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import constate from 'constate';
 import usePortfolio from './portfolio';
-import useSimulationData from './simulation-data';
+import useHistoricalData from './historical-data';
 import useWithdrawalPlan from './withdrawal-plan';
 import useLengthOfRetirement from './length-of-retirement';
 import useAdditionalWithdrawals from './additional-withdrawals';
@@ -13,7 +13,7 @@ const DIP_PERCENTAGE = 0.9;
 const SUCCESS_RATE_THRESHOLD = 0.95;
 
 function useSimulationResult() {
-  const { state: simulationData } = useSimulationData();
+  const { state: simulationData } = useHistoricalData();
   const { state: withdrawalPlan } = useWithdrawalPlan();
   const { state: lengthOfRetirement } = useLengthOfRetirement();
   const { state: portfolio } = usePortfolio();
