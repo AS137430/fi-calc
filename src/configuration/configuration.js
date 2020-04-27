@@ -5,7 +5,7 @@ import './configuration.css';
 import LengthOfRetirementForm from './length-of-retirement-form';
 import WithdrawalPlanForm from './withdrawal-plan-form';
 import PortfolioForm from './portfolio-form';
-import HistoricalDataForm from './historical-data-form';
+import HistoricalDataRangeForm from './historical-data-range-form';
 import AdditionalWithdrawalsForm from './additional-adjustments/additional-withdrawals-form';
 import AdditionalIncomeForm from './additional-adjustments/additional-income-form';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
@@ -20,7 +20,7 @@ export default function Configuration() {
         <LengthOfRetirementForm />
         <PortfolioForm />
         <WithdrawalPlanForm />
-        <HistoricalDataForm />
+        <HistoricalDataRangeForm />
         <AdditionalIncomeForm />
         <AdditionalWithdrawalsForm />
       </div>

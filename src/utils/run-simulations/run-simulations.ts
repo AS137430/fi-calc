@@ -11,7 +11,7 @@ import {
 } from './run-simulations-interfaces';
 import asyncMap from '../async-map';
 
-export interface SimulationData {
+export interface HistoricalDataRange {
   firstYear: number;
   lastYear: number;
   useAllHistoricalData: boolean;
@@ -33,7 +33,7 @@ interface RunSimulationsOptions {
   lengthOfRetirement: LengthOfRetirement;
   withdrawalPlan: WithdrawalPlan;
   portfolio: Portfolio;
-  simulationData: SimulationData;
+  historicalDataRange: HistoricalDataRange;
   durationMode: string;
   dipPercentage: number;
   successRateThreshold: number;
@@ -58,7 +58,7 @@ export default function runSimulations(
   done: (ret: RunSimulationsReturn) => void
 ) {
   const {
-    simulationData,
+    historicalDataRange,
     durationMode,
     lengthOfRetirement,
     withdrawalPlan,
@@ -86,7 +86,7 @@ export default function runSimulations(
     // An array of years that we use as a starting year for simulations
     startYears = getStartYears(
       Number(numberOfYears),
-      simulationData.useAllHistoricalData ? undefined : simulationData
+      historicalDataRange.useAllHistoricalData ? undefined : historicalDataRange
     );
   } else {
     startYears = [startYear];
