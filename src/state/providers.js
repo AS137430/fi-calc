@@ -1,7 +1,7 @@
 import React from 'react';
 import { HistoricalDataRangeProvider } from './historical-data-range';
 import { LengthOfRetirementProvider } from './length-of-retirement';
-import { WithdrawalPlanProvider } from './withdrawal-plan';
+import { WithdrawalStrategyProvider } from './withdrawal-strategy';
 import { PortfolioProvider } from './portfolio';
 import { UndoProvider } from './undo-history';
 import { AdditionalWithdrawalsProvider } from './additional-withdrawals';
@@ -14,7 +14,7 @@ export default function StateProviders({ children }) {
       <HistoricalDataRangeProvider>
         <PortfolioProvider>
           <LengthOfRetirementProvider>
-            <WithdrawalPlanProvider>
+            <WithdrawalStrategyProvider>
               <AdditionalIncomeProvider>
                 <AdditionalWithdrawalsProvider>
                   <SimulationResultProvider>
@@ -22,7 +22,7 @@ export default function StateProviders({ children }) {
                   </SimulationResultProvider>
                 </AdditionalWithdrawalsProvider>
               </AdditionalIncomeProvider>
-            </WithdrawalPlanProvider>
+            </WithdrawalStrategyProvider>
           </LengthOfRetirementProvider>
         </PortfolioProvider>
       </HistoricalDataRangeProvider>

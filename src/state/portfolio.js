@@ -1,7 +1,7 @@
 import createState from './create-state';
-import portfolioPlanConfig from '../form-config/portfolio-form-config';
+import portfolioFormConfig from '../form-config/portfolio-form-config';
 
-const [PortfolioProvider, usePorfolio] = createState(portfolioPlanConfig);
+const [PortfolioProvider, usePorfolio] = createState(portfolioFormConfig);
 
 export default usePorfolio;
 export { PortfolioProvider };

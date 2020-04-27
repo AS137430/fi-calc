@@ -3,7 +3,7 @@ import getStartYears from './get-start-years';
 import runSimulation from './run-simulation';
 import { fromInvestments } from '../forms/normalize-portfolio';
 import {
-  WithdrawalPlan,
+  WithdrawalStrategy,
   InvestmentType,
   AdditionalWithdrawals,
   Simulation,
@@ -31,7 +31,7 @@ interface LengthOfRetirement {
 
 interface RunSimulationsOptions {
   lengthOfRetirement: LengthOfRetirement;
-  withdrawalPlan: WithdrawalPlan;
+  withdrawalStrategy: WithdrawalStrategy;
   portfolio: Portfolio;
   historicalDataRange: HistoricalDataRange;
   durationMode: string;
@@ -61,7 +61,7 @@ export default function runSimulations(
     historicalDataRange,
     durationMode,
     lengthOfRetirement,
-    withdrawalPlan,
+    withdrawalStrategy,
     portfolio,
     dipPercentage,
     successRateThreshold,
@@ -129,7 +129,7 @@ export default function runSimulations(
         dipPercentage,
         rebalancePortfolioAnnually,
         portfolio: portfolioFromInvestments,
-        withdrawalPlan,
+        withdrawalStrategy,
         additionalWithdrawals,
         additionalIncome,
         duration: lengthOfSimulation,

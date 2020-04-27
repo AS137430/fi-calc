@@ -80,7 +80,7 @@ export default function simulateOneYear({
     endCpi: currentCpi,
   });
 
-  const withdrawalPlanWithdrawal = withdrawal[withdrawalMethod]({
+  const withdrawalAmount = withdrawal[withdrawalMethod]({
     ...withdrawalConfiguration,
     previousResults,
     initialPortfolio,
@@ -117,12 +117,12 @@ export default function simulateOneYear({
 
   const availableFundsToWithdraw = yearStartValue + additionalIncomeAmount;
   const totalWithdrawalAmount = Math.min(
-    withdrawalPlanWithdrawal + additionalWithdrawalAmount,
+    withdrawalAmount + additionalWithdrawalAmount,
     availableFundsToWithdraw
   );
 
   const baseWithdrawalAmount = Math.min(
-    withdrawalPlanWithdrawal,
+    withdrawalAmount,
     availableFundsToWithdraw
   );
 

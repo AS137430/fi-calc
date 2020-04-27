@@ -2,32 +2,32 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import IconHelp from 'materialish/icon-help';
 import ConfigSection from './sidebar-section';
-import ConstantWithdrawal from './withdrawal-plan/constant-withdrawal';
-import PercentageOfPortfolio from './withdrawal-plan/percentage-of-portfolio';
-import GuytonKlinger from './withdrawal-plan/guyton-klinger';
-import NinetyFivePercentRule from './withdrawal-plan/95-percent-rule';
-import CapeBased from './withdrawal-plan/cape-based';
+import ConstantWithdrawal from './withdrawal-strategies/constant-withdrawal';
+import PercentageOfPortfolio from './withdrawal-strategies/percentage-of-portfolio';
+import GuytonKlinger from './withdrawal-strategies/guyton-klinger';
+import NinetyFivePercentRule from './withdrawal-strategies/95-percent-rule';
+import CapeBased from './withdrawal-strategies/cape-based';
 import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
-import useWithdrawalPlan from '../state/withdrawal-plan';
-import withdrawalPlanFormConfig from '../form-config/withdrawal-plan-form-config';
+import useWithdrawalStrategy from '../state/withdrawal-strategy';
+import withdrawalStrategyFormConfig from '../form-config/withdrawal-strategy-form-config';
 
-export default function WithdrawalPlanForm() {
+export default function WithdrawalStrategyForm() {
   const {
-    state: withdrawalPlan,
+    state: withdrawalStrategy,
     inputs,
     changeSelect,
     changeCheckbox,
     commitInput,
   } = useForm({
-    formConfig: withdrawalPlanFormConfig,
-    useSourceOfTruth: useWithdrawalPlan,
+    formConfig: withdrawalStrategyFormConfig,
+    useSourceOfTruth: useWithdrawalStrategy,
   });
 
   const [openModal, setOpenModal] = useState(null);
 
   const display = _.chain(
-    withdrawalPlanFormConfig.values.withdrawalStrategy.values
+    withdrawalStrategyFormConfig.values.withdrawalStrategy.values
   )
     .find({
       key: inputs.withdrawalStrategy.value,
@@ -39,7 +39,7 @@ export default function WithdrawalPlanForm() {
     <>
       <ConfigSection
         initialIsOpen
-        title="Withdrawal Plan"
+        title="Withdrawal Strategy"
         onHelpClick={() => setOpenModal('titleHelp')}>
         <ConfigSection.Contents>
           <div className="formRow formRow-flex">
@@ -48,7 +48,7 @@ export default function WithdrawalPlanForm() {
               value={inputs.withdrawalStrategy.value}
               className="select"
               onChange={e => changeSelect('withdrawalStrategy', e)}>
-              {withdrawalPlanFormConfig.values.withdrawalStrategy.values.map(
+              {withdrawalStrategyFormConfig.values.withdrawalStrategy.values.map(
                 val => (
                   <option key={val.key} value={val.key}>
                     {val.display}
@@ -64,42 +64,43 @@ export default function WithdrawalPlanForm() {
               <IconHelp />
             </button>
           </div>
-          {withdrawalPlan.withdrawalStrategy.key === 'constantWithdrawal' && (
+          {withdrawalStrategy.withdrawalStrategy.key ===
+            'constantWithdrawal' && (
             <ConstantWithdrawal
               inputs={inputs}
               changeCheckbox={changeCheckbox}
               commitInput={commitInput}
             />
           )}
-          {withdrawalPlan.withdrawalStrategy.key === 'portfolioPercent' && (
+          {withdrawalStrategy.withdrawalStrategy.key === 'portfolioPercent' && (
             <PercentageOfPortfolio
               inputs={inputs}
               changeCheckbox={changeCheckbox}
               commitInput={commitInput}
             />
           )}
-          {withdrawalPlan.withdrawalStrategy.key === 'hebeler' && (
+          {withdrawalStrategy.withdrawalStrategy.key === 'hebeler' && (
             <div className="formRow">
               <div className="formRow_message">
                 The Hebeler Autopilot strategy is not currently supported.
               </div>
             </div>
           )}
-          {withdrawalPlan.withdrawalStrategy.key === 'gk' && (
+          {withdrawalStrategy.withdrawalStrategy.key === 'gk' && (
             <GuytonKlinger
               inputs={inputs}
               changeCheckbox={changeCheckbox}
               commitInput={commitInput}
             />
           )}
-          {withdrawalPlan.withdrawalStrategy.key === '95percent' && (
+          {withdrawalStrategy.withdrawalStrategy.key === '95percent' && (
             <NinetyFivePercentRule
               inputs={inputs}
               changeCheckbox={changeCheckbox}
               commitInput={commitInput}
             />
           )}
-          {withdrawalPlan.withdrawalStrategy.key === 'capeBased' && (
+          {withdrawalStrategy.withdrawalStrategy.key === 'capeBased' && (
             <CapeBased
               inputs={inputs}
               changeCheckbox={changeCheckbox}
@@ -109,11 +110,11 @@ export default function WithdrawalPlanForm() {
         </ConfigSection.Contents>
       </ConfigSection>
       <InfoModal
-        title="Withdrawal Plan"
+        title="Withdrawal Strategy"
         active={openModal === 'titleHelp'}
         onBeginClose={() => setOpenModal(null)}>
         <p>
-          Your <i>withdrawal plan</i> describes two things:
+          Your <i>withdrawal strategy</i> describes two things:
         </p>
         <ol>
           <li>
@@ -127,26 +128,26 @@ export default function WithdrawalPlanForm() {
           </li>
         </ol>
         <p>
-          The default plan, <b>Constant Withdrawal</b>, is the withdrawal plan
-          used by the studies that derived the 4% rule.
+          The default strategy, <b>Constant Withdrawal</b>, is the withdrawal
+          strategy used by the studies that derived the 4% rule.
         </p>
         <p>
           The 4% rule studies are foundational in retirement planning, and there
           are no doubt many retirees who are successfully using constant
-          withdrawal as their withdrawal plan. However, it is not the only
-          withdrawal plan out there, which is why this calculator includes other
-          plans for you to explore.
+          withdrawal as their withdrawal strategy. However, it is not the only
+          withdrawal strategy out there, which is why this calculator includes
+          other strategies for you to explore.
         </p>
         <p>
-          Each withdrawal plan has its pros and cons, and the authors of this
-          calculator know of no plan that is considered by the community to be
-          "the best." We hope this calculator helps you find the plan that feels
-          right for your retirement plans.
+          Each withdrawal strategy has its pros and cons, and the authors of
+          this calculator know of no strategy that is considered by the
+          community to be "the best." We hope this calculator helps you find the
+          strategy that feels right for your retirement plans.
         </p>
         <p>
-          To learn more about each of the different withdrawal plans, first
-          choose the plan in the dropdown, then click the <IconHelp /> icon next
-          to its name.
+          To learn more about each of the different withdrawal strategies, first
+          choose the strategy in the dropdown, then click the <IconHelp /> icon
+          next to its name.
         </p>
       </InfoModal>
       <InfoModal
@@ -156,8 +157,8 @@ export default function WithdrawalPlanForm() {
         {inputs.withdrawalStrategy.value === 'constantWithdrawal' && (
           <>
             <p>
-              This is the withdrawal plan used in Bengen's original analysis, as
-              well as the Trinity Study.
+              This is the withdrawal strategy used in Bengen's original
+              analysis, as well as the Trinity Study.
             </p>
             <p>
               It works like this: you choose some amount of your initial
@@ -179,8 +180,8 @@ export default function WithdrawalPlanForm() {
               <i>current</i> value of your portfolio.
             </p>
             <p>
-              This strategy is similar to the Constant Withdrawal plan, but it
-              adjusts your annual withdrawal based on how the market is
+              This strategy is similar to the Constant Withdrawal strategy, but
+              it adjusts your annual withdrawal based on how the market is
               performing. When the market is doing poorly, you withdraw less,
               increasing your chance of success. And when the market is doing
               well, you are able to withdraw more.
@@ -196,9 +197,9 @@ export default function WithdrawalPlanForm() {
         {inputs.withdrawalStrategy.value === 'gk' && (
           <>
             <p>
-              Guyton-Klinger is a withdrawal plan that stands out for its
+              Guyton-Klinger is a withdrawal strategy that stands out for its
               exceptional success rates. You can think of it as a modified
-              Constant Withdrawal plan.
+              Constant Withdrawal strategy.
             </p>
             <p>
               What makes Guyton-Klinger different from Constant Withdrawal are
@@ -214,27 +215,27 @@ export default function WithdrawalPlanForm() {
             </p>
             <p>
               Because of these Decision Rules, Guyton-Klinger is a more
-              complicated withdrawal plan. If you are new to it, we encourage
-              you to read about each of the Decision Rules by clicking on the{' '}
-              <IconHelp /> icon next to each Decision Rule name.
+              complicated withdrawal strategy. If you are new to it, we
+              encourage you to read about each of the Decision Rules by clicking
+              on the <IconHelp /> icon next to each Decision Rule name.
             </p>
           </>
         )}
         {inputs.withdrawalStrategy.value === '95percent' && (
           <>
             <p>
-              The 95% Rule is a withdrawal plan with a unique priority: it aims
-              to preserve your initial portfolio value for the entire duration
-              of your retirement. Other withdrawal plans typically only care
-              about having a nonzero amount of money remaining at the end of the
-              estimated retirement.
+              The 95% Rule is a withdrawal strategy with a unique priority: it
+              aims to preserve your initial portfolio value for the entire
+              duration of your retirement. Other withdrawal strategies typically
+              only care about having a nonzero amount of money remaining at the
+              end of the estimated retirement.
             </p>
             <p>
               Using the 95% Rule, your annual withdrawals are based off of
-              percentages, and as a result this plan will <i>never</i>{' '}
+              percentages, and as a result this strategy will <i>never</i>{' '}
               completely exhaust your portfolio. Unlike the Percent of Portfolio
-              plan, however, it avoids extreme year-over-year fluctuations that
-              can result from withdrawing a direct percent of your current
+              strategy, however, it avoids extreme year-over-year fluctuations
+              that can result from withdrawing a direct percent of your current
               portfolio value.
             </p>
             <p>
@@ -263,8 +264,8 @@ export default function WithdrawalPlanForm() {
         {inputs.withdrawalStrategy.value === 'capeBased' && (
           <>
             <p>
-              The CAPE-based withdrawal plan is a modified version of the
-              Percent of Portfolio withdrawal plan. It avoids extreme
+              The CAPE-based withdrawal strategy is a modified version of the
+              Percent of Portfolio withdrawal strategy. It avoids extreme
               year-to-year fluctuations in withdrawal rates by incorporating the
               CAPE into the yearly withdrawal. The CAPE is a value that is
               correlated with expected future earnings.

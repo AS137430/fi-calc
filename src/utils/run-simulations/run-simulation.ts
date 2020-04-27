@@ -3,7 +3,7 @@ import inflationFromCpi from '../market-data/inflation-from-cpi';
 import marketDataByYear from '../market-data/market-data-by-year';
 import {
   Portfolio,
-  WithdrawalPlan,
+  WithdrawalStrategy,
   WithdrawalStrategies,
   YearResult,
   DipObject,
@@ -26,7 +26,7 @@ interface RunSimulationOptions {
   duration: number;
   rebalancePortfolioAnnually: boolean;
   dipPercentage: number;
-  withdrawalPlan: WithdrawalPlan;
+  withdrawalStrategy: WithdrawalStrategy;
   portfolio: Portfolio;
   additionalWithdrawals: AdditionalWithdrawals;
   additionalIncome: AdditionalWithdrawals;
@@ -61,7 +61,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     portfolio,
     rebalancePortfolioAnnually,
     dipPercentage,
-    withdrawalPlan,
+    withdrawalStrategy,
     additionalWithdrawals,
     additionalIncome,
   } = options;
@@ -88,9 +88,9 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
     capeWithdrawalRate,
     capeWeight
-  } = withdrawalPlan;
+  } = withdrawalStrategy;
   const firstYearWithdrawal = annualWithdrawal;
-  const withdrawalStrategy = withdrawalStrategyObject.key;
+  const withdrawalStrategyName = withdrawalStrategyObject.key;
   const percentageOfPortfolio = percentPercentageOfPortfolio / 100;
 
   let withdrawalConfiguration: any = {};
@@ -98,7 +98,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   type YearFailed = number | null;
 
   const withdrawalMethod = getWithdrawalMethod(
-    withdrawalStrategy,
+    withdrawalStrategyName,
     inflationAdjustedFirstYearWithdrawal
   );
 
@@ -109,17 +109,17 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
         : Number.MAX_SAFE_INTEGER
   }
 
-  if (withdrawalStrategy === 'portfolioPercent') {
+  if (withdrawalStrategyName === 'portfolioPercent') {
     withdrawalConfiguration = {
       ...baseWithdrawalConfig,
       percentageOfPortfolio,
     };
-  } else if (withdrawalStrategy === 'constantWithdrawal') {
+  } else if (withdrawalStrategyName === 'constantWithdrawal') {
     withdrawalConfiguration = {
       ...baseWithdrawalConfig,
       firstYearWithdrawal: Number(firstYearWithdrawal),
     };
-  } else if (withdrawalStrategy === 'gk') {
+  } else if (withdrawalStrategyName === 'gk') {
     withdrawalConfiguration = {
       ...baseWithdrawalConfig,
       gkInitialWithdrawal: gkInitialWithdrawal,
@@ -130,13 +130,13 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       gkIgnoreLastFifteenYears: gkIgnoreLastFifteenYears,
       gkModifiedWithdrawalRule: gkModifiedWithdrawalRule
     }
-  } else if (withdrawalStrategy === '95percent') {
+  } else if (withdrawalStrategyName === '95percent') {
     withdrawalConfiguration = {
       ...baseWithdrawalConfig,
       ninetyFiveInitialRate,
       ninetyFivePercentage
     };
-  } else if (withdrawalStrategy === 'capeBased') {
+  } else if (withdrawalStrategyName === 'capeBased') {
     withdrawalConfiguration = {
       ...baseWithdrawalConfig,
       avgMarketDataCape,

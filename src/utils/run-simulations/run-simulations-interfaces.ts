@@ -24,7 +24,7 @@ export interface Portfolio {
   investments: PortfolioInvestment[];
 }
 
-export interface WithdrawalPlan {
+export interface WithdrawalStrategy {
   withdrawalStrategy: {
     key: string;
   };
