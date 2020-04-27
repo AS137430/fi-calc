@@ -152,7 +152,7 @@ export default function Simulation() {
   }
 
   const isconstantWithdrawal =
-    withdrawalStrategy.withdrawalStrategy.key === 'constantWithdrawal';
+    withdrawalStrategy.withdrawalStrategyName.key === 'constantWithdrawal';
 
   return (
     <div className="results">

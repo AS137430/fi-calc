@@ -25,7 +25,7 @@ export interface Portfolio {
 }
 
 export interface WithdrawalStrategy {
-  withdrawalStrategy: {
+  withdrawalStrategyName: {
     key: string;
   };
 

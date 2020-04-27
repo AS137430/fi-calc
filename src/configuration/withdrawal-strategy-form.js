@@ -27,10 +27,10 @@ export default function WithdrawalStrategyForm() {
   const [openModal, setOpenModal] = useState(null);
 
   const display = _.chain(
-    withdrawalStrategyFormConfig.values.withdrawalStrategy.values
+    withdrawalStrategyFormConfig.values.withdrawalStrategyName.values
   )
     .find({
-      key: inputs.withdrawalStrategy.value,
+      key: inputs.withdrawalStrategyName.value,
     })
     .get('display')
     .value();
@@ -45,10 +45,10 @@ export default function WithdrawalStrategyForm() {
           <div className="formRow formRow-flex">
             <select
               id="country"
-              value={inputs.withdrawalStrategy.value}
+              value={inputs.withdrawalStrategyName.value}
               className="select"
-              onChange={e => changeSelect('withdrawalStrategy', e)}>
-              {withdrawalStrategyFormConfig.values.withdrawalStrategy.values.map(
+              onChange={e => changeSelect('withdrawalStrategyName', e)}>
+              {withdrawalStrategyFormConfig.values.withdrawalStrategyName.values.map(
                 val => (
                   <option key={val.key} value={val.key}>
                     {val.display}
@@ -64,7 +64,7 @@ export default function WithdrawalStrategyForm() {
               <IconHelp />
             </button>
           </div>
-          {withdrawalStrategy.withdrawalStrategy.key ===
+          {withdrawalStrategy.withdrawalStrategyName.key ===
             'constantWithdrawal' && (
             <ConstantWithdrawal
               inputs={inputs}
@@ -72,35 +72,36 @@ export default function WithdrawalStrategyForm() {
               commitInput={commitInput}
             />
           )}
-          {withdrawalStrategy.withdrawalStrategy.key === 'portfolioPercent' && (
+          {withdrawalStrategy.withdrawalStrategyName.key ===
+            'portfolioPercent' && (
             <PercentageOfPortfolio
               inputs={inputs}
               changeCheckbox={changeCheckbox}
               commitInput={commitInput}
             />
           )}
-          {withdrawalStrategy.withdrawalStrategy.key === 'hebeler' && (
+          {withdrawalStrategy.withdrawalStrategyName.key === 'hebeler' && (
             <div className="formRow">
               <div className="formRow_message">
                 The Hebeler Autopilot strategy is not currently supported.
               </div>
             </div>
           )}
-          {withdrawalStrategy.withdrawalStrategy.key === 'gk' && (
+          {withdrawalStrategy.withdrawalStrategyName.key === 'gk' && (
             <GuytonKlinger
               inputs={inputs}
               changeCheckbox={changeCheckbox}
               commitInput={commitInput}
             />
           )}
-          {withdrawalStrategy.withdrawalStrategy.key === '95percent' && (
+          {withdrawalStrategy.withdrawalStrategyName.key === '95percent' && (
             <NinetyFivePercentRule
               inputs={inputs}
               changeCheckbox={changeCheckbox}
               commitInput={commitInput}
             />
           )}
-          {withdrawalStrategy.withdrawalStrategy.key === 'capeBased' && (
+          {withdrawalStrategy.withdrawalStrategyName.key === 'capeBased' && (
             <CapeBased
               inputs={inputs}
               changeCheckbox={changeCheckbox}
@@ -154,7 +155,7 @@ export default function WithdrawalStrategyForm() {
         title={`Withdrawal Strategy${display && `: ${display}`}`}
         active={openModal === 'withdrawalStrategy'}
         onBeginClose={() => setOpenModal(null)}>
-        {inputs.withdrawalStrategy.value === 'constantWithdrawal' && (
+        {inputs.withdrawalStrategyName.value === 'constantWithdrawal' && (
           <>
             <p>
               This is the withdrawal strategy used in Bengen's original
@@ -173,7 +174,7 @@ export default function WithdrawalStrategyForm() {
             </p>
           </>
         )}
-        {inputs.withdrawalStrategy.value === 'portfolioPercent' && (
+        {inputs.withdrawalStrategyName.value === 'portfolioPercent' && (
           <>
             <p>
               In this strategy, your withdrawal limit is a percentage of the{' '}
@@ -194,7 +195,7 @@ export default function WithdrawalStrategyForm() {
             </p>
           </>
         )}
-        {inputs.withdrawalStrategy.value === 'gk' && (
+        {inputs.withdrawalStrategyName.value === 'gk' && (
           <>
             <p>
               Guyton-Klinger is a withdrawal strategy that stands out for its
@@ -221,7 +222,7 @@ export default function WithdrawalStrategyForm() {
             </p>
           </>
         )}
-        {inputs.withdrawalStrategy.value === '95percent' && (
+        {inputs.withdrawalStrategyName.value === '95percent' && (
           <>
             <p>
               The 95% Rule is a withdrawal strategy with a unique priority: it
@@ -261,7 +262,7 @@ export default function WithdrawalStrategyForm() {
             </p>
           </>
         )}
-        {inputs.withdrawalStrategy.value === 'capeBased' && (
+        {inputs.withdrawalStrategyName.value === 'capeBased' && (
           <>
             <p>
               The CAPE-based withdrawal strategy is a modified version of the

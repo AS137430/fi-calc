@@ -33,16 +33,16 @@ interface RunSimulationOptions {
 }
 
 function getWithdrawalMethod(
-  withdrawalStrategy: string,
+  withdrawalStrategyName: string,
   inflationAdjustedFirstYearWithdrawal: boolean
 ): WithdrawalStrategies {
-  if (withdrawalStrategy === 'portfolioPercent') {
+  if (withdrawalStrategyName === 'portfolioPercent') {
     return WithdrawalStrategies.portfolioPercent;
-  } else if (withdrawalStrategy === 'gk') {
+  } else if (withdrawalStrategyName === 'gk') {
     return WithdrawalStrategies.guytonKlinger;
-  } else if (withdrawalStrategy === '95percent') {
+  } else if (withdrawalStrategyName === '95percent') {
     return WithdrawalStrategies.ninetyFivePercentRule;
-  } else if (withdrawalStrategy === 'capeBased') {
+  } else if (withdrawalStrategyName === 'capeBased') {
     return WithdrawalStrategies.capeBased;
   }
 
@@ -69,7 +69,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   const {
     annualWithdrawal,
     inflationAdjustedFirstYearWithdrawal,
-    withdrawalStrategy: withdrawalStrategyObject,
+    withdrawalStrategyName: withdrawalStrategyObject,
     percentageOfPortfolio: percentPercentageOfPortfolio,
     minWithdrawalLimit,
     maxWithdrawalLimit,
