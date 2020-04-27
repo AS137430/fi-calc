@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import IconRepeat from 'materialish/icon-repeat';
 import './configuration.css';
 import LengthOfRetirementForm from './length-of-retirement-form';
-import WithdrawalPlanForm from './withdrawal-plan-form';
+import WithdrawalStrategyForm from './withdrawal-strategy-form';
 import PortfolioForm from './portfolio-form';
 import HistoricalDataRangeForm from './historical-data-range-form';
 import AdditionalWithdrawalsForm from './additional-adjustments/additional-withdrawals-form';
@@ -19,7 +19,7 @@ export default function Configuration() {
       <div>
         <LengthOfRetirementForm />
         <PortfolioForm />
-        <WithdrawalPlanForm />
+        <WithdrawalStrategyForm />
         <HistoricalDataRangeForm />
         <AdditionalIncomeForm />
         <AdditionalWithdrawalsForm />

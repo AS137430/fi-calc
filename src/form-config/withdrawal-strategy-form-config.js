@@ -8,7 +8,7 @@ import maxDollarInput from '../utils/forms/max-dollar-input';
 
 export default {
   values: {
-    withdrawalStrategy: {
+    withdrawalStrategyName: {
       type: 'enumeration',
       keyType: 'string',
       values: [

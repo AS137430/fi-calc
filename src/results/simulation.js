@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import IconGetApp from 'materialish/icon-get-app';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 import Chart from '../vendor/chart/chart';
-import useWithdrawalPlan from '../state/withdrawal-plan';
+import useWithdrawalStrategy from '../state/withdrawal-strategy';
 import formatForDisplay from '../utils/money/format-for-display';
 import useSimulationResult from '../state/simulation-result';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
@@ -104,7 +104,7 @@ export default function Simulation() {
     [result, numericYear]
   );
 
-  const { state: withdrawalPlan } = useWithdrawalPlan();
+  const { state: withdrawalStrategy } = useWithdrawalStrategy();
   const portfolioChartData = useMemo(
     () => {
       return formatSimulationForPortfolioChart(simulation);
@@ -152,7 +152,7 @@ export default function Simulation() {
   }
 
   const isconstantWithdrawal =
-    withdrawalPlan.withdrawalStrategy.key === 'constantWithdrawal';
+    withdrawalStrategy.withdrawalStrategyName.key === 'constantWithdrawal';
 
   return (
     <div className="results">

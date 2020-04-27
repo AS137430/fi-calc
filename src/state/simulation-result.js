@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import constate from 'constate';
 import usePortfolio from './portfolio';
 import useHistoricalDataRange from './historical-data-range';
-import useWithdrawalPlan from './withdrawal-plan';
+import useWithdrawalStrategy from './withdrawal-strategy';
 import useLengthOfRetirement from './length-of-retirement';
 import useAdditionalWithdrawals from './additional-withdrawals';
 import useAdditionalIncome from './additional-income';
@@ -14,7 +14,7 @@ const SUCCESS_RATE_THRESHOLD = 0.95;
 
 function useSimulationResult() {
   const { state: historicalDataRange } = useHistoricalDataRange();
-  const { state: withdrawalPlan } = useWithdrawalPlan();
+  const { state: withdrawalStrategy } = useWithdrawalStrategy();
   const { state: lengthOfRetirement } = useLengthOfRetirement();
   const { state: portfolio } = usePortfolio();
   const [additionalWithdrawals] = useAdditionalWithdrawals();
@@ -24,7 +24,7 @@ function useSimulationResult() {
     inputs: {
       durationMode: 'allHistory',
       lengthOfRetirement,
-      withdrawalPlan,
+      withdrawalStrategy,
       portfolio,
       historicalDataRange,
       additionalWithdrawals,
@@ -45,7 +45,7 @@ function useSimulationResult() {
         const inputs = {
           durationMode: 'allHistory',
           lengthOfRetirement,
-          withdrawalPlan,
+          withdrawalStrategy,
           portfolio,
           historicalDataRange,
           additionalWithdrawals,
@@ -75,7 +75,7 @@ function useSimulationResult() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      ...Object.values(withdrawalPlan),
+      ...Object.values(withdrawalStrategy),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       ...Object.values(lengthOfRetirement),
       // eslint-disable-next-line react-hooks/exhaustive-deps
