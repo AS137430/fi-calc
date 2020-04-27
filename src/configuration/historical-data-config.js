@@ -6,11 +6,11 @@ import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
 import Input from '../common/input';
 import useHistoricalData from '../state/historical-data';
-import historicalDataForm from '../form-config/historical-data-form';
+import historicalDataFormConfig from '../form-config/historical-data-form-config';
 
 export default function HistoricalDataConfig() {
   const { inputs, commitInput, changeCheckbox } = useForm({
-    formConfig: historicalDataForm,
+    formConfig: historicalDataFormConfig,
     useSourceOfTruth: useHistoricalData,
   });
   const [openModal, setOpenModal] = useState(null);

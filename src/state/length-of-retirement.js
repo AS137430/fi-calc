@@ -1,8 +1,8 @@
 import createState from './create-state';
-import lengthOfRetirementForm from '../form-config/length-of-retirement-form';
+import lengthOfRetirementFormConfig from '../form-config/length-of-retirement-form-config';
 
 const [LengthOfRetirementProvider, useLengthOfRetirement] = createState(
-  lengthOfRetirementForm
+  lengthOfRetirementFormConfig
 );
 
 export default useLengthOfRetirement;

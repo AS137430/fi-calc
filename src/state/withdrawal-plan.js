@@ -1,8 +1,8 @@
 import createState from './create-state';
-import withdrawalPlanForm from '../form-config/withdrawal-plan-form';
+import withdrawalPlanFormConfig from '../form-config/withdrawal-plan-form-config';
 
 const [WithdrawalPlanProvider, useWithdrawalPlan] = createState(
-  withdrawalPlanForm
+  withdrawalPlanFormConfig
 );
 
 export default useWithdrawalPlan;

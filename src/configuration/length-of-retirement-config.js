@@ -4,11 +4,11 @@ import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
 import Input from '../common/input';
 import useLengthOfRetirement from '../state/length-of-retirement';
-import lengthOfRetirementForm from '../form-config/length-of-retirement-form';
+import lengthOfRetirementFormConfig from '../form-config/length-of-retirement-form-config';
 
 export default function LengthOfRetirementConfig() {
   const { inputs, commitInput } = useForm({
-    formConfig: lengthOfRetirementForm,
+    formConfig: lengthOfRetirementFormConfig,
     useSourceOfTruth: useLengthOfRetirement,
   });
   const [isTitleInfoModalOpen, setIsTitleInfoModalOpen] = useState(false);

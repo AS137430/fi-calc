@@ -10,7 +10,7 @@ import CapeBased from './withdrawal-plan/cape-based';
 import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
 import useWithdrawalPlan from '../state/withdrawal-plan';
-import withdrawalPlanForm from '../form-config/withdrawal-plan-form';
+import withdrawalPlanFormConfig from '../form-config/withdrawal-plan-form-config';
 
 export default function WithdrawalPlanConfig() {
   const {
@@ -20,13 +20,15 @@ export default function WithdrawalPlanConfig() {
     changeCheckbox,
     commitInput,
   } = useForm({
-    formConfig: withdrawalPlanForm,
+    formConfig: withdrawalPlanFormConfig,
     useSourceOfTruth: useWithdrawalPlan,
   });
 
   const [openModal, setOpenModal] = useState(null);
 
-  const display = _.chain(withdrawalPlanForm.values.withdrawalStrategy.values)
+  const display = _.chain(
+    withdrawalPlanFormConfig.values.withdrawalStrategy.values
+  )
     .find({
       key: inputs.withdrawalStrategy.value,
     })
@@ -46,11 +48,13 @@ export default function WithdrawalPlanConfig() {
               value={inputs.withdrawalStrategy.value}
               className="select"
               onChange={e => changeSelect('withdrawalStrategy', e)}>
-              {withdrawalPlanForm.values.withdrawalStrategy.values.map(val => (
-                <option key={val.key} value={val.key}>
-                  {val.display}
-                </option>
-              ))}
+              {withdrawalPlanFormConfig.values.withdrawalStrategy.values.map(
+                val => (
+                  <option key={val.key} value={val.key}>
+                    {val.display}
+                  </option>
+                )
+              )}
             </select>
             <button
               title="Learn more about this withdrawal strategy"
