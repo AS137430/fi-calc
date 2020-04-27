@@ -65,6 +65,7 @@ function useSimulationResult() {
         runSimulations(inputs, result => {
           setComputation({
             result,
+            inputs,
             duration: performance.now() - start,
             status: 'COMPLETE',
           });
