@@ -8,7 +8,7 @@ import Input from '../common/input';
 import useHistoricalData from '../state/historical-data';
 import historicalDataFormConfig from '../form-config/historical-data-form-config';
 
-export default function HistoricalDataConfig() {
+export default function HistoricalDataForm() {
   const { inputs, commitInput, changeCheckbox } = useForm({
     formConfig: historicalDataFormConfig,
     useSourceOfTruth: useHistoricalData,

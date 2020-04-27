@@ -12,7 +12,7 @@ import InfoModal from '../common/info-modal';
 import useWithdrawalPlan from '../state/withdrawal-plan';
 import withdrawalPlanFormConfig from '../form-config/withdrawal-plan-form-config';
 
-export default function WithdrawalPlanConfig() {
+export default function WithdrawalPlanForm() {
   const {
     state: withdrawalPlan,
     inputs,

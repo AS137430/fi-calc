@@ -1,12 +1,12 @@
 import React from 'react';
 import useAdditionalIncome from '../../state/additional-income';
-import AdditionalAdjustments from '../additional-adjustments/additional-adjustments-config';
+import AdditionalAdjustmentsForm from './additional-adjustments-form';
 
-export default function AdditionalIncome() {
+export default function AdditionalIncomeForm() {
   const [additionalIncome, setAdditionalIncome] = useAdditionalIncome();
 
   return (
-    <AdditionalAdjustments
+    <AdditionalAdjustmentsForm
       type="income"
       additionalAdjustment={additionalIncome}
       setAdditionalAdjustment={setAdditionalIncome}

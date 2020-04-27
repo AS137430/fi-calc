@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './additional-adjustments-config.css';
+import './additional-adjustments-form.css';
 import ConfigSection from '../sidebar-section';
 import AdditionalAdjustment from './additional-adjustment';
 import UpsertAdditionalAdjustmentModal from './upsert-additional-adjustment-modal';
@@ -16,7 +16,7 @@ function mapAdjustmentInputToAdjustment(adjustment) {
   };
 }
 
-export default function AdditionalIncome({
+export default function AdditionalAdjustmentsForm({
   type,
   additionalAdjustment,
   setAdditionalAdjustment,

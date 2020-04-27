@@ -6,7 +6,7 @@ import Input from '../common/input';
 import useLengthOfRetirement from '../state/length-of-retirement';
 import lengthOfRetirementFormConfig from '../form-config/length-of-retirement-form-config';
 
-export default function LengthOfRetirementConfig() {
+export default function LengthOfRetirementForm() {
   const { inputs, commitInput } = useForm({
     formConfig: lengthOfRetirementFormConfig,
     useSourceOfTruth: useLengthOfRetirement,
