@@ -4,7 +4,7 @@ import marketDataByYear from '../market-data/market-data-by-year';
 import {
   Portfolio,
   WithdrawalPlan,
-  SpendingMethods,
+  WithdrawalStrategies,
   YearResult,
   DipObject,
   AdditionalWithdrawals,
@@ -32,23 +32,23 @@ interface RunSimulationOptions {
   additionalIncome: AdditionalWithdrawals;
 }
 
-function getSpendingMethod(
+function getWithdrawalMethod(
   withdrawalStrategy: string,
   inflationAdjustedFirstYearWithdrawal: boolean
-): SpendingMethods {
+): WithdrawalStrategies {
   if (withdrawalStrategy === 'portfolioPercent') {
-    return SpendingMethods.portfolioPercent;
+    return WithdrawalStrategies.portfolioPercent;
   } else if (withdrawalStrategy === 'gk') {
-    return SpendingMethods.guytonKlinger;
+    return WithdrawalStrategies.guytonKlinger;
   } else if (withdrawalStrategy === '95percent') {
-    return SpendingMethods.ninetyFivePercentRule;
+    return WithdrawalStrategies.ninetyFivePercentRule;
   } else if (withdrawalStrategy === 'capeBased') {
-    return SpendingMethods.capeBased;
+    return WithdrawalStrategies.capeBased;
   }
 
   return inflationAdjustedFirstYearWithdrawal
-    ? SpendingMethods.inflationAdjusted
-    : SpendingMethods.notInflationAdjusted;
+    ? WithdrawalStrategies.inflationAdjusted
+    : WithdrawalStrategies.notInflationAdjusted;
 }
 
 // A simulation is one single possible retirement calculation. Given a start year, a "duration,"
@@ -75,7 +75,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     maxWithdrawalLimit,
     minWithdrawalLimitEnabled,
     maxWithdrawalLimitEnabled,
-    gkInitialSpending,
+    gkInitialWithdrawal,
     gkWithdrawalUpperLimit,
     gkWithdrawalLowerLimit,
     gkUpperLimitAdjustment,
@@ -97,7 +97,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
   type YearFailed = number | null;
 
-  const withdrawalMethod = getSpendingMethod(
+  const withdrawalMethod = getWithdrawalMethod(
     withdrawalStrategy,
     inflationAdjustedFirstYearWithdrawal
   );
@@ -122,7 +122,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   } else if (withdrawalStrategy === 'gk') {
     withdrawalConfiguration = {
       ...baseWithdrawalConfig,
-      gkInitialSpending: gkInitialSpending,
+      gkInitialWithdrawal: gkInitialWithdrawal,
       gkWithdrawalUpperLimit: gkWithdrawalUpperLimit,
       gkWithdrawalLowerLimit: gkWithdrawalLowerLimit,
       gkUpperLimitAdjustment: gkUpperLimitAdjustment,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SimulationDataProvider } from './simulation-data';
+import { HistoricalDataRangeProvider } from './historical-data-range';
 import { LengthOfRetirementProvider } from './length-of-retirement';
 import { WithdrawalPlanProvider } from './withdrawal-plan';
 import { PortfolioProvider } from './portfolio';
@@ -11,7 +11,7 @@ import { SimulationResultProvider } from './simulation-result';
 export default function StateProviders({ children }) {
   return (
     <UndoProvider>
-      <SimulationDataProvider>
+      <HistoricalDataRangeProvider>
         <PortfolioProvider>
           <LengthOfRetirementProvider>
             <WithdrawalPlanProvider>
@@ -25,7 +25,7 @@ export default function StateProviders({ children }) {
             </WithdrawalPlanProvider>
           </LengthOfRetirementProvider>
         </PortfolioProvider>
-      </SimulationDataProvider>
+      </HistoricalDataRangeProvider>
     </UndoProvider>
   );
 }

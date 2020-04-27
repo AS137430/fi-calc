@@ -83,7 +83,12 @@ export default function Calculator() {
               <Route path={`/calculator/year/:year`} component={Simulation} />
             </Switch>
           </main>
-          <Footer />
+          {isSmallScreen && (
+            <Route path={[overviewPaths, `/calculator/year/:year`]}>
+              <Footer />
+            </Route>
+          )}
+          {!isSmallScreen && <Footer />}
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import { Checkbox } from 'materialish';
 import { useCurrentRef } from 'core-hooks';
 import Modal from '../../common/modal';
 import Input from '../../common/input';
-import adjustmentForm from '../../form-config/adjustment-form';
+import adjustmentFormConfig from '../../form-config/adjustment-form-config';
 import { useForm } from '../../vendor/forms';
 
 export default function UpsertAdditionalAdjustmentModalBody({
@@ -24,7 +24,7 @@ export default function UpsertAdditionalAdjustmentModalBody({
 
   const useFormInput = useMemo(() => {
     const hasAdjustment = Boolean(adjustment);
-    return _.mapValues(adjustmentForm.values, (val, key) => {
+    return _.mapValues(adjustmentFormConfig.values, (val, key) => {
       const valToUse =
         hasAdjustment && typeof adjustment[key] !== 'undefined'
           ? adjustment[key]

@@ -5,7 +5,7 @@ import inflationFromCpi from '../market-data/inflation-from-cpi';
 import {
   YearResult,
   MarketData,
-  SpendingMethods,
+  WithdrawalStrategies,
   Portfolio,
   DipObject,
   AdditionalWithdrawals,
@@ -30,7 +30,7 @@ interface SimulateOneYearOptions {
   withdrawalConfiguration: any;
   initialPortfolio: Portfolio;
   portfolio: Portfolio;
-  withdrawalMethod: SpendingMethods;
+  withdrawalMethod: WithdrawalStrategies;
   lowestSuccessfulDip: DipObject;
   additionalWithdrawalsForYear: AdditionalWithdrawals;
   additionalIncomeForYear: AdditionalWithdrawals;

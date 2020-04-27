@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import constate from 'constate';
 import usePortfolio from './portfolio';
-import useSimulationData from './simulation-data';
+import useHistoricalDataRange from './historical-data-range';
 import useWithdrawalPlan from './withdrawal-plan';
 import useLengthOfRetirement from './length-of-retirement';
 import useAdditionalWithdrawals from './additional-withdrawals';
@@ -13,7 +13,7 @@ const DIP_PERCENTAGE = 0.9;
 const SUCCESS_RATE_THRESHOLD = 0.95;
 
 function useSimulationResult() {
-  const { state: simulationData } = useSimulationData();
+  const { state: historicalDataRange } = useHistoricalDataRange();
   const { state: withdrawalPlan } = useWithdrawalPlan();
   const { state: lengthOfRetirement } = useLengthOfRetirement();
   const { state: portfolio } = usePortfolio();
@@ -21,6 +21,17 @@ function useSimulationResult() {
   const [additionalIncome] = useAdditionalIncome();
 
   const [computation, setComputation] = useState({
+    inputs: {
+      durationMode: 'allHistory',
+      lengthOfRetirement,
+      withdrawalPlan,
+      portfolio,
+      historicalDataRange,
+      additionalWithdrawals,
+      additionalIncome,
+      dipPercentage: DIP_PERCENTAGE,
+      successRateThreshold: SUCCESS_RATE_THRESHOLD,
+    },
     result: null,
     duration: 0,
     status: 'IDLE',
@@ -31,33 +42,33 @@ function useSimulationResult() {
       setTimeout(() => {
         const start = performance.now();
 
+        const inputs = {
+          durationMode: 'allHistory',
+          lengthOfRetirement,
+          withdrawalPlan,
+          portfolio,
+          historicalDataRange,
+          additionalWithdrawals,
+          additionalIncome,
+          dipPercentage: DIP_PERCENTAGE,
+          successRateThreshold: SUCCESS_RATE_THRESHOLD,
+        };
+
         setComputation(prev => {
           return {
             ...prev,
+            inputs,
             status: 'COMPUTING',
           };
         });
 
-        runSimulations(
-          {
-            durationMode: 'allHistory',
-            lengthOfRetirement,
-            withdrawalPlan,
-            portfolio,
-            simulationData,
-            additionalWithdrawals,
-            additionalIncome,
-            dipPercentage: DIP_PERCENTAGE,
-            successRateThreshold: SUCCESS_RATE_THRESHOLD,
-          },
-          result => {
-            setComputation({
-              result,
-              duration: performance.now() - start,
-              status: 'COMPLETE',
-            });
-          }
-        );
+        runSimulations(inputs, result => {
+          setComputation({
+            result,
+            duration: performance.now() - start,
+            status: 'COMPLETE',
+          });
+        });
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,7 +80,7 @@ function useSimulationResult() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       ...Object.values(portfolio),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      ...Object.values(simulationData),
+      ...Object.values(historicalDataRange),
       additionalWithdrawals,
       additionalIncome,
     ]

@@ -5,13 +5,13 @@ import ConfigSection from './sidebar-section';
 import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
 import Input from '../common/input';
-import useSimulationData from '../state/simulation-data';
-import simulationDataForm from '../form-config/simulation-data-form';
+import useHistoricalDataRange from '../state/historical-data-range';
+import historicalDataRangeFormConfig from '../form-config/historical-data-range-form-config';
 
-export default function HistoricalDataConfig() {
+export default function HistoricalDataRangeForm() {
   const { inputs, commitInput, changeCheckbox } = useForm({
-    formConfig: simulationDataForm,
-    useSourceOfTruth: useSimulationData,
+    formConfig: historicalDataRangeFormConfig,
+    useSourceOfTruth: useHistoricalDataRange,
   });
   const [openModal, setOpenModal] = useState(null);
 

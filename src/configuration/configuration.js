@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import IconRepeat from 'materialish/icon-repeat';
 import './configuration.css';
-import LengthOfRetirementConfig from './length-of-retirement-config';
-import WithdrawalPlanConfig from './withdrawal-plan-config';
-import PortfolioConfig from './portfolio-config';
-import HistoricalData from './historical-data-config';
-import AdditionalWithdrawals from './additional-adjustments/additional-withdrawals-config';
-import AdditionalIncome from './additional-adjustments/additional-income-config';
+import LengthOfRetirementForm from './length-of-retirement-form';
+import WithdrawalPlanForm from './withdrawal-plan-form';
+import PortfolioForm from './portfolio-form';
+import HistoricalDataRangeForm from './historical-data-range-form';
+import AdditionalWithdrawalsForm from './additional-adjustments/additional-withdrawals-form';
+import AdditionalIncomeForm from './additional-adjustments/additional-income-form';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 
 export default function Configuration() {
@@ -17,12 +17,12 @@ export default function Configuration() {
     <div className="configuration">
       <h1 className="configuration_title">Configuration</h1>
       <div>
-        <LengthOfRetirementConfig />
-        <PortfolioConfig />
-        <WithdrawalPlanConfig />
-        <HistoricalData />
-        <AdditionalIncome />
-        <AdditionalWithdrawals />
+        <LengthOfRetirementForm />
+        <PortfolioForm />
+        <WithdrawalPlanForm />
+        <HistoricalDataRangeForm />
+        <AdditionalIncomeForm />
+        <AdditionalWithdrawalsForm />
       </div>
       {isSmallScreen && (
         <div className="configuration_viewResults">

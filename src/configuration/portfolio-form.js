@@ -5,11 +5,11 @@ import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
 import Input from '../common/input';
 import usePortfolio from '../state/portfolio';
-import porfolioForm from '../form-config/portfolio-form';
+import porfolioFormConfig from '../form-config/portfolio-form-config';
 
-export default function PortfolioConfig() {
+export default function PortfolioForm() {
   const { inputs, commitInput } = useForm({
-    formConfig: porfolioForm,
+    formConfig: porfolioFormConfig,
     useSourceOfTruth: usePortfolio,
   });
 

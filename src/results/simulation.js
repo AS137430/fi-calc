@@ -39,7 +39,7 @@ function formatSimulationForPortfolioChart(simulation) {
   return chartData;
 }
 
-function formatSimulationForSpendingChart(simulation) {
+function formatSimulationForWithdrawalChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
     return {
       x: `${yearData.year}.1`,
@@ -114,7 +114,7 @@ export default function Simulation() {
 
   const withdrawalChartData = useMemo(
     () => {
-      return formatSimulationForSpendingChart(simulation);
+      return formatSimulationForWithdrawalChart(simulation);
     },
     [simulation]
   );
