@@ -16,6 +16,14 @@
   overflow: hidden;
 }
 
+.chart * {
+  pointer-events: none;
+}
+
+.chartContainer text {
+  user-select: none;
+}
+
 .chart {
   display: block;
 }
@@ -25,7 +33,22 @@
   font-size: var(--chartFontSize);
 }
 
+.chartLabel-detail {
+  font-weight: bold;
+  font-size: 15px;
+  fill: var(--accentColor);
+}
+
+.chartLabel-top {
+  text-align: center;
+  width: 250px;
+}
+
 .chartLine {
   stroke-width: var(--chartLineWidth);
   stroke: var(--accentColor);
+}
+
+.chartContainer-activeDataPoint .chartLine {
+  stroke: #555;
 }

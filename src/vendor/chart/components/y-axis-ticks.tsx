@@ -3,18 +3,20 @@ import { YAxisLabelFromValue, YAxisPoint } from '../types';
 
 interface YAxisTicksOptions {
   yAxisPoints: YAxisPoint[];
-  svgYAxisSpacing: number;
+  svgYAxisLabelsWidth: number;
   yAxisLabelFromValue: YAxisLabelFromValue;
   textHeight: number;
   graphWidth: number;
+  topMargin: number;
 }
 
 export default function YAxisTicks({
   yAxisPoints,
-  svgYAxisSpacing,
+  svgYAxisLabelsWidth,
   yAxisLabelFromValue,
   textHeight,
   graphWidth,
+  topMargin,
 }: YAxisTicksOptions) {
   return (
     <>
@@ -23,13 +25,13 @@ export default function YAxisTicks({
         const label = yAxisLabelFromValue(point.label);
         const isZero = Math.round(point.label) === 0;
 
-        const renderLabel = tickYPosition > textHeight * 1.2;
+        const renderLabel = tickYPosition > textHeight * 1.2 + topMargin;
 
         return (
           <React.Fragment key={index}>
             {renderLabel && (
               <text
-                x={graphWidth - svgYAxisSpacing + 5}
+                x={graphWidth - svgYAxisLabelsWidth + 5}
                 y={tickYPosition - 4}
                 className="chartLabel">
                 {label}

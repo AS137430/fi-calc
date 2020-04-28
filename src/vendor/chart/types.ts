@@ -27,3 +27,5 @@ export type XAxisLabelFromInfo = (
   maxChartDataPoint: ChartDataPoint,
   distanceFromMaxChartDataPoint: XAxisPoint
 ) => string;
+
+export type FormatDataPoint = (point: ChartDataPoint) => ChartDataPoint;
