@@ -25,18 +25,6 @@ export default function Home() {
           <IconArrowForward />
         </Link>
       </div>
-      <div className="home_donateRow">
-        <a
-          href="https://gum.co/kgIVJ"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="button donateBtn">
-          <span role="img" aria-label="Tada">
-            🎉
-          </span>
-          Donate
-        </a>
-      </div>
     </div>
   );
 }
