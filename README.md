@@ -26,8 +26,9 @@ Once you have this installed, there are [npm scripts](https://docs.npmjs.com/mis
 
 - [U.S. Stock Market data](http://www.econ.yale.edu/%7Eshiller/data.htm) ([direct link](http://www.econ.yale.edu/%7Eshiller/data/ie_data.xls))
 
-### Target browser support
+### Target environment support
 
-To be honest, I haven't had an opportunity to do extensive browser testing. Eventually,
-I would like to support all evergreen browsers, including Microsoft Edge. I do not intend to
-support Internet Explorer.
+- All evergreen browsers (including Edge)
+- Android mobile browsers, iOS mobile Safari, iPadOS Safari
+
+This app is not expected to work in Internet Explorer.
