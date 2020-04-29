@@ -39,6 +39,7 @@ interface RunSimulationsOptions {
   successRateThreshold: number;
   additionalWithdrawals: AdditionalWithdrawals;
   additionalIncome: AdditionalWithdrawals;
+  calculationId: number;
 }
 
 interface RunSimulationsReturn {
@@ -51,6 +52,7 @@ interface RunSimulationsReturn {
   inputs: RunSimulationsOptions;
   successRate: number;
   successRateDisplay: string;
+  calculationId: number;
 }
 
 export default function runSimulations(
@@ -67,6 +69,7 @@ export default function runSimulations(
     successRateThreshold,
     additionalWithdrawals,
     additionalIncome,
+    calculationId,
   } = inputs;
 
   const { numberOfYears, startYear, endYear } = lengthOfRetirement;
@@ -178,6 +181,7 @@ export default function runSimulations(
         // A Boolean representing whether or not the sucess rate is high enough to meet
         // the threshold of a "successful" run
         exceedsSuccessRateThreshold,
+        calculationId,
       });
     }
   );

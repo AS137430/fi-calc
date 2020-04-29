@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import constate from 'constate';
 import usePortfolio from './portfolio';
 import useHistoricalDataRange from './historical-data-range';
@@ -20,6 +20,10 @@ function useSimulationResult() {
   const [additionalWithdrawals] = useAdditionalWithdrawals();
   const [additionalIncome] = useAdditionalIncome();
 
+  // This is a unique ID that we use to guard against race conditions
+  // with this asynchronous calculation
+  const calculationIdRef = useRef(0);
+
   const [computation, setComputation] = useState({
     inputs: {
       durationMode: 'allHistory',
@@ -40,6 +44,9 @@ function useSimulationResult() {
   useEffect(
     () => {
       setTimeout(() => {
+        const thisCalculationId = calculationIdRef.current + 1;
+        calculationIdRef.current = thisCalculationId;
+
         const start = performance.now();
 
         const inputs = {
@@ -52,6 +59,7 @@ function useSimulationResult() {
           additionalIncome,
           dipPercentage: DIP_PERCENTAGE,
           successRateThreshold: SUCCESS_RATE_THRESHOLD,
+          calculationId: thisCalculationId,
         };
 
         setComputation(prev => {
@@ -63,6 +71,11 @@ function useSimulationResult() {
         });
 
         runSimulations(inputs, result => {
+          // If a new calculation was started then we ignore this one.
+          if (calculationIdRef.current !== result.calculationId) {
+            return;
+          }
+
           setComputation({
             result,
             inputs,
