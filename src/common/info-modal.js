@@ -17,7 +17,7 @@ export default function InfoModal({
 }) {
   return (
     <Modal onBeginClose={onBeginClose} {...props}>
-      <Modal.Title>{title}</Modal.Title>
+      <Modal.Title onBeginClose={onBeginClose}>{title}</Modal.Title>
       {recommendation && (
         <div className="recommendation">
           <IconDone />

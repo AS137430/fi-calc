@@ -6,6 +6,43 @@
   background-color: #222;
 }
 
+.modal_title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal_titleClose {
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 2rem;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+}
+
+.modal_titleClose.focus-visible {
+  border-color: var(--accentColor);
+}
+
+.modal_titleClose svg {
+  fill: #777;
+}
+
+.modal_titleClose:hover svg {
+  fill: #aaa;
+}
+
+.modal_titleClose.focus-visible svg,
+.modal_titleClose.focus-visible:hover svg {
+  fill: white;
+}
+
 .goodModal_footer {
   background-color: var(--containerBgColor);
   justify-content: flex-end;
