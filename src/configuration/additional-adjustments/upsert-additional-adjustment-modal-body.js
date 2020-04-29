@@ -59,7 +59,7 @@ export default function UpsertAdditionalAdjustmentModalBody({
 
   return (
     <>
-      <Modal.Title>{title}</Modal.Title>
+      <Modal.Title onBeginClose={onCancel}>{title}</Modal.Title>
       <Modal.Body>
         <div className="modalForm_row">
           <div className="modalForm_labelContainer">
