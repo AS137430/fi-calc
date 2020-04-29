@@ -44,6 +44,8 @@ function getWithdrawalMethod(
     return WithdrawalStrategies.ninetyFivePercentRule;
   } else if (withdrawalStrategyName === 'capeBased') {
     return WithdrawalStrategies.capeBased;
+  } else if (withdrawalStrategyName === 'dynamicSwr') {
+    return WithdrawalStrategies.dynamicSwr;
   }
 
   return inflationAdjustedFirstYearWithdrawal
@@ -87,7 +89,10 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     ninetyFivePercentage,
 
     capeWithdrawalRate,
-    capeWeight
+    capeWeight,
+
+    dynamicSwrRoiAssumption,
+    dynamicSwrInflationAssumption
   } = withdrawalStrategy;
   const firstYearWithdrawal = annualWithdrawal;
   const withdrawalStrategyName = withdrawalStrategyNameObject.key;
@@ -142,6 +147,12 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       avgMarketDataCape,
       capeWithdrawalRate,
       capeWeight
+    }
+  } else if (withdrawalStrategyName === 'dynamicSwr') {
+    withdrawalConfiguration = {
+      ...baseWithdrawalConfig,
+      dynamicSwrRoiAssumption,
+      dynamicSwrInflationAssumption
     }
   }
 

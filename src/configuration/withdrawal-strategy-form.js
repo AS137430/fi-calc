@@ -7,6 +7,7 @@ import PercentageOfPortfolio from './withdrawal-strategies/percentage-of-portfol
 import GuytonKlinger from './withdrawal-strategies/guyton-klinger';
 import NinetyFivePercentRule from './withdrawal-strategies/95-percent-rule';
 import CapeBased from './withdrawal-strategies/cape-based';
+import DynamicSwr from './withdrawal-strategies/dynamic-swr';
 import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
 import useWithdrawalStrategy from '../state/withdrawal-strategy';
@@ -103,6 +104,13 @@ export default function WithdrawalStrategyForm() {
           )}
           {withdrawalStrategy.withdrawalStrategyName.key === 'capeBased' && (
             <CapeBased
+              inputs={inputs}
+              changeCheckbox={changeCheckbox}
+              commitInput={commitInput}
+            />
+          )}
+          {withdrawalStrategy.withdrawalStrategyName.key === 'dynamicSwr' && (
+            <DynamicSwr
               inputs={inputs}
               changeCheckbox={changeCheckbox}
               commitInput={commitInput}
@@ -280,6 +288,33 @@ export default function WithdrawalStrategyForm() {
               is a weight of how much to factor in the CAPE, <code>CAEY</code>{' '}
               is equal to <code>1/CAPE</code>, and <code>P</code> is the
               current-year portfolio value.
+            </p>
+          </>
+        )}
+        {inputs.withdrawalStrategyName.value === 'dynamicSwr' && (
+          <>
+            <p>
+              Dynamic SWR is a dynamic withdrawal strategy which continously 
+              annuitizes your retirement savings. Your retirement income in a 
+              given year is determined by the remaining balance of your retirement
+              savings, life expectancy, and market expectations. As your life 
+              expectancy wanes, the withdrawal rate increases such that not much
+              is left behind.
+            </p>
+            <p>
+              The equation for the Dynamic SWR withdrawal method is as follows:
+            </p>
+            <code>
+              withdrawalAmount = 
+              portfolioTotalValue * (roiAssumption - inflationAssumption) /
+              (1 - Math.pow((1 + inflationAssumption) / (1 + roiAssumption), yearsRemaining + 1));
+            </code>
+            <p>
+              Their official <a href="https://www.nesteggly.com/dynamic-safe-withdrawal-rate-calculator">calculator</a> can
+              factor in pensions and social security to provide a more smooth income stream throughout retirement.
+            </p>
+            <p>
+              Read more about Dynamic SWR <a href="https://www.nesteggly.com/blog/dynamic-swr-explained">here</a>.
             </p>
           </>
         )}

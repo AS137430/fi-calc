@@ -39,6 +39,9 @@ interface WithdrawalOptions {
   capeWithdrawalRate: number;
   capeWeight: number;
   avgMarketDataCape: number;
+
+  dynamicSwrRoiAssumption: number;
+  dynamicSwrInflationAssumption: number;
 }
 
 function inflationAdjusted({
@@ -307,6 +310,32 @@ function capeBased({
   );
 }
 
+function dynamicSwr({
+  yearsRemaining,
+  portfolioTotalValue,
+  dynamicSwrRoiAssumption,
+  dynamicSwrInflationAssumption,
+  inflation,
+  minWithdrawal,
+  maxWithdrawal,
+}: WithdrawalOptions): number {
+
+  let withdrawalAmount = 0;
+  
+  if (dynamicSwrInflationAssumption === dynamicSwrRoiAssumption) {
+    withdrawalAmount = portfolioTotalValue / (yearsRemaining + 1);
+  } else {
+    withdrawalAmount = portfolioTotalValue * (dynamicSwrRoiAssumption/100 - dynamicSwrInflationAssumption/100) /
+    (1 - Math.pow((1 + dynamicSwrInflationAssumption/100) / (1 + dynamicSwrRoiAssumption/100), yearsRemaining + 1));
+  }
+  
+  return clamp(
+    withdrawalAmount,
+    inflation * minWithdrawal,
+    inflation * maxWithdrawal
+  );
+}
+
 export default {
   [WithdrawalStrategies.inflationAdjusted]: inflationAdjusted,
   [WithdrawalStrategies.notInflationAdjusted]: notInflationAdjusted,
@@ -314,4 +343,5 @@ export default {
   [WithdrawalStrategies.guytonKlinger]: guytonKlinger,
   [WithdrawalStrategies.ninetyFivePercentRule]: ninetyFivePercentRule,
   [WithdrawalStrategies.capeBased]: capeBased,
+  [WithdrawalStrategies.dynamicSwr] : dynamicSwr
 };

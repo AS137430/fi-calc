@@ -54,6 +54,10 @@ export interface WithdrawalStrategy {
 
   capeWithdrawalRate: number;
   capeWeight: number;
+
+  /* Dynamic SWR */
+  dynamicSwrRoiAssumption: number;
+  dynamicSwrInflationAssumption: number;
 }
 
 export enum MarketDataGrowthKeys {
@@ -74,6 +78,7 @@ export enum WithdrawalStrategies {
   guytonKlinger = 'guytonKlinger',
   ninetyFivePercentRule = 'ninetyFivePercentRule',
   capeBased = 'capeBased',
+  dynamicSwr = 'dynamicSwr'
 }
 
 export interface ComputedData {
