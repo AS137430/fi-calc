@@ -36,7 +36,7 @@
 .chartLabel-detail {
   font-weight: bold;
   font-size: 15px;
-  fill: var(--accentColor);
+  fill: var(--primaryBlue);
 }
 
 .chartLabel-top {
