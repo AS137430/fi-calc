@@ -9,6 +9,7 @@ import useWithdrawalStrategy from '../state/withdrawal-strategy';
 import formatForDisplay from '../utils/money/format-for-display';
 import useSimulationResult from '../state/simulation-result';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
+import useDetectTouchDevice from '../hooks/use-detect-touch-device';
 import simulationToCsv, {
   simulationCsvHeader,
 } from '../utils/simulation-to-csv';
@@ -85,8 +86,20 @@ function xAxisLabelFromInfo(maxChartDataPoint, point) {
   return `${monthString}${dateToUse.year}`;
 }
 
+function formatDataPoint(point) {
+  const year = point.x.split('.')[0];
+
+  const dollars = formatForDisplay(point.y);
+
+  return {
+    x: `Jan ${year}`,
+    y: dollars,
+  };
+}
+
 export default function Simulation() {
   const isSmallScreen = useIsSmallScreen();
+  const isTouchDevice = useDetectTouchDevice();
   const { year } = useParams();
   const { result } = useSimulationResult();
   const numericYear = Number(year);
@@ -248,6 +261,8 @@ export default function Simulation() {
             isSmallScreen={isSmallScreen}
             yTicks={dollarTicks}
             xTicks={yearTicks}
+            isTouchDevice={isTouchDevice}
+            formatDataPoint={formatDataPoint}
           />
         </div>
         <div />
@@ -292,6 +307,8 @@ export default function Simulation() {
             isSmallScreen={isSmallScreen}
             yTicks={dollarTicks}
             xTicks={yearTicks}
+            isTouchDevice={isTouchDevice}
+            formatDataPoint={formatDataPoint}
           />
         </div>
       </div>

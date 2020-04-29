@@ -10,8 +10,8 @@ import {
 interface RenderDataOption {
   data: ChartDataPoint[];
   svgWidth: number;
-  svgYAxisSpacing: number;
-  svgXAxisSpacing: number;
+  svgYAxisLabelsWidth: number;
+  svgXAxisLabelsHeight: number;
   textHeight: number;
   yLabelPadding: number;
   xAxisLabelWidth: number;
@@ -19,6 +19,7 @@ interface RenderDataOption {
   svgAspectRatio: number;
   yTicks: number[];
   xTicks: number[];
+  topMargin: number;
 }
 
 interface TickSpacing {
@@ -62,6 +63,14 @@ export interface RenderDataReturn {
   };
 
   data: OrderedPair[];
+  dataMeta: {
+    dataIndexDomain: OrderedPair;
+  };
+
+  chart: {
+    chartDomain: OrderedPair;
+    chartRange: OrderedPair;
+  };
 
   range: ScaleReturn;
   domain: DomainScaleReturn;
@@ -78,8 +87,8 @@ function times(n: number, cb: (n: number) => any) {
 export default function renderData({
   data,
   svgWidth,
-  svgYAxisSpacing,
-  svgXAxisSpacing,
+  svgYAxisLabelsWidth,
+  svgXAxisLabelsHeight,
   textHeight,
   yLabelPadding,
   xAxisLabelWidth,
@@ -90,13 +99,16 @@ export default function renderData({
   svgAspectRatio = 0.5,
   xTicks,
   yTicks,
+  topMargin,
 }: RenderDataOption): RenderDataReturn {
   const svgHeight = svgWidth * svgAspectRatio;
 
   const minYLabelHeight = textHeight + yLabelPadding;
+  // TODO: is this wrong? Should it be using the svgHeight - xAxisLabelHeight?
   const maxYLabelCount = Math.floor(svgHeight / minYLabelHeight);
 
   const minXLabelWidth = xAxisLabelWidth + xLabelPadding;
+  // TODO: is this wrong? Should it be using the svgWidth - yAxisLabelWidth?
   const maxXLabelCount = Math.floor(svgWidth / minXLabelWidth);
 
   const viewBoxHeight = svgWidth * svgAspectRatio;
@@ -107,8 +119,11 @@ export default function renderData({
   const yValues = data.map(dataPoint => dataPoint.y);
 
   // This is the range of the data that can be drawn in the chart
-  const chartRange = [0, viewBoxHeight - svgXAxisSpacing];
-  const chartDomain = [0, svgWidth - svgYAxisSpacing];
+  const chartRange: OrderedPair = [
+    topMargin,
+    viewBoxHeight - svgXAxisLabelsHeight,
+  ];
+  const chartDomain: OrderedPair = [0, svgWidth - svgYAxisLabelsWidth];
   const chartRangeSize = chartRange[1] - chartRange[0];
   const chartDomainSize = chartDomain[1] - chartDomain[0];
 
@@ -208,28 +223,30 @@ export default function renderData({
     // We render from the right toward the left, so that the most recent date
     // is always labeled.
     const tickXPosition =
-      svgWidth - svgYAxisSpacing - svgXTickSpacing * drawIndex;
+      svgWidth - svgYAxisLabelsWidth - svgXTickSpacing * drawIndex;
 
     // I should instead use a system that allows me to add/subtract
     // x-values from the largest x-value in the dataset.
     const distanceFromMin = distanceIndex * dataXTickSpacing;
 
     return {
-      width: index === 0 ? svgYAxisSpacing : spaceBetweenXAxisLabels,
+      width: index === 0 ? svgYAxisLabelsWidth : spaceBetweenXAxisLabels,
       position: tickXPosition,
       distance: -distanceFromMin,
     };
   });
+  const xDomainInput: OrderedPair = [domain[0], domain[1]];
+  // We flip the y axis so that larger values render _above_
+  // lower values. This is necessary because the SVG y-axis points down.
+  const yDomainInput: OrderedPair = [-dataRange[1], -dataRange[0]];
+
+  const xDomainToUse: [number, number] = isRenderingSinglePoint
+    ? [0, 2]
+    : xDomainInput;
 
   let hasIncludedZero = false;
   const mappedData = (data
     .map((point, index) => {
-      const xDomainInput: OrderedPair = [domain[0], domain[1]];
-
-      // We flip the y axis so that larger values render _above_
-      // lower values. This is necessary because tthe SVG y-axis points down.
-      const yDomainInput: OrderedPair = [-dataRange[1], -dataRange[0]];
-
       // The following conditionals ensure that once we plot a zero value, we stop
       // plotting.
       if (point.y === 0) {
@@ -245,9 +262,6 @@ export default function renderData({
       }
 
       const xIndexToUse = isRenderingSinglePoint ? 1 : index;
-      const xDomainToUse: [number, number] = isRenderingSinglePoint
-        ? [0, 2]
-        : xDomainInput;
 
       return [
         linearScale({
@@ -304,6 +318,14 @@ export default function renderData({
     },
 
     data: mappedData,
+    dataMeta: {
+      dataIndexDomain: xDomainToUse,
+    },
+
+    chart: {
+      chartDomain,
+      chartRange,
+    },
 
     // Ranges in different units
     range: {

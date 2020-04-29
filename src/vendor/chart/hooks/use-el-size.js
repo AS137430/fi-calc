@@ -10,6 +10,8 @@ export default function useElSize(el) {
     return {
       width: bb ? bb.width : undefined,
       height: bb ? bb.height : undefined,
+      x: bb ? bb.x : undefined,
+      y: bb ? bb.y : undefined,
     };
   }
 
