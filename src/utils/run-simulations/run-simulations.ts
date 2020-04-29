@@ -152,7 +152,7 @@ export default function runSimulations(
 
       const rawSuccessRate = successRate * 100;
 
-      let successRateDisplay;
+      let successRateDisplay: string = '';
       if (rawSuccessRate === 100 || rawSuccessRate === 0) {
         successRateDisplay = `${rawSuccessRate}%`;
       } else {
@@ -161,28 +161,34 @@ export default function runSimulations(
 
       const exceedsSuccessRateThreshold = successRate > successRateThreshold;
 
-      done({
-        // All simulations (complete+incomplete, successful+failed)
-        simulations,
-        // All complete (successful + failed)
-        completeSimulations,
-        // All incomplete (successful + failed)
-        incompleteSimulations,
-        // Complete + successful
-        successfulSimulations,
-        // Complete + failed sims
-        failedSimulations,
-        // The options that were passed into this function
-        inputs,
-        // A decimal representing the ratio of successful to unsuccesful sims. i.e.; 0.92333333
-        successRate,
-        // A string for displaying the success rate. i.e.; "100%" or "93.22%"
-        successRateDisplay,
-        // A Boolean representing whether or not the sucess rate is high enough to meet
-        // the threshold of a "successful" run
-        exceedsSuccessRateThreshold,
-        calculationId,
-      });
+      setTimeout(() => {
+        done({
+          // All simulations (complete+incomplete, successful+failed)
+          simulations,
+          // All complete (successful + failed)
+          completeSimulations,
+          // All incomplete (successful + failed)
+          incompleteSimulations,
+          // Complete + successful
+          successfulSimulations,
+          // Complete + failed sims
+          failedSimulations,
+          // The options that were passed into this function
+          inputs,
+          // A decimal representing the ratio of successful to unsuccesful sims. i.e.; 0.92333333
+          successRate,
+          // A string for displaying the success rate. i.e.; "100%" or "93.22%"
+          successRateDisplay,
+          // A Boolean representing whether or not the sucess rate is high enough to meet
+          // the threshold of a "successful" run
+          exceedsSuccessRateThreshold,
+          calculationId,
+        });
+        // This is a barely-perceptible amount of time that gives the animation
+        // enough time to occur. Although it technically slows down the app
+        // by a miniscule amount of time, it actually improves the feeling
+        // of making changes because the computation occurs almost instantly.
+      }, 20);
     }
   );
 }
