@@ -1,4 +1,7 @@
 .results {
+  --opacityTransition: opacity 35ms ease-out;
+  --loadingOpacity: 0.35;
+
   color: #fff;
   padding: 1.5rem var(--contentSpacingRight) 1.5rem 1.5rem;
   max-width: 800px;
@@ -47,10 +50,22 @@
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 0rem;
+  will-change: opacity;
+  transition: var(--opacityTransition);
+}
+
+.results_sectionRow-isLoading {
+  opacity: var(--loadingOpacity);
 }
 
 .results_block {
   margin-bottom: 2.5rem;
+  will-change: opacity;
+  transition: var(--opacityTransition);
+}
+
+.results_block-isLoading {
+  opacity: var(--loadingOpacity);
 }
 
 .results_section {
@@ -77,10 +92,6 @@
 .results_bigValue {
   font-size: 1.75rem;
   font-weight: bold;
-}
-
-.results_bigValue-loading {
-  opacity: 0.35;
 }
 
 .results_value {
@@ -209,6 +220,7 @@
   justify-content: center;
   background-color: #333;
   color: #fff;
+  min-height: 2.25rem;
   border-radius: 4px;
   padding: 0.5rem;
   font-weight: 500;
@@ -259,6 +271,10 @@
   background-color: transparent;
   border-color: #444;
   opacity: 0.5;
+}
+
+.byYear_cell-placeholder {
+  pointer-events: none;
 }
 
 .results_byYearGrid {
