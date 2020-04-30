@@ -9,7 +9,7 @@ import {
   DipObject,
   AdditionalWithdrawals,
   SimulationStatus,
-  Simulation
+  Simulation,
 } from './run-simulations-interfaces';
 import simulateOneYear from './simulate-one-year';
 
@@ -145,7 +145,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   }
 
   const firstYearStartPortfolioValue = portfolio.totalValue;
-  const initialPortfolio = portfolio;
+  const firstYearStartPortfolio = portfolio;
 
   const dipThreshold = dipPercentage * firstYearStartPortfolioValue;
 
@@ -173,9 +173,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     startCpi: Number(firstYearCpi),
     endCpi: Number(endYearCpi),
   });
-
-  const firstYearStartPortfolioValueInFinalYear =
-    totalInflationOverPeriod * firstYearStartPortfolioValue;
 
   const resultsByYear: YearResult[] = [];
 
@@ -238,7 +235,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       didDip,
       lowestValue,
       dipThreshold,
-      initialPortfolio,
+      firstYearStartPortfolio,
       portfolio,
       lowestSuccessfulDip,
       additionalWithdrawalsForYear,

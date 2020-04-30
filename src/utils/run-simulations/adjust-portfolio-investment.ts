@@ -20,8 +20,7 @@ interface adjustPortfolioInvestmentOptions {
   isOutOfMoneyAtEnd: boolean;
   rebalancePortfolioAnnually: boolean;
   yearMarketData: YearData;
-  // This is the portfolio at the start of the *first* year of this simulation
-  initialPortfolio: Portfolio;
+  firstYearStartPortfolio: Portfolio;
   // This is the portfolio at the start of this year
   startPortfolio: Portfolio;
 }
@@ -32,7 +31,7 @@ export default function adjustPortfolioInvestment({
   index,
   isOutOfMoneyAtEnd,
   rebalancePortfolioAnnually,
-  initialPortfolio,
+  firstYearStartPortfolio,
   yearMarketData,
   startPortfolio,
 }: adjustPortfolioInvestmentOptions) {
@@ -51,7 +50,7 @@ export default function adjustPortfolioInvestment({
   const previousYearInvestment = startPortfolio.investments[index];
 
   const percentage = rebalancePortfolioAnnually
-    ? initialPortfolio.investments[index].percentage
+    ? firstYearStartPortfolio.investments[index].percentage
     : previousYearInvestment.value / startPortfolio.totalValue;
 
   // If we rebalance yearly, then we keep the original percentage from the previous year.

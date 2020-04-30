@@ -12,7 +12,7 @@ import inflationFromCpi from '../market-data/inflation-from-cpi';
 // They all receive the same arguments.
 
 interface WithdrawalOptions {
-  initialPortfolio: Portfolio;
+  firstYearStartPortfolio: Portfolio;
   isFirstYear: boolean;
   firstYearWithdrawal: number;
   inflation: number;
@@ -85,7 +85,7 @@ function guytonKlinger({
   firstYearCpi,
   portfolioTotalValue,
   gkInitialWithdrawal,
-  initialPortfolio,
+  firstYearStartPortfolio,
   gkWithdrawalUpperLimit,
   gkWithdrawalLowerLimit,
   gkUpperLimitAdjustment,
@@ -198,7 +198,7 @@ function guytonKlinger({
   // To determine if we need to adjust our withdrawal, we first compute the initial year's % withdrawal. For
   // instance, 40k out of $1mil would be a 4% withdrawal.
   const initialWithdrawalRate =
-    gkInitialWithdrawal / initialPortfolio.totalValue;
+    gkInitialWithdrawal / firstYearStartPortfolio.totalValue;
 
   // We use that initial withdrawal rate to compute the max/min withdrawals that apply for every subsequent year
   // This is "Exceeds" in the equations above
@@ -255,7 +255,7 @@ function guytonKlinger({
 // Clarified by a post on this forum: https://www.early-retirement.org/forums/f28/question-on-the-95-rule-20484.html
 function ninetyFivePercentRule({
   ninetyFiveInitialRate,
-  initialPortfolio,
+  firstYearStartPortfolio,
   ninetyFivePercentage,
   portfolioTotalValue,
   previousResults,
@@ -265,7 +265,7 @@ function ninetyFivePercentRule({
   maxWithdrawal,
 }: WithdrawalOptions): number {
   const firstYearWithdrawal =
-    (initialPortfolio.totalValue * ninetyFiveInitialRate) / 100;
+    (firstYearStartPortfolio.totalValue * ninetyFiveInitialRate) / 100;
 
   if (isFirstYear) {
     return firstYearWithdrawal;

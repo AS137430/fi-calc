@@ -26,7 +26,7 @@ interface SimulateOneYearOptions {
   didDip: boolean;
   lowestValue: number;
   withdrawalConfiguration: any;
-  initialPortfolio: Portfolio;
+  firstYearStartPortfolio: Portfolio;
   portfolio: Portfolio;
   withdrawalMethod: WithdrawalStrategies;
   lowestSuccessfulDip: DipObject;
@@ -51,7 +51,7 @@ export default function simulateOneYear({
   didDip,
   lowestValue,
   dipThreshold,
-  initialPortfolio,
+  firstYearStartPortfolio,
   portfolio,
   lowestSuccessfulDip,
   additionalWithdrawalsForYear,
@@ -64,7 +64,7 @@ export default function simulateOneYear({
   }
 
   const startPortfolio = isFirstYear
-    ? initialPortfolio
+    ? firstYearStartPortfolio
     : resultsByYear[n - 1].endPortfolio;
 
   const yearStartValue = startPortfolio.totalValue;
@@ -80,7 +80,7 @@ export default function simulateOneYear({
   const withdrawalAmount = withdrawal[withdrawalMethod]({
     ...withdrawalConfiguration,
     previousResults,
-    initialPortfolio,
+    firstYearStartPortfolio,
     isFirstYear,
     yearMarketData,
     yearsRemaining,
@@ -140,7 +140,7 @@ export default function simulateOneYear({
         isOutOfMoneyAtEnd,
         startPortfolio,
         rebalancePortfolioAnnually,
-        initialPortfolio,
+        firstYearStartPortfolio,
         yearMarketData,
       })
   );
