@@ -20,7 +20,9 @@ interface adjustPortfolioInvestmentOptions {
   isOutOfMoney: boolean;
   rebalancePortfolioAnnually: boolean;
   yearMarketData: YearData;
+  // This is the portfolio at the start of the *first* year of this simulation
   initialPortfolio: Portfolio;
+  // This is the portfolio at the start of this year
   startPortfolio: Portfolio;
 }
 
