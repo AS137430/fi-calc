@@ -28,7 +28,7 @@ function formatSimulationForPortfolioChart(simulation) {
   const chartData = simulation.resultsByYear.map(yearData => {
     return {
       x: `${yearData.year + 1}.1`,
-      y: yearData.computedData.endPortfolio.totalValueInFirstYearDollars,
+      y: yearData.endPortfolio.totalValueInFirstYearDollars,
     };
   });
 
@@ -44,7 +44,7 @@ function formatSimulationForWithdrawalChart(simulation) {
   return simulation?.resultsByYear?.map(yearData => {
     return {
       x: `${yearData.year}.1`,
-      y: yearData.computedData.totalWithdrawalAmountInFirstYearDollars,
+      y: yearData.totalWithdrawalAmountInFirstYearDollars,
     };
   });
 }
@@ -222,8 +222,8 @@ export default function Simulation() {
                 <div className="results_sectionTitle">Lowest Value</div>
                 <div className="results_value">
                   {formatForDisplay(
-                    simulation.minPortfolioYearInFirstYearDollars.computedData
-                      .endPortfolio.totalValueInFirstYearDollars
+                    simulation.minPortfolioYearInFirstYearDollars.endPortfolio
+                      .totalValueInFirstYearDollars
                   )}
                   <span className="results_secondaryValue">
                     ({simulation.minPortfolioYearInFirstYearDollars.year + 1})
@@ -234,8 +234,7 @@ export default function Simulation() {
                 <div className="results_sectionTitle">Final Value</div>
                 <div className="results_value">
                   {formatForDisplay(
-                    lastYear.computedData.endPortfolio
-                      .totalValueInFirstYearDollars
+                    lastYear.endPortfolio.totalValueInFirstYearDollars
                   )}
                 </div>
               </div>
@@ -277,7 +276,7 @@ export default function Simulation() {
                 <div className="results_sectionTitle">Lowest Withdrawal</div>
                 <div className="results_value">
                   {formatForDisplay(
-                    simulation.minWithdrawalYearInFirstYearDollars.computedData
+                    simulation.minWithdrawalYearInFirstYearDollars
                       .totalWithdrawalAmountInFirstYearDollars
                   )}
                   <span className="results_secondaryValue">
@@ -291,8 +290,7 @@ export default function Simulation() {
                 </div>
                 <div className="results_value">
                   {formatForDisplay(
-                    lastYear.computedData
-                      .totalWithdrawalAmountInFirstYearDollars
+                    lastYear.totalWithdrawalAmountInFirstYearDollars
                   )}
                 </div>
               </div>

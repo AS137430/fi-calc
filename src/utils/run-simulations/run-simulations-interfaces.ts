@@ -77,12 +77,6 @@ export enum WithdrawalStrategies {
 }
 
 export interface ComputedData {
-  cumulativeInflation: number;
-  totalWithdrawalAmount: number;
-  baseWithdrawalAmount: number;
-  additionalWithdrawalAmount: number;
-  totalWithdrawalAmountInFirstYearDollars: number;
-  startPortfolio: Portfolio | null;
   endPortfolio: Portfolio;
 }
 
@@ -104,6 +98,13 @@ export interface YearResult {
   marketData: YearData;
   cpi: number;
   computedData: ComputedData;
+  cumulativeInflation: number;
+  totalWithdrawalAmount: number;
+  baseWithdrawalAmount: number;
+  additionalWithdrawalAmount: number;
+  totalWithdrawalAmountInFirstYearDollars: number;
+  startPortfolio: Portfolio | null;
+  endPortfolio: Portfolio;
 }
 
 export type ResultsByYear = YearResult[];

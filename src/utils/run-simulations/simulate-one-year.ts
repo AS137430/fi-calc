@@ -181,23 +181,26 @@ export default function simulateOneYear({
     (totalWithdrawalAmount / cumulativeInflation).toFixed(2)
   );
 
+  const endPortfolio = {
+    totalValueInFirstYearDollars: endValueInFirstYearDollars,
+    totalValue: endValue,
+    investments: adjustedInvestmentValues,
+  };
+
   return {
     year,
     isOutOfMoney,
     marketData: yearMarketData,
     cpi: currentCpi,
+    cumulativeInflation,
+    totalWithdrawalAmount,
+    baseWithdrawalAmount,
+    additionalWithdrawalAmount: actualAdditionalWithdrawalAmount,
+    totalWithdrawalAmountInFirstYearDollars,
+    startPortfolio,
+    endPortfolio,
     computedData: {
-      cumulativeInflation,
-      totalWithdrawalAmount,
-      baseWithdrawalAmount,
-      additionalWithdrawalAmount: actualAdditionalWithdrawalAmount,
-      totalWithdrawalAmountInFirstYearDollars,
-      startPortfolio,
-      endPortfolio: {
-        totalValueInFirstYearDollars: endValueInFirstYearDollars,
-        totalValue: endValue,
-        investments: adjustedInvestmentValues,
-      },
+      endPortfolio,
     },
   };
 }

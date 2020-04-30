@@ -195,12 +195,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   // This can be used to simulate a "previous" year for the 0th year,
   // simplifying the logic below.
   const initialComputedData:ComputedData = {
-    cumulativeInflation: 1,
-    totalWithdrawalAmount: 0,
-    baseWithdrawalAmount: 0,
-    additionalWithdrawalAmount: 0,
-    totalWithdrawalAmountInFirstYearDollars: 0,
-    startPortfolio: null,
     endPortfolio: portfolio,
   };
 
@@ -274,7 +268,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
   const lastYear = resultsByYear[resultsByYear.length - 1];
 
-  const finalYearPortfolio = lastYear.computedData.endPortfolio;
+  const finalYearPortfolio = lastYear.endPortfolio;
   const finalValue = finalYearPortfolio.totalValue;
 
   const percentOfChange =
@@ -288,16 +282,16 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
   const minWithdrawalYearInFirstYearDollars = _.minBy(
     resultsByYear,
-    year => year.computedData.totalWithdrawalAmountInFirstYearDollars
+    year => year.totalWithdrawalAmountInFirstYearDollars
   );
 
   const minPortfolioYearInFirstYearDollars = _.minBy(
     resultsByYear,
-    year => year.computedData.endPortfolio.totalValueInFirstYearDollars
+    year => year.endPortfolio.totalValueInFirstYearDollars
   );
 
   const finalRatio =
-    lastYear.computedData.endPortfolio.totalValueInFirstYearDollars /
+    lastYear.endPortfolio.totalValueInFirstYearDollars /
     initialPortfolioValue;
 
   let status;
