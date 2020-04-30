@@ -20,9 +20,9 @@ export default function Configuration() {
         <LengthOfRetirementForm />
         <PortfolioForm />
         <WithdrawalStrategyForm />
-        <HistoricalDataRangeForm />
         <AdditionalIncomeForm />
         <AdditionalWithdrawalsForm />
+        <HistoricalDataRangeForm />
       </div>
       {isSmallScreen && (
         <div className="configuration_viewResults">
