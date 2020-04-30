@@ -217,7 +217,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       const incomeEndYear = incomeStartYear + income.duration - 1;
 
       return year >= incomeStartYear && year <= incomeEndYear;
-    })
+    });
 
     const yearResult = simulateOneYear({
       n,

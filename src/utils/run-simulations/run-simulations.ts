@@ -10,6 +10,7 @@ import {
   Simulations,
 } from './run-simulations-interfaces';
 import asyncMap from '../async-map';
+import successRateAnalysis from './analysis/success-rate';
 
 export interface HistoricalDataRange {
   firstYear: number;
@@ -53,6 +54,7 @@ interface RunSimulationsReturn {
   successRate: number;
   successRateDisplay: string;
   calculationId: number;
+  analysis: any;
 }
 
 export default function runSimulations(
@@ -161,29 +163,36 @@ export default function runSimulations(
 
       const exceedsSuccessRateThreshold = successRate > successRateThreshold;
 
+      const result: RunSimulationsReturn = {
+        // All simulations (complete+incomplete, successful+failed)
+        simulations,
+        // All complete (successful + failed)
+        completeSimulations,
+        // All incomplete (successful + failed)
+        incompleteSimulations,
+        // Complete + successful
+        successfulSimulations,
+        // Complete + failed sims
+        failedSimulations,
+        // The options that were passed into this function
+        inputs,
+        // A decimal representing the ratio of successful to unsuccesful sims. i.e.; 0.92333333
+        successRate,
+        // A string for displaying the success rate. i.e.; "100%" or "93.22%"
+        successRateDisplay,
+        // A Boolean representing whether or not the sucess rate is high enough to meet
+        // the threshold of a "successful" run
+        exceedsSuccessRateThreshold,
+        calculationId,
+        analysis: {},
+      };
+
+      result.analysis = {
+        successRate: successRateAnalysis.display(result),
+      };
+
       setTimeout(() => {
-        done({
-          // All simulations (complete+incomplete, successful+failed)
-          simulations,
-          // All complete (successful + failed)
-          completeSimulations,
-          // All incomplete (successful + failed)
-          incompleteSimulations,
-          // Complete + successful
-          successfulSimulations,
-          // Complete + failed sims
-          failedSimulations,
-          // The options that were passed into this function
-          inputs,
-          // A decimal representing the ratio of successful to unsuccesful sims. i.e.; 0.92333333
-          successRate,
-          // A string for displaying the success rate. i.e.; "100%" or "93.22%"
-          successRateDisplay,
-          // A Boolean representing whether or not the sucess rate is high enough to meet
-          // the threshold of a "successful" run
-          exceedsSuccessRateThreshold,
-          calculationId,
-        });
+        done(result);
         // This is a barely-perceptible amount of time that gives the animation
         // enough time to occur. Although it technically slows down the app
         // by a miniscule amount of time, it actually improves the feeling
