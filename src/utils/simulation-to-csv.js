@@ -31,7 +31,7 @@ export default function simulationToCsv(simulation, simulationNumber) {
       simulation.endYear,
       result.year,
 
-      result.computedData.portfolio.totalValue,
+      result.computedData.endPortfolio.totalValue,
       result.isOutOfMoney,
 
       result.computedData.totalWithdrawalAmount,

@@ -28,7 +28,7 @@ function formatSimulationForPortfolioChart(simulation) {
   const chartData = simulation.resultsByYear.map(yearData => {
     return {
       x: `${yearData.year + 1}.1`,
-      y: yearData.computedData.portfolio.totalValueInFirstYearDollars,
+      y: yearData.computedData.endPortfolio.totalValueInFirstYearDollars,
     };
   });
 
@@ -223,7 +223,7 @@ export default function Simulation() {
                 <div className="results_value">
                   {formatForDisplay(
                     simulation.minPortfolioYearInFirstYearDollars.computedData
-                      .portfolio.totalValueInFirstYearDollars
+                      .endPortfolio.totalValueInFirstYearDollars
                   )}
                   <span className="results_secondaryValue">
                     ({simulation.minPortfolioYearInFirstYearDollars.year + 1})
@@ -234,7 +234,8 @@ export default function Simulation() {
                 <div className="results_sectionTitle">Final Value</div>
                 <div className="results_value">
                   {formatForDisplay(
-                    lastYear.computedData.portfolio.totalValueInFirstYearDollars
+                    lastYear.computedData.endPortfolio
+                      .totalValueInFirstYearDollars
                   )}
                 </div>
               </div>

@@ -83,7 +83,7 @@ export interface ComputedData {
   additionalWithdrawalAmount: number;
   totalWithdrawalAmountInFirstYearDollars: number;
   startPortfolio: Portfolio | null;
-  portfolio: Portfolio;
+  endPortfolio: Portfolio;
 }
 
 export interface YearData extends MarketDataValue {

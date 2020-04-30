@@ -201,7 +201,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     additionalWithdrawalAmount: 0,
     totalWithdrawalAmountInFirstYearDollars: 0,
     startPortfolio: null,
-    portfolio,
+    endPortfolio: portfolio,
   };
 
   const numericStartYear = Number(startYear);
@@ -274,7 +274,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
   const lastYear = resultsByYear[resultsByYear.length - 1];
 
-  const finalYearPortfolio = lastYear.computedData.portfolio;
+  const finalYearPortfolio = lastYear.computedData.endPortfolio;
   const finalValue = finalYearPortfolio.totalValue;
 
   const percentOfChange =
@@ -293,11 +293,11 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
   const minPortfolioYearInFirstYearDollars = _.minBy(
     resultsByYear,
-    year => year.computedData.portfolio.totalValueInFirstYearDollars
+    year => year.computedData.endPortfolio.totalValueInFirstYearDollars
   );
 
   const finalRatio =
-    lastYear.computedData.portfolio.totalValueInFirstYearDollars /
+    lastYear.computedData.endPortfolio.totalValueInFirstYearDollars /
     initialPortfolioValue;
 
   let status;

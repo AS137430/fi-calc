@@ -70,8 +70,8 @@ export default function simulateOneYear({
     ? initialComputedData
     : resultsByYear[n - 1].computedData;
 
-  const startPortfolio = previousComputedData.portfolio;
-  const yearStartValue = previousComputedData.portfolio.totalValue;
+  const startPortfolio = previousComputedData.endPortfolio;
+  const yearStartValue = startPortfolio.totalValue;
 
   const yearMarketData = marketData[year];
   const currentCpi = Number(yearMarketData.cpi);
@@ -193,7 +193,7 @@ export default function simulateOneYear({
       additionalWithdrawalAmount: actualAdditionalWithdrawalAmount,
       totalWithdrawalAmountInFirstYearDollars,
       startPortfolio,
-      portfolio: {
+      endPortfolio: {
         totalValueInFirstYearDollars: endValueInFirstYearDollars,
         totalValue: endValue,
         investments: adjustedInvestmentValues,
