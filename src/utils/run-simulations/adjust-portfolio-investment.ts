@@ -47,11 +47,11 @@ export default function adjustPortfolioInvestment({
     };
   }
 
-  const previousYearInvestment = startPortfolio.investments[index];
+  const startingInvestments = startPortfolio.investments[index];
 
   const percentage = rebalancePortfolioAnnually
     ? firstYearStartPortfolio.investments[index].percentage
-    : previousYearInvestment.value / startPortfolio.totalValue;
+    : startingInvestments.value / startPortfolio.totalValue;
 
   // If we rebalance yearly, then we keep the original percentage from the previous year.
   // This assumes that the investor reinvests at the very beginning (or very end) of each year.
