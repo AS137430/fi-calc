@@ -90,10 +90,11 @@ export interface MarketData {
 
 export interface YearResult {
   year: number;
-  isOutOfMoney: boolean;
+  month: number;
+  isOutOfMoneyAtEnd: boolean;
   marketData: YearData;
-  cpi: number;
-  cumulativeInflation: number;
+  startCpi: number;
+  cumulativeInflationSinceFirstYear: number;
   totalWithdrawalAmount: number;
   baseWithdrawalAmount: number;
   additionalWithdrawalAmount: number;

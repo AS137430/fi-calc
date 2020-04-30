@@ -246,7 +246,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     });
 
     if (yearResult !== null) {
-      if (yearResult.isOutOfMoney) {
+      if (yearResult.isOutOfMoneyAtEnd) {
         isFailed = true;
 
         if (yearFailed === null) {

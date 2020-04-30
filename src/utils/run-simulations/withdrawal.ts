@@ -110,7 +110,7 @@ function guytonKlinger({
     ? gkInitialWithdrawal
     : previousResults.baseWithdrawalAmount;
 
-  const prevCpi = isFirstYear ? firstYearCpi : previousResults.cpi;
+  const prevCpi = isFirstYear ? firstYearCpi : previousResults.startCpi;
   const inflationFromPreviousYear = inflationFromCpi({
     startCpi: prevCpi,
     endCpi: cpi,

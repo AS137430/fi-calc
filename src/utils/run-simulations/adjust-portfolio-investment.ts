@@ -17,7 +17,7 @@ interface adjustPortfolioInvestmentOptions {
   portfolioValueBeforeMarketChanges: number;
   investment: PortfolioInvestment;
   index: number;
-  isOutOfMoney: boolean;
+  isOutOfMoneyAtEnd: boolean;
   rebalancePortfolioAnnually: boolean;
   yearMarketData: YearData;
   // This is the portfolio at the start of the *first* year of this simulation
@@ -30,13 +30,13 @@ export default function adjustPortfolioInvestment({
   portfolioValueBeforeMarketChanges,
   investment,
   index,
-  isOutOfMoney,
+  isOutOfMoneyAtEnd,
   rebalancePortfolioAnnually,
   initialPortfolio,
   yearMarketData,
   startPortfolio,
 }: adjustPortfolioInvestmentOptions) {
-  if (isOutOfMoney) {
+  if (isOutOfMoneyAtEnd) {
     return {
       ...investment,
       valueBeforeChange: investment.value,

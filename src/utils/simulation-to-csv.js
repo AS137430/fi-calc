@@ -32,14 +32,14 @@ export default function simulationToCsv(simulation, simulationNumber) {
       result.year,
 
       result.endPortfolio.totalValue,
-      result.isOutOfMoney,
+      result.isOutOfMoneyAtEnd,
 
       result.totalWithdrawalAmount,
       result.totalWithdrawalAmountInFirstYearDollars,
       result.baseWithdrawalAmount,
       result.additionalWithdrawalAmount,
 
-      result.cumulativeInflation,
+      result.cumulativeInflationSinceFirstYear,
     ]);
 
     return arr;
