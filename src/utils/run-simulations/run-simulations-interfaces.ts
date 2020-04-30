@@ -76,10 +76,6 @@ export enum WithdrawalStrategies {
   capeBased = 'capeBased',
 }
 
-export interface ComputedData {
-  endPortfolio: Portfolio;
-}
-
 export interface YearData extends MarketDataValue {
   [MarketDataGrowthKeys.bondsGrowth]: number;
   [MarketDataGrowthKeys.stockMarketGrowth]: number;
@@ -97,7 +93,6 @@ export interface YearResult {
   isOutOfMoney: boolean;
   marketData: YearData;
   cpi: number;
-  computedData: ComputedData;
   cumulativeInflation: number;
   totalWithdrawalAmount: number;
   baseWithdrawalAmount: number;

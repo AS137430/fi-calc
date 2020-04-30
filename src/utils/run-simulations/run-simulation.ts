@@ -8,7 +8,6 @@ import {
   YearResult,
   DipObject,
   AdditionalWithdrawals,
-  ComputedData,
   SimulationStatus,
   Simulation
 } from './run-simulations-interfaces';
@@ -192,12 +191,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   };
   let yearFailed:YearFailed = null;
 
-  // This can be used to simulate a "previous" year for the 0th year,
-  // simplifying the logic below.
-  const initialComputedData:ComputedData = {
-    endPortfolio: portfolio,
-  };
-
   const numericStartYear = Number(startYear);
 
   // Might be faster to make this a map of `resultsByYear`?
@@ -237,7 +230,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       year,
       previousResults,
       rebalancePortfolioAnnually,
-      initialComputedData,
       resultsByYear,
       marketData,
       firstYearCpi,

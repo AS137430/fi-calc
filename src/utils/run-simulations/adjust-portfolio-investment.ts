@@ -3,7 +3,6 @@ import {
   PortfolioInvestment,
   InvestmentType,
   MarketDataGrowthKeys,
-  ComputedData,
   YearData,
 } from './run-simulations-interfaces';
 
@@ -19,10 +18,10 @@ interface adjustPortfolioInvestmentOptions {
   investment: PortfolioInvestment;
   index: number;
   isOutOfMoney: boolean;
-  previousComputedData: ComputedData;
   rebalancePortfolioAnnually: boolean;
   yearMarketData: YearData;
   initialPortfolio: Portfolio;
+  startPortfolio: Portfolio;
 }
 
 export default function adjustPortfolioInvestment({
@@ -30,10 +29,10 @@ export default function adjustPortfolioInvestment({
   investment,
   index,
   isOutOfMoney,
-  previousComputedData,
   rebalancePortfolioAnnually,
   initialPortfolio,
   yearMarketData,
+  startPortfolio,
 }: adjustPortfolioInvestmentOptions) {
   if (isOutOfMoney) {
     return {
@@ -47,13 +46,11 @@ export default function adjustPortfolioInvestment({
     };
   }
 
-  const previousYearInvestment =
-    previousComputedData.endPortfolio.investments[index];
+  const previousYearInvestment = startPortfolio.investments[index];
 
   const percentage = rebalancePortfolioAnnually
     ? initialPortfolio.investments[index].percentage
-    : previousYearInvestment.value /
-      previousComputedData.endPortfolio.totalValue;
+    : previousYearInvestment.value / startPortfolio.totalValue;
 
   // If we rebalance yearly, then we keep the original percentage from the previous year.
   // This assumes that the investor reinvests at the very beginning (or very end) of each year.

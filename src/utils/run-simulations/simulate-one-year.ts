@@ -9,7 +9,6 @@ import {
   Portfolio,
   DipObject,
   AdditionalWithdrawals,
-  ComputedData,
   ResultsByYear,
 } from './run-simulations-interfaces';
 
@@ -20,7 +19,6 @@ interface SimulateOneYearOptions {
   isFirstYear: boolean;
   year: number;
   previousResults: YearResult;
-  initialComputedData: ComputedData;
   resultsByYear: ResultsByYear;
   marketData: MarketData;
   dipThreshold: number;
@@ -45,7 +43,6 @@ export default function simulateOneYear({
   isFirstYear,
   year,
   previousResults,
-  initialComputedData,
   resultsByYear,
   marketData,
   firstYearCpi,
@@ -66,11 +63,10 @@ export default function simulateOneYear({
     return null;
   }
 
-  const previousComputedData = isFirstYear
-    ? initialComputedData
-    : resultsByYear[n - 1].computedData;
+  const startPortfolio = isFirstYear
+    ? initialPortfolio
+    : resultsByYear[n - 1].endPortfolio;
 
-  const startPortfolio = previousComputedData.endPortfolio;
   const yearStartValue = startPortfolio.totalValue;
 
   const yearMarketData = marketData[year];
@@ -142,7 +138,7 @@ export default function simulateOneYear({
         investment,
         index,
         isOutOfMoney,
-        previousComputedData,
+        startPortfolio,
         rebalancePortfolioAnnually,
         initialPortfolio,
         yearMarketData,
@@ -199,8 +195,5 @@ export default function simulateOneYear({
     totalWithdrawalAmountInFirstYearDollars,
     startPortfolio,
     endPortfolio,
-    computedData: {
-      endPortfolio,
-    },
   };
 }
