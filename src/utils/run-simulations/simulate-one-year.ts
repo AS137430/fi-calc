@@ -57,12 +57,6 @@ export default function simulateOneYear({
   additionalWithdrawalsForYear,
   additionalIncomeForYear,
 }: SimulateOneYearOptions): YearResult | null {
-  // If we had no results for last year, then we can't compute anything
-  // for this year either.
-  if (!isFirstYear && !previousResults) {
-    return null;
-  }
-
   const startPortfolio = isFirstYear
     ? firstYearStartPortfolio
     : resultsByYear[n - 1].endPortfolio;
@@ -101,7 +95,7 @@ export default function simulateOneYear({
     0
   );
 
-  const additionalWithdrawalAmount = additionalWithdrawalsForYear.reduce(
+  const uncappedAdditionalWithdrawalAmount = additionalWithdrawalsForYear.reduce(
     (result, withdrawal) => {
       if (!withdrawal.inflationAdjusted) {
         return result + withdrawal.value;
@@ -114,7 +108,7 @@ export default function simulateOneYear({
 
   const availableFundsToWithdraw = yearStartValue + additionalIncomeAmount;
   const totalWithdrawalAmount = Math.min(
-    withdrawalAmount + additionalWithdrawalAmount,
+    withdrawalAmount + uncappedAdditionalWithdrawalAmount,
     availableFundsToWithdraw
   );
 
@@ -123,7 +117,7 @@ export default function simulateOneYear({
     availableFundsToWithdraw
   );
 
-  const actualAdditionalWithdrawalAmount =
+  const additionalWithdrawalAmount =
     totalWithdrawalAmount - baseWithdrawalAmount;
 
   const portfolioValueBeforeMarketChanges =
@@ -192,7 +186,7 @@ export default function simulateOneYear({
     cumulativeInflationSinceFirstYear,
     totalWithdrawalAmount,
     baseWithdrawalAmount,
-    additionalWithdrawalAmount: actualAdditionalWithdrawalAmount,
+    additionalWithdrawalAmount,
     totalWithdrawalAmountInFirstYearDollars,
     startPortfolio,
     endPortfolio,
