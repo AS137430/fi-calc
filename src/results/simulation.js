@@ -34,7 +34,7 @@ function formatSimulationForPortfolioChart(simulation) {
 
   chartData.unshift({
     x: `${simulation.startYear}.1`,
-    y: simulation.initialPortfolioValue,
+    y: simulation.firstYearStartPortfolioValue,
   });
 
   return chartData;

@@ -144,10 +144,10 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     }
   }
 
-  const initialPortfolioValue = portfolio.totalValue;
+  const firstYearStartPortfolioValue = portfolio.totalValue;
   const initialPortfolio = portfolio;
 
-  const dipThreshold = dipPercentage * initialPortfolioValue;
+  const dipThreshold = dipPercentage * firstYearStartPortfolioValue;
 
   const endYear = startYear + duration - 1;
   const trueEndYear = Math.min(endYear, lastSupportedYear);
@@ -174,8 +174,8 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     endCpi: Number(endYearCpi),
   });
 
-  const initialPortfolioValueInFinalYear =
-    totalInflationOverPeriod * initialPortfolioValue;
+  const firstYearStartPortfolioValueInFinalYear =
+    totalInflationOverPeriod * firstYearStartPortfolioValue;
 
   const resultsByYear: YearResult[] = [];
 
@@ -261,11 +261,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   const lastYear = resultsByYear[resultsByYear.length - 1];
 
   const finalYearPortfolio = lastYear.endPortfolio;
-  const finalValue = finalYearPortfolio.totalValue;
-
-  const percentOfChange =
-    finalYearPortfolio.totalValueInFirstYearDollars /
-    initialPortfolioValueInFinalYear;
+  const lastYearEndPortfolioValue = finalYearPortfolio.totalValue;
 
   let numberOfSuccessfulYears = duration;
   if (yearFailed) {
@@ -284,7 +280,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
   const finalRatio =
     lastYear.endPortfolio.totalValueInFirstYearDollars /
-    initialPortfolioValue;
+    firstYearStartPortfolioValue;
 
   let status;
   if (finalRatio === 0) {
@@ -296,7 +292,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   }
 
   return {
-    initialPortfolioValue,
+    firstYearStartPortfolioValue,
     startYear,
     endYear,
     duration,
@@ -308,9 +304,8 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     numberOfSuccessfulYears,
     didDip,
     lowestSuccessfulDip,
-    finalValue,
+    lastYearEndPortfolioValue,
     totalInflationOverPeriod,
-    percentOfChange,
     minWithdrawalYearInFirstYearDollars,
     minPortfolioYearInFirstYearDollars,
   };

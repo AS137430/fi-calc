@@ -118,7 +118,7 @@ export enum SimulationStatus {
 }
 
 export interface Simulation {
-  initialPortfolioValue: number;
+  firstYearStartPortfolioValue: number;
   startYear: number;
   endYear: number;
   duration: number;
@@ -129,9 +129,8 @@ export interface Simulation {
   numberOfSuccessfulYears: number;
   didDip: boolean;
   lowestSuccessfulDip: any;
-  finalValue: number;
+  lastYearEndPortfolioValue: number;
   totalInflationOverPeriod: number;
-  percentOfChange: number;
   minWithdrawalYearInFirstYearDollars: YearResult | undefined;
   minPortfolioYearInFirstYearDollars: YearResult | undefined;
 
