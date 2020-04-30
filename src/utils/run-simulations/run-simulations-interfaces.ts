@@ -76,15 +76,6 @@ export enum WithdrawalStrategies {
   capeBased = 'capeBased',
 }
 
-export interface ComputedData {
-  cumulativeInflation: number;
-  totalWithdrawalAmount: number;
-  baseWithdrawalAmount: number;
-  additionalWithdrawalAmount: number;
-  totalWithdrawalAmountInFirstYearDollars: number;
-  portfolio: Portfolio;
-}
-
 export interface YearData extends MarketDataValue {
   [MarketDataGrowthKeys.bondsGrowth]: number;
   [MarketDataGrowthKeys.stockMarketGrowth]: number;
@@ -99,10 +90,17 @@ export interface MarketData {
 
 export interface YearResult {
   year: number;
-  isOutOfMoney: boolean;
+  month: number;
+  isOutOfMoneyAtEnd: boolean;
   marketData: YearData;
-  cpi: number;
-  computedData: ComputedData;
+  startCpi: number;
+  cumulativeInflationSinceFirstYear: number;
+  totalWithdrawalAmount: number;
+  baseWithdrawalAmount: number;
+  additionalWithdrawalAmount: number;
+  totalWithdrawalAmountInFirstYearDollars: number;
+  startPortfolio: Portfolio | null;
+  endPortfolio: Portfolio;
 }
 
 export type ResultsByYear = YearResult[];
@@ -120,7 +118,7 @@ export enum SimulationStatus {
 }
 
 export interface Simulation {
-  initialPortfolioValue: number;
+  firstYearStartPortfolioValue: number;
   startYear: number;
   endYear: number;
   duration: number;
@@ -131,9 +129,8 @@ export interface Simulation {
   numberOfSuccessfulYears: number;
   didDip: boolean;
   lowestSuccessfulDip: any;
-  finalValue: number;
+  lastYearEndPortfolioValue: number;
   totalInflationOverPeriod: number;
-  percentOfChange: number;
   minWithdrawalYearInFirstYearDollars: YearResult | undefined;
   minPortfolioYearInFirstYearDollars: YearResult | undefined;
 

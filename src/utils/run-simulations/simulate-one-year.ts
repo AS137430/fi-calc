@@ -9,7 +9,6 @@ import {
   Portfolio,
   DipObject,
   AdditionalWithdrawals,
-  ComputedData,
   ResultsByYear,
 } from './run-simulations-interfaces';
 
@@ -20,7 +19,6 @@ interface SimulateOneYearOptions {
   isFirstYear: boolean;
   year: number;
   previousResults: YearResult;
-  initialComputedData: ComputedData;
   resultsByYear: ResultsByYear;
   marketData: MarketData;
   dipThreshold: number;
@@ -28,7 +26,7 @@ interface SimulateOneYearOptions {
   didDip: boolean;
   lowestValue: number;
   withdrawalConfiguration: any;
-  initialPortfolio: Portfolio;
+  firstYearStartPortfolio: Portfolio;
   portfolio: Portfolio;
   withdrawalMethod: WithdrawalStrategies;
   lowestSuccessfulDip: DipObject;
@@ -45,7 +43,6 @@ export default function simulateOneYear({
   isFirstYear,
   year,
   previousResults,
-  initialComputedData,
   resultsByYear,
   marketData,
   firstYearCpi,
@@ -54,7 +51,7 @@ export default function simulateOneYear({
   didDip,
   lowestValue,
   dipThreshold,
-  initialPortfolio,
+  firstYearStartPortfolio,
   portfolio,
   lowestSuccessfulDip,
   additionalWithdrawalsForYear,
@@ -66,16 +63,16 @@ export default function simulateOneYear({
     return null;
   }
 
-  const previousComputedData = isFirstYear
-    ? initialComputedData
-    : resultsByYear[n - 1].computedData;
+  const startPortfolio = isFirstYear
+    ? firstYearStartPortfolio
+    : resultsByYear[n - 1].endPortfolio;
 
-  const yearStartValue = previousComputedData.portfolio.totalValue;
+  const yearStartValue = startPortfolio.totalValue;
 
   const yearMarketData = marketData[year];
   const currentCpi = Number(yearMarketData.cpi);
 
-  const cumulativeInflation = inflationFromCpi({
+  const cumulativeInflationSinceFirstYear = inflationFromCpi({
     startCpi: Number(firstYearCpi),
     endCpi: currentCpi,
   });
@@ -83,14 +80,14 @@ export default function simulateOneYear({
   const withdrawalAmount = withdrawal[withdrawalMethod]({
     ...withdrawalConfiguration,
     previousResults,
-    initialPortfolio,
+    firstYearStartPortfolio,
     isFirstYear,
     yearMarketData,
     yearsRemaining,
     firstYearCpi: Number(firstYearCpi),
     cpi: currentCpi,
     portfolioTotalValue: yearStartValue,
-    inflation: cumulativeInflation,
+    inflation: cumulativeInflationSinceFirstYear,
   });
 
   const additionalIncomeAmount = additionalIncomeForYear.reduce(
@@ -98,7 +95,7 @@ export default function simulateOneYear({
       if (!withdrawal.inflationAdjusted) {
         return result + withdrawal.value;
       } else {
-        return result + withdrawal.value * cumulativeInflation;
+        return result + withdrawal.value * cumulativeInflationSinceFirstYear;
       }
     },
     0
@@ -109,7 +106,7 @@ export default function simulateOneYear({
       if (!withdrawal.inflationAdjusted) {
         return result + withdrawal.value;
       } else {
-        return result + withdrawal.value * cumulativeInflation;
+        return result + withdrawal.value * cumulativeInflationSinceFirstYear;
       }
     },
     0
@@ -131,7 +128,7 @@ export default function simulateOneYear({
 
   const portfolioValueBeforeMarketChanges =
     yearStartValue + additionalIncomeAmount - totalWithdrawalAmount;
-  const isOutOfMoney = portfolioValueBeforeMarketChanges === 0;
+  const isOutOfMoneyAtEnd = portfolioValueBeforeMarketChanges === 0;
 
   let adjustedInvestmentValues = _.map(
     portfolio.investments,
@@ -140,10 +137,10 @@ export default function simulateOneYear({
         portfolioValueBeforeMarketChanges,
         investment,
         index,
-        isOutOfMoney,
-        previousComputedData,
+        isOutOfMoneyAtEnd,
+        startPortfolio,
         rebalancePortfolioAnnually,
-        initialPortfolio,
+        firstYearStartPortfolio,
         yearMarketData,
       })
   );
@@ -155,7 +152,7 @@ export default function simulateOneYear({
   );
 
   const endValueInFirstYearDollars = Number(
-    (endValue / cumulativeInflation).toFixed(2)
+    (endValue / cumulativeInflationSinceFirstYear).toFixed(2)
   );
 
   if (!didDip) {
@@ -177,25 +174,27 @@ export default function simulateOneYear({
   }
 
   const totalWithdrawalAmountInFirstYearDollars = Number(
-    (totalWithdrawalAmount / cumulativeInflation).toFixed(2)
+    (totalWithdrawalAmount / cumulativeInflationSinceFirstYear).toFixed(2)
   );
+
+  const endPortfolio = {
+    totalValueInFirstYearDollars: endValueInFirstYearDollars,
+    totalValue: endValue,
+    investments: adjustedInvestmentValues,
+  };
 
   return {
     year,
-    isOutOfMoney,
+    month: 1,
+    isOutOfMoneyAtEnd,
     marketData: yearMarketData,
-    cpi: currentCpi,
-    computedData: {
-      cumulativeInflation,
-      totalWithdrawalAmount,
-      baseWithdrawalAmount,
-      additionalWithdrawalAmount: actualAdditionalWithdrawalAmount,
-      totalWithdrawalAmountInFirstYearDollars,
-      portfolio: {
-        totalValueInFirstYearDollars: endValueInFirstYearDollars,
-        totalValue: endValue,
-        investments: adjustedInvestmentValues,
-      },
-    },
+    startCpi: currentCpi,
+    cumulativeInflationSinceFirstYear,
+    totalWithdrawalAmount,
+    baseWithdrawalAmount,
+    additionalWithdrawalAmount: actualAdditionalWithdrawalAmount,
+    totalWithdrawalAmountInFirstYearDollars,
+    startPortfolio,
+    endPortfolio,
   };
 }

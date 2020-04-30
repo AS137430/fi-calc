@@ -8,9 +8,8 @@ import {
   YearResult,
   DipObject,
   AdditionalWithdrawals,
-  ComputedData,
   SimulationStatus,
-  Simulation
+  Simulation,
 } from './run-simulations-interfaces';
 import simulateOneYear from './simulate-one-year';
 
@@ -145,10 +144,10 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     }
   }
 
-  const initialPortfolioValue = portfolio.totalValue;
-  const initialPortfolio = portfolio;
+  const firstYearStartPortfolioValue = portfolio.totalValue;
+  const firstYearStartPortfolio = portfolio;
 
-  const dipThreshold = dipPercentage * initialPortfolioValue;
+  const dipThreshold = dipPercentage * firstYearStartPortfolioValue;
 
   const endYear = startYear + duration - 1;
   const trueEndYear = Math.min(endYear, lastSupportedYear);
@@ -175,9 +174,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     endCpi: Number(endYearCpi),
   });
 
-  const initialPortfolioValueInFinalYear =
-    totalInflationOverPeriod * initialPortfolioValue;
-
   const resultsByYear: YearResult[] = [];
 
   // Whether or not this simulation "failed," where failure is defined as the portfolio
@@ -191,17 +187,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     startYear: 0,
   };
   let yearFailed:YearFailed = null;
-
-  // This can be used to simulate a "previous" year for the 0th year,
-  // simplifying the logic below.
-  const initialComputedData:ComputedData = {
-    cumulativeInflation: 1,
-    totalWithdrawalAmount: 0,
-    baseWithdrawalAmount: 0,
-    additionalWithdrawalAmount: 0,
-    totalWithdrawalAmountInFirstYearDollars: 0,
-    portfolio,
-  };
 
   const numericStartYear = Number(startYear);
 
@@ -242,7 +227,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       year,
       previousResults,
       rebalancePortfolioAnnually,
-      initialComputedData,
       resultsByYear,
       marketData,
       firstYearCpi,
@@ -251,7 +235,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       didDip,
       lowestValue,
       dipThreshold,
-      initialPortfolio,
+      firstYearStartPortfolio,
       portfolio,
       lowestSuccessfulDip,
       additionalWithdrawalsForYear,
@@ -259,7 +243,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     });
 
     if (yearResult !== null) {
-      if (yearResult.isOutOfMoney) {
+      if (yearResult.isOutOfMoneyAtEnd) {
         isFailed = true;
 
         if (yearFailed === null) {
@@ -273,12 +257,8 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
   const lastYear = resultsByYear[resultsByYear.length - 1];
 
-  const finalYearPortfolio = lastYear.computedData.portfolio;
-  const finalValue = finalYearPortfolio.totalValue;
-
-  const percentOfChange =
-    finalYearPortfolio.totalValueInFirstYearDollars /
-    initialPortfolioValueInFinalYear;
+  const finalYearPortfolio = lastYear.endPortfolio;
+  const lastYearEndPortfolioValue = finalYearPortfolio.totalValue;
 
   let numberOfSuccessfulYears = duration;
   if (yearFailed) {
@@ -287,17 +267,17 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
   const minWithdrawalYearInFirstYearDollars = _.minBy(
     resultsByYear,
-    year => year.computedData.totalWithdrawalAmountInFirstYearDollars
+    year => year.totalWithdrawalAmountInFirstYearDollars
   );
 
   const minPortfolioYearInFirstYearDollars = _.minBy(
     resultsByYear,
-    year => year.computedData.portfolio.totalValueInFirstYearDollars
+    year => year.endPortfolio.totalValueInFirstYearDollars
   );
 
   const finalRatio =
-    lastYear.computedData.portfolio.totalValueInFirstYearDollars /
-    initialPortfolioValue;
+    lastYear.endPortfolio.totalValueInFirstYearDollars /
+    firstYearStartPortfolioValue;
 
   let status;
   if (finalRatio === 0) {
@@ -309,7 +289,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   }
 
   return {
-    initialPortfolioValue,
+    firstYearStartPortfolioValue,
     startYear,
     endYear,
     duration,
@@ -321,9 +301,8 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     numberOfSuccessfulYears,
     didDip,
     lowestSuccessfulDip,
-    finalValue,
+    lastYearEndPortfolioValue,
     totalInflationOverPeriod,
-    percentOfChange,
     minWithdrawalYearInFirstYearDollars,
     minPortfolioYearInFirstYearDollars,
   };
