@@ -9,9 +9,10 @@ export default class Expandable extends Component {
       onTransitionEnd,
       onTransitionStart,
       nodeRef,
+      children,
       ...props
     } = this.props;
-    const { isOpen } = this.state;
+    const { isOpen, isRendering } = this.state;
 
     return (
       <div
@@ -19,8 +20,9 @@ export default class Expandable extends Component {
         className={`mt-expandable ${
           isOpen ? 'mt-expandable-open' : ''
         } ${className}`}
-        {...props}
-      />
+        {...props}>
+        {isRendering && children}
+      </div>
     );
   }
 
@@ -33,6 +35,7 @@ export default class Expandable extends Component {
 
     this.state = {
       isOpen: props.open,
+      isRendering: true,
       isAnimating: false,
     };
   }
@@ -44,6 +47,7 @@ export default class Expandable extends Component {
       if (!prevState.isAnimating) {
         return {
           isAnimating: true,
+          isRendering: nextProps.open === true ? true : prevState.isRendering,
           isOpen: nextProps.open,
         };
       }
@@ -76,16 +80,19 @@ export default class Expandable extends Component {
             setTimeout(() => {
               this.el.style = '';
 
-              this.setState(
-                {
-                  isAnimating: false,
-                },
-                () => {
-                  if (this.props.onTransitionEnd) {
-                    this.props.onTransitionEnd(animationType);
-                  }
+              const newState = {
+                isAnimating: false,
+              };
+
+              if (animationType === 'close') {
+                newState.isRendering = false;
+              }
+
+              this.setState(newState, () => {
+                if (this.props.onTransitionEnd) {
+                  this.props.onTransitionEnd(animationType);
                 }
-              );
+              });
             }, durationMs);
           });
         });
