@@ -104,6 +104,16 @@ export default function HistoricalDataRangeForm() {
           The original studies that used this method of analysis, for instance,
           only used data from 1926 and later.
         </p>
+        <p>
+          The data used in this app is from{' '}
+          <a
+            href="http://www.econ.yale.edu/~shiller/data.htm"
+            target="_blank"
+            rel="noreferrer noopener">
+            Robert Shiller
+          </a>
+          .
+        </p>
       </InfoModal>
     </>
   );
