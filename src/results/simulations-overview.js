@@ -87,6 +87,16 @@ export default function SimulationsOverview() {
 
   const hasExpectedResults = Boolean(expectedResults.length);
 
+  if (process.env.NODE_ENV !== 'production') {
+    if (!isLoading) {
+      if (result?.completeSimulations.length !== expectedResults.length) {
+        console.error(
+          '[Load error]: The results displayed will be incomplete.'
+        );
+      }
+    }
+  }
+
   return (
     <div className="results">
       <div className="results_block">
