@@ -82,6 +82,7 @@ export interface ComputedData {
   baseWithdrawalAmount: number;
   additionalWithdrawalAmount: number;
   totalWithdrawalAmountInFirstYearDollars: number;
+  startPortfolio: Portfolio | null;
   portfolio: Portfolio;
 }
 

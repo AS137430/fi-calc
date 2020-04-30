@@ -200,6 +200,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     baseWithdrawalAmount: 0,
     additionalWithdrawalAmount: 0,
     totalWithdrawalAmountInFirstYearDollars: 0,
+    startPortfolio: null,
     portfolio,
   };
 
