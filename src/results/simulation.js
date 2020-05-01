@@ -127,10 +127,9 @@ export default function Simulation() {
         simulation.simulationNumber
       ];
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [result, numericYear]
   );
-
-  console.log('hi', customData);
 
   const { state: withdrawalStrategy } = useWithdrawalStrategy();
   const portfolioChartData = useMemo(
@@ -258,10 +257,13 @@ export default function Simulation() {
           {isFailed && (
             <div className="results_section">
               <div className="results_sectionTitle">Lasted Until</div>
-              <div className="results_bigValue">{simulation.yearFailed}</div>
+              <div className="results_bigValue">
+                {simulation.yearRanOutOfMoney}
+              </div>
               <div className="results_details">
-                This simulation ran for {simulation.numberOfSuccessfulYears}{' '}
-                years before running out of money.
+                This simulation ran for{' '}
+                {simulation.numberOfYearsWithMoneyInPortfolio} years before
+                running out of money.
               </div>
             </div>
           )}

@@ -96,7 +96,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
   let withdrawalConfiguration: any = {};
 
-  type YearFailed = number | null;
+  type yearRanOutOfMoney = number | null;
 
   const withdrawalMethod = getWithdrawalMethod(
     withdrawalStrategyName,
@@ -180,7 +180,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
   // Whether or not this simulation "failed," where failure is defined as the portfolio
   // value being equal to or less than 0.
-  let isFailed = false;
+  let ranOutOfMoney = false;
   let didDip = false;
   let lowestValue = Infinity;
   let lowestSuccessfulDip:DipObject = {
@@ -188,7 +188,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     value: Infinity,
     startYear: 0,
   };
-  let yearFailed:YearFailed = null;
+  let yearRanOutOfMoney:yearRanOutOfMoney = null;
 
   const numericStartYear = Number(startYear);
 
@@ -246,10 +246,10 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
     if (yearResult !== null) {
       if (yearResult.isOutOfMoneyAtEnd) {
-        isFailed = true;
+        ranOutOfMoney = true;
 
-        if (yearFailed === null) {
-          yearFailed = year;
+        if (yearRanOutOfMoney === null) {
+          yearRanOutOfMoney = year;
         }
       }
 
@@ -262,9 +262,9 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   const finalYearPortfolio = lastYear.endPortfolio;
   const lastYearEndPortfolioValue = finalYearPortfolio.totalValue;
 
-  let numberOfSuccessfulYears = duration;
-  if (yearFailed) {
-    numberOfSuccessfulYears = yearFailed - startYear;
+  let numberOfYearsWithMoneyInPortfolio = duration;
+  if (yearRanOutOfMoney) {
+    numberOfYearsWithMoneyInPortfolio = yearRanOutOfMoney - startYear;
   }
 
   const minWithdrawalYearInFirstYearDollars = _.minBy(
@@ -299,9 +299,9 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     status,
     isComplete,
     resultsByYear,
-    isFailed,
-    yearFailed,
-    numberOfSuccessfulYears,
+    ranOutOfMoney,
+    yearRanOutOfMoney,
+    numberOfYearsWithMoneyInPortfolio,
     didDip,
     lowestSuccessfulDip,
     lastYearEndPortfolioValue,

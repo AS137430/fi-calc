@@ -119,24 +119,32 @@ export enum SimulationStatus {
 
 export interface Simulation {
   simulationNumber: number;
-  firstYearStartPortfolioValue: number;
+
   startYear: number;
   endYear: number;
   duration: number;
-
   isComplete: boolean;
-  isFailed: boolean;
-  yearFailed: number | null;
-  numberOfSuccessfulYears: number;
-  didDip: boolean;
-  lowestSuccessfulDip: any;
+
+  ranOutOfMoney: boolean;
+  yearRanOutOfMoney: number | null;
+  numberOfYearsWithMoneyInPortfolio: number;
+
+  firstYearStartPortfolioValue: number;
   lastYearEndPortfolioValue: number;
   totalInflationOverPeriod: number;
+
+  resultsByYear: ResultsByYear;
+
+  // TODO: move to dip analysis
+  didDip: boolean;
+  lowestSuccessfulDip: any;
+
+  // TODO: move to portfolio/withdrawal analysis
   minWithdrawalYearInFirstYearDollars: YearResult | undefined;
   minPortfolioYearInFirstYearDollars: YearResult | undefined;
 
+  // TODO: move to Success analysis
   status: SimulationStatus;
-  resultsByYear: ResultsByYear;
 }
 
 export type Simulations = Array<Simulation>;
