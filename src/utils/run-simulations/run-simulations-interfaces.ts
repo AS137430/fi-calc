@@ -118,6 +118,7 @@ export enum SimulationStatus {
 }
 
 export interface Simulation {
+  simulationNumber: number;
   firstYearStartPortfolioValue: number;
   startYear: number;
   endYear: number;

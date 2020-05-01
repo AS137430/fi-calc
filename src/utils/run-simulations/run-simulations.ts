@@ -125,8 +125,9 @@ export default function runSimulations(
   // https://github.com/facebook/create-react-app/issues/3660
   asyncMap<number, Simulation>(
     startYears,
-    startYear =>
+    (startYear, simulationNumber) =>
       runSimulation({
+        simulationNumber,
         startYear,
         dipPercentage,
         rebalancePortfolioAnnually,
@@ -159,22 +160,34 @@ export default function runSimulations(
       const perSimAnalysis: any = {};
       simulations.forEach(sim => {
         _.forEach(analyses, (analysisDefinition, analysisName) => {
-          perSimAnalysis[analysisName] = analysisDefinition.data.simulation(
-            sim
-          );
+          const result = analysisDefinition.data.simulation(sim);
+
+          if (Array.isArray(perSimAnalysis[analysisName])) {
+            perSimAnalysis[analysisName].push(result);
+          } else {
+            perSimAnalysis[analysisName] = [result];
+          }
         });
       });
 
       const analysis = _.mapValues(
         analyses,
         (analysisDefinition, analysisName) => {
-          const analysis = analysisDefinition.data.overview(result);
+          const simAnalysis = perSimAnalysis[analysisName];
+          const analysis = analysisDefinition.data.overview(
+            result,
+            simAnalysis
+          );
           const display = {
-            overview: analysisDefinition.display.overview(result, analysis),
+            overview: analysisDefinition.display.overview(
+              result,
+              analysis,
+              simAnalysis
+            ),
           };
 
           return {
-            simAnalysis: perSimAnalysis[analysisName],
+            simAnalysis,
             analysis,
             display,
           };

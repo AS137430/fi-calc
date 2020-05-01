@@ -21,6 +21,7 @@ const marketDataCape = _.map(marketData, val => Number(val.cape)).filter(v => !N
 const avgMarketDataCape = _.reduce(marketDataCape, (result, current) => result + current, 0) / marketDataCape.length;
 
 interface RunSimulationOptions {
+  simulationNumber: number;
   startYear: number;
   duration: number;
   rebalancePortfolioAnnually: boolean;
@@ -55,6 +56,7 @@ function getWithdrawalMethod(
 // it computes the changes to that portfolio over time.
 export default function runSimulation(options: RunSimulationOptions):Simulation {
   const {
+    simulationNumber,
     startYear,
     duration,
     portfolio,
@@ -289,6 +291,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   }
 
   return {
+    simulationNumber,
     firstYearStartPortfolioValue,
     startYear,
     endYear,

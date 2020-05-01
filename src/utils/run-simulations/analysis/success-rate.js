@@ -2,14 +2,34 @@ import _ from 'lodash';
 
 export default {
   data: {
-    simulation(simulation) {},
+    simulation(simulation) {
+      const { resultsByYear, firstYearStartPortfolioValue } = simulation;
+      const lastYear = resultsByYear[resultsByYear.length - 1];
 
-    overview(result) {
+      const finalRatio =
+        lastYear.endPortfolio.totalValueInFirstYearDollars /
+        firstYearStartPortfolioValue;
+
+      let status;
+      if (finalRatio === 0) {
+        status = 'FAILED';
+      } else if (finalRatio < 0.35) {
+        status = 'WARNING';
+      } else {
+        status = 'OK';
+      }
+
+      return {
+        status,
+      };
+    },
+
+    overview(result, simAnalysis) {
       const { completeSimulations } = result;
 
       const [failedSimulations, successfulSimulations] = _.partition(
-        completeSimulations,
-        'isFailed'
+        simAnalysis,
+        analysis => analysis.status === 'FAILED'
       );
 
       const successRate = completeSimulations.length
@@ -39,7 +59,7 @@ export default {
     },
   },
   display: {
-    overview(result, custom) {
+    overview(result, custom, simAnalysis) {
       const isDanger =
         !custom.exceedsSuccessRateThreshold && custom.successRate < 0.8;
       const isWarning =
