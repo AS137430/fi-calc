@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import IconGetApp from 'materialish/icon-get-app';
+import { clamp } from '../vendor/@moolah/lib';
 import './results.css';
 import IconInfoOutline from 'materialish/icon-info-outline';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
@@ -13,7 +14,6 @@ import getYearRange from '../utils/market-data/get-year-range';
 import simulationToCsv, {
   simulationCsvHeader,
 } from '../utils/simulation-to-csv';
-import clamp from '../utils/numbers/clamp';
 
 function numberOfResults({
   lengthOfRetirement,

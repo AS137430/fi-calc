@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import computedMarketData from './computed-market-data';
-import { MarketData } from '../simulation-engine/types';
+import { MarketData } from './types';
 
 let memoizedMarketDataByYear: MarketData | null;
 

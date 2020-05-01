@@ -1,10 +1,10 @@
+import { maxDollarInput } from '../vendor/@moolah/lib';
 import {
   isRequired,
   numberRequired,
   tooLarge,
   tooSmall,
 } from '../utils/forms/validators';
-import maxDollarInput from '../utils/forms/max-dollar-input';
 
 export default {
   values: {

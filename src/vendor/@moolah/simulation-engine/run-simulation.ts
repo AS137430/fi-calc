@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import inflationFromCpi from '../market-data/inflation-from-cpi';
+import { inflationFromCpi } from '../../@moolah/lib';
 import {
   Portfolio,
   WithdrawalStrategy,

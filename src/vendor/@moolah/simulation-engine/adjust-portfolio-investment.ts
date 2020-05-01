@@ -1,10 +1,8 @@
 import {
-  Portfolio,
-  PortfolioInvestment,
-  InvestmentType,
   MarketDataGrowthKeys,
   YearData,
-} from './types';
+} from '../../computed-market-data/types';
+import { Portfolio, PortfolioInvestment, InvestmentType } from './types';
 
 // This maps an investment type to the key on marketData that
 // represents its changes in a given year

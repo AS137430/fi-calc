@@ -1,10 +1,10 @@
 import _ from 'lodash';
+import { inflationFromCpi } from '../../@moolah/lib';
+import { MarketData } from '../../computed-market-data/types';
 import withdrawal from './withdrawal';
 import adjustPortfolioInvestment from './adjust-portfolio-investment';
-import inflationFromCpi from '../market-data/inflation-from-cpi';
 import {
   YearResult,
-  MarketData,
   WithdrawalStrategies,
   Portfolio,
   AdditionalWithdrawals,

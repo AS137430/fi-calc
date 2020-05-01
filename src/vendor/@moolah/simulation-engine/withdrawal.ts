@@ -1,6 +1,6 @@
-import clamp from '../numbers/clamp';
-import { WithdrawalStrategies, Portfolio, YearResult, YearData } from './types';
-import inflationFromCpi from '../market-data/inflation-from-cpi';
+import { inflationFromCpi, clamp } from '../../@moolah/lib';
+import { YearData } from '../../computed-market-data/types';
+import { WithdrawalStrategies, Portfolio, YearResult } from './types';
 
 // These are different methods to calculate the withdrawal amount
 // for a given year.

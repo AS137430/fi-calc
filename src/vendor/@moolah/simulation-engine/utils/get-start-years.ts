@@ -1,4 +1,5 @@
 import _ from 'lodash';
+// TODO: pass this in
 import marketData from 'stock-market-data';
 
 interface Options {

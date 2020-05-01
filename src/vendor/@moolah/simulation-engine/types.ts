@@ -1,4 +1,4 @@
-import { MarketDataValue } from 'stock-market-data';
+import { MarketData, YearData } from '../../computed-market-data/types';
 
 export interface LengthOfRetirement {
   numberOfYears: number;
@@ -74,12 +74,6 @@ export interface WithdrawalStrategy {
   capeWeight: number;
 }
 
-export enum MarketDataGrowthKeys {
-  bondsGrowth = 'bondsGrowth',
-  stockMarketGrowth = 'stockMarketGrowth',
-  none = 'none',
-}
-
 export enum InvestmentType {
   equity = 'equity',
   bonds = 'bonds',
@@ -92,18 +86,6 @@ export enum WithdrawalStrategies {
   guytonKlinger = 'guytonKlinger',
   ninetyFivePercentRule = 'ninetyFivePercentRule',
   capeBased = 'capeBased',
-}
-
-export interface YearData extends MarketDataValue {
-  [MarketDataGrowthKeys.bondsGrowth]: number;
-  [MarketDataGrowthKeys.stockMarketGrowth]: number;
-  [MarketDataGrowthKeys.none]: number;
-  dividendYields: number;
-}
-
-export interface MarketData {
-  [Key: string]: YearData;
-  [Key: number]: YearData;
 }
 
 export interface YearResult {

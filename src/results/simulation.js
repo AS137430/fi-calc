@@ -4,9 +4,13 @@ import { Link, useParams } from 'react-router-dom';
 import classnames from 'classnames';
 import IconGetApp from 'materialish/icon-get-app';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
+import {
+  formatForDisplay,
+  smallDisplay,
+  addYears,
+} from '../vendor/@moolah/lib';
 import Chart from '../vendor/chart/chart';
 import useWithdrawalStrategy from '../state/withdrawal-strategy';
-import formatForDisplay from '../utils/money/format-for-display';
 import useSimulationResult from '../state/simulation-result';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 import useDetectTouchDevice from '../hooks/use-detect-touch-device';
@@ -17,8 +21,6 @@ import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
 import downloadDataURL from '../utils/download-data-url';
 import dollarTicks from '../utils/chart/dollar-ticks';
 import yearTicks from '../utils/chart/year-ticks';
-import smallDisplay from '../utils/money/small-display';
-import addYears from '../utils/date/add-years';
 
 function formatSimulationForPortfolioChart(simulation) {
   if (!simulation) {

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import maxDollarInput from './max-dollar-input';
+import { maxDollarInput } from '../../vendor/@moolah/lib';
 import getYearRange from '../market-data/get-year-range';
 
 export function isRequired(val) {
