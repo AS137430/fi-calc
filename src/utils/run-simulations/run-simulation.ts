@@ -263,26 +263,12 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     year => year.endPortfolio.totalValueInFirstYearDollars
   );
 
-  const finalRatio =
-    lastYear.endPortfolio.totalValueInFirstYearDollars /
-    firstYearStartPortfolioValue;
-
-  let status;
-  if (finalRatio === 0) {
-    status = SimulationStatus.FAILED;
-  } else if (finalRatio < 0.35) {
-    status = SimulationStatus.WARNING;
-  } else {
-    status = SimulationStatus.OK;
-  }
-
   return {
     simulationNumber,
     firstYearStartPortfolioValue,
     startYear,
     endYear,
     duration,
-    status,
     isComplete,
     resultsByYear,
     ranOutOfMoney,

@@ -191,15 +191,18 @@ export default function SimulationsOverview() {
           <div className="results_byYearGrid">
             {expectedResults.map((number, index) => {
               const simulation = result?.completeSimulations[index];
+              // TODO: this cannot be tied to a single analysis.
+              // It must be standalone.
+              const simBlockColor =
+                result?.analysis.successRate.simBlockColor[index];
 
               let classNames;
               if (isLoading) {
                 classNames = 'byYear_cell byYear_cell-placeholder';
               } else {
                 classNames = classnames('byYear_cell', {
-                  'byYear_cell-isWarning': simulation?.status === 'WARNING',
-                  'byYear_cell-isFailed': simulation?.status === 'FAILED',
-                  'byYear_cell-incomplete': !simulation?.isComplete,
+                  'byYear_cell-isWarning': simBlockColor === 'orange',
+                  'byYear_cell-isFailed': simBlockColor === 'red',
                 });
               }
 

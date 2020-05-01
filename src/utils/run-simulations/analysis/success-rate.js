@@ -24,6 +24,16 @@ export default {
       };
     },
 
+    simulationColor(simulation, simulationResult) {
+      if (simulationResult.status === 'OK') {
+        return 'green';
+      } else if (simulationResult.status === 'WARNING') {
+        return 'orange';
+      } else if (simulationResult.status === 'FAILED') {
+        return 'red';
+      }
+    },
+
     overview(result, simAnalysis) {
       const { completeSimulations } = result;
 

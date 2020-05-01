@@ -132,9 +132,6 @@ export interface Simulation {
   // TODO: move to portfolio/withdrawal analysis
   minWithdrawalYearInFirstYearDollars: YearResult | undefined;
   minPortfolioYearInFirstYearDollars: YearResult | undefined;
-
-  // TODO: move to Success analysis
-  status: SimulationStatus;
 }
 
 export type Simulations = Array<Simulation>;

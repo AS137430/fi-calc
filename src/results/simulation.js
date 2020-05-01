@@ -131,6 +131,21 @@ export default function Simulation() {
     [result, numericYear]
   );
 
+  const blockColor = useMemo(
+    () => {
+      if (!result || Number.isNaN(numericYear)) {
+        return null;
+      }
+
+      return result.analysis.successRate.simBlockColor[
+        simulation.simulationNumber
+      ];
+    },
+    [result, numericYear]
+  );
+
+  console.log('hi', blockColor);
+
   const { state: withdrawalStrategy } = useWithdrawalStrategy();
   const portfolioChartData = useMemo(
     () => {
@@ -165,7 +180,7 @@ export default function Simulation() {
   const lastYear =
     simulation.resultsByYear[simulation.resultsByYear.length - 1];
 
-  const isSuccess = customData.status === 'OK';
+  const isSuccess = customData.status === 'green';
   const isFailed = customData.status === 'FAILED';
   const isWarning = customData.status === 'WARNING';
 

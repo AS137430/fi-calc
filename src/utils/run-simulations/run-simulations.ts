@@ -154,15 +154,22 @@ export default function runSimulations(
         analysis: {},
       };
 
+      const simsBlockColor: any = {};
       const perSimAnalysis: any = {};
       simulations.forEach(sim => {
         _.forEach(analyses, (analysisDefinition, analysisName) => {
           const result = analysisDefinition.data.simulation(sim);
+          const blockColor = analysisDefinition.data.simulationColor(
+            sim,
+            result
+          );
 
           if (Array.isArray(perSimAnalysis[analysisName])) {
             perSimAnalysis[analysisName].push(result);
+            simsBlockColor[analysisName].push(blockColor);
           } else {
             perSimAnalysis[analysisName] = [result];
+            simsBlockColor[analysisName] = [blockColor];
           }
         });
       });
@@ -171,6 +178,7 @@ export default function runSimulations(
         analyses,
         (analysisDefinition, analysisName) => {
           const simAnalysis = perSimAnalysis[analysisName];
+          const simBlockColor = simsBlockColor[analysisName];
           const analysis = analysisDefinition.data.overview(
             result,
             simAnalysis
@@ -184,6 +192,7 @@ export default function runSimulations(
           };
 
           return {
+            simBlockColor,
             simAnalysis,
             analysis,
             display,
