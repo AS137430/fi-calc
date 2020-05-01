@@ -31,6 +31,6 @@ cd fi-calc && npm install
 
 These are npm scripts that should help you with development.
 
-- `npm run watch`: Develop locally
+- `npm start`: Develop locally
 - `npm test`: Run the tests with a watcher
 - `npm run test -- --coverage`: Generate a coverage report
