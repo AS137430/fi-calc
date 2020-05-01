@@ -1,8 +1,5 @@
 import _ from 'lodash';
-import {
-  Portfolio,
-  PortfolioInvestment,
-} from '../run-simulations/run-simulations-interfaces';
+import { Portfolio, PortfolioInvestment } from '../simulation-engine/types';
 
 interface FromTotalAndPercentagesOptions {
   totalValue: number;

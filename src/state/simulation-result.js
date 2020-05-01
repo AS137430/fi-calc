@@ -6,7 +6,7 @@ import useWithdrawalStrategy from './withdrawal-strategy';
 import useLengthOfRetirement from './length-of-retirement';
 import useAdditionalWithdrawals from './additional-withdrawals';
 import useAdditionalIncome from './additional-income';
-import runSimulations from '../utils/run-simulations/run-simulations';
+import runSimulations from '../utils/simulation-engine';
 import successRateAnalysis from '../utils/simulation-analytics/success-rate';
 
 const analytics = {
@@ -27,7 +27,6 @@ function useSimulationResult() {
 
   const [computation, setComputation] = useState({
     inputs: {
-      durationMode: 'allHistory',
       lengthOfRetirement,
       withdrawalStrategy,
       portfolio,
@@ -50,7 +49,6 @@ function useSimulationResult() {
         const start = performance.now();
 
         const inputs = {
-          durationMode: 'allHistory',
           lengthOfRetirement,
           withdrawalStrategy,
           portfolio,

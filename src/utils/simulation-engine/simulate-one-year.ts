@@ -9,7 +9,7 @@ import {
   Portfolio,
   AdditionalWithdrawals,
   ResultsByYear,
-} from './run-simulations-interfaces';
+} from './types';
 
 interface SimulateOneYearOptions {
   startYear: number;

@@ -1,5 +1,17 @@
 import { MarketDataValue } from 'stock-market-data';
 
+export interface LengthOfRetirement {
+  numberOfYears: number;
+  startYear: number;
+  endYear: number;
+}
+
+export interface HistoricalDataRange {
+  firstYear: number;
+  lastYear: number;
+  useAllHistoricalData: boolean;
+}
+
 export interface AdditionalWithdrawal {
   name: string;
   value: number;
@@ -16,6 +28,12 @@ export interface PortfolioInvestment {
   fees: number;
   value: number;
   annualGrowthAmount?: number;
+}
+
+export interface PortfolioInput {
+  bondsValue: number;
+  stockInvestmentValue: number;
+  stockInvestmentFees: number;
 }
 
 export interface Portfolio {
@@ -132,3 +150,23 @@ export interface Simulation {
 }
 
 export type Simulations = Array<Simulation>;
+
+export interface RunSimulationsOptions {
+  lengthOfRetirement: LengthOfRetirement;
+  withdrawalStrategy: WithdrawalStrategy;
+  portfolio: PortfolioInput;
+  historicalDataRange: HistoricalDataRange;
+  additionalWithdrawals: AdditionalWithdrawals;
+  additionalIncome: AdditionalWithdrawals;
+  calculationId: number;
+  analytics: any;
+}
+
+export interface RunSimulationsReturn {
+  simulations: Simulations;
+  completeSimulations: Simulations;
+  incompleteSimulations: Simulations;
+  inputs: RunSimulationsOptions;
+  calculationId: number;
+  analysis: any;
+}

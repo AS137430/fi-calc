@@ -4,7 +4,7 @@ import {
   InvestmentType,
   MarketDataGrowthKeys,
   YearData,
-} from './run-simulations-interfaces';
+} from './types';
 
 // This maps an investment type to the key on marketData that
 // represents its changes in a given year

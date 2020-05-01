@@ -1,10 +1,5 @@
 import clamp from '../numbers/clamp';
-import {
-  WithdrawalStrategies,
-  Portfolio,
-  YearResult,
-  YearData,
-} from './run-simulations-interfaces';
+import { WithdrawalStrategies, Portfolio, YearResult, YearData } from './types';
 import inflationFromCpi from '../market-data/inflation-from-cpi';
 
 // These are different methods to calculate the withdrawal amount

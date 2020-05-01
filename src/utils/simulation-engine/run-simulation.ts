@@ -8,7 +8,7 @@ import {
   YearResult,
   AdditionalWithdrawals,
   Simulation,
-} from './run-simulations-interfaces';
+} from './types';
 import simulateOneYear from './simulate-one-year';
 
 const marketData = marketDataByYear();
