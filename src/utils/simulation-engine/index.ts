@@ -5,7 +5,7 @@ import {
   RunSimulationsReturn,
   Simulation,
 } from './types';
-import asyncMap from '../async-map';
+import asyncMap from './utils/async-map';
 import calculateDuration from './utils/calculate-duration';
 import getFirstYearStartPortfolio from './utils/get-first-year-start-portfolio';
 import runAnalysis from './utils/run-analysis';
