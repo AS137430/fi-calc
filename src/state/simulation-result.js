@@ -9,7 +9,7 @@ import useAdditionalWithdrawals from './additional-withdrawals';
 import useAdditionalIncome from './additional-income';
 import runSimulations from '../vendor/@moolah/simulation-engine';
 import successRateAnalysis from '../utils/simulation-analytics/success-rate';
-import marketDataByYear from '../utils/market-data/market-data-by-year';
+import marketDataByYear from '../vendor/computed-market-data/market-data-by-year';
 
 const analytics = {
   successRate: successRateAnalysis,

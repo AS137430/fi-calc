@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { maxDollarInput } from '../../vendor/@moolah/lib';
-import getYearRange from '../market-data/get-year-range';
+import getYearRange from '../../vendor/computed-market-data/get-year-range';
 
 export function isRequired(val) {
   if (typeof val === 'string' && val.length === 0) {

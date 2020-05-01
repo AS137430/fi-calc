@@ -10,7 +10,7 @@ import useIsSmallScreen from '../hooks/use-is-small-screen';
 import useSimulationResult from '../state/simulation-result';
 import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
 import downloadDataURL from '../utils/download-data-url';
-import getYearRange from '../utils/market-data/get-year-range';
+import getYearRange from '../vendor/computed-market-data/get-year-range';
 import simulationToCsv, {
   simulationCsvHeader,
 } from '../utils/simulation-to-csv';

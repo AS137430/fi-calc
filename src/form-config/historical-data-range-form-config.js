@@ -6,7 +6,7 @@ import {
   lessThanValue,
   greaterThanValue,
 } from '../utils/forms/validators';
-import getYearRange from '../utils/market-data/get-year-range';
+import getYearRange from '../vendor/computed-market-data/get-year-range';
 
 const { maxYear } = getYearRange();
 
