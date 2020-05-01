@@ -1,3 +1,5 @@
+import { Simulation } from '../../vendor/@moolah/simulation-engine/types';
+
 export const simulationCsvHeader = [
   'Row ID',
   'Simulation Number',
@@ -17,8 +19,13 @@ export const simulationCsvHeader = [
   'Cumulative Inflation',
 ];
 
-export default function simulationToCsv(simulation, simulationNumber) {
-  return simulation.resultsByYear.reduce((arr, result, index) => {
+type csvArray = (string | number | boolean)[][];
+
+export default function simulationToCsv(
+  simulation: Simulation,
+  simulationNumber: number
+): csvArray {
+  return simulation.resultsByYear.reduce<csvArray>((arr, result, index) => {
     const yearNumber = index + 1;
 
     const itemId = `${simulationNumber}.${yearNumber}`;

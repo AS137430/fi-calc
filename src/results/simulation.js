@@ -16,9 +16,9 @@ import useIsSmallScreen from '../hooks/use-is-small-screen';
 import useDetectTouchDevice from '../hooks/use-detect-touch-device';
 import simulationToCsv, {
   simulationCsvHeader,
-} from '../utils/simulation-to-csv';
-import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
-import downloadDataURL from '../utils/download-data-url';
+} from '../utils/csv-export/simulation-to-csv';
+import arrayToCsvDataURL from '../utils/csv-export/array-to-csv-data-url';
+import downloadDataURL from '../utils/csv-export/download-data-url';
 import dollarTicks from '../utils/chart/dollar-ticks';
 import yearTicks from '../utils/chart/year-ticks';
 

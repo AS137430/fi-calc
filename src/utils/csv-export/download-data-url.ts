@@ -1,4 +1,4 @@
-export default function downloadDataURL(dataurl, filename) {
+export default function downloadDataURL(dataurl: string, filename: string) {
   var a = document.createElement('a');
 
   // Fetching the dataURL to get a blob is a workaround for a known Chromium bug. For more,

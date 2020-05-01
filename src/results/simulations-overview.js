@@ -8,12 +8,12 @@ import IconInfoOutline from 'materialish/icon-info-outline';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 import useSimulationResult from '../state/simulation-result';
-import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
-import downloadDataURL from '../utils/download-data-url';
+import arrayToCsvDataURL from '../utils/csv-export/array-to-csv-data-url';
+import downloadDataURL from '../utils/csv-export/download-data-url';
 import getYearRange from '../vendor/computed-market-data/get-year-range';
 import simulationToCsv, {
   simulationCsvHeader,
-} from '../utils/simulation-to-csv';
+} from '../utils/csv-export/simulation-to-csv';
 
 function numberOfResults({
   lengthOfRetirement,

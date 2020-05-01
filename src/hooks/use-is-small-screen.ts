@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useCurrentRef } from 'core-hooks';
 import detectSmallScreen from '../utils/device-context/detect-small-screen';
 
-export default function useIsSmallScreen() {
+export default function useIsSmallScreen(): boolean {
   const [isSmallScreen, setIsSmallScreen] = useState(() => detectSmallScreen());
   const isSmallScreenRef = useCurrentRef(isSmallScreen);
 
@@ -20,9 +20,7 @@ export default function useIsSmallScreen() {
     });
 
     return () => {
-      window.removeEventListener('resize', handler, {
-        passive: true,
-      });
+      window.removeEventListener('resize', handler);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
