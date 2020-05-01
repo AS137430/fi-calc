@@ -23,6 +23,7 @@ export default function runSimulations(
     additionalIncome,
     calculationId,
     analytics,
+    marketData,
   } = inputs;
 
   const { lengthOfSimulation, startYears } = calculateDuration({
@@ -55,6 +56,7 @@ export default function runSimulations(
         additionalWithdrawals,
         additionalIncome,
         duration: lengthOfSimulation,
+        marketData,
       }),
     simulations => {
       const [completeSimulations, incompleteSimulations] = _.partition(

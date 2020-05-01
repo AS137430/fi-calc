@@ -151,6 +151,12 @@ export interface Simulation {
 
 export type Simulations = Array<Simulation>;
 
+export interface MarketDataInput {
+  byYear: MarketData;
+  lastSupportedYear: number;
+  avgMarketDataCape: number;
+}
+
 export interface RunSimulationsOptions {
   lengthOfRetirement: LengthOfRetirement;
   withdrawalStrategy: WithdrawalStrategy;
@@ -160,6 +166,7 @@ export interface RunSimulationsOptions {
   additionalIncome: AdditionalWithdrawals;
   calculationId: number;
   analytics: any;
+  marketData: MarketDataInput;
 }
 
 export interface RunSimulationsReturn {

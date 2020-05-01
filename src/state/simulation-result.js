@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import _ from 'lodash';
 import constate from 'constate';
 import usePortfolio from './portfolio';
 import useHistoricalDataRange from './historical-data-range';
@@ -8,9 +9,27 @@ import useAdditionalWithdrawals from './additional-withdrawals';
 import useAdditionalIncome from './additional-income';
 import runSimulations from '../utils/simulation-engine';
 import successRateAnalysis from '../utils/simulation-analytics/success-rate';
+import marketDataByYear from '../utils/market-data/market-data-by-year';
 
 const analytics = {
   successRate: successRateAnalysis,
+};
+
+const byYear = marketDataByYear();
+const allYears = Object.keys(byYear);
+const lastSupportedYear = Number(allYears[allYears.length - 1]);
+
+const marketDataCape = _.map(byYear, val => Number(val.cape)).filter(
+  v => !Number.isNaN(v)
+);
+const avgMarketDataCape =
+  _.reduce(marketDataCape, (result, current) => result + current, 0) /
+  marketDataCape.length;
+
+const marketData = {
+  byYear,
+  lastSupportedYear,
+  avgMarketDataCape,
 };
 
 function useSimulationResult() {
@@ -34,6 +53,7 @@ function useSimulationResult() {
       additionalWithdrawals,
       additionalIncome,
       analytics,
+      marketData,
     },
     result: null,
     duration: 0,
@@ -57,6 +77,7 @@ function useSimulationResult() {
           additionalIncome,
           calculationId: thisCalculationId,
           analytics,
+          marketData,
         };
 
         setComputation(prev => {

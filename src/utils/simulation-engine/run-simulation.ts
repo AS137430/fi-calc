@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import inflationFromCpi from '../market-data/inflation-from-cpi';
-import marketDataByYear from '../market-data/market-data-by-year';
 import {
   Portfolio,
   WithdrawalStrategy,
@@ -8,15 +7,9 @@ import {
   YearResult,
   AdditionalWithdrawals,
   Simulation,
+  MarketDataInput
 } from './types';
 import simulateOneYear from './simulate-one-year';
-
-const marketData = marketDataByYear();
-const allYears = Object.keys(marketData);
-const lastSupportedYear = Number(allYears[allYears.length - 1]);
-
-const marketDataCape = _.map(marketData, val => Number(val.cape)).filter(v => !Number.isNaN(v));
-const avgMarketDataCape = _.reduce(marketDataCape, (result, current) => result + current, 0) / marketDataCape.length;
 
 interface RunSimulationOptions {
   simulationNumber: number;
@@ -27,6 +20,7 @@ interface RunSimulationOptions {
   portfolio: Portfolio;
   additionalWithdrawals: AdditionalWithdrawals;
   additionalIncome: AdditionalWithdrawals;
+  marketData: MarketDataInput
 }
 
 function getWithdrawalMethod(
@@ -61,7 +55,14 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     withdrawalStrategy,
     additionalWithdrawals,
     additionalIncome,
+    marketData
   } = options;
+
+  const {
+    avgMarketDataCape,
+    lastSupportedYear,
+    byYear
+  } = marketData;
 
   const {
     annualWithdrawal,
@@ -151,7 +152,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   // This Boolean represents whether this is simulation contains the entire
   // duration or not.
   const isComplete = startYear + duration <= lastSupportedYear;
-  const firstYearMarketData = _.find(marketData, {
+  const firstYearMarketData = _.find(byYear, {
     year: startYear,
     month: 1,
   });
@@ -159,7 +160,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   // TODO: use the average CPI instead of 0
   const firstYearCpi = firstYearMarketData ? firstYearMarketData.cpi : 0;
 
-  const endYearMarketData = _.find(marketData, {
+  const endYearMarketData = _.find(byYear, {
     year: trueEndYear,
     month: 1,
   });
@@ -218,7 +219,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       previousResults,
       rebalancePortfolioAnnually,
       resultsByYear,
-      marketData,
+      marketData: byYear,
       firstYearCpi,
       withdrawalMethod,
       withdrawalConfiguration,
