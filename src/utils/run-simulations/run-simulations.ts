@@ -10,7 +10,6 @@ import {
   Simulations,
 } from './run-simulations-interfaces';
 import asyncMap from '../async-map';
-import successRateAnalysis from './analysis/success-rate';
 
 export interface HistoricalDataRange {
   firstYear: number;
@@ -39,6 +38,7 @@ interface RunSimulationsOptions {
   additionalWithdrawals: AdditionalWithdrawals;
   additionalIncome: AdditionalWithdrawals;
   calculationId: number;
+  analytics: any;
 }
 
 interface RunSimulationsReturn {
@@ -63,13 +63,10 @@ export default function runSimulations(
     additionalWithdrawals,
     additionalIncome,
     calculationId,
+    analytics,
   } = inputs;
 
   const { numberOfYears, startYear, endYear } = lengthOfRetirement;
-
-  const analyses: any = {
-    successRate: successRateAnalysis,
-  };
 
   const {
     bondsValue,
@@ -157,7 +154,7 @@ export default function runSimulations(
       const simsBlockColor: any = {};
       const perSimAnalysis: any = {};
       simulations.forEach(sim => {
-        _.forEach(analyses, (analysisDefinition, analysisName) => {
+        _.forEach(analytics, (analysisDefinition, analysisName) => {
           const result = analysisDefinition.data.simulation(sim);
           const blockColor = analysisDefinition.data.simulationColor(
             sim,
@@ -175,7 +172,7 @@ export default function runSimulations(
       });
 
       const analysis = _.mapValues(
-        analyses,
+        analytics,
         (analysisDefinition, analysisName) => {
           const simAnalysis = perSimAnalysis[analysisName];
           const simBlockColor = simsBlockColor[analysisName];

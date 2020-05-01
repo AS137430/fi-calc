@@ -7,6 +7,11 @@ import useLengthOfRetirement from './length-of-retirement';
 import useAdditionalWithdrawals from './additional-withdrawals';
 import useAdditionalIncome from './additional-income';
 import runSimulations from '../utils/run-simulations/run-simulations';
+import successRateAnalysis from '../utils/simulation-analytics/success-rate';
+
+const analytics = {
+  successRate: successRateAnalysis,
+};
 
 function useSimulationResult() {
   const { state: historicalDataRange } = useHistoricalDataRange();
@@ -29,6 +34,7 @@ function useSimulationResult() {
       historicalDataRange,
       additionalWithdrawals,
       additionalIncome,
+      analytics,
     },
     result: null,
     duration: 0,
@@ -52,6 +58,7 @@ function useSimulationResult() {
           additionalWithdrawals,
           additionalIncome,
           calculationId: thisCalculationId,
+          analytics,
         };
 
         setComputation(prev => {

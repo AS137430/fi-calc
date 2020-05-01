@@ -7,7 +7,6 @@ import {
   WithdrawalStrategies,
   YearResult,
   AdditionalWithdrawals,
-  SimulationStatus,
   Simulation,
 } from './run-simulations-interfaces';
 import simulateOneYear from './simulate-one-year';

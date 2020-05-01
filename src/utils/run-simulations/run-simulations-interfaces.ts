@@ -91,25 +91,22 @@ export interface MarketData {
 export interface YearResult {
   year: number;
   month: number;
+
+  startPortfolio: Portfolio | null;
+  endPortfolio: Portfolio;
   isOutOfMoneyAtEnd: boolean;
+
   marketData: YearData;
   startCpi: number;
   cumulativeInflationSinceFirstYear: number;
+
   totalWithdrawalAmount: number;
   baseWithdrawalAmount: number;
   additionalWithdrawalAmount: number;
   totalWithdrawalAmountInFirstYearDollars: number;
-  startPortfolio: Portfolio | null;
-  endPortfolio: Portfolio;
 }
 
 export type ResultsByYear = YearResult[];
-
-export enum SimulationStatus {
-  FAILED = 'FAILED',
-  WARNING = 'WARNING',
-  OK = 'OK',
-}
 
 export interface Simulation {
   simulationNumber: number;
