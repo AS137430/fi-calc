@@ -37,22 +37,16 @@ interface RunSimulationsOptions {
   historicalDataRange: HistoricalDataRange;
   durationMode: string;
   dipPercentage: number;
-  successRateThreshold: number;
   additionalWithdrawals: AdditionalWithdrawals;
   additionalIncome: AdditionalWithdrawals;
   calculationId: number;
 }
 
 interface RunSimulationsReturn {
-  exceedsSuccessRateThreshold: boolean;
   simulations: Simulations;
-  successfulSimulations: Simulations;
   completeSimulations: Simulations;
   incompleteSimulations: Simulations;
-  failedSimulations: Simulations;
   inputs: RunSimulationsOptions;
-  successRate: number;
-  successRateDisplay: string;
   calculationId: number;
   analysis: any;
 }
@@ -68,13 +62,16 @@ export default function runSimulations(
     withdrawalStrategy,
     portfolio,
     dipPercentage,
-    successRateThreshold,
     additionalWithdrawals,
     additionalIncome,
     calculationId,
   } = inputs;
 
   const { numberOfYears, startYear, endYear } = lengthOfRetirement;
+
+  const analyses: any = {
+    successRate: successRateAnalysis,
+  };
 
   const {
     bondsValue,
@@ -144,52 +141,47 @@ export default function runSimulations(
         simulations,
         'isComplete'
       );
-      const [failedSimulations, successfulSimulations] = _.partition(
-        completeSimulations,
-        'isFailed'
-      );
-      const successRate = completeSimulations.length
-        ? successfulSimulations.length / completeSimulations.length
-        : 0;
-
-      const rawSuccessRate = successRate * 100;
-
-      let successRateDisplay: string = '';
-      if (rawSuccessRate === 100 || rawSuccessRate === 0) {
-        successRateDisplay = `${rawSuccessRate}%`;
-      } else {
-        successRateDisplay = `${rawSuccessRate.toFixed(2)}%`;
-      }
-
-      const exceedsSuccessRateThreshold = successRate > successRateThreshold;
 
       const result: RunSimulationsReturn = {
+        // The options that were passed into this function
+        inputs,
+        // A unique (per-session) number that represents this calculation
+        calculationId,
         // All simulations (complete+incomplete, successful+failed)
         simulations,
         // All complete (successful + failed)
         completeSimulations,
         // All incomplete (successful + failed)
         incompleteSimulations,
-        // Complete + successful
-        successfulSimulations,
-        // Complete + failed sims
-        failedSimulations,
-        // The options that were passed into this function
-        inputs,
-        // A decimal representing the ratio of successful to unsuccesful sims. i.e.; 0.92333333
-        successRate,
-        // A string for displaying the success rate. i.e.; "100%" or "93.22%"
-        successRateDisplay,
-        // A Boolean representing whether or not the sucess rate is high enough to meet
-        // the threshold of a "successful" run
-        exceedsSuccessRateThreshold,
-        calculationId,
         analysis: {},
       };
 
-      result.analysis = {
-        successRate: successRateAnalysis.display(result),
-      };
+      const perSimAnalysis: any = {};
+      simulations.forEach(sim => {
+        _.forEach(analyses, (analysisDefinition, analysisName) => {
+          perSimAnalysis[analysisName] = analysisDefinition.data.simulation(
+            sim
+          );
+        });
+      });
+
+      const analysis = _.mapValues(
+        analyses,
+        (analysisDefinition, analysisName) => {
+          const analysis = analysisDefinition.data.overview(result);
+          const display = {
+            overview: analysisDefinition.display.overview(result, analysis),
+          };
+
+          return {
+            simAnalysis: perSimAnalysis[analysisName],
+            analysis,
+            display,
+          };
+        }
+      );
+
+      result.analysis = analysis;
 
       setTimeout(() => {
         done(result);

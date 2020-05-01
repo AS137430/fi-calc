@@ -58,7 +58,6 @@ function useSimulationResult() {
           additionalWithdrawals,
           additionalIncome,
           dipPercentage: DIP_PERCENTAGE,
-          successRateThreshold: SUCCESS_RATE_THRESHOLD,
           calculationId: thisCalculationId,
         };
 
