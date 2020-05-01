@@ -6,7 +6,6 @@ import {
   WithdrawalStrategy,
   WithdrawalStrategies,
   YearResult,
-  DipObject,
   AdditionalWithdrawals,
   SimulationStatus,
   Simulation,
@@ -25,7 +24,6 @@ interface RunSimulationOptions {
   startYear: number;
   duration: number;
   rebalancePortfolioAnnually: boolean;
-  dipPercentage: number;
   withdrawalStrategy: WithdrawalStrategy;
   portfolio: Portfolio;
   additionalWithdrawals: AdditionalWithdrawals;
@@ -61,7 +59,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     duration,
     portfolio,
     rebalancePortfolioAnnually,
-    dipPercentage,
     withdrawalStrategy,
     additionalWithdrawals,
     additionalIncome,
@@ -149,8 +146,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   const firstYearStartPortfolioValue = portfolio.totalValue;
   const firstYearStartPortfolio = portfolio;
 
-  const dipThreshold = dipPercentage * firstYearStartPortfolioValue;
-
   const endYear = startYear + duration - 1;
   const trueEndYear = Math.min(endYear, lastSupportedYear);
 
@@ -181,13 +176,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   // Whether or not this simulation "failed," where failure is defined as the portfolio
   // value being equal to or less than 0.
   let ranOutOfMoney = false;
-  let didDip = false;
   let lowestValue = Infinity;
-  let lowestSuccessfulDip:DipObject = {
-    year: 0,
-    value: Infinity,
-    startYear: 0,
-  };
   let yearRanOutOfMoney:yearRanOutOfMoney = null;
 
   const numericStartYear = Number(startYear);
@@ -234,12 +223,9 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       firstYearCpi,
       withdrawalMethod,
       withdrawalConfiguration,
-      didDip,
       lowestValue,
-      dipThreshold,
       firstYearStartPortfolio,
       portfolio,
-      lowestSuccessfulDip,
       additionalWithdrawalsForYear,
       additionalIncomeForYear
     });
@@ -302,8 +288,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     ranOutOfMoney,
     yearRanOutOfMoney,
     numberOfYearsWithMoneyInPortfolio,
-    didDip,
-    lowestSuccessfulDip,
     lastYearEndPortfolioValue,
     totalInflationOverPeriod,
     minWithdrawalYearInFirstYearDollars,

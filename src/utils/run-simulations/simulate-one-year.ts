@@ -7,7 +7,6 @@ import {
   MarketData,
   WithdrawalStrategies,
   Portfolio,
-  DipObject,
   AdditionalWithdrawals,
   ResultsByYear,
 } from './run-simulations-interfaces';
@@ -21,15 +20,12 @@ interface SimulateOneYearOptions {
   previousResults: YearResult;
   resultsByYear: ResultsByYear;
   marketData: MarketData;
-  dipThreshold: number;
   firstYearCpi: number;
-  didDip: boolean;
   lowestValue: number;
   withdrawalConfiguration: any;
   firstYearStartPortfolio: Portfolio;
   portfolio: Portfolio;
   withdrawalMethod: WithdrawalStrategies;
-  lowestSuccessfulDip: DipObject;
   additionalWithdrawalsForYear: AdditionalWithdrawals;
   additionalIncomeForYear: AdditionalWithdrawals;
   n: number;
@@ -48,12 +44,9 @@ export default function simulateOneYear({
   firstYearCpi,
   withdrawalMethod,
   withdrawalConfiguration,
-  didDip,
   lowestValue,
-  dipThreshold,
   firstYearStartPortfolio,
   portfolio,
-  lowestSuccessfulDip,
   additionalWithdrawalsForYear,
   additionalIncomeForYear,
 }: SimulateOneYearOptions): YearResult | null {
@@ -149,22 +142,8 @@ export default function simulateOneYear({
     (endValue / cumulativeInflationSinceFirstYear).toFixed(2)
   );
 
-  if (!didDip) {
-    didDip = endValue <= dipThreshold;
-  }
-
   if (endValue < lowestValue) {
     lowestValue = endValue;
-  }
-
-  if (didDip) {
-    if (lowestValue < lowestSuccessfulDip.value) {
-      lowestSuccessfulDip = {
-        value: lowestValue,
-        startYear,
-        year,
-      };
-    }
   }
 
   const totalWithdrawalAmountInFirstYearDollars = Number(

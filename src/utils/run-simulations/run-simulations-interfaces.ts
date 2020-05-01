@@ -105,12 +105,6 @@ export interface YearResult {
 
 export type ResultsByYear = YearResult[];
 
-export interface DipObject {
-  year: number;
-  value: number;
-  startYear: number;
-}
-
 export enum SimulationStatus {
   FAILED = 'FAILED',
   WARNING = 'WARNING',
@@ -134,10 +128,6 @@ export interface Simulation {
   totalInflationOverPeriod: number;
 
   resultsByYear: ResultsByYear;
-
-  // TODO: move to dip analysis
-  didDip: boolean;
-  lowestSuccessfulDip: any;
 
   // TODO: move to portfolio/withdrawal analysis
   minWithdrawalYearInFirstYearDollars: YearResult | undefined;

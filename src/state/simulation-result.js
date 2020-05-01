@@ -8,10 +8,6 @@ import useAdditionalWithdrawals from './additional-withdrawals';
 import useAdditionalIncome from './additional-income';
 import runSimulations from '../utils/run-simulations/run-simulations';
 
-// These could one day be app-level settings that users can configure
-const DIP_PERCENTAGE = 0.9;
-const SUCCESS_RATE_THRESHOLD = 0.95;
-
 function useSimulationResult() {
   const { state: historicalDataRange } = useHistoricalDataRange();
   const { state: withdrawalStrategy } = useWithdrawalStrategy();
@@ -33,8 +29,6 @@ function useSimulationResult() {
       historicalDataRange,
       additionalWithdrawals,
       additionalIncome,
-      dipPercentage: DIP_PERCENTAGE,
-      successRateThreshold: SUCCESS_RATE_THRESHOLD,
     },
     result: null,
     duration: 0,
@@ -57,7 +51,6 @@ function useSimulationResult() {
           historicalDataRange,
           additionalWithdrawals,
           additionalIncome,
-          dipPercentage: DIP_PERCENTAGE,
           calculationId: thisCalculationId,
         };
 

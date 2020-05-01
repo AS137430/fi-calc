@@ -36,7 +36,6 @@ interface RunSimulationsOptions {
   portfolio: Portfolio;
   historicalDataRange: HistoricalDataRange;
   durationMode: string;
-  dipPercentage: number;
   additionalWithdrawals: AdditionalWithdrawals;
   additionalIncome: AdditionalWithdrawals;
   calculationId: number;
@@ -61,7 +60,6 @@ export default function runSimulations(
     lengthOfRetirement,
     withdrawalStrategy,
     portfolio,
-    dipPercentage,
     additionalWithdrawals,
     additionalIncome,
     calculationId,
@@ -129,7 +127,6 @@ export default function runSimulations(
       runSimulation({
         simulationNumber,
         startYear,
-        dipPercentage,
         rebalancePortfolioAnnually,
         portfolio: portfolioFromInvestments,
         withdrawalStrategy,
