@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { inflationFromCpi } from '../../@moolah/lib';
-import { MarketData, YearData } from '../../computed-market-data/types';
+import { YearData } from '../../computed-market-data/types';
 import withdrawal from './withdrawal';
 import adjustPortfolioInvestment from './adjust-portfolio-investment';
 import {
@@ -11,29 +11,32 @@ import {
 } from './types';
 
 interface SimulateOneYearOptions {
-  yearsRemaining: number;
-  rebalancePortfolioAnnually: boolean;
-  isFirstYear: boolean;
+  yearNumber: number;
   year: number;
+  yearsRemaining: number;
+  isFirstYear: boolean;
+
+  rebalancePortfolioAnnually: boolean;
   startPortfolio: Portfolio;
-  previousResults: YearResult;
-  yearMarketData: YearData;
-  firstYearCpi: number;
+
   withdrawalConfiguration: any;
-  firstYearStartPortfolio: Portfolio;
-  portfolio: Portfolio;
   withdrawalMethod: WithdrawalStrategies;
   additionalWithdrawalsForYear: AdditionalWithdrawals;
   additionalIncomeForYear: AdditionalWithdrawals;
-  yearNumber: number;
+
+  previousResults: YearResult;
+  yearMarketData: YearData;
+
+  firstYearCpi: number;
+  firstYearStartPortfolio: Portfolio;
 }
 
 export default function simulateOneYear({
   yearNumber,
+  year,
   yearsRemaining,
   rebalancePortfolioAnnually,
   isFirstYear,
-  year,
   startPortfolio,
   // TODO: this can be undefined
   previousResults,
@@ -42,11 +45,9 @@ export default function simulateOneYear({
   withdrawalMethod,
   withdrawalConfiguration,
   firstYearStartPortfolio,
-  portfolio,
   additionalWithdrawalsForYear,
   additionalIncomeForYear,
 }: SimulateOneYearOptions): YearResult | null {
-  console.log('hi', previousResults);
   const yearStartValue = startPortfolio.totalValue;
 
   const currentCpi = Number(yearMarketData.cpi);
@@ -110,7 +111,7 @@ export default function simulateOneYear({
   const isOutOfMoneyAtEnd = portfolioValueBeforeMarketChanges === 0;
 
   let adjustedInvestmentValues = _.map(
-    portfolio.investments,
+    firstYearStartPortfolio.investments,
     (investment, index) =>
       adjustPortfolioInvestment({
         portfolioValueBeforeMarketChanges,

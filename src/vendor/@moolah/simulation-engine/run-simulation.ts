@@ -143,8 +143,8 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     }
   }
 
-  const firstYearStartPortfolioValue = portfolio.totalValue;
   const firstYearStartPortfolio = portfolio;
+  const firstYearStartPortfolioValue = firstYearStartPortfolio.totalValue;
 
   const endYear = startYear + duration - 1;
   const trueEndYear = Math.min(endYear, lastSupportedYear);
@@ -227,7 +227,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       withdrawalMethod,
       withdrawalConfiguration,
       firstYearStartPortfolio,
-      portfolio,
       additionalWithdrawalsForYear,
       additionalIncomeForYear
     });
