@@ -30,4 +30,10 @@ describe('clamp', () => {
       expect(result).toEqual(test[3]);
     });
   });
+
+  it('throws if min is larger than max', () => {
+    expect(() => {
+      clamp(0, 10, 5);
+    }).toThrow();
+  });
 });
