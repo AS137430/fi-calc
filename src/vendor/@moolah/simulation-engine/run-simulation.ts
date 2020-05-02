@@ -176,17 +176,16 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   // Whether or not this simulation "failed," where failure is defined as the portfolio
   // value being equal to or less than 0.
   let ranOutOfMoney = false;
-  let lowestValue = Infinity;
   let yearRanOutOfMoney:yearRanOutOfMoney = null;
 
   const numericStartYear = Number(startYear);
 
   // Might be faster to make this a map of `resultsByYear`?
-  _.times(duration, n => {
-    const isFirstYear = n === 0;
-    const year = numericStartYear + n;
-    const previousResults = resultsByYear[n - 1];
-    const yearsRemaining = duration - n;
+  _.times(duration, yearNumber => {
+    const isFirstYear = yearNumber === 0;
+    const year = numericStartYear + yearNumber;
+    const previousResults = resultsByYear[yearNumber - 1];
+    const yearsRemaining = duration - yearNumber;
 
     const additionalWithdrawalsForYear = additionalWithdrawals.filter(withdrawal => {
       if (withdrawal.duration === 0) {
@@ -210,20 +209,23 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       return year >= incomeStartYear && year <= incomeEndYear;
     });
 
+    const startPortfolio = isFirstYear
+    ? firstYearStartPortfolio
+    : resultsByYear[yearNumber - 1].endPortfolio;
+    const yearMarketData = byYear[year];
+
     const yearResult = simulateOneYear({
-      n,
+      yearNumber,
+      startPortfolio,
       yearsRemaining,
-      startYear,
       isFirstYear,
+      yearMarketData,
       year,
       previousResults,
       rebalancePortfolioAnnually,
-      resultsByYear,
-      marketData: byYear,
       firstYearCpi,
       withdrawalMethod,
       withdrawalConfiguration,
-      lowestValue,
       firstYearStartPortfolio,
       portfolio,
       additionalWithdrawalsForYear,

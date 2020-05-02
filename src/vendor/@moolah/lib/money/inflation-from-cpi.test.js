@@ -16,4 +16,13 @@ describe('inflationFromCpi', () => {
       })
     ).toEqual(0.05);
   });
+
+  it('handles NaN', () => {
+    expect(
+      inflationFromCpi({
+        startCpi: 'a',
+        endCpi: 2,
+      })
+    ).toEqual(1);
+  });
 });

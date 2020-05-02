@@ -89,6 +89,7 @@ export enum WithdrawalStrategies {
 }
 
 export interface YearResult {
+  yearNumber: number;
   year: number;
   month: number;
 
