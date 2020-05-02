@@ -4,21 +4,23 @@ import { Link, useParams } from 'react-router-dom';
 import classnames from 'classnames';
 import IconGetApp from 'materialish/icon-get-app';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
+import {
+  formatForDisplay,
+  smallDisplay,
+  addYears,
+} from '../vendor/@moolah/lib';
 import Chart from '../vendor/chart/chart';
 import useWithdrawalStrategy from '../state/withdrawal-strategy';
-import formatForDisplay from '../utils/money/format-for-display';
 import useSimulationResult from '../state/simulation-result';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 import useDetectTouchDevice from '../hooks/use-detect-touch-device';
 import simulationToCsv, {
   simulationCsvHeader,
-} from '../utils/simulation-to-csv';
-import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
-import downloadDataURL from '../utils/download-data-url';
+} from '../utils/csv-export/simulation-to-csv';
+import arrayToCsvDataURL from '../utils/csv-export/array-to-csv-data-url';
+import downloadDataURL from '../utils/csv-export/download-data-url';
 import dollarTicks from '../utils/chart/dollar-ticks';
 import yearTicks from '../utils/chart/year-ticks';
-import smallDisplay from '../utils/money/small-display';
-import addYears from '../utils/date/add-years';
 
 function formatSimulationForPortfolioChart(simulation) {
   if (!simulation) {
@@ -117,6 +119,20 @@ export default function Simulation() {
     [result, numericYear]
   );
 
+  const customData = useMemo(
+    () => {
+      if (!result || Number.isNaN(numericYear)) {
+        return null;
+      }
+
+      return result.analysis.successRate.simAnalysis[
+        simulation.simulationNumber
+      ];
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [result, numericYear]
+  );
+
   const { state: withdrawalStrategy } = useWithdrawalStrategy();
   const portfolioChartData = useMemo(
     () => {
@@ -151,9 +167,9 @@ export default function Simulation() {
   const lastYear =
     simulation.resultsByYear[simulation.resultsByYear.length - 1];
 
-  const isSuccess = simulation.status === 'OK';
-  const isFailed = simulation.status === 'FAILED';
-  const isWarning = simulation.status === 'WARNING';
+  const isSuccess = customData.status === 'green';
+  const isFailed = customData.status === 'FAILED';
+  const isWarning = customData.status === 'WARNING';
 
   let successMessage;
   if (isFailed) {
@@ -243,10 +259,13 @@ export default function Simulation() {
           {isFailed && (
             <div className="results_section">
               <div className="results_sectionTitle">Lasted Until</div>
-              <div className="results_bigValue">{simulation.yearFailed}</div>
+              <div className="results_bigValue">
+                {simulation.yearRanOutOfMoney}
+              </div>
               <div className="results_details">
-                This simulation ran for {simulation.numberOfSuccessfulYears}{' '}
-                years before running out of money.
+                This simulation ran for{' '}
+                {simulation.numberOfYearsWithMoneyInPortfolio} years before
+                running out of money.
               </div>
             </div>
           )}

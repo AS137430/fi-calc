@@ -1,4 +1,16 @@
-import { MarketDataValue } from 'stock-market-data';
+import { MarketData, YearData } from '../../computed-market-data/types';
+
+export interface LengthOfRetirement {
+  numberOfYears: number;
+  startYear: number;
+  endYear: number;
+}
+
+export interface HistoricalDataRange {
+  firstYear: number;
+  lastYear: number;
+  useAllHistoricalData: boolean;
+}
 
 export interface AdditionalWithdrawal {
   name: string;
@@ -16,6 +28,12 @@ export interface PortfolioInvestment {
   fees: number;
   value: number;
   annualGrowthAmount?: number;
+}
+
+export interface PortfolioInput {
+  bondsValue: number;
+  stockInvestmentValue: number;
+  stockInvestmentFees: number;
 }
 
 export interface Portfolio {
@@ -56,12 +74,6 @@ export interface WithdrawalStrategy {
   capeWeight: number;
 }
 
-export enum MarketDataGrowthKeys {
-  bondsGrowth = 'bondsGrowth',
-  stockMarketGrowth = 'stockMarketGrowth',
-  none = 'none',
-}
-
 export enum InvestmentType {
   equity = 'equity',
   bonds = 'bonds',
@@ -76,66 +88,74 @@ export enum WithdrawalStrategies {
   capeBased = 'capeBased',
 }
 
-export interface YearData extends MarketDataValue {
-  [MarketDataGrowthKeys.bondsGrowth]: number;
-  [MarketDataGrowthKeys.stockMarketGrowth]: number;
-  [MarketDataGrowthKeys.none]: number;
-  dividendYields: number;
-}
-
-export interface MarketData {
-  [Key: string]: YearData;
-  [Key: number]: YearData;
-}
-
 export interface YearResult {
   year: number;
   month: number;
+
+  startPortfolio: Portfolio | null;
+  endPortfolio: Portfolio;
   isOutOfMoneyAtEnd: boolean;
+
   marketData: YearData;
   startCpi: number;
   cumulativeInflationSinceFirstYear: number;
+
   totalWithdrawalAmount: number;
   baseWithdrawalAmount: number;
   additionalWithdrawalAmount: number;
   totalWithdrawalAmountInFirstYearDollars: number;
-  startPortfolio: Portfolio | null;
-  endPortfolio: Portfolio;
 }
 
 export type ResultsByYear = YearResult[];
 
-export interface DipObject {
-  year: number;
-  value: number;
-  startYear: number;
-}
-
-export enum SimulationStatus {
-  FAILED = 'FAILED',
-  WARNING = 'WARNING',
-  OK = 'OK',
-}
-
 export interface Simulation {
-  firstYearStartPortfolioValue: number;
+  simulationNumber: number;
+
   startYear: number;
   endYear: number;
   duration: number;
-
   isComplete: boolean;
-  isFailed: boolean;
-  yearFailed: number | null;
-  numberOfSuccessfulYears: number;
-  didDip: boolean;
-  lowestSuccessfulDip: any;
+
+  ranOutOfMoney: boolean;
+  yearRanOutOfMoney: number | null;
+  numberOfYearsWithMoneyInPortfolio: number;
+
+  firstYearStartPortfolioValue: number;
   lastYearEndPortfolioValue: number;
   totalInflationOverPeriod: number;
+
+  resultsByYear: ResultsByYear;
+
+  // TODO: move to portfolio/withdrawal analysis
   minWithdrawalYearInFirstYearDollars: YearResult | undefined;
   minPortfolioYearInFirstYearDollars: YearResult | undefined;
-
-  status: SimulationStatus;
-  resultsByYear: ResultsByYear;
 }
 
 export type Simulations = Array<Simulation>;
+
+export interface MarketDataInput {
+  byYear: MarketData;
+  lastSupportedYear: number;
+  avgMarketDataCape: number;
+}
+
+export interface RunSimulationsOptions {
+  lengthOfRetirement: LengthOfRetirement;
+  withdrawalStrategy: WithdrawalStrategy;
+  portfolio: PortfolioInput;
+  historicalDataRange: HistoricalDataRange;
+  additionalWithdrawals: AdditionalWithdrawals;
+  additionalIncome: AdditionalWithdrawals;
+  calculationId: number;
+  analytics: any;
+  marketData: MarketDataInput;
+}
+
+export interface RunSimulationsReturn {
+  simulations: Simulations;
+  completeSimulations: Simulations;
+  incompleteSimulations: Simulations;
+  inputs: RunSimulationsOptions;
+  calculationId: number;
+  analysis: any;
+}

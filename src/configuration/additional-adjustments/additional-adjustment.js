@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { formatForDisplay } from '../../vendor/@moolah/lib';
 import './additional-adjustment.css';
 import UpsertAdditionalAdjustmentModal from './upsert-additional-adjustment-modal';
-import formatForDisplay from '../../utils/money/format-for-display';
 
 export default function AdditionalAdjustment({
   type,

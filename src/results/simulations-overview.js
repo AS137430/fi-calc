@@ -2,18 +2,18 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import IconGetApp from 'materialish/icon-get-app';
+import { clamp } from '../vendor/@moolah/lib';
 import './results.css';
 import IconInfoOutline from 'materialish/icon-info-outline';
 import IconKeyboardArrowLeft from 'materialish/icon-keyboard-arrow-left';
 import useIsSmallScreen from '../hooks/use-is-small-screen';
 import useSimulationResult from '../state/simulation-result';
-import arrayToCsvDataURL from '../utils/array-to-csv-data-url';
-import downloadDataURL from '../utils/download-data-url';
-import getYearRange from '../utils/market-data/get-year-range';
+import arrayToCsvDataURL from '../utils/csv-export/array-to-csv-data-url';
+import downloadDataURL from '../utils/csv-export/download-data-url';
+import getYearRange from '../vendor/computed-market-data/get-year-range';
 import simulationToCsv, {
   simulationCsvHeader,
-} from '../utils/simulation-to-csv';
-import clamp from '../utils/numbers/clamp';
+} from '../utils/csv-export/simulation-to-csv';
 
 function numberOfResults({
   lengthOfRetirement,
@@ -60,12 +60,6 @@ export default function SimulationsOverview() {
     },
     [result]
   );
-
-  const exceedsSuccessRateThreshold = result?.exceedsSuccessRateThreshold;
-
-  const isDanger = !exceedsSuccessRateThreshold && result?.successRate < 0.8;
-  const isWarning =
-    !exceedsSuccessRateThreshold && !isDanger && result?.successRate < 0.95;
 
   const hasResult = Boolean(result);
   const hasSimulations = Boolean(result?.completeSimulations.length);
@@ -163,22 +157,26 @@ export default function SimulationsOverview() {
               {hasResult && <>{result?.completeSimulations.length}</>}
             </div>
           </div>
-          {hasSimulations && (
-            <div
-              className={classnames('results_section', {
-                'results_section-isLoading': isLoading,
-              })}>
-              <div className="results_sectionTitle">Success Rate</div>
+          {result?.analysis.successRate.display.overview.map((item, index) => {
+            return (
               <div
-                className={classnames('results_bigValue', {
-                  'results_bigValue-success': exceedsSuccessRateThreshold,
-                  'results_bigValue-warning': isWarning,
-                  'results_bigValue-danger': isDanger,
+                key={index}
+                className={classnames('results_section', {
+                  'results_section-isLoading': isLoading,
                 })}>
-                {result?.successRateDisplay}
+                <div className="results_sectionTitle">{item.title}</div>
+                <div
+                  className={classnames('results_bigValue', {
+                    'results_bigValue-success':
+                      item.exceedsSuccessRateThreshold,
+                    'results_bigValue-warning': item.isWarning,
+                    'results_bigValue-danger': item.isDanger,
+                  })}>
+                  {item.display}
+                </div>
               </div>
-            </div>
-          )}
+            );
+          })}
         </div>
       </div>
       {hasExpectedResults && (
@@ -193,15 +191,18 @@ export default function SimulationsOverview() {
           <div className="results_byYearGrid">
             {expectedResults.map((number, index) => {
               const simulation = result?.completeSimulations[index];
+              // TODO: this cannot be tied to a single analysis.
+              // It must be standalone.
+              const simBlockColor =
+                result?.analysis.successRate.simBlockColor[index];
 
               let classNames;
               if (isLoading) {
                 classNames = 'byYear_cell byYear_cell-placeholder';
               } else {
                 classNames = classnames('byYear_cell', {
-                  'byYear_cell-isWarning': simulation?.status === 'WARNING',
-                  'byYear_cell-isFailed': simulation?.status === 'FAILED',
-                  'byYear_cell-incomplete': !simulation?.isComplete,
+                  'byYear_cell-isWarning': simBlockColor === 'orange',
+                  'byYear_cell-isFailed': simBlockColor === 'red',
                 });
               }
 

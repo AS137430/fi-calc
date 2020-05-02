@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
-export default function useIsCalculator() {
+export default function useIsCalculator(): boolean {
   const { pathname } = useLocation();
 
   const isCalculator = useMemo(() => pathname.includes('calculator'), [

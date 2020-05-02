@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import marketData from 'stock-market-data';
 
 interface Options {
   firstYear: number;
@@ -10,23 +9,19 @@ interface Options {
 // For now, it returns every year within `market-data.json`, which represents
 // a calculation that takes into account all of history. In the future,
 // this could be more customizable based on user input.
-export default function getStartYears(duration: number, options?: Options): Array<number> {
-  const startYears = _.chain(marketData)
-    .filter(data => {
-      // In this calculator, we only consider the first month of each year at this time
-      const firstMonth = data.month === 1;
-
+export default function getStartYears(byYears:number[], duration: number, options?: Options): number[] {
+  const startYears = _.chain(byYears)
+    .filter(year => {
       let withinYearRange = true;
 
       const firstYear = options?.firstYear;
       const lastYear = options?.lastYear;
       if (typeof firstYear === 'number' && typeof lastYear === 'number') {
-        withinYearRange = data.year >= firstYear && data.year <= lastYear;
+        withinYearRange = year >= firstYear && year <= lastYear;
       }
 
-      return firstMonth && withinYearRange;
+      return withinYearRange;
     })
-    .map(data => data.year)
     .value();
 
   // This is the code that excludes the simulations that would not complete.

@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import _ from 'lodash';
 import constate from 'constate';
 import usePortfolio from './portfolio';
 import useHistoricalDataRange from './historical-data-range';
@@ -6,11 +7,30 @@ import useWithdrawalStrategy from './withdrawal-strategy';
 import useLengthOfRetirement from './length-of-retirement';
 import useAdditionalWithdrawals from './additional-withdrawals';
 import useAdditionalIncome from './additional-income';
-import runSimulations from '../utils/run-simulations/run-simulations';
+import runSimulations from '../vendor/@moolah/simulation-engine';
+import successRateAnalysis from '../utils/simulation-analytics/success-rate';
+import marketDataByYear from '../vendor/computed-market-data/market-data-by-year';
 
-// These could one day be app-level settings that users can configure
-const DIP_PERCENTAGE = 0.9;
-const SUCCESS_RATE_THRESHOLD = 0.95;
+const analytics = {
+  successRate: successRateAnalysis,
+};
+
+const byYear = marketDataByYear();
+const allYears = Object.keys(byYear);
+const lastSupportedYear = Number(allYears[allYears.length - 1]);
+
+const marketDataCape = _.map(byYear, val => Number(val.cape)).filter(
+  v => !Number.isNaN(v)
+);
+const avgMarketDataCape =
+  _.reduce(marketDataCape, (result, current) => result + current, 0) /
+  marketDataCape.length;
+
+const marketData = {
+  byYear,
+  lastSupportedYear,
+  avgMarketDataCape,
+};
 
 function useSimulationResult() {
   const { state: historicalDataRange } = useHistoricalDataRange();
@@ -26,15 +46,14 @@ function useSimulationResult() {
 
   const [computation, setComputation] = useState({
     inputs: {
-      durationMode: 'allHistory',
       lengthOfRetirement,
       withdrawalStrategy,
       portfolio,
       historicalDataRange,
       additionalWithdrawals,
       additionalIncome,
-      dipPercentage: DIP_PERCENTAGE,
-      successRateThreshold: SUCCESS_RATE_THRESHOLD,
+      analytics,
+      marketData,
     },
     result: null,
     duration: 0,
@@ -50,16 +69,15 @@ function useSimulationResult() {
         const start = performance.now();
 
         const inputs = {
-          durationMode: 'allHistory',
           lengthOfRetirement,
           withdrawalStrategy,
           portfolio,
           historicalDataRange,
           additionalWithdrawals,
           additionalIncome,
-          dipPercentage: DIP_PERCENTAGE,
-          successRateThreshold: SUCCESS_RATE_THRESHOLD,
           calculationId: thisCalculationId,
+          analytics,
+          marketData,
         };
 
         setComputation(prev => {

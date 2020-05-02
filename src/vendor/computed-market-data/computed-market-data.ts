@@ -1,9 +1,6 @@
 import marketData from 'stock-market-data';
 import _ from 'lodash';
-import {
-  MarketDataGrowthKeys,
-  YearData,
-} from '../run-simulations/run-simulations-interfaces';
+import { MarketDataGrowthKeys, YearData } from './types';
 
 // This method is pretty bad right now. It computes calculated data, but
 // it looks one year in advance rather than looking by-month. I'll need to

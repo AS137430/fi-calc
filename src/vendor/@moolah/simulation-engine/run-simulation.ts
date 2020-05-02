@@ -1,34 +1,26 @@
 import _ from 'lodash';
-import inflationFromCpi from '../market-data/inflation-from-cpi';
-import marketDataByYear from '../market-data/market-data-by-year';
+import { inflationFromCpi } from '../../@moolah/lib';
 import {
   Portfolio,
   WithdrawalStrategy,
   WithdrawalStrategies,
   YearResult,
-  DipObject,
   AdditionalWithdrawals,
-  SimulationStatus,
   Simulation,
-} from './run-simulations-interfaces';
+  MarketDataInput
+} from './types';
 import simulateOneYear from './simulate-one-year';
 
-const marketData = marketDataByYear();
-const allYears = Object.keys(marketData);
-const lastSupportedYear = Number(allYears[allYears.length - 1]);
-
-const marketDataCape = _.map(marketData, val => Number(val.cape)).filter(v => !Number.isNaN(v));
-const avgMarketDataCape = _.reduce(marketDataCape, (result, current) => result + current, 0) / marketDataCape.length;
-
 interface RunSimulationOptions {
+  simulationNumber: number;
   startYear: number;
   duration: number;
   rebalancePortfolioAnnually: boolean;
-  dipPercentage: number;
   withdrawalStrategy: WithdrawalStrategy;
   portfolio: Portfolio;
   additionalWithdrawals: AdditionalWithdrawals;
   additionalIncome: AdditionalWithdrawals;
+  marketData: MarketDataInput
 }
 
 function getWithdrawalMethod(
@@ -55,15 +47,22 @@ function getWithdrawalMethod(
 // it computes the changes to that portfolio over time.
 export default function runSimulation(options: RunSimulationOptions):Simulation {
   const {
+    simulationNumber,
     startYear,
     duration,
     portfolio,
     rebalancePortfolioAnnually,
-    dipPercentage,
     withdrawalStrategy,
     additionalWithdrawals,
     additionalIncome,
+    marketData
   } = options;
+
+  const {
+    avgMarketDataCape,
+    lastSupportedYear,
+    byYear
+  } = marketData;
 
   const {
     annualWithdrawal,
@@ -94,7 +93,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
   let withdrawalConfiguration: any = {};
 
-  type YearFailed = number | null;
+  type yearRanOutOfMoney = number | null;
 
   const withdrawalMethod = getWithdrawalMethod(
     withdrawalStrategyName,
@@ -147,15 +146,13 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   const firstYearStartPortfolioValue = portfolio.totalValue;
   const firstYearStartPortfolio = portfolio;
 
-  const dipThreshold = dipPercentage * firstYearStartPortfolioValue;
-
   const endYear = startYear + duration - 1;
   const trueEndYear = Math.min(endYear, lastSupportedYear);
 
   // This Boolean represents whether this is simulation contains the entire
   // duration or not.
   const isComplete = startYear + duration <= lastSupportedYear;
-  const firstYearMarketData = _.find(marketData, {
+  const firstYearMarketData = _.find(byYear, {
     year: startYear,
     month: 1,
   });
@@ -163,7 +160,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   // TODO: use the average CPI instead of 0
   const firstYearCpi = firstYearMarketData ? firstYearMarketData.cpi : 0;
 
-  const endYearMarketData = _.find(marketData, {
+  const endYearMarketData = _.find(byYear, {
     year: trueEndYear,
     month: 1,
   });
@@ -178,15 +175,9 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
 
   // Whether or not this simulation "failed," where failure is defined as the portfolio
   // value being equal to or less than 0.
-  let isFailed = false;
-  let didDip = false;
+  let ranOutOfMoney = false;
   let lowestValue = Infinity;
-  let lowestSuccessfulDip:DipObject = {
-    year: 0,
-    value: Infinity,
-    startYear: 0,
-  };
-  let yearFailed:YearFailed = null;
+  let yearRanOutOfMoney:yearRanOutOfMoney = null;
 
   const numericStartYear = Number(startYear);
 
@@ -217,7 +208,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       const incomeEndYear = incomeStartYear + income.duration - 1;
 
       return year >= incomeStartYear && year <= incomeEndYear;
-    })
+    });
 
     const yearResult = simulateOneYear({
       n,
@@ -228,26 +219,23 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       previousResults,
       rebalancePortfolioAnnually,
       resultsByYear,
-      marketData,
+      marketData: byYear,
       firstYearCpi,
       withdrawalMethod,
       withdrawalConfiguration,
-      didDip,
       lowestValue,
-      dipThreshold,
       firstYearStartPortfolio,
       portfolio,
-      lowestSuccessfulDip,
       additionalWithdrawalsForYear,
       additionalIncomeForYear
     });
 
     if (yearResult !== null) {
       if (yearResult.isOutOfMoneyAtEnd) {
-        isFailed = true;
+        ranOutOfMoney = true;
 
-        if (yearFailed === null) {
-          yearFailed = year;
+        if (yearRanOutOfMoney === null) {
+          yearRanOutOfMoney = year;
         }
       }
 
@@ -260,9 +248,9 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   const finalYearPortfolio = lastYear.endPortfolio;
   const lastYearEndPortfolioValue = finalYearPortfolio.totalValue;
 
-  let numberOfSuccessfulYears = duration;
-  if (yearFailed) {
-    numberOfSuccessfulYears = yearFailed - startYear;
+  let numberOfYearsWithMoneyInPortfolio = duration;
+  if (yearRanOutOfMoney) {
+    numberOfYearsWithMoneyInPortfolio = yearRanOutOfMoney - startYear;
   }
 
   const minWithdrawalYearInFirstYearDollars = _.minBy(
@@ -275,32 +263,17 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     year => year.endPortfolio.totalValueInFirstYearDollars
   );
 
-  const finalRatio =
-    lastYear.endPortfolio.totalValueInFirstYearDollars /
-    firstYearStartPortfolioValue;
-
-  let status;
-  if (finalRatio === 0) {
-    status = SimulationStatus.FAILED;
-  } else if (finalRatio < 0.35) {
-    status = SimulationStatus.WARNING;
-  } else {
-    status = SimulationStatus.OK;
-  }
-
   return {
+    simulationNumber,
     firstYearStartPortfolioValue,
     startYear,
     endYear,
     duration,
-    status,
     isComplete,
     resultsByYear,
-    isFailed,
-    yearFailed,
-    numberOfSuccessfulYears,
-    didDip,
-    lowestSuccessfulDip,
+    ranOutOfMoney,
+    yearRanOutOfMoney,
+    numberOfYearsWithMoneyInPortfolio,
     lastYearEndPortfolioValue,
     totalInflationOverPeriod,
     minWithdrawalYearInFirstYearDollars,
