@@ -10,6 +10,7 @@ import {
   MarketDataInput
 } from './types';
 import simulateOneYear from './simulate-one-year';
+import withdrawalStrategies from './withdrawal-strategies';
 
 interface RunSimulationOptions {
   simulationNumber: number;
@@ -36,11 +37,11 @@ function getWithdrawalMethod(
     return WithdrawalStrategies.ninetyFivePercentRule;
   } else if (withdrawalStrategyName === 'capeBased') {
     return WithdrawalStrategies.capeBased;
-  }
-
-  return inflationAdjustedFirstYearWithdrawal
+  } else {
+    return inflationAdjustedFirstYearWithdrawal
     ? WithdrawalStrategies.inflationAdjusted
     : WithdrawalStrategies.notInflationAdjusted;
+  }
 }
 
 // A simulation is one single possible retirement calculation. Given a start year, a "duration,"
@@ -92,57 +93,13 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   const withdrawalStrategyName = withdrawalStrategyNameObject.key;
   const percentageOfPortfolio = percentPercentageOfPortfolio / 100;
 
-  let withdrawalConfiguration: any = {};
-
   type yearRanOutOfMoney = number | null;
 
+  // TODO: refactor this away by typing the withdrawal form config
   const withdrawalMethod = getWithdrawalMethod(
     withdrawalStrategyName,
     inflationAdjustedFirstYearWithdrawal
   );
-
-  const baseWithdrawalConfig = {
-    minWithdrawal: minWithdrawalLimitEnabled ? minWithdrawalLimit : 0,
-      maxWithdrawal: maxWithdrawalLimitEnabled
-        ? maxWithdrawalLimit
-        : Number.MAX_SAFE_INTEGER
-  }
-
-  if (withdrawalStrategyName === 'portfolioPercent') {
-    withdrawalConfiguration = {
-      ...baseWithdrawalConfig,
-      percentageOfPortfolio,
-    };
-  } else if (withdrawalStrategyName === 'constantWithdrawal') {
-    withdrawalConfiguration = {
-      ...baseWithdrawalConfig,
-      firstYearWithdrawal: Number(firstYearWithdrawal),
-    };
-  } else if (withdrawalStrategyName === 'gk') {
-    withdrawalConfiguration = {
-      ...baseWithdrawalConfig,
-      gkInitialWithdrawal: gkInitialWithdrawal,
-      gkWithdrawalUpperLimit: gkWithdrawalUpperLimit,
-      gkWithdrawalLowerLimit: gkWithdrawalLowerLimit,
-      gkUpperLimitAdjustment: gkUpperLimitAdjustment,
-      gkLowerLimitAdjustment: gkLowerLimitAdjustment,
-      gkIgnoreLastFifteenYears: gkIgnoreLastFifteenYears,
-      gkModifiedWithdrawalRule: gkModifiedWithdrawalRule
-    }
-  } else if (withdrawalStrategyName === '95percent') {
-    withdrawalConfiguration = {
-      ...baseWithdrawalConfig,
-      ninetyFiveInitialRate,
-      ninetyFivePercentage
-    };
-  } else if (withdrawalStrategyName === 'capeBased') {
-    withdrawalConfiguration = {
-      ...baseWithdrawalConfig,
-      avgMarketDataCape,
-      capeWithdrawalRate,
-      capeWeight
-    }
-  }
 
   const firstYearStartPortfolio = portfolio;
   const firstYearStartPortfolioValue = firstYearStartPortfolio.totalValue;
@@ -215,21 +172,100 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     : resultsByYear[yearNumber - 1].endPortfolio;
     const yearMarketData = byYear[year];
 
+
+    const yearStartValue = startPortfolio.totalValue;
+
+    const currentCpi = Number(yearMarketData.cpi);
+    const cumulativeInflationSinceFirstYear = inflationFromCpi({
+      startCpi: Number(firstYearCpi),
+      endCpi: currentCpi,
+    });
+
+    let withdrawalAmount:number = 0;
+    if (withdrawalMethod === WithdrawalStrategies.inflationAdjusted) {
+      withdrawalAmount = withdrawalStrategies.inflationAdjusted({
+        inflation: cumulativeInflationSinceFirstYear,
+        firstYearWithdrawal: firstYearWithdrawal
+      });
+    } else if (withdrawalMethod === WithdrawalStrategies.notInflationAdjusted) {
+      withdrawalAmount = withdrawalStrategies.notInflationAdjusted({
+        firstYearWithdrawal: firstYearWithdrawal
+      });
+    } else if (withdrawalMethod === WithdrawalStrategies.portfolioPercent) {
+      withdrawalAmount = withdrawalStrategies.portfolioPercent({
+        inflation: cumulativeInflationSinceFirstYear,
+        percentageOfPortfolio,
+        minWithdrawal: minWithdrawalLimitEnabled ? minWithdrawalLimit : 0,
+        maxWithdrawal: maxWithdrawalLimitEnabled
+          ? maxWithdrawalLimit
+          : Number.MAX_SAFE_INTEGER,
+        portfolioTotalValue: yearStartValue,
+      });
+    } else if (withdrawalMethod === WithdrawalStrategies.guytonKlinger) {
+      withdrawalAmount =  withdrawalStrategies.guytonKlinger({
+        previousResults,
+        yearMarketData,
+        firstYearStartPortfolio,
+        inflation: cumulativeInflationSinceFirstYear,
+        isFirstYear,
+        portfolioTotalValue: yearStartValue,
+        firstYearCpi,
+        yearsRemaining,
+        cpi: currentCpi,
+        minWithdrawal: minWithdrawalLimitEnabled ? minWithdrawalLimit : 0,
+        maxWithdrawal: maxWithdrawalLimitEnabled
+          ? maxWithdrawalLimit
+          : Number.MAX_SAFE_INTEGER,
+        gkInitialWithdrawal: gkInitialWithdrawal,
+        gkWithdrawalUpperLimit: gkWithdrawalUpperLimit,
+        gkWithdrawalLowerLimit: gkWithdrawalLowerLimit,
+        gkUpperLimitAdjustment: gkUpperLimitAdjustment,
+        gkLowerLimitAdjustment: gkLowerLimitAdjustment,
+        gkIgnoreLastFifteenYears: gkIgnoreLastFifteenYears,
+        gkModifiedWithdrawalRule: gkModifiedWithdrawalRule
+      });
+    } else if (withdrawalMethod === WithdrawalStrategies.ninetyFivePercentRule) {
+      withdrawalAmount =  withdrawalStrategies.ninetyFivePercentRule({
+        inflation: cumulativeInflationSinceFirstYear,
+        isFirstYear,
+        portfolioTotalValue: yearStartValue,
+        previousResults,
+        firstYearStartPortfolio,
+        ninetyFiveInitialRate,
+        ninetyFivePercentage,
+        minWithdrawal: minWithdrawalLimitEnabled ? minWithdrawalLimit : 0,
+        maxWithdrawal: maxWithdrawalLimitEnabled
+          ? maxWithdrawalLimit
+          : Number.MAX_SAFE_INTEGER,
+      });
+    } else if (withdrawalMethod === WithdrawalStrategies.capeBased) {
+      withdrawalAmount = withdrawalStrategies.capeBased({
+        inflation: cumulativeInflationSinceFirstYear,
+        portfolioTotalValue: yearStartValue,
+        avgMarketDataCape,
+        capeWithdrawalRate,
+        capeWeight,
+        minWithdrawal: minWithdrawalLimitEnabled ? minWithdrawalLimit : 0,
+          maxWithdrawal: maxWithdrawalLimitEnabled
+            ? maxWithdrawalLimit
+            : Number.MAX_SAFE_INTEGER,
+        yearMarketData,
+
+      });
+    }
+
     const yearResult = simulateOneYear({
       yearNumber,
       startPortfolio,
-      yearsRemaining,
-      isFirstYear,
       yearMarketData,
       year,
-      previousResults,
+      cpi: currentCpi,
       rebalancePortfolioAnnually,
-      firstYearCpi,
-      withdrawalMethod,
-      withdrawalConfiguration,
+      cumulativeInflationSinceFirstYear,
       firstYearStartPortfolio,
       additionalWithdrawalsForYear,
-      additionalIncomeForYear
+      additionalIncomeForYear,
+      withdrawalAmount
     });
 
     if (yearResult !== null) {

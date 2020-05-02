@@ -1,81 +1,46 @@
 import _ from 'lodash';
-import { inflationFromCpi } from '../../@moolah/lib';
 import { YearData } from '../../computed-market-data/types';
-import withdrawalStrategies from './withdrawal-strategies';
 import adjustPortfolioInvestment from './utils/adjust-portfolio-investment';
-import {
-  YearResult,
-  WithdrawalStrategies,
-  Portfolio,
-  AdditionalWithdrawals,
-} from './types';
+import { YearResult, Portfolio, AdditionalWithdrawals } from './types';
 
 interface SimulateOneYearOptions {
   yearNumber: number;
   year: number;
-  yearsRemaining: number;
-  isFirstYear: boolean;
 
   rebalancePortfolioAnnually: boolean;
   startPortfolio: Portfolio;
 
-  withdrawalMethod: WithdrawalStrategies;
-  withdrawalConfiguration: any;
   additionalWithdrawalsForYear: AdditionalWithdrawals;
   additionalIncomeForYear: AdditionalWithdrawals;
 
   yearMarketData: YearData;
 
-  firstYearCpi: number;
   firstYearStartPortfolio: Portfolio;
 
-  previousResults: YearResult;
+  withdrawalAmount: number;
+  cumulativeInflationSinceFirstYear: number;
+  cpi: number;
 }
 
 export default function simulateOneYear({
   yearNumber,
   year,
-  yearsRemaining,
-  isFirstYear,
 
   rebalancePortfolioAnnually,
   startPortfolio,
 
-  withdrawalMethod,
-  withdrawalConfiguration,
   additionalWithdrawalsForYear,
   additionalIncomeForYear,
 
   yearMarketData,
 
-  firstYearCpi,
   firstYearStartPortfolio,
 
-  // TODO: this can be undefined
-  previousResults,
+  cpi,
+  withdrawalAmount,
+  cumulativeInflationSinceFirstYear,
 }: SimulateOneYearOptions): YearResult | null {
   const yearStartValue = startPortfolio.totalValue;
-
-  const currentCpi = Number(yearMarketData.cpi);
-
-  const cumulativeInflationSinceFirstYear = inflationFromCpi({
-    startCpi: Number(firstYearCpi),
-    endCpi: currentCpi,
-  });
-
-  const withdrawalAmount = withdrawalStrategies[withdrawalMethod]({
-    ...withdrawalConfiguration,
-    previousResults,
-    firstYearStartPortfolio,
-    isFirstYear,
-    yearMarketData,
-    yearsRemaining,
-    firstYearCpi: Number(firstYearCpi),
-    cpi: currentCpi,
-    portfolioTotalValue: yearStartValue,
-    inflation: cumulativeInflationSinceFirstYear,
-  });
-
   const additionalIncomeAmount = additionalIncomeForYear.reduce(
     (result, withdrawal) => {
       if (!withdrawal.inflationAdjusted) {
@@ -157,7 +122,7 @@ export default function simulateOneYear({
     yearNumber,
     isOutOfMoneyAtEnd,
     marketData: yearMarketData,
-    startCpi: currentCpi,
+    startCpi: cpi,
     cumulativeInflationSinceFirstYear,
     totalWithdrawalAmount,
     baseWithdrawalAmount,
