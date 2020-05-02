@@ -34,7 +34,7 @@ export default function runSimulations(
 
   const rebalancePortfolioAnnually = false;
   const firstYearStartPortfolio = getFirstYearStartPortfolio({
-    portfolio,
+    portfolioForm: portfolio,
   });
 
   // We do an async map to ensure that this simulation doesn't lock up the main thread.

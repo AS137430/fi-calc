@@ -26,7 +26,7 @@ export function fromTotalAndPercentages({
 }
 
 interface FromInvestmentsOptions {
-  investments: PortfolioInvestment[];
+  investments: Omit<PortfolioInvestment, 'percentage'>[];
 }
 
 export function fromInvestments({

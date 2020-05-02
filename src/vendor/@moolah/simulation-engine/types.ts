@@ -30,7 +30,7 @@ export interface PortfolioInvestment {
   annualGrowthAmount?: number;
 }
 
-export interface PortfolioInput {
+export interface PortfolioForm {
   bondsValue: number;
   stockInvestmentValue: number;
   stockInvestmentFees: number;
@@ -142,7 +142,7 @@ export interface MarketDataInput {
 export interface RunSimulationsOptions {
   lengthOfRetirement: LengthOfRetirement;
   withdrawalStrategy: WithdrawalStrategy;
-  portfolio: PortfolioInput;
+  portfolio: PortfolioForm;
   historicalDataRange: HistoricalDataRange;
   additionalWithdrawals: AdditionalWithdrawals;
   additionalIncome: AdditionalWithdrawals;
