@@ -19,34 +19,40 @@ interface SimulateOneYearOptions {
   rebalancePortfolioAnnually: boolean;
   startPortfolio: Portfolio;
 
-  withdrawalConfiguration: any;
   withdrawalMethod: WithdrawalStrategies;
+  withdrawalConfiguration: any;
   additionalWithdrawalsForYear: AdditionalWithdrawals;
   additionalIncomeForYear: AdditionalWithdrawals;
 
-  previousResults: YearResult;
   yearMarketData: YearData;
 
   firstYearCpi: number;
   firstYearStartPortfolio: Portfolio;
+
+  previousResults: YearResult;
 }
 
 export default function simulateOneYear({
   yearNumber,
   year,
   yearsRemaining,
-  rebalancePortfolioAnnually,
   isFirstYear,
+
+  rebalancePortfolioAnnually,
   startPortfolio,
-  // TODO: this can be undefined
-  previousResults,
-  yearMarketData,
-  firstYearCpi,
+
   withdrawalMethod,
   withdrawalConfiguration,
-  firstYearStartPortfolio,
   additionalWithdrawalsForYear,
   additionalIncomeForYear,
+
+  yearMarketData,
+
+  firstYearCpi,
+  firstYearStartPortfolio,
+
+  // TODO: this can be undefined
+  previousResults,
 }: SimulateOneYearOptions): YearResult | null {
   const yearStartValue = startPortfolio.totalValue;
 

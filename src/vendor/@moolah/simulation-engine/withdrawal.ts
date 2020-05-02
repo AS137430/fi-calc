@@ -4,20 +4,62 @@ import { WithdrawalStrategies, Portfolio, YearResult } from './types';
 
 // These are different methods to calculate the withdrawal amount
 // for a given year.
-// They all receive the same arguments.
 
-interface WithdrawalOptions {
-  firstYearStartPortfolio: Portfolio;
-  isFirstYear: boolean;
-  firstYearWithdrawal: number;
+interface InflationAdjustedOptions {
   inflation: number;
+  firstYearWithdrawal: number;
+}
+
+function inflationAdjusted({
+  inflation,
+  firstYearWithdrawal,
+}: InflationAdjustedOptions): number {
+  return inflation * firstYearWithdrawal;
+}
+
+interface NotInflationAdjustedOptions {
+  firstYearWithdrawal: number;
+}
+
+function notInflationAdjusted({
+  firstYearWithdrawal,
+}: NotInflationAdjustedOptions): number {
+  return firstYearWithdrawal;
+}
+
+interface PortfolioPercentOptions {
+  inflation: number;
+  percentageOfPortfolio: number;
+  portfolioTotalValue: number;
+  minWithdrawal: number;
+  maxWithdrawal: number;
+}
+
+function portfolioPercent({
+  inflation,
+  portfolioTotalValue,
+  percentageOfPortfolio,
+  minWithdrawal,
+  maxWithdrawal,
+}: PortfolioPercentOptions): number {
+  const naiveComputation = portfolioTotalValue * percentageOfPortfolio;
+  return clamp(
+    naiveComputation,
+    inflation * minWithdrawal,
+    inflation * maxWithdrawal
+  );
+}
+
+interface GuytonKlingerOptions {
   yearsRemaining: number;
+  inflation: number;
+  isFirstYear: boolean;
   cpi: number;
   firstYearCpi: number;
   portfolioTotalValue: number;
-  percentageOfPortfolio: number;
   minWithdrawal: number;
   maxWithdrawal: number;
+  firstYearStartPortfolio: Portfolio;
   gkInitialWithdrawal: number;
   gkWithdrawalUpperLimit: number;
   gkWithdrawalLowerLimit: number;
@@ -27,41 +69,6 @@ interface WithdrawalOptions {
   gkModifiedWithdrawalRule: boolean;
   yearMarketData: YearData;
   previousResults: YearResult;
-
-  ninetyFiveInitialRate: number;
-  ninetyFivePercentage: number;
-
-  capeWithdrawalRate: number;
-  capeWeight: number;
-  avgMarketDataCape: number;
-}
-
-function inflationAdjusted({
-  inflation,
-  firstYearWithdrawal,
-}: WithdrawalOptions): number {
-  return inflation * firstYearWithdrawal;
-}
-
-function notInflationAdjusted({
-  firstYearWithdrawal,
-}: WithdrawalOptions): number {
-  return firstYearWithdrawal;
-}
-
-function portfolioPercent({
-  inflation,
-  portfolioTotalValue,
-  percentageOfPortfolio,
-  minWithdrawal,
-  maxWithdrawal,
-}: WithdrawalOptions): number {
-  const naiveComputation = portfolioTotalValue * percentageOfPortfolio;
-  return clamp(
-    naiveComputation,
-    inflation * minWithdrawal,
-    inflation * maxWithdrawal
-  );
 }
 
 // Source for this calculation:
@@ -91,7 +98,7 @@ function guytonKlinger({
   yearMarketData,
   minWithdrawal,
   maxWithdrawal,
-}: WithdrawalOptions): number {
+}: GuytonKlingerOptions): number {
   // The first step in the GK computation is determining how much we withdrew last year. If we're in the
   // first year, then it's just our initial withdrawal value. Otherwise, we look at our previous year's
   // results and grab it from there.
@@ -246,6 +253,18 @@ function guytonKlinger({
   );
 }
 
+interface NinetyFivePercentRuleOptions {
+  ninetyFiveInitialRate: number;
+  ninetyFivePercentage: number;
+  firstYearStartPortfolio: Portfolio;
+  portfolioTotalValue: number;
+  previousResults: YearResult;
+  isFirstYear: boolean;
+  inflation: number;
+  minWithdrawal: number;
+  maxWithdrawal: number;
+}
+
 // Algorithm from "Work Less, Live More"
 // Clarified by a post on this forum: https://www.early-retirement.org/forums/f28/question-on-the-95-rule-20484.html
 function ninetyFivePercentRule({
@@ -258,7 +277,7 @@ function ninetyFivePercentRule({
   inflation,
   minWithdrawal,
   maxWithdrawal,
-}: WithdrawalOptions): number {
+}: NinetyFivePercentRuleOptions): number {
   const firstYearWithdrawal =
     (firstYearStartPortfolio.totalValue * ninetyFiveInitialRate) / 100;
 
@@ -278,6 +297,17 @@ function ninetyFivePercentRule({
   );
 }
 
+interface CapeBasedOptions {
+  portfolioTotalValue: number;
+  yearMarketData: YearData;
+  inflation: number;
+  capeWithdrawalRate: number;
+  capeWeight: number;
+  avgMarketDataCape: number;
+  minWithdrawal: number;
+  maxWithdrawal: number;
+}
+
 // This method uses the CAEY (CAEY = 1/CAPE) to determine withdrawal rates.
 // This withdrawal method is included in cFIREsim, but for this implementation I referenced:
 // https://earlyretirementnow.com/2017/08/30/the-ultimate-guide-to-safe-withdrawal-rates-part-18-flexibility-cape-based-rules/
@@ -290,7 +320,7 @@ function capeBased({
   inflation,
   minWithdrawal,
   maxWithdrawal,
-}: WithdrawalOptions): number {
+}: CapeBasedOptions): number {
   const capeToUse =
     yearMarketData.cape === null ? avgMarketDataCape : yearMarketData.cape;
   const caey = 1 / capeToUse;
