@@ -27,6 +27,7 @@ export default function runSimulations(
   } = inputs;
 
   const { lengthOfSimulation, startYears } = calculateDuration({
+    allYears: _.map(marketData.byYear, byYear => byYear.year),
     lengthOfRetirement,
     historicalDataRange,
   });

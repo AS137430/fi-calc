@@ -2,6 +2,7 @@ import { LengthOfRetirement, HistoricalDataRange } from '../types';
 import getStartYears from './get-start-years';
 
 interface CalculateDurationOptions {
+  allYears: number[];
   lengthOfRetirement: LengthOfRetirement;
   historicalDataRange: HistoricalDataRange;
 }
@@ -12,6 +13,7 @@ interface CalculateDurationReturn {
 }
 
 export default function calculateDuration({
+  allYears,
   lengthOfRetirement,
   historicalDataRange,
 }: CalculateDurationOptions): CalculateDurationReturn {
@@ -23,6 +25,7 @@ export default function calculateDuration({
   lengthOfSimulation = numberOfYears;
   // An array of years that we use as a starting year for simulations
   startYears = getStartYears(
+    allYears,
     Number(numberOfYears),
     historicalDataRange.useAllHistoricalData ? undefined : historicalDataRange
   );
