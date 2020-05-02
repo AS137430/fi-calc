@@ -1,4 +1,4 @@
-import withdrawal from './withdrawal';
+import withdrawal from './index';
 
 const {
   inflationAdjusted,

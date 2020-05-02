@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { inflationFromCpi } from '../../@moolah/lib';
 import { YearData } from '../../computed-market-data/types';
-import withdrawal from './withdrawal';
+import withdrawalStrategies from './withdrawal-strategies';
 import adjustPortfolioInvestment from './adjust-portfolio-investment';
 import {
   YearResult,
@@ -63,7 +63,7 @@ export default function simulateOneYear({
     endCpi: currentCpi,
   });
 
-  const withdrawalAmount = withdrawal[withdrawalMethod]({
+  const withdrawalAmount = withdrawalStrategies[withdrawalMethod]({
     ...withdrawalConfiguration,
     previousResults,
     firstYearStartPortfolio,
