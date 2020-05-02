@@ -42,10 +42,14 @@ export interface Portfolio {
   investments: PortfolioInvestment[];
 }
 
-export interface WithdrawalStrategy {
+export interface WithdrawalStrategyForm {
   withdrawalStrategyName: {
     key: string;
   };
+
+  /* Shared by numerous strategies */
+  minWithdrawalLimit: number;
+  maxWithdrawalLimit: number;
 
   /* Constant Withdrawal */
   annualWithdrawal: number;
@@ -53,8 +57,7 @@ export interface WithdrawalStrategy {
 
   /* Percentage of Portfolio */
   percentageOfPortfolio: number;
-  minWithdrawalLimit: number;
-  maxWithdrawalLimit: number;
+
   minWithdrawalLimitEnabled: boolean;
   maxWithdrawalLimitEnabled: boolean;
 
@@ -142,7 +145,7 @@ export interface MarketDataInput {
 
 export interface RunSimulationsOptions {
   lengthOfRetirement: LengthOfRetirement;
-  withdrawalStrategy: WithdrawalStrategy;
+  withdrawalStrategy: WithdrawalStrategyForm;
   portfolio: PortfolioForm;
   historicalDataRange: HistoricalDataRange;
   additionalWithdrawals: AdditionalWithdrawals;
