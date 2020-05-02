@@ -23,6 +23,7 @@ interface RunSimulationOptions {
   marketData: MarketDataInput
 }
 
+// TODO: type these and make them the same
 function getWithdrawalMethod(
   withdrawalStrategyName: string,
   inflationAdjustedFirstYearWithdrawal: boolean

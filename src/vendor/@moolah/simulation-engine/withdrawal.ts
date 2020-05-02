@@ -5,7 +5,7 @@ import { WithdrawalStrategies, Portfolio, YearResult } from './types';
 // These are different methods to calculate the withdrawal amount
 // for a given year.
 
-interface InflationAdjustedOptions {
+export interface InflationAdjustedOptions {
   inflation: number;
   firstYearWithdrawal: number;
 }
@@ -17,7 +17,7 @@ function inflationAdjusted({
   return inflation * firstYearWithdrawal;
 }
 
-interface NotInflationAdjustedOptions {
+export interface NotInflationAdjustedOptions {
   firstYearWithdrawal: number;
 }
 
@@ -27,7 +27,7 @@ function notInflationAdjusted({
   return firstYearWithdrawal;
 }
 
-interface PortfolioPercentOptions {
+export interface PortfolioPercentOptions {
   inflation: number;
   percentageOfPortfolio: number;
   portfolioTotalValue: number;
@@ -50,7 +50,7 @@ function portfolioPercent({
   );
 }
 
-interface GuytonKlingerOptions {
+export interface GuytonKlingerOptions {
   yearsRemaining: number;
   inflation: number;
   isFirstYear: boolean;
@@ -253,7 +253,7 @@ function guytonKlinger({
   );
 }
 
-interface NinetyFivePercentRuleOptions {
+export interface NinetyFivePercentRuleOptions {
   ninetyFiveInitialRate: number;
   ninetyFivePercentage: number;
   firstYearStartPortfolio: Portfolio;
@@ -297,7 +297,7 @@ function ninetyFivePercentRule({
   );
 }
 
-interface CapeBasedOptions {
+export interface CapeBasedOptions {
   portfolioTotalValue: number;
   yearMarketData: YearData;
   inflation: number;
