@@ -28,8 +28,15 @@ export default function runSimulations(
 
   const startYears = getStartYears(
     _.map(marketData.byYear, byYear => byYear.year),
-    Number(lengthOfRetirement.numberOfYears),
-    historicalDataRange.useAllHistoricalData ? undefined : historicalDataRange
+    {
+      duration: Number(lengthOfRetirement.numberOfYears),
+      firstYear: historicalDataRange.useAllHistoricalData
+        ? undefined
+        : historicalDataRange.firstYear,
+      lastYear: historicalDataRange.useAllHistoricalData
+        ? undefined
+        : historicalDataRange.lastYear,
+    }
   );
 
   const rebalancePortfolioAnnually = false;
