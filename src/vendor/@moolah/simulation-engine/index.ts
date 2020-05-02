@@ -6,7 +6,7 @@ import {
   Simulation,
 } from './types';
 import asyncMap from './utils/async-map';
-import calculateDuration from './utils/calculate-duration';
+import getStartYears from './utils/get-start-years';
 import getFirstYearStartPortfolio from './utils/get-first-year-start-portfolio';
 import runAnalysis from './utils/run-analysis';
 
@@ -26,11 +26,11 @@ export default function runSimulations(
     marketData,
   } = inputs;
 
-  const { lengthOfSimulation, startYears } = calculateDuration({
-    allYears: _.map(marketData.byYear, byYear => byYear.year),
-    lengthOfRetirement,
-    historicalDataRange,
-  });
+  const startYears = getStartYears(
+    _.map(marketData.byYear, byYear => byYear.year),
+    Number(lengthOfRetirement.numberOfYears),
+    historicalDataRange.useAllHistoricalData ? undefined : historicalDataRange
+  );
 
   const rebalancePortfolioAnnually = false;
   const firstYearStartPortfolio = getFirstYearStartPortfolio({
@@ -56,7 +56,7 @@ export default function runSimulations(
         withdrawalStrategy,
         additionalWithdrawals,
         additionalIncome,
-        duration: lengthOfSimulation,
+        duration: lengthOfRetirement.numberOfYears,
         marketData,
       }),
     simulations => {
