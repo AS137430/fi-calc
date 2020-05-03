@@ -33,4 +33,4 @@ These are npm scripts that should help you with development.
 
 - `npm start`: Develop locally
 - `npm test`: Run the tests with a watcher
-- `npm run test -- --coverage`: Generate a coverage report
+- `npm run test-coverage`: Generate a coverage report

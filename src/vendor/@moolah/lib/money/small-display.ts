@@ -13,12 +13,11 @@ export interface SmallUnitValue {
 
 export default function smallDisplay(
   value: number,
-  minimum: number = 3,
   magnitude: SmallDisplayMagnitude = SmallDisplayMagnitude.short
 ): SmallUnitValue {
   const rounded = Math.round(value);
   const positive = Math.abs(rounded);
-  const val = String(positive);
+  const stringValue = String(positive);
   let prefix;
   if (rounded > 0) {
     prefix = '+';
@@ -30,53 +29,56 @@ export default function smallDisplay(
 
   const isShortMagnitude = magnitude === SmallDisplayMagnitude.short;
 
-  if (val.length <= minimum) {
+  if (stringValue.length <= 3) {
     return {
       value: Number(
-        formatForDisplay(Number(val), { digits: 0, includeDollarSign: false })
+        formatForDisplay(positive, {
+          digits: 0,
+          includeDollarSign: false,
+        })
       ),
       magnitude: '',
       prefix,
     };
-  } else if (val.length === 4) {
+  } else if (stringValue.length === 4) {
     return {
-      value: Number(val.slice(0, -2)) / 10,
+      value: Number(stringValue.slice(0, -2)) / 10,
       magnitude: isShortMagnitude ? 'k' : 'k',
       prefix,
     };
-  } else if (val.length <= 6) {
+  } else if (stringValue.length <= 6) {
     return {
-      value: Number(val.slice(0, -3)),
+      value: Number(stringValue.slice(0, -3)),
       magnitude: isShortMagnitude ? 'k' : 'k',
       prefix,
     };
-  } else if (val.length === 7) {
+  } else if (stringValue.length === 7) {
     return {
-      value: Number(val.slice(0, -5)) / 10,
+      value: Number(stringValue.slice(0, -5)) / 10,
       magnitude: isShortMagnitude ? 'mil' : 'million',
       prefix,
     };
-  } else if (val.length <= 9) {
+  } else if (stringValue.length <= 9) {
     return {
-      value: Number(val.slice(0, -6)),
+      value: Number(stringValue.slice(0, -6)),
       magnitude: isShortMagnitude ? 'mil' : 'million',
       prefix,
     };
-  } else if (val.length === 10) {
+  } else if (stringValue.length === 10) {
     return {
-      value: Number(val.slice(0, -8)) / 10,
+      value: Number(stringValue.slice(0, -8)) / 10,
       magnitude: isShortMagnitude ? 'bil' : 'billion',
       prefix,
     };
-  } else if (val.length <= 12) {
+  } else if (stringValue.length <= 12) {
     return {
-      value: Number(val.slice(0, -9)),
+      value: Number(stringValue.slice(0, -9)),
       magnitude: isShortMagnitude ? 'bil' : 'billion',
       prefix,
     };
   } else {
     return {
-      value: Number(val.slice(0, -12)),
+      value: Number(stringValue.slice(0, -12)),
       magnitude: '…',
       prefix,
     };

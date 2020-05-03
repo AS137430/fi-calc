@@ -1,82 +1,46 @@
 import _ from 'lodash';
-import { inflationFromCpi } from '../../@moolah/lib';
-import { MarketData } from '../../computed-market-data/types';
-import withdrawal from './withdrawal';
-import adjustPortfolioInvestment from './adjust-portfolio-investment';
-import {
-  YearResult,
-  WithdrawalStrategies,
-  Portfolio,
-  AdditionalWithdrawals,
-  ResultsByYear,
-} from './types';
+import { YearData } from '../../computed-market-data/types';
+import adjustPortfolioInvestment from './utils/adjust-portfolio-investment';
+import { YearResult, Portfolio, AdditionalWithdrawals } from './types';
 
 interface SimulateOneYearOptions {
-  startYear: number;
-  yearsRemaining: number;
-  rebalancePortfolioAnnually: boolean;
-  isFirstYear: boolean;
+  yearNumber: number;
   year: number;
-  previousResults: YearResult;
-  resultsByYear: ResultsByYear;
-  marketData: MarketData;
-  firstYearCpi: number;
-  lowestValue: number;
-  withdrawalConfiguration: any;
-  firstYearStartPortfolio: Portfolio;
-  portfolio: Portfolio;
-  withdrawalMethod: WithdrawalStrategies;
+
+  rebalancePortfolioAnnually: boolean;
+  startPortfolio: Portfolio;
+
   additionalWithdrawalsForYear: AdditionalWithdrawals;
   additionalIncomeForYear: AdditionalWithdrawals;
-  n: number;
+
+  yearMarketData: YearData;
+
+  firstYearStartPortfolio: Portfolio;
+
+  withdrawalAmount: number;
+  cumulativeInflationSinceFirstYear: number;
+  cpi: number;
 }
 
 export default function simulateOneYear({
-  n,
-  yearsRemaining,
-  startYear,
-  rebalancePortfolioAnnually,
-  isFirstYear,
+  yearNumber,
   year,
-  previousResults,
-  resultsByYear,
-  marketData,
-  firstYearCpi,
-  withdrawalMethod,
-  withdrawalConfiguration,
-  lowestValue,
-  firstYearStartPortfolio,
-  portfolio,
+
+  rebalancePortfolioAnnually,
+  startPortfolio,
+
   additionalWithdrawalsForYear,
   additionalIncomeForYear,
+
+  yearMarketData,
+
+  firstYearStartPortfolio,
+
+  cpi,
+  withdrawalAmount,
+  cumulativeInflationSinceFirstYear,
 }: SimulateOneYearOptions): YearResult | null {
-  const startPortfolio = isFirstYear
-    ? firstYearStartPortfolio
-    : resultsByYear[n - 1].endPortfolio;
-
   const yearStartValue = startPortfolio.totalValue;
-
-  const yearMarketData = marketData[year];
-  const currentCpi = Number(yearMarketData.cpi);
-
-  const cumulativeInflationSinceFirstYear = inflationFromCpi({
-    startCpi: Number(firstYearCpi),
-    endCpi: currentCpi,
-  });
-
-  const withdrawalAmount = withdrawal[withdrawalMethod]({
-    ...withdrawalConfiguration,
-    previousResults,
-    firstYearStartPortfolio,
-    isFirstYear,
-    yearMarketData,
-    yearsRemaining,
-    firstYearCpi: Number(firstYearCpi),
-    cpi: currentCpi,
-    portfolioTotalValue: yearStartValue,
-    inflation: cumulativeInflationSinceFirstYear,
-  });
-
   const additionalIncomeAmount = additionalIncomeForYear.reduce(
     (result, withdrawal) => {
       if (!withdrawal.inflationAdjusted) {
@@ -118,7 +82,7 @@ export default function simulateOneYear({
   const isOutOfMoneyAtEnd = portfolioValueBeforeMarketChanges === 0;
 
   let adjustedInvestmentValues = _.map(
-    portfolio.investments,
+    firstYearStartPortfolio.investments,
     (investment, index) =>
       adjustPortfolioInvestment({
         portfolioValueBeforeMarketChanges,
@@ -142,10 +106,6 @@ export default function simulateOneYear({
     (endValue / cumulativeInflationSinceFirstYear).toFixed(2)
   );
 
-  if (endValue < lowestValue) {
-    lowestValue = endValue;
-  }
-
   const totalWithdrawalAmountInFirstYearDollars = Number(
     (totalWithdrawalAmount / cumulativeInflationSinceFirstYear).toFixed(2)
   );
@@ -159,9 +119,10 @@ export default function simulateOneYear({
   return {
     year,
     month: 1,
+    yearNumber,
     isOutOfMoneyAtEnd,
     marketData: yearMarketData,
-    startCpi: currentCpi,
+    startCpi: cpi,
     cumulativeInflationSinceFirstYear,
     totalWithdrawalAmount,
     baseWithdrawalAmount,

@@ -1,23 +1,15 @@
-import { inflationFromCpi, clamp } from '../../@moolah/lib';
-import { YearData } from '../../computed-market-data/types';
-import { WithdrawalStrategies, Portfolio, YearResult } from './types';
+import { inflationFromCpi, clamp } from '../../../@moolah/lib';
 
-// These are different methods to calculate the withdrawal amount
-// for a given year.
-// They all receive the same arguments.
-
-interface WithdrawalOptions {
-  firstYearStartPortfolio: Portfolio;
-  isFirstYear: boolean;
-  firstYearWithdrawal: number;
-  inflation: number;
+export interface GuytonKlingerOptions {
   yearsRemaining: number;
+  inflation: number;
+  isFirstYear: boolean;
   cpi: number;
   firstYearCpi: number;
   portfolioTotalValue: number;
-  percentageOfPortfolio: number;
   minWithdrawal: number;
   maxWithdrawal: number;
+  firstYearStartPortolioTotalValue: number;
   gkInitialWithdrawal: number;
   gkWithdrawalUpperLimit: number;
   gkWithdrawalLowerLimit: number;
@@ -25,43 +17,9 @@ interface WithdrawalOptions {
   gkLowerLimitAdjustment: number;
   gkIgnoreLastFifteenYears: boolean;
   gkModifiedWithdrawalRule: boolean;
-  yearMarketData: YearData;
-  previousResults: YearResult;
-
-  ninetyFiveInitialRate: number;
-  ninetyFivePercentage: number;
-
-  capeWithdrawalRate: number;
-  capeWeight: number;
-  avgMarketDataCape: number;
-}
-
-function inflationAdjusted({
-  inflation,
-  firstYearWithdrawal,
-}: WithdrawalOptions): number {
-  return inflation * firstYearWithdrawal;
-}
-
-function notInflationAdjusted({
-  firstYearWithdrawal,
-}: WithdrawalOptions): number {
-  return firstYearWithdrawal;
-}
-
-function portfolioPercent({
-  inflation,
-  portfolioTotalValue,
-  percentageOfPortfolio,
-  minWithdrawal,
-  maxWithdrawal,
-}: WithdrawalOptions): number {
-  const naiveComputation = portfolioTotalValue * percentageOfPortfolio;
-  return clamp(
-    naiveComputation,
-    inflation * minWithdrawal,
-    inflation * maxWithdrawal
-  );
+  stockMarketGrowth: number;
+  previousYearBaseWithdrawalAmount: number;
+  previousYearCpi: number;
 }
 
 // Source for this calculation:
@@ -72,7 +30,7 @@ function portfolioPercent({
 //
 // I also referenced this excellent blog post:
 // https://jsevy.com/wordpress/index.php/finance-and-retirement/retirement-withdrawal-strategies-guyton-klinger-as-a-happy-medium/
-function guytonKlinger({
+export default function guytonKlinger({
   yearsRemaining,
   inflation,
   isFirstYear,
@@ -80,18 +38,19 @@ function guytonKlinger({
   firstYearCpi,
   portfolioTotalValue,
   gkInitialWithdrawal,
-  firstYearStartPortfolio,
+  firstYearStartPortolioTotalValue,
   gkWithdrawalUpperLimit,
   gkWithdrawalLowerLimit,
   gkUpperLimitAdjustment,
   gkLowerLimitAdjustment,
   gkIgnoreLastFifteenYears,
   gkModifiedWithdrawalRule,
-  previousResults,
-  yearMarketData,
   minWithdrawal,
   maxWithdrawal,
-}: WithdrawalOptions): number {
+  stockMarketGrowth,
+  previousYearBaseWithdrawalAmount,
+  previousYearCpi,
+}: GuytonKlingerOptions): number {
   // The first step in the GK computation is determining how much we withdrew last year. If we're in the
   // first year, then it's just our initial withdrawal value. Otherwise, we look at our previous year's
   // results and grab it from there.
@@ -103,9 +62,9 @@ function guytonKlinger({
   //   Adjustment: we may increase it by a little bit (Prosperity Rule / gkLowerLimitAdjustment)
   const previousWithdrawal = isFirstYear
     ? gkInitialWithdrawal
-    : previousResults.baseWithdrawalAmount;
+    : previousYearBaseWithdrawalAmount;
 
-  const prevCpi = isFirstYear ? firstYearCpi : previousResults.startCpi;
+  const prevCpi = isFirstYear ? firstYearCpi : previousYearCpi;
   const inflationFromPreviousYear = inflationFromCpi({
     startCpi: prevCpi,
     endCpi: cpi,
@@ -136,7 +95,7 @@ function guytonKlinger({
     const inflationAdjustedInitialWithdrawal = gkInitialWithdrawal * inflation;
 
     // Next, we find the answer to (1) by calculating our returns
-    const thisYearTotalReturn = yearMarketData.stockMarketGrowth;
+    const thisYearTotalReturn = stockMarketGrowth;
     // NOTE: this *only* works right now because this calculator restricts you to equities! When I add in bonds and other
     // asset types, I'll need to smarten this up.
     const thisYearTotalReturnIsNegative = thisYearTotalReturn < 0;
@@ -193,7 +152,7 @@ function guytonKlinger({
   // To determine if we need to adjust our withdrawal, we first compute the initial year's % withdrawal. For
   // instance, 40k out of $1mil would be a 4% withdrawal.
   const initialWithdrawalRate =
-    gkInitialWithdrawal / firstYearStartPortfolio.totalValue;
+    gkInitialWithdrawal / firstYearStartPortolioTotalValue;
 
   // We use that initial withdrawal rate to compute the max/min withdrawals that apply for every subsequent year
   // This is "Exceeds" in the equations above
@@ -245,71 +204,3 @@ function guytonKlinger({
     inflation * maxWithdrawal
   );
 }
-
-// Algorithm from "Work Less, Live More"
-// Clarified by a post on this forum: https://www.early-retirement.org/forums/f28/question-on-the-95-rule-20484.html
-function ninetyFivePercentRule({
-  ninetyFiveInitialRate,
-  firstYearStartPortfolio,
-  ninetyFivePercentage,
-  portfolioTotalValue,
-  previousResults,
-  isFirstYear,
-  inflation,
-  minWithdrawal,
-  maxWithdrawal,
-}: WithdrawalOptions): number {
-  const firstYearWithdrawal =
-    (firstYearStartPortfolio.totalValue * ninetyFiveInitialRate) / 100;
-
-  if (isFirstYear) {
-    return firstYearWithdrawal;
-  }
-
-  const previousWithdrawal = previousResults.baseWithdrawalAmount;
-  const reducedPreviousWithdrawal =
-    (previousWithdrawal * ninetyFivePercentage) / 100;
-  const currentWithdrawal = (portfolioTotalValue * ninetyFiveInitialRate) / 100;
-
-  return clamp(
-    Math.max(reducedPreviousWithdrawal, currentWithdrawal),
-    inflation * minWithdrawal,
-    inflation * maxWithdrawal
-  );
-}
-
-// This method uses the CAEY (CAEY = 1/CAPE) to determine withdrawal rates.
-// This withdrawal method is included in cFIREsim, but for this implementation I referenced:
-// https://earlyretirementnow.com/2017/08/30/the-ultimate-guide-to-safe-withdrawal-rates-part-18-flexibility-cape-based-rules/
-function capeBased({
-  portfolioTotalValue,
-  yearMarketData,
-  capeWithdrawalRate,
-  capeWeight,
-  avgMarketDataCape,
-  inflation,
-  minWithdrawal,
-  maxWithdrawal,
-}: WithdrawalOptions): number {
-  const capeToUse =
-    yearMarketData.cape === null ? avgMarketDataCape : yearMarketData.cape;
-  const caey = 1 / capeToUse;
-
-  const baseWithdrawalRate = capeWithdrawalRate / 100;
-  const withdrawalRate = baseWithdrawalRate + capeWeight * caey;
-
-  return clamp(
-    withdrawalRate * portfolioTotalValue,
-    inflation * minWithdrawal,
-    inflation * maxWithdrawal
-  );
-}
-
-export default {
-  [WithdrawalStrategies.inflationAdjusted]: inflationAdjusted,
-  [WithdrawalStrategies.notInflationAdjusted]: notInflationAdjusted,
-  [WithdrawalStrategies.portfolioPercent]: portfolioPercent,
-  [WithdrawalStrategies.guytonKlinger]: guytonKlinger,
-  [WithdrawalStrategies.ninetyFivePercentRule]: ninetyFivePercentRule,
-  [WithdrawalStrategies.capeBased]: capeBased,
-};

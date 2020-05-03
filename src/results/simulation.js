@@ -57,7 +57,7 @@ function yAxisLabelFromValue(value, isSmallScreen) {
   const useFullDisplay = !useSmallDisplay && !useMediumDisplay;
 
   const formatted = !useFullDisplay
-    ? smallDisplay(value, 3, useMediumDisplay ? 'medium' : 'short')
+    ? smallDisplay(value, useMediumDisplay ? 'medium' : 'short')
     : formatForDisplay(value, { digits: 0 });
 
   if (typeof formatted === 'string') {

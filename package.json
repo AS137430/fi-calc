@@ -33,6 +33,7 @@
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "test-coverage": "npm test -- --coverage --watchAll=false",
     "start-server": "node server/index.js",
     "deploy": "bash deploy/to-staging.sh",
     "deploy-staging": "bash deploy/to-staging.sh",
@@ -53,6 +54,8 @@
   ],
   "devDependencies": {
     "@types/lodash": "4.14.149",
-    "@types/react": "16.9.34"
+    "@types/react": "16.9.34",
+    "@types/react-router-dom": "5.1.5",
+    "coveralls": "3.1.0"
   }
 }

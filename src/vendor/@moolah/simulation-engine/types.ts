@@ -30,7 +30,7 @@ export interface PortfolioInvestment {
   annualGrowthAmount?: number;
 }
 
-export interface PortfolioInput {
+export interface PortfolioForm {
   bondsValue: number;
   stockInvestmentValue: number;
   stockInvestmentFees: number;
@@ -42,10 +42,14 @@ export interface Portfolio {
   investments: PortfolioInvestment[];
 }
 
-export interface WithdrawalStrategy {
+export interface WithdrawalStrategyForm {
   withdrawalStrategyName: {
     key: string;
   };
+
+  /* Shared by numerous strategies */
+  minWithdrawalLimit: number;
+  maxWithdrawalLimit: number;
 
   /* Constant Withdrawal */
   annualWithdrawal: number;
@@ -53,8 +57,7 @@ export interface WithdrawalStrategy {
 
   /* Percentage of Portfolio */
   percentageOfPortfolio: number;
-  minWithdrawalLimit: number;
-  maxWithdrawalLimit: number;
+
   minWithdrawalLimitEnabled: boolean;
   maxWithdrawalLimitEnabled: boolean;
 
@@ -89,6 +92,7 @@ export enum WithdrawalStrategies {
 }
 
 export interface YearResult {
+  yearNumber: number;
   year: number;
   month: number;
 
@@ -141,8 +145,8 @@ export interface MarketDataInput {
 
 export interface RunSimulationsOptions {
   lengthOfRetirement: LengthOfRetirement;
-  withdrawalStrategy: WithdrawalStrategy;
-  portfolio: PortfolioInput;
+  withdrawalStrategy: WithdrawalStrategyForm;
+  portfolio: PortfolioForm;
   historicalDataRange: HistoricalDataRange;
   additionalWithdrawals: AdditionalWithdrawals;
   additionalIncome: AdditionalWithdrawals;
