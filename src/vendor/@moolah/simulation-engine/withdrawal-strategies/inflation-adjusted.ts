@@ -1,3 +1,5 @@
+import { WithdrawalReturn } from './types';
+
 export interface InflationAdjustedOptions {
   inflation: number;
   firstYearWithdrawal: number;
@@ -6,6 +8,9 @@ export interface InflationAdjustedOptions {
 export default function inflationAdjusted({
   inflation,
   firstYearWithdrawal,
-}: InflationAdjustedOptions): number {
-  return inflation * firstYearWithdrawal;
+}: InflationAdjustedOptions): WithdrawalReturn {
+  return {
+    value: inflation * firstYearWithdrawal,
+    meta: {},
+  };
 }

@@ -1,4 +1,5 @@
 import { clamp } from '../../../@moolah/lib';
+import { WithdrawalReturn } from './types';
 
 export interface NinetyFivePercentRuleOptions {
   initialWithdrawalRate: number;
@@ -23,21 +24,27 @@ export default function ninetyFivePercentRule({
   previousYearWithdrawalPercentage = 0.95,
   minWithdrawal = 0,
   maxWithdrawal = Infinity,
-}: NinetyFivePercentRuleOptions): number {
+}: NinetyFivePercentRuleOptions): WithdrawalReturn {
   const firstYearWithdrawal =
     firstYearStartPortolioTotalValue * initialWithdrawalRate;
 
   if (isFirstYear) {
-    return clamp(firstYearWithdrawal, minWithdrawal, maxWithdrawal);
+    return {
+      value: clamp(firstYearWithdrawal, minWithdrawal, maxWithdrawal),
+      meta: {},
+    };
   }
 
   const reducedPreviousWithdrawal =
     previousYearWithdrawalAmount * previousYearWithdrawalPercentage;
   const currentWithdrawal = portfolioTotalValue * initialWithdrawalRate;
 
-  return clamp(
-    Math.max(reducedPreviousWithdrawal, currentWithdrawal),
-    minWithdrawal,
-    maxWithdrawal
-  );
+  return {
+    value: clamp(
+      Math.max(reducedPreviousWithdrawal, currentWithdrawal),
+      minWithdrawal,
+      maxWithdrawal
+    ),
+    meta: {},
+  };
 }

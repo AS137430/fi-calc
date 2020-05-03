@@ -10,7 +10,7 @@ describe('capeBased', () => {
         capeWeight: 0,
       });
 
-      expect(withdrawal).toEqual(40000);
+      expect(withdrawal.value).toEqual(40000);
     });
 
     it('respects min withdrawal', () => {
@@ -22,7 +22,7 @@ describe('capeBased', () => {
         capeWeight: 0,
       });
 
-      expect(withdrawal).toEqual(50000);
+      expect(withdrawal.value).toEqual(50000);
     });
 
     it('respects max withdrawal', () => {
@@ -34,7 +34,7 @@ describe('capeBased', () => {
         capeWeight: 0,
       });
 
-      expect(withdrawal).toEqual(30000);
+      expect(withdrawal.value).toEqual(30000);
     });
   });
 
@@ -52,7 +52,7 @@ describe('capeBased', () => {
         capeWeight: 0.25,
       });
 
-      expect(withdrawal).toEqual(2000);
+      expect(withdrawal.value).toEqual(2000);
     });
   });
 });

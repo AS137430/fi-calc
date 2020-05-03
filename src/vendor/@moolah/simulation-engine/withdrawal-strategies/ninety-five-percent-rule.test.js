@@ -21,7 +21,7 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 0,
-        })
+        }).value
       ).toBe(40000);
     });
 
@@ -35,7 +35,7 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 40000,
-        })
+        }).value
       ).toBe(41856);
     });
 
@@ -49,7 +49,7 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 41856,
-        })
+        }).value
         // $40,985 in the book (he rounds the decimal away)
       ).toBe(40985.4);
     });
@@ -64,7 +64,7 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 40985,
-        })
+        }).value
         // $38,936 in the book (he rounds)
       ).toBe(38935.75);
     });
@@ -79,7 +79,7 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 38936,
-        })
+        }).value
         // $37,136 in the book (he rounds)
       ).toBe(37136.36);
     });
@@ -96,7 +96,7 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 0,
-        })
+        }).value
       ).toBe(4000);
     });
 
@@ -112,7 +112,7 @@ describe('ninetyFive', () => {
           previousYearWithdrawalAmount: 0,
 
           minWithdrawal: 5000,
-        })
+        }).value
       ).toBe(5000);
     });
 
@@ -128,7 +128,7 @@ describe('ninetyFive', () => {
           previousYearWithdrawalAmount: 0,
 
           maxWithdrawal: 2000,
-        })
+        }).value
       ).toBe(2000);
     });
   });
@@ -144,7 +144,7 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 4000,
-        })
+        }).value
       ).toBe(8000);
     });
 
@@ -158,7 +158,7 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 4000,
-        })
+        }).value
       ).toBe(3800);
     });
 
@@ -173,7 +173,7 @@ describe('ninetyFive', () => {
 
           previousYearWithdrawalAmount: 4000,
           previousYearWithdrawalPercentage: 0.99,
-        })
+        }).value
       ).toBe(3960);
     });
 
@@ -189,7 +189,7 @@ describe('ninetyFive', () => {
           previousYearWithdrawalAmount: 4000,
 
           minWithdrawal: 20000,
-        })
+        }).value
       ).toBe(20000);
     });
 
@@ -205,7 +205,7 @@ describe('ninetyFive', () => {
           previousYearWithdrawalAmount: 4000,
 
           maxWithdrawal: 2000,
-        })
+        }).value
       ).toBe(2000);
     });
   });

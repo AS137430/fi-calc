@@ -6,7 +6,7 @@ describe('portfolioPercent', () => {
       portfolioPercent({
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
-      })
+      }).value
     ).toBe(40000);
   });
 
@@ -16,7 +16,7 @@ describe('portfolioPercent', () => {
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
         minWithdrawal: 50000,
-      })
+      }).value
     ).toBe(50000);
   });
 
@@ -26,7 +26,7 @@ describe('portfolioPercent', () => {
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
         maxWithdrawal: 35000,
-      })
+      }).value
     ).toBe(35000);
   });
 
@@ -36,7 +36,7 @@ describe('portfolioPercent', () => {
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
         minWithdrawal: 50000,
-      })
+      }).value
     ).toBe(50000);
   });
 
@@ -46,7 +46,7 @@ describe('portfolioPercent', () => {
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
         maxWithdrawal: 35000,
-      })
+      }).value
     ).toBe(35000);
   });
 });

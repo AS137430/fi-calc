@@ -1,11 +1,11 @@
 import { inflationFromCpi, clamp } from '../../../@moolah/lib';
+import { WithdrawalReturn } from './types';
 
 export interface GuytonKlingerOptions {
   yearsRemaining: number;
   inflation: number;
   isFirstYear: boolean;
   cpi: number;
-  firstYearCpi: number;
   portfolioTotalValue: number;
   minWithdrawal: number;
   maxWithdrawal: number;
@@ -22,6 +22,14 @@ export interface GuytonKlingerOptions {
   previousYearCpi: number;
 }
 
+export interface GuytonKlingerMeta {
+  modifiedWithdrawalRuleApplied: boolean;
+  capitalPreservationRuleApplied: boolean;
+  prosperityRuleApplied: boolean;
+}
+
+export type GuytonKlingerReturn = WithdrawalReturn<GuytonKlingerMeta>;
+
 // Source for this calculation:
 // "Using Decision Rules to Create Retirement Withdrawal Profiles"
 // Author: William Klinger
@@ -35,7 +43,6 @@ export default function guytonKlinger({
   inflation,
   isFirstYear,
   cpi,
-  firstYearCpi,
   portfolioTotalValue,
   gkInitialWithdrawal,
   firstYearStartPortolioTotalValue,
@@ -50,7 +57,7 @@ export default function guytonKlinger({
   stockMarketGrowth,
   previousYearBaseWithdrawalAmount,
   previousYearCpi,
-}: GuytonKlingerOptions): number {
+}: GuytonKlingerOptions): GuytonKlingerReturn {
   // The first step in the GK computation is determining how much we withdrew last year. If we're in the
   // first year, then it's just our initial withdrawal value. Otherwise, we look at our previous year's
   // results and grab it from there.
@@ -64,11 +71,12 @@ export default function guytonKlinger({
     ? gkInitialWithdrawal
     : previousYearBaseWithdrawalAmount;
 
-  const prevCpi = isFirstYear ? firstYearCpi : previousYearCpi;
-  const inflationFromPreviousYear = inflationFromCpi({
-    startCpi: prevCpi,
-    endCpi: cpi,
-  });
+  const inflationFromPreviousYear = isFirstYear
+    ? 1
+    : inflationFromCpi({
+        startCpi: previousYearCpi,
+        endCpi: cpi,
+      });
 
   const inflationAdjustedPrevYearWithdrawal =
     previousWithdrawal * inflationFromPreviousYear;
@@ -198,9 +206,16 @@ export default function guytonKlinger({
 
   // Alright! The last thing for us to do is to apply any adjustment, and we're done.
   // Phew. That was complicated, but we made it!
-  return clamp(
-    withdrawalAmountToUse * withdrawalAdjustment,
-    minWithdrawal,
-    maxWithdrawal
-  );
+  return {
+    value: clamp(
+      withdrawalAmountToUse * withdrawalAdjustment,
+      minWithdrawal,
+      maxWithdrawal
+    ),
+    meta: {
+      modifiedWithdrawalRuleApplied: false,
+      capitalPreservationRuleApplied: false,
+      prosperityRuleApplied: false,
+    },
+  };
 }

@@ -1,4 +1,5 @@
 import { clamp } from '../../../@moolah/lib';
+import { WithdrawalReturn } from './types';
 
 export interface PortfolioPercentOptions {
   percentageOfPortfolio: number;
@@ -14,7 +15,11 @@ export default function portfolioPercent({
 
   minWithdrawal = 0,
   maxWithdrawal = Infinity,
-}: PortfolioPercentOptions): number {
+}: PortfolioPercentOptions): WithdrawalReturn {
   const naiveComputation = portfolioTotalValue * percentageOfPortfolio;
-  return clamp(naiveComputation, minWithdrawal, maxWithdrawal);
+
+  return {
+    value: clamp(naiveComputation, minWithdrawal, maxWithdrawal),
+    meta: {},
+  };
 }
