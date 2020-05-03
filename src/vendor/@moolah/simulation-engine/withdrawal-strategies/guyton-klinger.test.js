@@ -87,6 +87,35 @@ describe('guytonKlinger', () => {
         });
       });
 
+      it('can be disabled', () => {
+        const withdrawal = guytonKlinger({
+          // adjusting this for inflation = 46865
+          previousYearBaseWithdrawalAmount: 45500,
+          // first year withdrawal with this inflation = 40,800
+          inflation: 1.02,
+          // this ensures condition (1) is TRUE
+          stockMarketGrowth: -0.05,
+
+          gkModifiedWithdrawalRule: false,
+          yearsRemaining: 25,
+          isFirstYear: false,
+          cpi: 103,
+          previousYearCpi: 100,
+          portfolioTotalValue: 1200000,
+          gkInitialWithdrawal: 40000,
+          firstYearStartPortolioTotalValue: 1000000,
+        });
+
+        expect(withdrawal).toEqual({
+          value: 46865,
+          meta: {
+            modifiedWithdrawalRuleApplied: false,
+            capitalPreservationRuleApplied: false,
+            prosperityRuleApplied: false,
+          },
+        });
+      });
+
       it('does not apply when condition (1) isnt met', () => {
         const withdrawal = guytonKlinger({
           // adjusting this for inflation = 46865
