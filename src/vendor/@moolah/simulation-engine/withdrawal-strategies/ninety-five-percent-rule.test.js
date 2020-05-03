@@ -78,6 +78,21 @@ describe('ninetyFive', () => {
       ).toBe(3800);
     });
 
+    it('allows you to customize the % of previous withdrawal', () => {
+      expect(
+        ninetyFivePercentRule({
+          isFirstYear: false,
+
+          firstYearStartPortolioTotalValue: 100000,
+          portfolioTotalValue: 50000,
+          initialWithdrawalRate: 0.04,
+
+          previousYearWithdrawalAmount: 4000,
+          previousYearWithdrawalPercentage: 0.99,
+        })
+      ).toBe(3960);
+    });
+
     it('respects min withdrawal', () => {
       expect(
         ninetyFivePercentRule({
