@@ -1,6 +1,90 @@
 import ninetyFivePercentRule from './ninety-five-percent-rule';
 
 describe('ninetyFive', () => {
+  // The following tests are from:
+  //
+  // The Work Less, Live More Workbook.
+  // 2007
+  // Bob Clyatt
+  //
+  // Chapter 4. Financing Your Retirement
+  // Page 128
+  // "Using the 95% Rule" chart
+  describe('The Work Less, Live More Workbook test cases', () => {
+    it('Year 1', () => {
+      expect(
+        ninetyFivePercentRule({
+          isFirstYear: true,
+
+          firstYearStartPortolioTotalValue: 1000000,
+          portfolioTotalValue: 1000000,
+          initialWithdrawalRate: 0.04,
+
+          previousYearWithdrawalAmount: 0,
+        })
+      ).toBe(40000);
+    });
+
+    it('Year 2', () => {
+      expect(
+        ninetyFivePercentRule({
+          isFirstYear: false,
+
+          firstYearStartPortolioTotalValue: 1000000,
+          portfolioTotalValue: 1046400,
+          initialWithdrawalRate: 0.04,
+
+          previousYearWithdrawalAmount: 40000,
+        })
+      ).toBe(41856);
+    });
+
+    it('Year 3', () => {
+      expect(
+        ninetyFivePercentRule({
+          isFirstYear: false,
+
+          firstYearStartPortolioTotalValue: 1000000,
+          portfolioTotalValue: 1024635,
+          initialWithdrawalRate: 0.04,
+
+          previousYearWithdrawalAmount: 41856,
+        })
+        // $40,985 in the book (he rounds the decimal away)
+      ).toBe(40985.4);
+    });
+
+    it('Year 4', () => {
+      expect(
+        ninetyFivePercentRule({
+          isFirstYear: false,
+
+          firstYearStartPortolioTotalValue: 1000000,
+          portfolioTotalValue: 914794,
+          initialWithdrawalRate: 0.04,
+
+          previousYearWithdrawalAmount: 40985,
+        })
+        // $38,936 in the book (he rounds)
+      ).toBe(38935.75);
+    });
+
+    it('Year 5', () => {
+      expect(
+        ninetyFivePercentRule({
+          isFirstYear: false,
+
+          firstYearStartPortolioTotalValue: 1000000,
+          portfolioTotalValue: 928409,
+          initialWithdrawalRate: 0.04,
+
+          previousYearWithdrawalAmount: 38936,
+        })
+        // $37,136 in the book (he rounds)
+      ).toBe(37136.36);
+    });
+  });
+
   describe('first year', () => {
     it('uses the initial withdrawal rate', () => {
       expect(
