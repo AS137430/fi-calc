@@ -83,8 +83,7 @@ export enum InvestmentType {
 }
 
 export enum WithdrawalStrategies {
-  inflationAdjusted = 'inflationAdjusted',
-  notInflationAdjusted = 'notInflationAdjusted',
+  constantDollar = 'constantDollar',
   portfolioPercent = 'portfolioPercent',
   guytonKlinger = 'guytonKlinger',
   ninetyFivePercentRule = 'ninetyFivePercentRule',
