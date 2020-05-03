@@ -1,14 +1,14 @@
 import { clamp } from '../../../@moolah/lib';
+import { WithdrawalReturn } from './types';
 
 export interface CapeBasedOptions {
   portfolioTotalValue: number;
   cape: number;
-  inflation: number;
-  capeWithdrawalRate: number;
+  withdrawalRate: number;
   capeWeight: number;
-  avgMarketDataCape: number;
-  minWithdrawal: number;
-  maxWithdrawal: number;
+
+  minWithdrawal?: number;
+  maxWithdrawal?: number;
 }
 
 // This method uses the CAEY (CAEY = 1/CAPE) to determine withdrawal rates.
@@ -16,21 +16,21 @@ export interface CapeBasedOptions {
 // https://earlyretirementnow.com/2017/08/30/the-ultimate-guide-to-safe-withdrawal-rates-part-18-flexibility-cape-based-rules/
 export default function capeBased({
   portfolioTotalValue,
-  capeWithdrawalRate,
-  inflation,
+  withdrawalRate,
   capeWeight,
   cape,
-  minWithdrawal,
-  maxWithdrawal,
-}: CapeBasedOptions): number {
+  minWithdrawal = 0,
+  maxWithdrawal = Infinity,
+}: CapeBasedOptions): WithdrawalReturn {
   const caey = 1 / cape;
+  const completeWithdrawalRate = withdrawalRate + capeWeight * caey;
 
-  const baseWithdrawalRate = capeWithdrawalRate / 100;
-  const withdrawalRate = baseWithdrawalRate + capeWeight * caey;
-
-  return clamp(
-    withdrawalRate * portfolioTotalValue,
-    inflation * minWithdrawal,
-    inflation * maxWithdrawal
-  );
+  return {
+    value: clamp(
+      completeWithdrawalRate * portfolioTotalValue,
+      minWithdrawal,
+      maxWithdrawal
+    ),
+    meta: {},
+  };
 }

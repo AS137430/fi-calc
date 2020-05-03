@@ -181,9 +181,9 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       endCpi: currentCpi,
     });
 
-    const minWithdrawal = minWithdrawalLimitEnabled ? minWithdrawalLimit : 0;
+    const minWithdrawal = minWithdrawalLimitEnabled ? minWithdrawalLimit * cumulativeInflationSinceFirstYear : 0;
     const maxWithdrawal = maxWithdrawalLimitEnabled
-          ? maxWithdrawalLimit
+          ? maxWithdrawalLimit * cumulativeInflationSinceFirstYear
           : Number.MAX_SAFE_INTEGER;
 
     let withdrawalAmount:number = 0;
@@ -191,19 +191,18 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       withdrawalAmount = withdrawalStrategies.inflationAdjusted({
         inflation: cumulativeInflationSinceFirstYear,
         firstYearWithdrawal: firstYearWithdrawal
-      });
+      }).value;
     } else if (withdrawalMethod === WithdrawalStrategies.notInflationAdjusted) {
       withdrawalAmount = withdrawalStrategies.notInflationAdjusted({
         firstYearWithdrawal: firstYearWithdrawal
-      });
+      }).value;
     } else if (withdrawalMethod === WithdrawalStrategies.portfolioPercent) {
       withdrawalAmount = withdrawalStrategies.portfolioPercent({
-        inflation: cumulativeInflationSinceFirstYear,
         portfolioTotalValue: yearStartValue,
         percentageOfPortfolio,
         minWithdrawal,
         maxWithdrawal,
-      });
+      }).value;
     } else if (withdrawalMethod === WithdrawalStrategies.guytonKlinger) {
       withdrawalAmount =  withdrawalStrategies.guytonKlinger({
         stockMarketGrowth: yearMarketData.stockMarketGrowth,
@@ -212,7 +211,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
         firstYearStartPortolioTotalValue: firstYearStartPortfolio.totalValue,
         isFirstYear,
         portfolioTotalValue: yearStartValue,
-        firstYearCpi,
         previousYearCpi: previousResults ? previousResults.startCpi : firstYearCpi,
         yearsRemaining,
         cpi: currentCpi,
@@ -225,30 +223,27 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
         gkLowerLimitAdjustment: gkLowerLimitAdjustment,
         gkIgnoreLastFifteenYears: gkIgnoreLastFifteenYears,
         gkModifiedWithdrawalRule: gkModifiedWithdrawalRule
-      });
+      }).value;
     } else if (withdrawalMethod === WithdrawalStrategies.ninetyFivePercentRule) {
       withdrawalAmount =  withdrawalStrategies.ninetyFivePercentRule({
-        inflation: cumulativeInflationSinceFirstYear,
         isFirstYear,
         portfolioTotalValue: yearStartValue,
-        previousYearBaseWithdrawalAmount: previousResults ? previousResults.baseWithdrawalAmount : 0,
+        previousYearWithdrawalAmount: previousResults ? previousResults.baseWithdrawalAmount : 0,
         firstYearStartPortolioTotalValue: firstYearStartPortfolio.totalValue,
-        ninetyFiveInitialRate,
-        ninetyFivePercentage,
+        initialWithdrawalRate: ninetyFiveInitialRate / 100,
+        previousYearWithdrawalPercentage: ninetyFivePercentage / 100,
         minWithdrawal,
         maxWithdrawal,
-      });
+      }).value;
     } else if (withdrawalMethod === WithdrawalStrategies.capeBased) {
       withdrawalAmount = withdrawalStrategies.capeBased({
-        inflation: cumulativeInflationSinceFirstYear,
         portfolioTotalValue: yearStartValue,
-        avgMarketDataCape,
-        capeWithdrawalRate,
+        withdrawalRate: capeWithdrawalRate / 100,
         capeWeight,
         minWithdrawal,
         maxWithdrawal,
         cape: yearMarketData.cape === null ? avgMarketDataCape : yearMarketData.cape
-      });
+      }).value;
     }
 
     const yearResult = simulateOneYear({

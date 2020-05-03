@@ -1,26 +1,37 @@
 import { inflationFromCpi, clamp } from '../../../@moolah/lib';
+import { WithdrawalReturn } from './types';
 
 export interface GuytonKlingerOptions {
   yearsRemaining: number;
   inflation: number;
   isFirstYear: boolean;
   cpi: number;
-  firstYearCpi: number;
   portfolioTotalValue: number;
-  minWithdrawal: number;
-  maxWithdrawal: number;
   firstYearStartPortolioTotalValue: number;
-  gkInitialWithdrawal: number;
-  gkWithdrawalUpperLimit: number;
-  gkWithdrawalLowerLimit: number;
-  gkUpperLimitAdjustment: number;
-  gkLowerLimitAdjustment: number;
-  gkIgnoreLastFifteenYears: boolean;
-  gkModifiedWithdrawalRule: boolean;
+
   stockMarketGrowth: number;
   previousYearBaseWithdrawalAmount: number;
   previousYearCpi: number;
+
+  gkInitialWithdrawal: number;
+  gkModifiedWithdrawalRule?: boolean;
+  gkWithdrawalUpperLimit?: number;
+  gkWithdrawalLowerLimit?: number;
+  gkUpperLimitAdjustment?: number;
+  gkLowerLimitAdjustment?: number;
+  gkIgnoreLastFifteenYears?: boolean;
+
+  minWithdrawal?: number;
+  maxWithdrawal?: number;
 }
+
+export interface GuytonKlingerMeta {
+  modifiedWithdrawalRuleApplied: boolean;
+  capitalPreservationRuleApplied: boolean;
+  prosperityRuleApplied: boolean;
+}
+
+export type GuytonKlingerReturn = WithdrawalReturn<GuytonKlingerMeta>;
 
 // Source for this calculation:
 // "Using Decision Rules to Create Retirement Withdrawal Profiles"
@@ -35,22 +46,28 @@ export default function guytonKlinger({
   inflation,
   isFirstYear,
   cpi,
-  firstYearCpi,
   portfolioTotalValue,
   gkInitialWithdrawal,
   firstYearStartPortolioTotalValue,
-  gkWithdrawalUpperLimit,
-  gkWithdrawalLowerLimit,
-  gkUpperLimitAdjustment,
-  gkLowerLimitAdjustment,
-  gkIgnoreLastFifteenYears,
-  gkModifiedWithdrawalRule,
-  minWithdrawal,
-  maxWithdrawal,
+
   stockMarketGrowth,
   previousYearBaseWithdrawalAmount,
   previousYearCpi,
-}: GuytonKlingerOptions): number {
+
+  gkModifiedWithdrawalRule = true,
+  gkWithdrawalUpperLimit = 20,
+  gkWithdrawalLowerLimit = 20,
+  gkUpperLimitAdjustment = 10,
+  gkLowerLimitAdjustment = 10,
+  gkIgnoreLastFifteenYears = true,
+
+  minWithdrawal = 0,
+  maxWithdrawal = Infinity,
+}: GuytonKlingerOptions): GuytonKlingerReturn {
+  let modifiedWithdrawalRuleApplied = false;
+  let capitalPreservationRuleApplied = false;
+  let prosperityRuleApplied = false;
+
   // The first step in the GK computation is determining how much we withdrew last year. If we're in the
   // first year, then it's just our initial withdrawal value. Otherwise, we look at our previous year's
   // results and grab it from there.
@@ -64,11 +81,12 @@ export default function guytonKlinger({
     ? gkInitialWithdrawal
     : previousYearBaseWithdrawalAmount;
 
-  const prevCpi = isFirstYear ? firstYearCpi : previousYearCpi;
-  const inflationFromPreviousYear = inflationFromCpi({
-    startCpi: prevCpi,
-    endCpi: cpi,
-  });
+  const inflationFromPreviousYear = isFirstYear
+    ? 1
+    : inflationFromCpi({
+        startCpi: previousYearCpi,
+        endCpi: cpi,
+      });
 
   const inflationAdjustedPrevYearWithdrawal =
     previousWithdrawal * inflationFromPreviousYear;
@@ -114,6 +132,7 @@ export default function guytonKlinger({
       inflationWillIncreaseWithdrawal;
 
     if (freezeWithdrawal) {
+      modifiedWithdrawalRuleApplied = true;
       withdrawalAmountToUse = previousWithdrawal;
     }
   }
@@ -189,18 +208,27 @@ export default function guytonKlinger({
   }
 
   if (withdrawalIsTooMuch && considerUpperLimit) {
+    capitalPreservationRuleApplied = true;
     withdrawalAdjustment = 1 - gkUpperLimitAdjustment / 100;
   }
   // We do a similar check for when the withdrawal is too little.
   else if (withdrawalIsTooLittle) {
+    prosperityRuleApplied = true;
     withdrawalAdjustment = 1 + gkLowerLimitAdjustment / 100;
   }
 
   // Alright! The last thing for us to do is to apply any adjustment, and we're done.
   // Phew. That was complicated, but we made it!
-  return clamp(
-    withdrawalAmountToUse * withdrawalAdjustment,
-    inflation * minWithdrawal,
-    inflation * maxWithdrawal
-  );
+  return {
+    value: clamp(
+      withdrawalAmountToUse * withdrawalAdjustment,
+      minWithdrawal,
+      maxWithdrawal
+    ),
+    meta: {
+      modifiedWithdrawalRuleApplied,
+      capitalPreservationRuleApplied,
+      prosperityRuleApplied,
+    },
+  };
 }
