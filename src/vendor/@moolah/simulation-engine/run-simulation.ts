@@ -27,7 +27,6 @@ interface RunSimulationOptions {
 // TODO: type these and make them the same
 function getWithdrawalMethod(
   withdrawalStrategyName: string,
-  inflationAdjustedFirstYearWithdrawal: boolean
 ): WithdrawalStrategies {
   if (withdrawalStrategyName === 'portfolioPercent') {
     return WithdrawalStrategies.portfolioPercent;
@@ -37,11 +36,9 @@ function getWithdrawalMethod(
     return WithdrawalStrategies.ninetyFivePercentRule;
   } else if (withdrawalStrategyName === 'capeBased') {
     return WithdrawalStrategies.capeBased;
-  } else {
-    return inflationAdjustedFirstYearWithdrawal
-    ? WithdrawalStrategies.inflationAdjusted
-    : WithdrawalStrategies.notInflationAdjusted;
   }
+  
+  return WithdrawalStrategies.constantDollar;
 }
 
 // A simulation is one single possible retirement calculation. Given a start year, a "duration,"
@@ -96,10 +93,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
   type yearRanOutOfMoney = number | null;
 
   // TODO: refactor this away by typing the withdrawal form config
-  const withdrawalMethod = getWithdrawalMethod(
-    withdrawalStrategyName,
-    inflationAdjustedFirstYearWithdrawal
-  );
+  const withdrawalMethod = getWithdrawalMethod(withdrawalStrategyName);
 
   const firstYearStartPortfolio = portfolio;
   const firstYearStartPortfolioValue = firstYearStartPortfolio.totalValue;
@@ -187,13 +181,10 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
           : Number.MAX_SAFE_INTEGER;
 
     let withdrawalAmount:number = 0;
-    if (withdrawalMethod === WithdrawalStrategies.inflationAdjusted) {
-      withdrawalAmount = withdrawalStrategies.inflationAdjusted({
+    if (withdrawalMethod === WithdrawalStrategies.constantDollar) {
+      withdrawalAmount = withdrawalStrategies.constantDollar({
         inflation: cumulativeInflationSinceFirstYear,
-        firstYearWithdrawal: firstYearWithdrawal
-      }).value;
-    } else if (withdrawalMethod === WithdrawalStrategies.notInflationAdjusted) {
-      withdrawalAmount = withdrawalStrategies.notInflationAdjusted({
+        adjustForInflation: inflationAdjustedFirstYearWithdrawal,
         firstYearWithdrawal: firstYearWithdrawal
       }).value;
     } else if (withdrawalMethod === WithdrawalStrategies.portfolioPercent) {
