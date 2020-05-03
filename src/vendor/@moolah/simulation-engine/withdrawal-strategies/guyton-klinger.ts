@@ -200,7 +200,7 @@ export default function guytonKlinger({
   // Phew. That was complicated, but we made it!
   return clamp(
     withdrawalAmountToUse * withdrawalAdjustment,
-    inflation * minWithdrawal,
-    inflation * maxWithdrawal
+    minWithdrawal,
+    maxWithdrawal
   );
 }

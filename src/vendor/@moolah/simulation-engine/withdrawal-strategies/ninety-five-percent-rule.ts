@@ -8,7 +8,6 @@ export interface NinetyFivePercentRuleOptions {
   isFirstYear: boolean;
   previousYearWithdrawalPercentage?: number;
 
-  inflation?: number;
   minWithdrawal?: number;
   maxWithdrawal?: number;
 }
@@ -22,7 +21,6 @@ export default function ninetyFivePercentRule({
   portfolioTotalValue,
   previousYearWithdrawalAmount,
   previousYearWithdrawalPercentage = 0.95,
-  inflation = 1,
   minWithdrawal = 0,
   maxWithdrawal = Infinity,
 }: NinetyFivePercentRuleOptions): number {
@@ -30,11 +28,7 @@ export default function ninetyFivePercentRule({
     firstYearStartPortolioTotalValue * initialWithdrawalRate;
 
   if (isFirstYear) {
-    return clamp(
-      firstYearWithdrawal,
-      inflation * minWithdrawal,
-      inflation * maxWithdrawal
-    );
+    return clamp(firstYearWithdrawal, minWithdrawal, maxWithdrawal);
   }
 
   const reducedPreviousWithdrawal =
@@ -43,7 +37,7 @@ export default function ninetyFivePercentRule({
 
   return clamp(
     Math.max(reducedPreviousWithdrawal, currentWithdrawal),
-    inflation * minWithdrawal,
-    inflation * maxWithdrawal
+    minWithdrawal,
+    maxWithdrawal
   );
 }

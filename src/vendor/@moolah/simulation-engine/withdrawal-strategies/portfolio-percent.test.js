@@ -33,10 +33,9 @@ describe('portfolioPercent', () => {
   it('respects inflation for min', () => {
     expect(
       portfolioPercent({
-        inflation: 0.5,
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
-        minWithdrawal: 100000,
+        minWithdrawal: 50000,
       })
     ).toBe(50000);
   });
@@ -44,10 +43,9 @@ describe('portfolioPercent', () => {
   it('respects inflation for max', () => {
     expect(
       portfolioPercent({
-        inflation: 0.5,
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
-        maxWithdrawal: 70000,
+        maxWithdrawal: 35000,
       })
     ).toBe(35000);
   });

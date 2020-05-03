@@ -27,8 +27,7 @@ describe('ninetyFive', () => {
 
           previousYearWithdrawalAmount: 0,
 
-          minWithdrawal: 2500,
-          inflation: 2,
+          minWithdrawal: 5000,
         })
       ).toBe(5000);
     });
@@ -44,8 +43,7 @@ describe('ninetyFive', () => {
 
           previousYearWithdrawalAmount: 0,
 
-          maxWithdrawal: 1000,
-          inflation: 2,
+          maxWithdrawal: 2000,
         })
       ).toBe(2000);
     });
@@ -91,8 +89,7 @@ describe('ninetyFive', () => {
 
           previousYearWithdrawalAmount: 4000,
 
-          minWithdrawal: 10000,
-          inflation: 2,
+          minWithdrawal: 20000,
         })
       ).toBe(20000);
     });
@@ -108,8 +105,7 @@ describe('ninetyFive', () => {
 
           previousYearWithdrawalAmount: 4000,
 
-          maxWithdrawal: 1000,
-          inflation: 2,
+          maxWithdrawal: 2000,
         })
       ).toBe(2000);
     });

@@ -7,7 +7,6 @@ export interface CapeBasedOptions {
   capeWeight: number;
   avgMarketDataCape: number;
 
-  inflation?: number;
   minWithdrawal?: number;
   maxWithdrawal?: number;
 }
@@ -20,7 +19,6 @@ export default function capeBased({
   withdrawalRate,
   capeWeight,
   cape,
-  inflation = 1,
   minWithdrawal = 0,
   maxWithdrawal = Infinity,
 }: CapeBasedOptions): number {
@@ -29,7 +27,7 @@ export default function capeBased({
 
   return clamp(
     completeWithdrawalRate * portfolioTotalValue,
-    inflation * minWithdrawal,
-    inflation * maxWithdrawal
+    minWithdrawal,
+    maxWithdrawal
   );
 }

@@ -181,9 +181,9 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       endCpi: currentCpi,
     });
 
-    const minWithdrawal = minWithdrawalLimitEnabled ? minWithdrawalLimit : 0;
+    const minWithdrawal = minWithdrawalLimitEnabled ? minWithdrawalLimit * cumulativeInflationSinceFirstYear : 0;
     const maxWithdrawal = maxWithdrawalLimitEnabled
-          ? maxWithdrawalLimit
+          ? maxWithdrawalLimit * cumulativeInflationSinceFirstYear
           : Number.MAX_SAFE_INTEGER;
 
     let withdrawalAmount:number = 0;
@@ -198,7 +198,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       });
     } else if (withdrawalMethod === WithdrawalStrategies.portfolioPercent) {
       withdrawalAmount = withdrawalStrategies.portfolioPercent({
-        inflation: cumulativeInflationSinceFirstYear,
         portfolioTotalValue: yearStartValue,
         percentageOfPortfolio,
         minWithdrawal,
@@ -228,7 +227,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       });
     } else if (withdrawalMethod === WithdrawalStrategies.ninetyFivePercentRule) {
       withdrawalAmount =  withdrawalStrategies.ninetyFivePercentRule({
-        inflation: cumulativeInflationSinceFirstYear,
         isFirstYear,
         portfolioTotalValue: yearStartValue,
         previousYearWithdrawalAmount: previousResults ? previousResults.baseWithdrawalAmount : 0,
@@ -240,7 +238,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
       });
     } else if (withdrawalMethod === WithdrawalStrategies.capeBased) {
       withdrawalAmount = withdrawalStrategies.capeBased({
-        inflation: cumulativeInflationSinceFirstYear,
         portfolioTotalValue: yearStartValue,
         avgMarketDataCape,
         withdrawalRate: capeWithdrawalRate / 100,
