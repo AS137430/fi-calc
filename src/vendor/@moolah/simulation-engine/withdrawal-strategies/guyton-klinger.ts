@@ -7,19 +7,22 @@ export interface GuytonKlingerOptions {
   isFirstYear: boolean;
   cpi: number;
   portfolioTotalValue: number;
-  minWithdrawal: number;
-  maxWithdrawal: number;
   firstYearStartPortolioTotalValue: number;
-  gkInitialWithdrawal: number;
-  gkWithdrawalUpperLimit: number;
-  gkWithdrawalLowerLimit: number;
-  gkUpperLimitAdjustment: number;
-  gkLowerLimitAdjustment: number;
-  gkIgnoreLastFifteenYears: boolean;
-  gkModifiedWithdrawalRule: boolean;
+
   stockMarketGrowth: number;
   previousYearBaseWithdrawalAmount: number;
   previousYearCpi: number;
+
+  gkInitialWithdrawal: number;
+  gkModifiedWithdrawalRule?: boolean;
+  gkWithdrawalUpperLimit?: number;
+  gkWithdrawalLowerLimit?: number;
+  gkUpperLimitAdjustment?: number;
+  gkLowerLimitAdjustment?: number;
+  gkIgnoreLastFifteenYears?: boolean;
+
+  minWithdrawal?: number;
+  maxWithdrawal?: number;
 }
 
 export interface GuytonKlingerMeta {
@@ -46,18 +49,25 @@ export default function guytonKlinger({
   portfolioTotalValue,
   gkInitialWithdrawal,
   firstYearStartPortolioTotalValue,
-  gkWithdrawalUpperLimit,
-  gkWithdrawalLowerLimit,
-  gkUpperLimitAdjustment,
-  gkLowerLimitAdjustment,
-  gkIgnoreLastFifteenYears,
-  gkModifiedWithdrawalRule,
-  minWithdrawal,
-  maxWithdrawal,
+
   stockMarketGrowth,
   previousYearBaseWithdrawalAmount,
   previousYearCpi,
+
+  gkModifiedWithdrawalRule = true,
+  gkWithdrawalUpperLimit = 20,
+  gkWithdrawalLowerLimit = 20,
+  gkUpperLimitAdjustment = 10,
+  gkLowerLimitAdjustment = 10,
+  gkIgnoreLastFifteenYears = false,
+
+  minWithdrawal = 0,
+  maxWithdrawal = Infinity,
 }: GuytonKlingerOptions): GuytonKlingerReturn {
+  let modifiedWithdrawalRuleApplied = false;
+  let capitalPreservationRuleApplied = false;
+  let prosperityRuleApplied = false;
+
   // The first step in the GK computation is determining how much we withdrew last year. If we're in the
   // first year, then it's just our initial withdrawal value. Otherwise, we look at our previous year's
   // results and grab it from there.
@@ -122,6 +132,7 @@ export default function guytonKlinger({
       inflationWillIncreaseWithdrawal;
 
     if (freezeWithdrawal) {
+      modifiedWithdrawalRuleApplied = true;
       withdrawalAmountToUse = previousWithdrawal;
     }
   }
@@ -197,10 +208,12 @@ export default function guytonKlinger({
   }
 
   if (withdrawalIsTooMuch && considerUpperLimit) {
+    capitalPreservationRuleApplied = true;
     withdrawalAdjustment = 1 - gkUpperLimitAdjustment / 100;
   }
   // We do a similar check for when the withdrawal is too little.
   else if (withdrawalIsTooLittle) {
+    prosperityRuleApplied = true;
     withdrawalAdjustment = 1 + gkLowerLimitAdjustment / 100;
   }
 
@@ -213,9 +226,9 @@ export default function guytonKlinger({
       maxWithdrawal
     ),
     meta: {
-      modifiedWithdrawalRuleApplied: false,
-      capitalPreservationRuleApplied: false,
-      prosperityRuleApplied: false,
+      modifiedWithdrawalRuleApplied,
+      capitalPreservationRuleApplied,
+      prosperityRuleApplied,
     },
   };
 }
