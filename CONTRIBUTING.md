@@ -10,8 +10,8 @@ additional questions, please [open an issue](https://github.com/jamesplease/fi-c
 FI Calc is a JavaScript web app. To run it locally, you'll need to have the following
 installed on your machine:
 
-- [Node.js](https://nodejs.org/en/) v8.9.1+
-- [npm](https://www.npmjs.com) v5.5.1+
+- [Node.js](https://nodejs.org/en/) v14.1.0+
+- [npm](https://www.npmjs.com) v6.14.0+
 
 ### Installation
 
