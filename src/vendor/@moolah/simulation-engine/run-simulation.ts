@@ -243,7 +243,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
         inflation: cumulativeInflationSinceFirstYear,
         portfolioTotalValue: yearStartValue,
         avgMarketDataCape,
-        capeWithdrawalRate,
+        withdrawalRate: capeWithdrawalRate / 100,
         capeWeight,
         minWithdrawal,
         maxWithdrawal,
