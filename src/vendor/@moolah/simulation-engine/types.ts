@@ -51,7 +51,7 @@ export interface WithdrawalStrategyForm {
   minWithdrawalLimit: number;
   maxWithdrawalLimit: number;
 
-  /* Constant Withdrawal */
+  /* Constant Dollar */
   annualWithdrawal: number;
   inflationAdjustedFirstYearWithdrawal: boolean;
 
