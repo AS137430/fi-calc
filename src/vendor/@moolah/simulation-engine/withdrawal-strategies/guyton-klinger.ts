@@ -1,6 +1,4 @@
 import { inflationFromCpi, clamp } from '../../../@moolah/lib';
-import { YearData } from '../../../computed-market-data/types';
-import { Portfolio, YearResult } from '../types';
 
 export interface GuytonKlingerOptions {
   yearsRemaining: number;
@@ -11,7 +9,7 @@ export interface GuytonKlingerOptions {
   portfolioTotalValue: number;
   minWithdrawal: number;
   maxWithdrawal: number;
-  firstYearStartPortfolio: Portfolio;
+  firstYearStartPortolioTotalValue: number;
   gkInitialWithdrawal: number;
   gkWithdrawalUpperLimit: number;
   gkWithdrawalLowerLimit: number;
@@ -19,8 +17,9 @@ export interface GuytonKlingerOptions {
   gkLowerLimitAdjustment: number;
   gkIgnoreLastFifteenYears: boolean;
   gkModifiedWithdrawalRule: boolean;
-  yearMarketData: YearData;
-  previousResults: YearResult;
+  stockMarketGrowth: number;
+  previousYearBaseWithdrawalAmount: number;
+  previousYearCpi: number;
 }
 
 // Source for this calculation:
@@ -39,17 +38,18 @@ export default function guytonKlinger({
   firstYearCpi,
   portfolioTotalValue,
   gkInitialWithdrawal,
-  firstYearStartPortfolio,
+  firstYearStartPortolioTotalValue,
   gkWithdrawalUpperLimit,
   gkWithdrawalLowerLimit,
   gkUpperLimitAdjustment,
   gkLowerLimitAdjustment,
   gkIgnoreLastFifteenYears,
   gkModifiedWithdrawalRule,
-  previousResults,
-  yearMarketData,
   minWithdrawal,
   maxWithdrawal,
+  stockMarketGrowth,
+  previousYearBaseWithdrawalAmount,
+  previousYearCpi,
 }: GuytonKlingerOptions): number {
   // The first step in the GK computation is determining how much we withdrew last year. If we're in the
   // first year, then it's just our initial withdrawal value. Otherwise, we look at our previous year's
@@ -62,9 +62,9 @@ export default function guytonKlinger({
   //   Adjustment: we may increase it by a little bit (Prosperity Rule / gkLowerLimitAdjustment)
   const previousWithdrawal = isFirstYear
     ? gkInitialWithdrawal
-    : previousResults.baseWithdrawalAmount;
+    : previousYearBaseWithdrawalAmount;
 
-  const prevCpi = isFirstYear ? firstYearCpi : previousResults.startCpi;
+  const prevCpi = isFirstYear ? firstYearCpi : previousYearCpi;
   const inflationFromPreviousYear = inflationFromCpi({
     startCpi: prevCpi,
     endCpi: cpi,
@@ -95,7 +95,7 @@ export default function guytonKlinger({
     const inflationAdjustedInitialWithdrawal = gkInitialWithdrawal * inflation;
 
     // Next, we find the answer to (1) by calculating our returns
-    const thisYearTotalReturn = yearMarketData.stockMarketGrowth;
+    const thisYearTotalReturn = stockMarketGrowth;
     // NOTE: this *only* works right now because this calculator restricts you to equities! When I add in bonds and other
     // asset types, I'll need to smarten this up.
     const thisYearTotalReturnIsNegative = thisYearTotalReturn < 0;
@@ -152,7 +152,7 @@ export default function guytonKlinger({
   // To determine if we need to adjust our withdrawal, we first compute the initial year's % withdrawal. For
   // instance, 40k out of $1mil would be a 4% withdrawal.
   const initialWithdrawalRate =
-    gkInitialWithdrawal / firstYearStartPortfolio.totalValue;
+    gkInitialWithdrawal / firstYearStartPortolioTotalValue;
 
   // We use that initial withdrawal rate to compute the max/min withdrawals that apply for every subsequent year
   // This is "Exceeds" in the equations above

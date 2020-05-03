@@ -1,9 +1,8 @@
 import { clamp } from '../../../@moolah/lib';
-import { YearData } from '../../../computed-market-data/types';
 
 export interface CapeBasedOptions {
   portfolioTotalValue: number;
-  yearMarketData: YearData;
+  cape: number;
   inflation: number;
   capeWithdrawalRate: number;
   capeWeight: number;
@@ -17,17 +16,14 @@ export interface CapeBasedOptions {
 // https://earlyretirementnow.com/2017/08/30/the-ultimate-guide-to-safe-withdrawal-rates-part-18-flexibility-cape-based-rules/
 export default function capeBased({
   portfolioTotalValue,
-  yearMarketData,
   capeWithdrawalRate,
-  capeWeight,
-  avgMarketDataCape,
   inflation,
+  capeWeight,
+  cape,
   minWithdrawal,
   maxWithdrawal,
 }: CapeBasedOptions): number {
-  const capeToUse =
-    yearMarketData.cape === null ? avgMarketDataCape : yearMarketData.cape;
-  const caey = 1 / capeToUse;
+  const caey = 1 / cape;
 
   const baseWithdrawalRate = capeWithdrawalRate / 100;
   const withdrawalRate = baseWithdrawalRate + capeWeight * caey;

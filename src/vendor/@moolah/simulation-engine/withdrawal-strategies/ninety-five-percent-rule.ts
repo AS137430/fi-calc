@@ -1,12 +1,11 @@
 import { clamp } from '../../../@moolah/lib';
-import { Portfolio, YearResult } from '../types';
 
 export interface NinetyFivePercentRuleOptions {
   ninetyFiveInitialRate: number;
   ninetyFivePercentage: number;
-  firstYearStartPortfolio: Portfolio;
+  firstYearStartPortolioTotalValue: number;
   portfolioTotalValue: number;
-  previousResults: YearResult;
+  previousYearBaseWithdrawalAmount: number;
   isFirstYear: boolean;
   inflation: number;
   minWithdrawal: number;
@@ -17,23 +16,23 @@ export interface NinetyFivePercentRuleOptions {
 // Clarified by a post on this forum: https://www.early-retirement.org/forums/f28/question-on-the-95-rule-20484.html
 export default function ninetyFivePercentRule({
   ninetyFiveInitialRate,
-  firstYearStartPortfolio,
+  firstYearStartPortolioTotalValue,
   ninetyFivePercentage,
   portfolioTotalValue,
-  previousResults,
+  previousYearBaseWithdrawalAmount,
   isFirstYear,
   inflation,
   minWithdrawal,
   maxWithdrawal,
 }: NinetyFivePercentRuleOptions): number {
   const firstYearWithdrawal =
-    (firstYearStartPortfolio.totalValue * ninetyFiveInitialRate) / 100;
+    (firstYearStartPortolioTotalValue * ninetyFiveInitialRate) / 100;
 
   if (isFirstYear) {
     return firstYearWithdrawal;
   }
 
-  const previousWithdrawal = previousResults.baseWithdrawalAmount;
+  const previousWithdrawal = previousYearBaseWithdrawalAmount;
   const reducedPreviousWithdrawal =
     (previousWithdrawal * ninetyFivePercentage) / 100;
   const currentWithdrawal = (portfolioTotalValue * ninetyFiveInitialRate) / 100;
