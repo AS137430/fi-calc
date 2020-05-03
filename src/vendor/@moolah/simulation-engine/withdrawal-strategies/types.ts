@@ -1,4 +1,4 @@
-export interface WithdrawalReturn<WithdrawalMeta = object> {
+export interface WithdrawalReturn<WithdrawalMeta = null> {
   meta: WithdrawalMeta;
   value: number;
 }

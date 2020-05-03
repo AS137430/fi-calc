@@ -20,6 +20,6 @@ export default function portfolioPercent({
 
   return {
     value: clamp(naiveComputation, minWithdrawal, maxWithdrawal),
-    meta: {},
+    meta: null,
   };
 }

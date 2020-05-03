@@ -11,6 +11,12 @@ export interface CapeBasedOptions {
   maxWithdrawal?: number;
 }
 
+interface CapeBasedMeta {
+  capeBasedWithdrawalRate: number;
+  baseWithdrawalRate: number;
+  totalWithdrawalRate: number;
+}
+
 // This method uses the CAEY (CAEY = 1/CAPE) to determine withdrawal rates.
 // This withdrawal method is included in cFIREsim, but for this implementation I referenced:
 // https://earlyretirementnow.com/2017/08/30/the-ultimate-guide-to-safe-withdrawal-rates-part-18-flexibility-cape-based-rules/
@@ -21,16 +27,21 @@ export default function capeBased({
   cape,
   minWithdrawal = 0,
   maxWithdrawal = Infinity,
-}: CapeBasedOptions): WithdrawalReturn {
+}: CapeBasedOptions): WithdrawalReturn<CapeBasedMeta> {
   const caey = 1 / cape;
-  const completeWithdrawalRate = withdrawalRate + capeWeight * caey;
+  const capeBasedWithdrawalRate = capeWeight * caey;
+  const totalWithdrawalRate = withdrawalRate + capeBasedWithdrawalRate;
 
   return {
     value: clamp(
-      completeWithdrawalRate * portfolioTotalValue,
+      totalWithdrawalRate * portfolioTotalValue,
       minWithdrawal,
       maxWithdrawal
     ),
-    meta: {},
+    meta: {
+      baseWithdrawalRate: withdrawalRate,
+      capeBasedWithdrawalRate,
+      totalWithdrawalRate,
+    },
   };
 }

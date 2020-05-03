@@ -31,7 +31,7 @@ export default function ninetyFivePercentRule({
   if (isFirstYear) {
     return {
       value: clamp(firstYearWithdrawal, minWithdrawal, maxWithdrawal),
-      meta: {},
+      meta: null,
     };
   }
 
@@ -45,6 +45,6 @@ export default function ninetyFivePercentRule({
       minWithdrawal,
       maxWithdrawal
     ),
-    meta: {},
+    meta: null,
   };
 }
