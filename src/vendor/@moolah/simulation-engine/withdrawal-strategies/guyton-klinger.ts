@@ -59,7 +59,7 @@ export default function guytonKlinger({
   gkWithdrawalLowerLimit = 20,
   gkUpperLimitAdjustment = 10,
   gkLowerLimitAdjustment = 10,
-  gkIgnoreLastFifteenYears = false,
+  gkIgnoreLastFifteenYears = true,
 
   minWithdrawal = 0,
   maxWithdrawal = Infinity,

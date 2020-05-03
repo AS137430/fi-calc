@@ -54,7 +54,7 @@ describe('guytonKlinger', () => {
   });
 
   describe('> 1 years', () => {
-    // Three conditions:
+    // The Modified Withdrawal Rule applies when three conditions are met:
     // (1) portfolio returns are NEGATIVE for the year
     // (2) current withdrawal is GREATER than first year
     // (3) applying inflation INCREASES withdrawal rate
@@ -168,6 +168,136 @@ describe('guytonKlinger', () => {
           meta: {
             modifiedWithdrawalRuleApplied: false,
             capitalPreservationRuleApplied: false,
+            prosperityRuleApplied: false,
+          },
+        });
+      });
+    });
+
+    describe('Properity Rule', () => {
+      it('applies when spending goes too low', () => {
+        const withdrawal = guytonKlinger({
+          // adjusting this for inflation = 34,505
+          previousYearBaseWithdrawalAmount: 33500,
+          // first year withdrawal with this inflation = 40,800
+          inflation: 1.02,
+          stockMarketGrowth: 0.03,
+
+          yearsRemaining: 5,
+          isFirstYear: false,
+          cpi: 103,
+          previousYearCpi: 100,
+          portfolioTotalValue: 1200000,
+          gkInitialWithdrawal: 40000,
+          firstYearStartPortolioTotalValue: 1000000,
+        });
+
+        expect(withdrawal).toEqual({
+          // inflationAdjustedPrevWithdrawal * 1.1
+          //  = 34,505 * 1.1
+          //  = 37955.5
+          value: 37955.5,
+          meta: {
+            modifiedWithdrawalRuleApplied: false,
+            capitalPreservationRuleApplied: false,
+            prosperityRuleApplied: true,
+          },
+        });
+      });
+    });
+
+    describe('Capital Preservation Rule', () => {
+      it('applies when spending goes too high (> 15 years remain)', () => {
+        const withdrawal = guytonKlinger({
+          // This is so high because it computes the withdrawal % from the
+          // current-year portfolio value, which we have set at 1.2m
+          // adjusting this for inflation = 62,315
+          previousYearBaseWithdrawalAmount: 60500,
+          // first year withdrawal with this inflation = 40,800
+          inflation: 1.02,
+          stockMarketGrowth: 0.03,
+
+          yearsRemaining: 25,
+          isFirstYear: false,
+          cpi: 103,
+          previousYearCpi: 100,
+          portfolioTotalValue: 1200000,
+          gkInitialWithdrawal: 40000,
+          firstYearStartPortolioTotalValue: 1000000,
+        });
+
+        expect(withdrawal).toEqual({
+          // inflationAdjustedPrevWithdrawal * 0.9
+          //  = 62,315 * 0.9
+          //  = 56,083.5
+          value: 56083.5,
+          meta: {
+            modifiedWithdrawalRuleApplied: false,
+            capitalPreservationRuleApplied: true,
+            prosperityRuleApplied: false,
+          },
+        });
+      });
+
+      it('is ignored when < 15 years remain', () => {
+        const withdrawal = guytonKlinger({
+          // This is so high because it computes the withdrawal % from the
+          // current-year portfolio value, which we have set at 1.2m
+          // adjusting this for inflation = 62,315
+          previousYearBaseWithdrawalAmount: 60500,
+          // first year withdrawal with this inflation = 40,800
+          inflation: 1.02,
+          stockMarketGrowth: 0.03,
+
+          yearsRemaining: 14,
+          isFirstYear: false,
+          cpi: 103,
+          previousYearCpi: 100,
+          portfolioTotalValue: 1200000,
+          gkInitialWithdrawal: 40000,
+          firstYearStartPortolioTotalValue: 1000000,
+        });
+
+        expect(withdrawal).toEqual({
+          // = inflationAdjustedPrevWithdrawal
+          // = 62,315
+          value: 62315,
+          meta: {
+            modifiedWithdrawalRuleApplied: false,
+            capitalPreservationRuleApplied: false,
+            prosperityRuleApplied: false,
+          },
+        });
+      });
+
+      it('is can be enabled even when < 15 years remain', () => {
+        const withdrawal = guytonKlinger({
+          // This is so high because it computes the withdrawal % from the
+          // current-year portfolio value, which we have set at 1.2m
+          // adjusting this for inflation = 62,315
+          previousYearBaseWithdrawalAmount: 60500,
+          // first year withdrawal with this inflation = 40,800
+          inflation: 1.02,
+          stockMarketGrowth: 0.03,
+
+          yearsRemaining: 14,
+          isFirstYear: false,
+          cpi: 103,
+          previousYearCpi: 100,
+          gkIgnoreLastFifteenYears: false,
+          portfolioTotalValue: 1200000,
+          gkInitialWithdrawal: 40000,
+          firstYearStartPortolioTotalValue: 1000000,
+        });
+
+        expect(withdrawal).toEqual({
+          // inflationAdjustedPrevWithdrawal * 0.9
+          //  = 62,315 * 0.9
+          //  = 56,083.5
+          value: 56083.5,
+          meta: {
+            modifiedWithdrawalRuleApplied: false,
+            capitalPreservationRuleApplied: true,
             prosperityRuleApplied: false,
           },
         });
