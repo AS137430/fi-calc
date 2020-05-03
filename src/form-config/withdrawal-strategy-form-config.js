@@ -13,8 +13,8 @@ export default {
       keyType: 'string',
       values: [
         {
-          key: 'constantWithdrawal',
-          display: 'Constant Withdrawal',
+          key: 'constantDollar',
+          display: 'Constant Dollar',
         },
         {
           key: 'portfolioPercent',
@@ -40,7 +40,7 @@ export default {
       ],
     },
 
-    /* Constant withdrawal */
+    /* Constant dollar */
     annualWithdrawal: {
       type: 'number',
       default: 40000,

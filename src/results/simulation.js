@@ -180,8 +180,8 @@ export default function Simulation() {
     successMessage = 'Yes';
   }
 
-  const isconstantWithdrawal =
-    withdrawalStrategy.withdrawalStrategyName.key === 'constantWithdrawal';
+  const isconstantDollar =
+    withdrawalStrategy.withdrawalStrategyName.key === 'constantDollar';
 
   return (
     <div className="results">
@@ -288,7 +288,7 @@ export default function Simulation() {
       </div>
       <div className="results_block">
         <h2 className="results_h2">Withdrawals</h2>
-        {!isconstantWithdrawal &&
+        {!isconstantDollar &&
           simulation.duration > 1 && (
             <div className="results_sectionRow">
               <div className="results_section">

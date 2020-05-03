@@ -204,10 +204,10 @@ export default function GuytonKlingerConfiguration({
         active={openModal === 'initialWithdrawal'}
         onBeginClose={() => setOpenModal(null)}>
         <p>
-          Similar to the Constant Withdrawal strategy, Guyton-Klinger requires
-          that you specify an initial withdrawal amount, which is how much money
-          you withdraw from your portfolio on your first year. This value forms
-          the foundation for how much you withdraw each year throughout your
+          Similar to the Constant Dollar strategy, Guyton-Klinger requires that
+          you specify an initial withdrawal amount, which is how much money you
+          withdraw from your portfolio on your first year. This value forms the
+          foundation for how much you withdraw each year throughout your
           retirement.
         </p>
         <p>

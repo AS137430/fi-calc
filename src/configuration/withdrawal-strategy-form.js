@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import IconHelp from 'materialish/icon-help';
 import ConfigSection from './sidebar-section';
-import ConstantWithdrawal from './withdrawal-strategies/constant-withdrawal';
+import ConstantDollar from './withdrawal-strategies/constant-dollar';
 import PercentageOfPortfolio from './withdrawal-strategies/percentage-of-portfolio';
 import GuytonKlinger from './withdrawal-strategies/guyton-klinger';
 import NinetyFivePercentRule from './withdrawal-strategies/95-percent-rule';
@@ -65,8 +65,8 @@ export default function WithdrawalStrategyForm() {
             </button>
           </div>
           {withdrawalStrategy.withdrawalStrategyName.key ===
-            'constantWithdrawal' && (
-            <ConstantWithdrawal
+            'constantDollar' && (
+            <ConstantDollar
               inputs={inputs}
               changeCheckbox={changeCheckbox}
               commitInput={commitInput}
@@ -129,7 +129,7 @@ export default function WithdrawalStrategyForm() {
           </li>
         </ol>
         <p>
-          The default strategy, <b>Constant Withdrawal</b>, is the withdrawal
+          The default strategy, <b>Constant Dollar</b>, is the withdrawal
           strategy used by the studies that derived the 4% rule.
         </p>
         <p>
@@ -155,7 +155,7 @@ export default function WithdrawalStrategyForm() {
         title={`Withdrawal Strategy${display && `: ${display}`}`}
         active={openModal === 'withdrawalStrategy'}
         onBeginClose={() => setOpenModal(null)}>
-        {inputs.withdrawalStrategyName.value === 'constantWithdrawal' && (
+        {inputs.withdrawalStrategyName.value === 'constantDollar' && (
           <>
             <p>
               This is the withdrawal strategy used in Bengen's original
@@ -169,8 +169,8 @@ export default function WithdrawalStrategyForm() {
               the market is doing, or what your portfolio is valued at.
             </p>
             <p>
-              It's called "constant" because the purchasing power of your annual
-              withdrawal remains constant.
+              The name "constant dollar" references the fact that your
+              purchasing power of your annual withdrawal remains constant.
             </p>
           </>
         )}
@@ -181,8 +181,8 @@ export default function WithdrawalStrategyForm() {
               <i>current</i> value of your portfolio.
             </p>
             <p>
-              This strategy is similar to the Constant Withdrawal strategy, but
-              it adjusts your annual withdrawal based on how the market is
+              This strategy is similar to the Constant Dollar strategy, but it
+              adjusts your annual withdrawal based on how the market is
               performing. When the market is doing poorly, you withdraw less,
               increasing your chance of success. And when the market is doing
               well, you are able to withdraw more.
@@ -200,13 +200,13 @@ export default function WithdrawalStrategyForm() {
             <p>
               Guyton-Klinger is a withdrawal strategy that stands out for its
               exceptional success rates. You can think of it as a modified
-              Constant Withdrawal strategy.
+              Constant Dollar strategy.
             </p>
             <p>
-              What makes Guyton-Klinger different from Constant Withdrawal are
-              what are called the three Decision Rules. These rules adjust how
-              much you withdraw each year based on how the market is performing,
-              and how much money remains in your portfolio.
+              What makes Guyton-Klinger different from Constant Dollar are what
+              are called the three Decision Rules. These rules adjust how much
+              you withdraw each year based on how the market is performing, and
+              how much money remains in your portfolio.
             </p>
             <p>
               One of the rules determines whether or not you should adjust your

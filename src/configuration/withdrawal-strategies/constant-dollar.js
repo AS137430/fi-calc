@@ -4,7 +4,7 @@ import IconHelp from 'materialish/icon-help';
 import InfoModal from '../../common/info-modal';
 import Input from '../../common/input';
 
-export default function ConstantWithdrawalConfiguration({
+export default function ConstantDollarConfiguration({
   inputs,
   changeCheckbox,
   commitInput,
