@@ -231,10 +231,10 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
         inflation: cumulativeInflationSinceFirstYear,
         isFirstYear,
         portfolioTotalValue: yearStartValue,
-        previousYearBaseWithdrawalAmount: previousResults ? previousResults.baseWithdrawalAmount : 0,
+        previousYearWithdrawalAmount: previousResults ? previousResults.baseWithdrawalAmount : 0,
         firstYearStartPortolioTotalValue: firstYearStartPortfolio.totalValue,
-        ninetyFiveInitialRate,
-        ninetyFivePercentage,
+        initialWithdrawalRate: ninetyFiveInitialRate / 100,
+        previousYearWithdrawalPercentage: ninetyFivePercentage / 100,
         minWithdrawal,
         maxWithdrawal,
       });

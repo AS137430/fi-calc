@@ -4,11 +4,8 @@ describe('portfolioPercent', () => {
   it('works with no min/max', () => {
     expect(
       portfolioPercent({
-        inflation: 1,
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
-        minWithdrawal: 0,
-        maxWithdrawal: Number.MAX_SAFE_INTEGER,
       })
     ).toBe(40000);
   });
@@ -16,11 +13,9 @@ describe('portfolioPercent', () => {
   it('supports a minimum', () => {
     expect(
       portfolioPercent({
-        inflation: 1,
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
         minWithdrawal: 50000,
-        maxWithdrawal: Number.MAX_SAFE_INTEGER,
       })
     ).toBe(50000);
   });
@@ -28,10 +23,8 @@ describe('portfolioPercent', () => {
   it('supports a maximum', () => {
     expect(
       portfolioPercent({
-        inflation: 1,
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
-        minWithdrawal: 0,
         maxWithdrawal: 35000,
       })
     ).toBe(35000);
@@ -44,7 +37,6 @@ describe('portfolioPercent', () => {
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
         minWithdrawal: 100000,
-        maxWithdrawal: Number.MAX_SAFE_INTEGER,
       })
     ).toBe(50000);
   });
@@ -55,7 +47,6 @@ describe('portfolioPercent', () => {
         inflation: 0.5,
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
-        minWithdrawal: 0,
         maxWithdrawal: 70000,
       })
     ).toBe(35000);

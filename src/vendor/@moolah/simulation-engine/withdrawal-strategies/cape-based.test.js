@@ -7,8 +7,6 @@ describe('capeBased', () => {
         portfolioTotalValue: 100000,
         withdrawalRate: 0.4,
         inflation: 1,
-        minWithdrawal: 0,
-        maxWithdrawal: Infinity,
         cape: 25,
         capeWeight: 0,
       });
@@ -20,9 +18,8 @@ describe('capeBased', () => {
       const withdrawal = capeBased({
         portfolioTotalValue: 100000,
         withdrawalRate: 0.4,
-        inflation: 1,
-        minWithdrawal: 50000,
-        maxWithdrawal: Infinity,
+        inflation: 2,
+        minWithdrawal: 25000,
         cape: 25,
         capeWeight: 0,
       });
@@ -34,9 +31,8 @@ describe('capeBased', () => {
       const withdrawal = capeBased({
         portfolioTotalValue: 100000,
         withdrawalRate: 0.4,
-        inflation: 1,
-        minWithdrawal: 0,
-        maxWithdrawal: 30000,
+        inflation: 2,
+        maxWithdrawal: 15000,
         cape: 25,
         capeWeight: 0,
       });
@@ -51,8 +47,6 @@ describe('capeBased', () => {
         portfolioTotalValue: 100000,
         withdrawalRate: 0.01,
         inflation: 1,
-        minWithdrawal: 0,
-        maxWithdrawal: Infinity,
 
         // CAEY = 1/25 = 0.04
         cape: 25,

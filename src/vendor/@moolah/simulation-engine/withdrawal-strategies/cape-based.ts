@@ -3,12 +3,13 @@ import { clamp } from '../../../@moolah/lib';
 export interface CapeBasedOptions {
   portfolioTotalValue: number;
   cape: number;
-  inflation: number;
   withdrawalRate: number;
   capeWeight: number;
   avgMarketDataCape: number;
-  minWithdrawal: number;
-  maxWithdrawal: number;
+
+  inflation?: number;
+  minWithdrawal?: number;
+  maxWithdrawal?: number;
 }
 
 // This method uses the CAEY (CAEY = 1/CAPE) to determine withdrawal rates.
@@ -17,11 +18,11 @@ export interface CapeBasedOptions {
 export default function capeBased({
   portfolioTotalValue,
   withdrawalRate,
-  inflation,
   capeWeight,
   cape,
-  minWithdrawal,
-  maxWithdrawal,
+  inflation = 1,
+  minWithdrawal = 0,
+  maxWithdrawal = Infinity,
 }: CapeBasedOptions): number {
   const caey = 1 / cape;
   const completeWithdrawalRate = withdrawalRate + capeWeight * caey;
