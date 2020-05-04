@@ -249,6 +249,74 @@ describe('guytonKlinger', () => {
           },
         });
       });
+
+      it('can be customized (ignores the rule)', () => {
+        const withdrawal = guytonKlinger({
+          // adjusting this for inflation = 34,505
+          previousYearBaseWithdrawalAmount: 33500,
+          // first year withdrawal with this inflation = 40,800
+          inflation: 1.02,
+          stockMarketGrowth: 0.03,
+
+          yearsRemaining: 5,
+          isFirstYear: false,
+          cpi: 103,
+          previousYearCpi: 100,
+          portfolioTotalValue: 1200000,
+          gkInitialWithdrawal: 40000,
+          firstYearStartPortolioTotalValue: 1000000,
+
+          gkWithdrawalLowerLimit: 40,
+          gkLowerLimitAdjustment: 5,
+        });
+
+        expect(withdrawal).toEqual({
+          value: 34505,
+          meta: {
+            modifiedWithdrawalRuleApplied: false,
+            capitalPreservationRuleApplied: false,
+            prosperityRuleApplied: false,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
+          },
+        });
+      });
+
+      it('can be customized (rule applies sooner, reduces less)', () => {
+        const withdrawal = guytonKlinger({
+          // adjusting this for inflation = 41,200
+          previousYearBaseWithdrawalAmount: 40000,
+          // first year withdrawal with this inflation = 40,800
+          inflation: 1.02,
+          stockMarketGrowth: 0.03,
+
+          yearsRemaining: 5,
+          isFirstYear: false,
+          cpi: 103,
+          previousYearCpi: 100,
+          portfolioTotalValue: 1200000,
+          gkInitialWithdrawal: 40000,
+          firstYearStartPortolioTotalValue: 1000000,
+
+          // 43,200 is the lower limit with this configuration
+          gkWithdrawalLowerLimit: 10,
+          gkLowerLimitAdjustment: 5,
+        });
+
+        expect(withdrawal).toEqual({
+          // inflationAdjustedPrevWithdrawal * 1.05
+          //  = 41,200 * 1.05
+          //  = 43,260
+          value: 43260,
+          meta: {
+            modifiedWithdrawalRuleApplied: false,
+            capitalPreservationRuleApplied: false,
+            prosperityRuleApplied: true,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
+          },
+        });
+      });
     });
 
     describe('Capital Preservation Rule', () => {
@@ -276,6 +344,74 @@ describe('guytonKlinger', () => {
           //  = 62,315 * 0.9
           //  = 56,083.5
           value: 56083.5,
+          meta: {
+            modifiedWithdrawalRuleApplied: false,
+            capitalPreservationRuleApplied: true,
+            prosperityRuleApplied: false,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
+          },
+        });
+      });
+
+      it('can be customized (ignores the rule)', () => {
+        const withdrawal = guytonKlinger({
+          // This is so high because it computes the withdrawal % from the
+          // current-year portfolio value, which we have set at 1.2m
+          // adjusting this for inflation = 62,315
+          previousYearBaseWithdrawalAmount: 60500,
+          // first year withdrawal with this inflation = 40,800
+          inflation: 1.02,
+          stockMarketGrowth: 0.03,
+
+          yearsRemaining: 25,
+          isFirstYear: false,
+          cpi: 103,
+          previousYearCpi: 100,
+          portfolioTotalValue: 1200000,
+          gkInitialWithdrawal: 40000,
+          firstYearStartPortolioTotalValue: 1000000,
+
+          gkWithdrawalUpperLimit: 40,
+          gkUpperLimitAdjustment: 5,
+        });
+
+        expect(withdrawal).toEqual({
+          value: 62315,
+          meta: {
+            modifiedWithdrawalRuleApplied: false,
+            capitalPreservationRuleApplied: false,
+            prosperityRuleApplied: false,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
+          },
+        });
+      });
+
+      it('can be customized (rule applies sooner, reduces more)', () => {
+        const withdrawal = guytonKlinger({
+          // This is so high because it computes the withdrawal % from the
+          // current-year portfolio value, which we have set at 1.2m
+          // adjusting this for inflation = 52,942
+          previousYearBaseWithdrawalAmount: 51400,
+          // first year withdrawal with this inflation = 40,800
+          inflation: 1.02,
+          stockMarketGrowth: 0.03,
+
+          yearsRemaining: 25,
+          isFirstYear: false,
+          cpi: 103,
+          previousYearCpi: 100,
+          portfolioTotalValue: 1200000,
+          gkInitialWithdrawal: 40000,
+          firstYearStartPortolioTotalValue: 1000000,
+
+          gkWithdrawalUpperLimit: 10,
+          gkUpperLimitAdjustment: 50,
+        });
+
+        expect(withdrawal).toEqual({
+          value: 26471,
           meta: {
             modifiedWithdrawalRuleApplied: false,
             capitalPreservationRuleApplied: true,
