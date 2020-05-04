@@ -1,5 +1,5 @@
-import { clamp } from '../../../@moolah/lib';
-import { WithdrawalReturn } from './types';
+import clampWithMeta from '../utils/clamp-with-meta';
+import { WithdrawalReturn, MinMaxMeta } from './types';
 
 export interface NinetyFivePercentRuleOptions {
   initialWithdrawalRate: number;
@@ -13,7 +13,7 @@ export interface NinetyFivePercentRuleOptions {
   maxWithdrawal?: number;
 }
 
-interface NinetyFivePercentRuleMeta {
+interface NinetyFivePercentRuleMeta extends MinMaxMeta {
   ruleApplied: boolean;
 }
 
@@ -33,10 +33,18 @@ export default function ninetyFivePercentRule({
     firstYearStartPortolioTotalValue * initialWithdrawalRate;
 
   if (isFirstYear) {
+    const clampedValue = clampWithMeta(
+      firstYearWithdrawal,
+      minWithdrawal,
+      maxWithdrawal
+    );
+
     return {
-      value: clamp(firstYearWithdrawal, minWithdrawal, maxWithdrawal),
+      value: clampedValue.val,
       meta: {
         ruleApplied: false,
+        minWithdrawalMade: clampedValue.minimumApplied,
+        maxWithdrawalMade: clampedValue.maximumApplied,
       },
     };
   }
@@ -46,15 +54,18 @@ export default function ninetyFivePercentRule({
   const currentWithdrawal = portfolioTotalValue * initialWithdrawalRate;
 
   let ruleApplied = reducedPreviousWithdrawal > currentWithdrawal;
+  const clampedValue = clampWithMeta(
+    Math.max(reducedPreviousWithdrawal, currentWithdrawal),
+    minWithdrawal,
+    maxWithdrawal
+  );
 
   return {
-    value: clamp(
-      Math.max(reducedPreviousWithdrawal, currentWithdrawal),
-      minWithdrawal,
-      maxWithdrawal
-    ),
+    value: clampedValue.val,
     meta: {
       ruleApplied,
+      minWithdrawalMade: clampedValue.minimumApplied,
+      maxWithdrawalMade: clampedValue.maximumApplied,
     },
   };
 }

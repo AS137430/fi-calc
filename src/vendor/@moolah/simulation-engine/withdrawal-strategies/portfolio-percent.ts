@@ -1,5 +1,5 @@
-import { clamp } from '../../../@moolah/lib';
-import { WithdrawalReturn } from './types';
+import clampWithMeta from '../utils/clamp-with-meta';
+import { WithdrawalReturn, MinMaxMeta } from './types';
 
 export interface PortfolioPercentOptions {
   percentageOfPortfolio: number;
@@ -15,11 +15,20 @@ export default function portfolioPercent({
 
   minWithdrawal = 0,
   maxWithdrawal = Infinity,
-}: PortfolioPercentOptions): WithdrawalReturn {
+}: PortfolioPercentOptions): WithdrawalReturn<MinMaxMeta> {
   const naiveComputation = portfolioTotalValue * percentageOfPortfolio;
 
+  const clampedValue = clampWithMeta(
+    naiveComputation,
+    minWithdrawal,
+    maxWithdrawal
+  );
+
   return {
-    value: clamp(naiveComputation, minWithdrawal, maxWithdrawal),
-    meta: null,
+    value: clampedValue.val,
+    meta: {
+      minWithdrawalMade: clampedValue.minimumApplied,
+      maxWithdrawalMade: clampedValue.maximumApplied,
+    },
   };
 }

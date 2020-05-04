@@ -26,6 +26,8 @@ describe('ninetyFive', () => {
         value: 40000,
         meta: {
           ruleApplied: false,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -45,6 +47,8 @@ describe('ninetyFive', () => {
         value: 41856,
         meta: {
           ruleApplied: false,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -65,6 +69,8 @@ describe('ninetyFive', () => {
         value: 40985.4,
         meta: {
           ruleApplied: false,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -85,6 +91,8 @@ describe('ninetyFive', () => {
         value: 38935.75,
         meta: {
           ruleApplied: true,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -105,6 +113,8 @@ describe('ninetyFive', () => {
         value: 37136.36,
         meta: {
           ruleApplied: false,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -126,6 +136,8 @@ describe('ninetyFive', () => {
         value: 4000,
         meta: {
           ruleApplied: false,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -147,6 +159,8 @@ describe('ninetyFive', () => {
         value: 5000,
         meta: {
           ruleApplied: false,
+          minWithdrawalMade: true,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -168,6 +182,8 @@ describe('ninetyFive', () => {
         value: 2000,
         meta: {
           ruleApplied: false,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: true,
         },
       });
     });
@@ -189,6 +205,8 @@ describe('ninetyFive', () => {
         value: 8000,
         meta: {
           ruleApplied: false,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -208,6 +226,8 @@ describe('ninetyFive', () => {
         value: 3800,
         meta: {
           ruleApplied: true,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -228,6 +248,8 @@ describe('ninetyFive', () => {
         value: 3960,
         meta: {
           ruleApplied: true,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -249,6 +271,8 @@ describe('ninetyFive', () => {
         value: 20000,
         meta: {
           ruleApplied: false,
+          minWithdrawalMade: true,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -270,6 +294,8 @@ describe('ninetyFive', () => {
         value: 2000,
         meta: {
           ruleApplied: false,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: true,
         },
       });
     });

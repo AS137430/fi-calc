@@ -1,5 +1,6 @@
-import { inflationFromCpi, clamp } from '../../../@moolah/lib';
-import { WithdrawalReturn } from './types';
+import { inflationFromCpi } from '../../../@moolah/lib';
+import { WithdrawalReturn, MinMaxMeta } from './types';
+import clampWithMeta from '../utils/clamp-with-meta';
 
 export interface GuytonKlingerOptions {
   yearsRemaining: number;
@@ -25,7 +26,7 @@ export interface GuytonKlingerOptions {
   maxWithdrawal?: number;
 }
 
-export interface GuytonKlingerMeta {
+export interface GuytonKlingerMeta extends MinMaxMeta {
   modifiedWithdrawalRuleApplied: boolean;
   capitalPreservationRuleApplied: boolean;
   prosperityRuleApplied: boolean;
@@ -217,18 +218,22 @@ export default function guytonKlinger({
     withdrawalAdjustment = 1 + gkLowerLimitAdjustment / 100;
   }
 
+  const clampedValue = clampWithMeta(
+    withdrawalAmountToUse * withdrawalAdjustment,
+    minWithdrawal,
+    maxWithdrawal
+  );
+
   // Alright! The last thing for us to do is to apply any adjustment, and we're done.
   // Phew. That was complicated, but we made it!
   return {
-    value: clamp(
-      withdrawalAmountToUse * withdrawalAdjustment,
-      minWithdrawal,
-      maxWithdrawal
-    ),
+    value: clampedValue.val,
     meta: {
       modifiedWithdrawalRuleApplied,
       capitalPreservationRuleApplied,
       prosperityRuleApplied,
+      minWithdrawalMade: clampedValue.minimumApplied,
+      maxWithdrawalMade: clampedValue.maximumApplied,
     },
   };
 }

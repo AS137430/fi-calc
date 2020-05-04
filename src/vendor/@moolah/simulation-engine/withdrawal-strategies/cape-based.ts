@@ -1,5 +1,5 @@
-import { clamp } from '../../../@moolah/lib';
-import { WithdrawalReturn } from './types';
+import clampWithMeta from '../utils/clamp-with-meta';
+import { WithdrawalReturn, MinMaxMeta } from './types';
 
 export interface CapeBasedOptions {
   portfolioTotalValue: number;
@@ -11,7 +11,7 @@ export interface CapeBasedOptions {
   maxWithdrawal?: number;
 }
 
-interface CapeBasedMeta {
+interface CapeBasedMeta extends MinMaxMeta {
   capeBasedWithdrawalRate: number;
   baseWithdrawalRate: number;
   totalWithdrawalRate: number;
@@ -32,16 +32,20 @@ export default function capeBased({
   const capeBasedWithdrawalRate = capeWeight * caey;
   const totalWithdrawalRate = withdrawalRate + capeBasedWithdrawalRate;
 
+  const clampedValue = clampWithMeta(
+    totalWithdrawalRate * portfolioTotalValue,
+    minWithdrawal,
+    maxWithdrawal
+  );
+
   return {
-    value: clamp(
-      totalWithdrawalRate * portfolioTotalValue,
-      minWithdrawal,
-      maxWithdrawal
-    ),
+    value: clampedValue.val,
     meta: {
       baseWithdrawalRate: withdrawalRate,
       capeBasedWithdrawalRate,
       totalWithdrawalRate,
+      minWithdrawalMade: clampedValue.minimumApplied,
+      maxWithdrawalMade: clampedValue.maximumApplied,
     },
   };
 }
