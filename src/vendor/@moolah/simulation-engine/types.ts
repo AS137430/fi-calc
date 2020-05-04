@@ -1,22 +1,18 @@
-import { MarketData, YearData } from '../../computed-market-data/types';
+export enum MarketDataGrowthKeys {
+  bondsGrowth = 'bondsGrowth',
+  stockMarketGrowth = 'stockMarketGrowth',
+  none = 'none',
+}
 
 export interface SimYearData {
   year: number;
   month: number;
   cpi: number;
-  stockMarketGrowth: number;
   cape: number;
   dividendYields: number;
-  bondsGrowth: number;
-}
-
-export interface SimMarketData {
-  avgMarketDataCape: number;
-  lastSupportedYear: number;
-  byYear: {
-    [Key: string]: SimYearData;
-    [Key: number]: SimYearData;
-  };
+  [MarketDataGrowthKeys.bondsGrowth]: number;
+  [MarketDataGrowthKeys.stockMarketGrowth]: number;
+  [MarketDataGrowthKeys.none]: number;
 }
 
 export interface LengthOfRetirement {
@@ -118,7 +114,7 @@ export interface YearResult {
   endPortfolio: Portfolio;
   isOutOfMoneyAtEnd: boolean;
 
-  marketData: YearData;
+  marketData: SimYearData;
   startCpi: number;
   cumulativeInflationSinceFirstYear: number;
 
@@ -156,7 +152,10 @@ export interface Simulation {
 export type Simulations = Array<Simulation>;
 
 export interface MarketDataInput {
-  byYear: MarketData;
+  byYear: {
+    [Key: string]: SimYearData;
+    [Key: number]: SimYearData;
+  };
   lastSupportedYear: number;
   avgMarketDataCape: number;
 }
