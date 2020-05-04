@@ -1,8 +1,10 @@
 import {
   MarketDataGrowthKeys,
-  YearData,
-} from '../../../computed-market-data/types';
-import { Portfolio, PortfolioInvestment, InvestmentType } from '../types';
+  YearMarketData,
+  Portfolio,
+  PortfolioInvestment,
+  InvestmentType,
+} from '../types';
 
 // This maps an investment type to the key on marketData that
 // represents its changes in a given year
@@ -17,7 +19,7 @@ interface adjustPortfolioInvestmentOptions {
   index: number;
   isOutOfMoneyAtEnd: boolean;
   rebalancePortfolioAnnually: boolean;
-  yearMarketData: YearData;
+  yearMarketData: YearMarketData;
   firstYearStartPortfolio: Portfolio;
   // This is the portfolio at the start of this year
   startPortfolio: Portfolio;

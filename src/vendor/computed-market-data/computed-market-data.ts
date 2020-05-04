@@ -1,12 +1,15 @@
 import marketData from 'stock-market-data';
 import _ from 'lodash';
-import { MarketDataGrowthKeys, YearData } from './types';
+import {
+  MarketDataGrowthKeys,
+  YearMarketData,
+} from '../@moolah/simulation-engine/types';
 
 // This method is pretty bad right now. It computes calculated data, but
 // it looks one year in advance rather than looking by-month. I'll need to
 // refactor this to get rid of that +12 once I add in month-to-month
 // calculations.
-export default function computedMarketData(): YearData[] {
+export default function computedMarketData(): YearMarketData[] {
   return _.map(marketData, (data, index) => {
     const nextIndex = index + 12;
     const nextYearData = marketData[nextIndex];
@@ -25,11 +28,14 @@ export default function computedMarketData(): YearData[] {
     const dividendYields = data.dividend / data.comp;
 
     return {
-      ...data,
+      year: data.year,
+      month: data.month,
+      cpi: data.cpi,
+      cape: data.cape,
+      dividendYields,
       [MarketDataGrowthKeys.bondsGrowth]: bondsGrowth,
       [MarketDataGrowthKeys.stockMarketGrowth]: stockMarketGrowth,
       [MarketDataGrowthKeys.none]: 0,
-      dividendYields,
     };
   });
 }

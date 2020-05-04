@@ -1,7 +1,11 @@
 import _ from 'lodash';
-import { YearData } from '../../computed-market-data/types';
 import adjustPortfolioInvestment from './utils/adjust-portfolio-investment';
-import { YearResult, Portfolio, AdditionalWithdrawals } from './types';
+import {
+  YearMarketData,
+  YearResult,
+  Portfolio,
+  AdditionalWithdrawals,
+} from './types';
 
 interface SimulateOneYearOptions {
   yearNumber: number;
@@ -13,7 +17,7 @@ interface SimulateOneYearOptions {
   additionalWithdrawalsForYear: AdditionalWithdrawals;
   additionalIncomeForYear: AdditionalWithdrawals;
 
-  yearMarketData: YearData;
+  yearMarketData: YearMarketData;
 
   firstYearStartPortfolio: Portfolio;
 
