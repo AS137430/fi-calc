@@ -2,10 +2,10 @@ import _ from 'lodash';
 import { inflationFromCpi } from '../../@moolah/lib';
 import {
   Portfolio,
-  WithdrawalStrategyForm,
+  WithdrawalStrategyInput,
   WithdrawalStrategies,
   YearResult,
-  AdditionalWithdrawals,
+  AdditionalWithdrawalsInput,
   Simulation,
   MarketDataInput
 } from './types';
@@ -17,10 +17,10 @@ interface RunSimulationOptions {
   startYear: number;
   duration: number;
   rebalancePortfolioAnnually: boolean;
-  withdrawalStrategy: WithdrawalStrategyForm;
+  withdrawalStrategy: WithdrawalStrategyInput;
   portfolio: Portfolio;
-  additionalWithdrawals: AdditionalWithdrawals;
-  additionalIncome: AdditionalWithdrawals;
+  additionalWithdrawals: AdditionalWithdrawalsInput;
+  additionalIncome: AdditionalWithdrawalsInput;
   marketData: MarketDataInput
 }
 
