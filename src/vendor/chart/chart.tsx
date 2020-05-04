@@ -136,7 +136,7 @@ export default function Chart({
         return;
       }
 
-      const renderDataLength = Math.max(1, dataForRender.data.length - 1);
+      const renderDataLength = Math.max(1, data.length - 1);
       const dataPointSpacing = touchSpace / renderDataLength;
 
       const dataPointIndex = Math.min(
@@ -253,13 +253,7 @@ export default function Chart({
             data={data}
             isTouchDevice={isTouchDevice}
           />
-          <ActiveDataPoint
-            topMargin={topMargin}
-            dataForRender={dataForRender}
-            activeDataIndex={activeDataIndex}
-            svgXAxisLabelsHeight={svgXAxisLabelsHeight}
-            svgYAxisLabelsWidth={svgYAxisLabelsWidth}
-          />
+
           {/* This is the 1px border between the top margin and the data */}
           <path
             d={`M0 ${topMargin} h ${dataForRender.svgElement.viewBox[0] -
@@ -278,6 +272,13 @@ export default function Chart({
             stroke="var(--boundingBorderColor)"
             strokeWidth="var(--axisLineWidth)"
             fill="transparent"
+          />
+          <ActiveDataPoint
+            topMargin={topMargin}
+            dataForRender={dataForRender}
+            activeDataIndex={activeDataIndex}
+            svgXAxisLabelsHeight={svgXAxisLabelsHeight}
+            svgYAxisLabelsWidth={svgYAxisLabelsWidth}
           />
         </svg>
       )}
