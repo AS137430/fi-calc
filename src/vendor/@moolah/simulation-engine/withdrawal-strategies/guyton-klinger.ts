@@ -20,7 +20,7 @@ export interface GuytonKlingerOptions {
   withdrawalLowerLimit?: number;
   upperLimitAdjustment?: number;
   lowerLimitAdjustment?: number;
-  ignoreLastFiftenYears?: boolean;
+  ignoreLastFifteenYears?: boolean;
 
   minWithdrawal?: number;
   maxWithdrawal?: number;
@@ -60,7 +60,7 @@ export default function guytonKlinger({
   withdrawalLowerLimit = 20,
   upperLimitAdjustment = 10,
   lowerLimitAdjustment = 10,
-  ignoreLastFiftenYears = true,
+  ignoreLastFifteenYears = true,
 
   minWithdrawal = 0,
   maxWithdrawal = Infinity,
@@ -200,9 +200,9 @@ export default function guytonKlinger({
   // Ignoring the upper limit for the final 15 years is defined in the GK paper. Excerpt:
   // > This rule is not applied during the final 15 years of the anticipated retirement period. Guyton and Klinger (2006) found
   // > that this restriction increased the total amount of withdrawals during the retirement period without a significant decrease in the success rate.
-  // const considerUpperLimit = yearsRemaining >= 15 && !ignoreLastFiftenYears;
+  // const considerUpperLimit = yearsRemaining >= 15 && !ignoreLastFifteenYears;
   let considerUpperLimit;
-  if (ignoreLastFiftenYears) {
+  if (ignoreLastFifteenYears) {
     considerUpperLimit = yearsRemaining >= 15;
   } else {
     considerUpperLimit = true;

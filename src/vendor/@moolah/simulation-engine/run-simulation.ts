@@ -212,7 +212,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
         withdrawalLowerLimit: gkWithdrawalLowerLimit,
         upperLimitAdjustment: gkUpperLimitAdjustment,
         lowerLimitAdjustment: gkLowerLimitAdjustment,
-        ignoreLastFiftenYears: gkIgnoreLastFifteenYears,
+        ignoreLastFifteenYears: gkIgnoreLastFifteenYears,
         enableModifiedWithdrawalRule: gkModifiedWithdrawalRule
       }).value;
     } else if (withdrawalMethod === WithdrawalStrategies.ninetyFivePercentRule) {

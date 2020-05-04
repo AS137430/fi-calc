@@ -455,7 +455,7 @@ describe('guytonKlinger', () => {
         });
       });
 
-      it('is can be enabled even when < 15 years remain', () => {
+      it('can be enabled even when < 15 years remain', () => {
         const withdrawal = guytonKlinger({
           // This is so high because it computes the withdrawal % from the
           // current-year portfolio value, which we have set at 1.2m
