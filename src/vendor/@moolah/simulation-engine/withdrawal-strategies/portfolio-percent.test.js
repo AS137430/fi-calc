@@ -6,8 +6,14 @@ describe('portfolioPercent', () => {
       portfolioPercent({
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
-      }).value
-    ).toBe(40000);
+      })
+    ).toEqual({
+      value: 40000,
+      meta: {
+        minWithdrawalMade: false,
+        maxWithdrawalMade: false,
+      },
+    });
   });
 
   it('supports a minimum', () => {
@@ -16,8 +22,14 @@ describe('portfolioPercent', () => {
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
         minWithdrawal: 50000,
-      }).value
-    ).toBe(50000);
+      })
+    ).toEqual({
+      value: 50000,
+      meta: {
+        minWithdrawalMade: true,
+        maxWithdrawalMade: false,
+      },
+    });
   });
 
   it('supports a maximum', () => {
@@ -26,27 +38,13 @@ describe('portfolioPercent', () => {
         portfolioTotalValue: 1000000,
         percentageOfPortfolio: 0.04,
         maxWithdrawal: 35000,
-      }).value
-    ).toBe(35000);
-  });
-
-  it('respects inflation for min', () => {
-    expect(
-      portfolioPercent({
-        portfolioTotalValue: 1000000,
-        percentageOfPortfolio: 0.04,
-        minWithdrawal: 50000,
-      }).value
-    ).toBe(50000);
-  });
-
-  it('respects inflation for max', () => {
-    expect(
-      portfolioPercent({
-        portfolioTotalValue: 1000000,
-        percentageOfPortfolio: 0.04,
-        maxWithdrawal: 35000,
-      }).value
-    ).toBe(35000);
+      })
+    ).toEqual({
+      value: 35000,
+      meta: {
+        minWithdrawalMade: false,
+        maxWithdrawalMade: true,
+      },
+    });
   });
 });

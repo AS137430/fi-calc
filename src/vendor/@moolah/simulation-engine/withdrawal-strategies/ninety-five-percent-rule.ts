@@ -1,5 +1,5 @@
-import { clamp } from '../../../@moolah/lib';
-import { WithdrawalReturn } from './types';
+import clampWithMeta from '../utils/clamp-with-meta';
+import { WithdrawalReturn, MinMaxMeta } from './types';
 
 export interface NinetyFivePercentRuleOptions {
   initialWithdrawalRate: number;
@@ -13,6 +13,10 @@ export interface NinetyFivePercentRuleOptions {
   maxWithdrawal?: number;
 }
 
+interface NinetyFivePercentRuleMeta extends MinMaxMeta {
+  ruleApplied: boolean;
+}
+
 // Algorithm from "Work Less, Live More"
 // Clarified by a post on this forum: https://www.early-retirement.org/forums/f28/question-on-the-95-rule-20484.html
 export default function ninetyFivePercentRule({
@@ -24,14 +28,24 @@ export default function ninetyFivePercentRule({
   previousYearWithdrawalPercentage = 0.95,
   minWithdrawal = 0,
   maxWithdrawal = Infinity,
-}: NinetyFivePercentRuleOptions): WithdrawalReturn {
+}: NinetyFivePercentRuleOptions): WithdrawalReturn<NinetyFivePercentRuleMeta> {
   const firstYearWithdrawal =
     firstYearStartPortolioTotalValue * initialWithdrawalRate;
 
   if (isFirstYear) {
+    const clampedValue = clampWithMeta(
+      firstYearWithdrawal,
+      minWithdrawal,
+      maxWithdrawal
+    );
+
     return {
-      value: clamp(firstYearWithdrawal, minWithdrawal, maxWithdrawal),
-      meta: {},
+      value: clampedValue.val,
+      meta: {
+        ruleApplied: false,
+        minWithdrawalMade: clampedValue.minimumApplied,
+        maxWithdrawalMade: clampedValue.maximumApplied,
+      },
     };
   }
 
@@ -39,12 +53,19 @@ export default function ninetyFivePercentRule({
     previousYearWithdrawalAmount * previousYearWithdrawalPercentage;
   const currentWithdrawal = portfolioTotalValue * initialWithdrawalRate;
 
+  let ruleApplied = reducedPreviousWithdrawal > currentWithdrawal;
+  const clampedValue = clampWithMeta(
+    Math.max(reducedPreviousWithdrawal, currentWithdrawal),
+    minWithdrawal,
+    maxWithdrawal
+  );
+
   return {
-    value: clamp(
-      Math.max(reducedPreviousWithdrawal, currentWithdrawal),
-      minWithdrawal,
-      maxWithdrawal
-    ),
-    meta: {},
+    value: clampedValue.val,
+    meta: {
+      ruleApplied,
+      minWithdrawalMade: clampedValue.minimumApplied,
+      maxWithdrawalMade: clampedValue.maximumApplied,
+    },
   };
 }

@@ -23,6 +23,8 @@ describe('guytonKlinger', () => {
           modifiedWithdrawalRuleApplied: false,
           capitalPreservationRuleApplied: false,
           prosperityRuleApplied: false,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -48,6 +50,8 @@ describe('guytonKlinger', () => {
           modifiedWithdrawalRuleApplied: false,
           capitalPreservationRuleApplied: false,
           prosperityRuleApplied: false,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
         },
       });
     });
@@ -83,6 +87,8 @@ describe('guytonKlinger', () => {
             modifiedWithdrawalRuleApplied: true,
             capitalPreservationRuleApplied: false,
             prosperityRuleApplied: false,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
           },
         });
       });
@@ -112,6 +118,8 @@ describe('guytonKlinger', () => {
             modifiedWithdrawalRuleApplied: false,
             capitalPreservationRuleApplied: false,
             prosperityRuleApplied: false,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
           },
         });
       });
@@ -142,6 +150,8 @@ describe('guytonKlinger', () => {
             modifiedWithdrawalRuleApplied: false,
             capitalPreservationRuleApplied: false,
             prosperityRuleApplied: false,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
           },
         });
       });
@@ -170,6 +180,8 @@ describe('guytonKlinger', () => {
             modifiedWithdrawalRuleApplied: false,
             capitalPreservationRuleApplied: false,
             prosperityRuleApplied: false,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
           },
         });
       });
@@ -198,6 +210,8 @@ describe('guytonKlinger', () => {
             modifiedWithdrawalRuleApplied: false,
             capitalPreservationRuleApplied: false,
             prosperityRuleApplied: false,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
           },
         });
       });
@@ -230,6 +244,8 @@ describe('guytonKlinger', () => {
             modifiedWithdrawalRuleApplied: false,
             capitalPreservationRuleApplied: false,
             prosperityRuleApplied: true,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
           },
         });
       });
@@ -264,6 +280,8 @@ describe('guytonKlinger', () => {
             modifiedWithdrawalRuleApplied: false,
             capitalPreservationRuleApplied: true,
             prosperityRuleApplied: false,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
           },
         });
       });
@@ -295,6 +313,8 @@ describe('guytonKlinger', () => {
             modifiedWithdrawalRuleApplied: false,
             capitalPreservationRuleApplied: false,
             prosperityRuleApplied: false,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
           },
         });
       });
@@ -328,6 +348,8 @@ describe('guytonKlinger', () => {
             modifiedWithdrawalRuleApplied: false,
             capitalPreservationRuleApplied: true,
             prosperityRuleApplied: false,
+            minWithdrawalMade: false,
+            maxWithdrawalMade: false,
           },
         });
       });

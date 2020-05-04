@@ -17,6 +17,6 @@ export default function constantDollar({
 
   return {
     value,
-    meta: {},
+    meta: null,
   };
 }
