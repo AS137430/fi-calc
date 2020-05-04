@@ -16,13 +16,13 @@ export interface YearMarketData {
   [MarketDataGrowthKeys.none]: number;
 }
 
-export interface LengthOfRetirement {
+export interface LengthOfRetirementInput {
   numberOfYears: number;
   startYear: number;
   endYear: number;
 }
 
-export interface HistoricalDataRange {
+export interface HistoricalDataRangeInput {
   firstYear: number;
   lastYear: number;
   useAllHistoricalData: boolean;
@@ -36,7 +36,7 @@ export interface AdditionalWithdrawal {
   startYear: number;
 }
 
-export type AdditionalWithdrawals = AdditionalWithdrawal[];
+export type AdditionalWithdrawalsInput = AdditionalWithdrawal[];
 
 export interface PortfolioInvestment {
   percentage: number;
@@ -46,7 +46,7 @@ export interface PortfolioInvestment {
   annualGrowthAmount?: number;
 }
 
-export interface PortfolioForm {
+export interface PortfolioInput {
   bondsValue: number;
   stockInvestmentValue: number;
   stockInvestmentFees: number;
@@ -58,7 +58,7 @@ export interface Portfolio {
   investments: PortfolioInvestment[];
 }
 
-export interface WithdrawalStrategyForm {
+export interface WithdrawalStrategyInput {
   withdrawalStrategyName: {
     key: string;
   };
@@ -162,12 +162,12 @@ export interface MarketDataInput {
 }
 
 export interface RunSimulationsOptions {
-  lengthOfRetirement: LengthOfRetirement;
-  withdrawalStrategy: WithdrawalStrategyForm;
-  portfolio: PortfolioForm;
-  historicalDataRange: HistoricalDataRange;
-  additionalWithdrawals: AdditionalWithdrawals;
-  additionalIncome: AdditionalWithdrawals;
+  lengthOfRetirement: LengthOfRetirementInput;
+  withdrawalStrategy: WithdrawalStrategyInput;
+  portfolio: PortfolioInput;
+  historicalDataRange: HistoricalDataRangeInput;
+  additionalWithdrawals: AdditionalWithdrawalsInput;
+  additionalIncome: AdditionalWithdrawalsInput;
   calculationId: number;
   analytics: any;
   marketData: MarketDataInput;

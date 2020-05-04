@@ -1,8 +1,8 @@
-import { PortfolioForm, InvestmentType, Portfolio } from '../types';
+import { PortfolioInput, InvestmentType, Portfolio } from '../types';
 import { fromInvestments } from './normalize-portfolio';
 
 interface GetFirstYearStartPortfolioOptions {
-  portfolioForm: PortfolioForm;
+  portfolioForm: PortfolioInput;
 }
 
 export default function getFirstYearStartPortfolio({

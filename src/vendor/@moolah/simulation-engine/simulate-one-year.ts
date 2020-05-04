@@ -4,7 +4,7 @@ import {
   YearMarketData,
   YearResult,
   Portfolio,
-  AdditionalWithdrawals,
+  AdditionalWithdrawalsInput,
 } from './types';
 
 interface SimulateOneYearOptions {
@@ -14,8 +14,8 @@ interface SimulateOneYearOptions {
   rebalancePortfolioAnnually: boolean;
   startPortfolio: Portfolio;
 
-  additionalWithdrawalsForYear: AdditionalWithdrawals;
-  additionalIncomeForYear: AdditionalWithdrawals;
+  additionalWithdrawalsForYear: AdditionalWithdrawalsInput;
+  additionalIncomeForYear: AdditionalWithdrawalsInput;
 
   yearMarketData: YearMarketData;
 
