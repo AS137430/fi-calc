@@ -1,6 +1,6 @@
 import {
   MarketDataGrowthKeys,
-  SimYearData,
+  YearMarketData,
   Portfolio,
   PortfolioInvestment,
   InvestmentType,
@@ -19,7 +19,7 @@ interface adjustPortfolioInvestmentOptions {
   index: number;
   isOutOfMoneyAtEnd: boolean;
   rebalancePortfolioAnnually: boolean;
-  yearMarketData: SimYearData;
+  yearMarketData: YearMarketData;
   firstYearStartPortfolio: Portfolio;
   // This is the portfolio at the start of this year
   startPortfolio: Portfolio;

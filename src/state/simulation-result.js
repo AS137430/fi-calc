@@ -16,6 +16,7 @@ const analytics = {
 };
 
 const byYear = marketDataByYear();
+
 const allYears = Object.keys(byYear);
 const lastSupportedYear = Number(allYears[allYears.length - 1]);
 

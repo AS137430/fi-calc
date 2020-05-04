@@ -166,7 +166,6 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
     : resultsByYear[yearNumber - 1].endPortfolio;
     const yearMarketData = byYear[year];
 
-
     const yearStartValue = startPortfolio.totalValue;
 
     const currentCpi = Number(yearMarketData.cpi);

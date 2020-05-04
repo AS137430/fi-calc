@@ -1,13 +1,18 @@
 import _ from 'lodash';
 import computedMarketData from './computed-market-data';
-import { MarketData } from './types';
+import { YearMarketData } from '../@moolah/simulation-engine/types';
 
-let memoizedMarketDataByYear: MarketData | null;
+interface MarketDataByYearReturn {
+  [Key: string]: YearMarketData;
+  [Key: number]: YearMarketData;
+}
+
+let memoizedMarketDataByYear: MarketDataByYearReturn | null;
 
 // The market-data.json file is an Array. Finding the data
 // within that can be slow, so we memoize an Object, by year,
 // for quick lookups.
-export default function marketDataByYear(): MarketData {
+export default function marketDataByYear(): MarketDataByYearReturn {
   if (!memoizedMarketDataByYear) {
     const marketData = computedMarketData();
 

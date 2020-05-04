@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import adjustPortfolioInvestment from './utils/adjust-portfolio-investment';
 import {
-  SimYearData,
+  YearMarketData,
   YearResult,
   Portfolio,
   AdditionalWithdrawals,
@@ -17,7 +17,7 @@ interface SimulateOneYearOptions {
   additionalWithdrawalsForYear: AdditionalWithdrawals;
   additionalIncomeForYear: AdditionalWithdrawals;
 
-  yearMarketData: SimYearData;
+  yearMarketData: YearMarketData;
 
   firstYearStartPortfolio: Portfolio;
 

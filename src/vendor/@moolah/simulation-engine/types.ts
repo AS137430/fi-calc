@@ -4,11 +4,12 @@ export enum MarketDataGrowthKeys {
   none = 'none',
 }
 
-export interface SimYearData {
+export interface YearMarketData {
   year: number;
   month: number;
   cpi: number;
-  cape: number;
+  // TODO: ensure this is not null by using median cape?
+  cape: number | null;
   dividendYields: number;
   [MarketDataGrowthKeys.bondsGrowth]: number;
   [MarketDataGrowthKeys.stockMarketGrowth]: number;
@@ -114,7 +115,7 @@ export interface YearResult {
   endPortfolio: Portfolio;
   isOutOfMoneyAtEnd: boolean;
 
-  marketData: SimYearData;
+  marketData: YearMarketData;
   startCpi: number;
   cumulativeInflationSinceFirstYear: number;
 
@@ -153,8 +154,8 @@ export type Simulations = Array<Simulation>;
 
 export interface MarketDataInput {
   byYear: {
-    [Key: string]: SimYearData;
-    [Key: number]: SimYearData;
+    [Key: string]: YearMarketData;
+    [Key: number]: YearMarketData;
   };
   lastSupportedYear: number;
   avgMarketDataCape: number;
