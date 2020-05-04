@@ -1,5 +1,24 @@
 import { MarketData, YearData } from '../../computed-market-data/types';
 
+export interface SimYearData {
+  year: number;
+  month: number;
+  cpi: number;
+  stockMarketGrowth: number;
+  cape: number;
+  dividendYields: number;
+  bondsGrowth: number;
+}
+
+export interface SimMarketData {
+  avgMarketDataCape: number;
+  lastSupportedYear: number;
+  byYear: {
+    [Key: string]: SimYearData;
+    [Key: number]: SimYearData;
+  };
+}
+
 export interface LengthOfRetirement {
   numberOfYears: number;
   startYear: number;
