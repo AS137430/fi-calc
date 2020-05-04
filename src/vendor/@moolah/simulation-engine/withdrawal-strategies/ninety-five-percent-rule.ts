@@ -13,6 +13,10 @@ export interface NinetyFivePercentRuleOptions {
   maxWithdrawal?: number;
 }
 
+interface NinetyFivePercentRuleMeta {
+  ruleApplied: boolean;
+}
+
 // Algorithm from "Work Less, Live More"
 // Clarified by a post on this forum: https://www.early-retirement.org/forums/f28/question-on-the-95-rule-20484.html
 export default function ninetyFivePercentRule({
@@ -24,14 +28,16 @@ export default function ninetyFivePercentRule({
   previousYearWithdrawalPercentage = 0.95,
   minWithdrawal = 0,
   maxWithdrawal = Infinity,
-}: NinetyFivePercentRuleOptions): WithdrawalReturn {
+}: NinetyFivePercentRuleOptions): WithdrawalReturn<NinetyFivePercentRuleMeta> {
   const firstYearWithdrawal =
     firstYearStartPortolioTotalValue * initialWithdrawalRate;
 
   if (isFirstYear) {
     return {
       value: clamp(firstYearWithdrawal, minWithdrawal, maxWithdrawal),
-      meta: null,
+      meta: {
+        ruleApplied: false,
+      },
     };
   }
 
@@ -39,12 +45,16 @@ export default function ninetyFivePercentRule({
     previousYearWithdrawalAmount * previousYearWithdrawalPercentage;
   const currentWithdrawal = portfolioTotalValue * initialWithdrawalRate;
 
+  let ruleApplied = reducedPreviousWithdrawal > currentWithdrawal;
+
   return {
     value: clamp(
       Math.max(reducedPreviousWithdrawal, currentWithdrawal),
       minWithdrawal,
       maxWithdrawal
     ),
-    meta: null,
+    meta: {
+      ruleApplied,
+    },
   };
 }

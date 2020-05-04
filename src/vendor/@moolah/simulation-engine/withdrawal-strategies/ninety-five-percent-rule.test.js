@@ -21,8 +21,13 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 0,
-        }).value
-      ).toBe(40000);
+        })
+      ).toEqual({
+        value: 40000,
+        meta: {
+          ruleApplied: false,
+        },
+      });
     });
 
     it('Year 2', () => {
@@ -35,8 +40,13 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 40000,
-        }).value
-      ).toBe(41856);
+        })
+      ).toEqual({
+        value: 41856,
+        meta: {
+          ruleApplied: false,
+        },
+      });
     });
 
     it('Year 3', () => {
@@ -49,9 +59,14 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 41856,
-        }).value
+        })
         // $40,985 in the book (he rounds the decimal away)
-      ).toBe(40985.4);
+      ).toEqual({
+        value: 40985.4,
+        meta: {
+          ruleApplied: false,
+        },
+      });
     });
 
     it('Year 4', () => {
@@ -64,9 +79,14 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 40985,
-        }).value
+        })
         // $38,936 in the book (he rounds)
-      ).toBe(38935.75);
+      ).toEqual({
+        value: 38935.75,
+        meta: {
+          ruleApplied: true,
+        },
+      });
     });
 
     it('Year 5', () => {
@@ -79,9 +99,14 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 38936,
-        }).value
+        })
         // $37,136 in the book (he rounds)
-      ).toBe(37136.36);
+      ).toEqual({
+        value: 37136.36,
+        meta: {
+          ruleApplied: false,
+        },
+      });
     });
   });
 
@@ -96,8 +121,13 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 0,
-        }).value
-      ).toBe(4000);
+        })
+      ).toEqual({
+        value: 4000,
+        meta: {
+          ruleApplied: false,
+        },
+      });
     });
 
     it('respects min withdrawal', () => {
@@ -112,8 +142,13 @@ describe('ninetyFive', () => {
           previousYearWithdrawalAmount: 0,
 
           minWithdrawal: 5000,
-        }).value
-      ).toBe(5000);
+        })
+      ).toEqual({
+        value: 5000,
+        meta: {
+          ruleApplied: false,
+        },
+      });
     });
 
     it('respects max withdrawal', () => {
@@ -128,8 +163,13 @@ describe('ninetyFive', () => {
           previousYearWithdrawalAmount: 0,
 
           maxWithdrawal: 2000,
-        }).value
-      ).toBe(2000);
+        })
+      ).toEqual({
+        value: 2000,
+        meta: {
+          ruleApplied: false,
+        },
+      });
     });
   });
 
@@ -144,8 +184,13 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 4000,
-        }).value
-      ).toBe(8000);
+        })
+      ).toEqual({
+        value: 8000,
+        meta: {
+          ruleApplied: false,
+        },
+      });
     });
 
     it('uses 95% of last year when its more than % of current portfolio', () => {
@@ -158,8 +203,13 @@ describe('ninetyFive', () => {
           initialWithdrawalRate: 0.04,
 
           previousYearWithdrawalAmount: 4000,
-        }).value
-      ).toBe(3800);
+        })
+      ).toEqual({
+        value: 3800,
+        meta: {
+          ruleApplied: true,
+        },
+      });
     });
 
     it('allows you to customize the % of previous withdrawal', () => {
@@ -173,8 +223,13 @@ describe('ninetyFive', () => {
 
           previousYearWithdrawalAmount: 4000,
           previousYearWithdrawalPercentage: 0.99,
-        }).value
-      ).toBe(3960);
+        })
+      ).toEqual({
+        value: 3960,
+        meta: {
+          ruleApplied: true,
+        },
+      });
     });
 
     it('respects min withdrawal', () => {
@@ -189,8 +244,13 @@ describe('ninetyFive', () => {
           previousYearWithdrawalAmount: 4000,
 
           minWithdrawal: 20000,
-        }).value
-      ).toBe(20000);
+        })
+      ).toEqual({
+        value: 20000,
+        meta: {
+          ruleApplied: false,
+        },
+      });
     });
 
     it('respects max withdrawal', () => {
@@ -205,8 +265,13 @@ describe('ninetyFive', () => {
           previousYearWithdrawalAmount: 4000,
 
           maxWithdrawal: 2000,
-        }).value
-      ).toBe(2000);
+        })
+      ).toEqual({
+        value: 2000,
+        meta: {
+          ruleApplied: false,
+        },
+      });
     });
   });
 });
