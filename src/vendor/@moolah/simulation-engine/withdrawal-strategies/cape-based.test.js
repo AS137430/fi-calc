@@ -10,7 +10,16 @@ describe('capeBased', () => {
         capeWeight: 0,
       });
 
-      expect(withdrawal.value).toEqual(40000);
+      expect(withdrawal).toEqual({
+        value: 40000,
+        meta: {
+          baseWithdrawalRate: 0.4,
+          capeBasedWithdrawalRate: 0,
+          totalWithdrawalRate: 0.4,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
+        },
+      });
     });
 
     it('respects min withdrawal', () => {
@@ -22,7 +31,16 @@ describe('capeBased', () => {
         capeWeight: 0,
       });
 
-      expect(withdrawal.value).toEqual(50000);
+      expect(withdrawal).toEqual({
+        value: 50000,
+        meta: {
+          baseWithdrawalRate: 0.4,
+          capeBasedWithdrawalRate: 0,
+          totalWithdrawalRate: 0.4,
+          minWithdrawalMade: true,
+          maxWithdrawalMade: false,
+        },
+      });
     });
 
     it('respects max withdrawal', () => {
@@ -34,7 +52,16 @@ describe('capeBased', () => {
         capeWeight: 0,
       });
 
-      expect(withdrawal.value).toEqual(30000);
+      expect(withdrawal).toEqual({
+        value: 30000,
+        meta: {
+          baseWithdrawalRate: 0.4,
+          capeBasedWithdrawalRate: 0,
+          totalWithdrawalRate: 0.4,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: true,
+        },
+      });
     });
   });
 
@@ -52,7 +79,16 @@ describe('capeBased', () => {
         capeWeight: 0.25,
       });
 
-      expect(withdrawal.value).toEqual(2000);
+      expect(withdrawal).toEqual({
+        value: 2000,
+        meta: {
+          baseWithdrawalRate: 0.01,
+          capeBasedWithdrawalRate: 0.01,
+          totalWithdrawalRate: 0.02,
+          minWithdrawalMade: false,
+          maxWithdrawalMade: false,
+        },
+      });
     });
   });
 });
