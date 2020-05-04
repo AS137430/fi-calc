@@ -207,13 +207,13 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
         cpi: currentCpi,
         minWithdrawal,
         maxWithdrawal,
-        gkInitialWithdrawal: gkInitialWithdrawal,
-        gkWithdrawalUpperLimit: gkWithdrawalUpperLimit,
-        gkWithdrawalLowerLimit: gkWithdrawalLowerLimit,
-        gkUpperLimitAdjustment: gkUpperLimitAdjustment,
-        gkLowerLimitAdjustment: gkLowerLimitAdjustment,
-        gkIgnoreLastFifteenYears: gkIgnoreLastFifteenYears,
-        gkModifiedWithdrawalRule: gkModifiedWithdrawalRule
+        initialWithdrawal: gkInitialWithdrawal,
+        withdrawalUpperLimit: gkWithdrawalUpperLimit,
+        withdrawalLowerLimit: gkWithdrawalLowerLimit,
+        upperLimitAdjustment: gkUpperLimitAdjustment,
+        lowerLimitAdjustment: gkLowerLimitAdjustment,
+        ignoreLastFiftenYears: gkIgnoreLastFifteenYears,
+        enableModifiedWithdrawalRule: gkModifiedWithdrawalRule
       }).value;
     } else if (withdrawalMethod === WithdrawalStrategies.ninetyFivePercentRule) {
       withdrawalAmount =  withdrawalStrategies.ninetyFivePercentRule({

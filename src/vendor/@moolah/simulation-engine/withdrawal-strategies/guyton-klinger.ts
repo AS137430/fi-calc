@@ -14,13 +14,13 @@ export interface GuytonKlingerOptions {
   previousYearBaseWithdrawalAmount: number;
   previousYearCpi: number;
 
-  gkInitialWithdrawal: number;
-  gkModifiedWithdrawalRule?: boolean;
-  gkWithdrawalUpperLimit?: number;
-  gkWithdrawalLowerLimit?: number;
-  gkUpperLimitAdjustment?: number;
-  gkLowerLimitAdjustment?: number;
-  gkIgnoreLastFifteenYears?: boolean;
+  initialWithdrawal: number;
+  enableModifiedWithdrawalRule?: boolean;
+  withdrawalUpperLimit?: number;
+  withdrawalLowerLimit?: number;
+  upperLimitAdjustment?: number;
+  lowerLimitAdjustment?: number;
+  ignoreLastFiftenYears?: boolean;
 
   minWithdrawal?: number;
   maxWithdrawal?: number;
@@ -48,19 +48,19 @@ export default function guytonKlinger({
   isFirstYear,
   cpi,
   portfolioTotalValue,
-  gkInitialWithdrawal,
+  initialWithdrawal,
   firstYearStartPortolioTotalValue,
 
   stockMarketGrowth,
   previousYearBaseWithdrawalAmount,
   previousYearCpi,
 
-  gkModifiedWithdrawalRule = true,
-  gkWithdrawalUpperLimit = 20,
-  gkWithdrawalLowerLimit = 20,
-  gkUpperLimitAdjustment = 10,
-  gkLowerLimitAdjustment = 10,
-  gkIgnoreLastFifteenYears = true,
+  enableModifiedWithdrawalRule = true,
+  withdrawalUpperLimit = 20,
+  withdrawalLowerLimit = 20,
+  upperLimitAdjustment = 10,
+  lowerLimitAdjustment = 10,
+  ignoreLastFiftenYears = true,
 
   minWithdrawal = 0,
   maxWithdrawal = Infinity,
@@ -76,10 +76,10 @@ export default function guytonKlinger({
   // of this calculation:
   //
   //   Inflation: we may adjust for inflation, or we may not (Modified Withdrawal Rule)
-  //   Adjustment: we may decrease it by a little bit (Capital Preservation Rule / gkUpperLimitAdjustment)
-  //   Adjustment: we may increase it by a little bit (Prosperity Rule / gkLowerLimitAdjustment)
+  //   Adjustment: we may decrease it by a little bit (Capital Preservation Rule / upperLimitAdjustment)
+  //   Adjustment: we may increase it by a little bit (Prosperity Rule / lowerLimitAdjustment)
   const previousWithdrawal = isFirstYear
-    ? gkInitialWithdrawal
+    ? initialWithdrawal
     : previousYearBaseWithdrawalAmount;
 
   const inflationFromPreviousYear = isFirstYear
@@ -93,7 +93,7 @@ export default function guytonKlinger({
     previousWithdrawal * inflationFromPreviousYear;
 
   let withdrawalAmountToUse = inflationAdjustedPrevYearWithdrawal;
-  if (gkModifiedWithdrawalRule) {
+  if (enableModifiedWithdrawalRule) {
     // The next set of lines implement's GK's "Modified Withdrawal Rule". Excerpt from their original paper:
     //
     // > Withdrawals increase from year to year with the inflation rate, except there is no increase
@@ -111,7 +111,7 @@ export default function guytonKlinger({
     // Note: we will still apply the other two rules after this
 
     // First, we calculate the inflation-adjusted first year withdrawal
-    const inflationAdjustedInitialWithdrawal = gkInitialWithdrawal * inflation;
+    const inflationAdjustedInitialWithdrawal = initialWithdrawal * inflation;
 
     // Next, we find the answer to (1) by calculating our returns
     const thisYearTotalReturn = stockMarketGrowth;
@@ -172,15 +172,15 @@ export default function guytonKlinger({
   // To determine if we need to adjust our withdrawal, we first compute the initial year's % withdrawal. For
   // instance, 40k out of $1mil would be a 4% withdrawal.
   const initialWithdrawalRate =
-    gkInitialWithdrawal / firstYearStartPortolioTotalValue;
+    initialWithdrawal / firstYearStartPortolioTotalValue;
 
   // We use that initial withdrawal rate to compute the max/min withdrawals that apply for every subsequent year
   // This is "Exceeds" in the equations above
   const withdrawalRateUpperLimit =
-    initialWithdrawalRate * (1 + gkWithdrawalUpperLimit / 100);
+    initialWithdrawalRate * (1 + withdrawalUpperLimit / 100);
   // This is "Fall" in the equations above
   const withdrawalRateLowerLimit =
-    initialWithdrawalRate * (1 - gkWithdrawalLowerLimit / 100);
+    initialWithdrawalRate * (1 - withdrawalLowerLimit / 100);
 
   // If we were to use the inflation-adjusted prev year withdrawal for this year, then
   // this is the % of the current year portfolio value that we would be withdrawing.
@@ -200,9 +200,9 @@ export default function guytonKlinger({
   // Ignoring the upper limit for the final 15 years is defined in the GK paper. Excerpt:
   // > This rule is not applied during the final 15 years of the anticipated retirement period. Guyton and Klinger (2006) found
   // > that this restriction increased the total amount of withdrawals during the retirement period without a significant decrease in the success rate.
-  // const considerUpperLimit = yearsRemaining >= 15 && !gkIgnoreLastFifteenYears;
+  // const considerUpperLimit = yearsRemaining >= 15 && !ignoreLastFiftenYears;
   let considerUpperLimit;
-  if (gkIgnoreLastFifteenYears) {
+  if (ignoreLastFiftenYears) {
     considerUpperLimit = yearsRemaining >= 15;
   } else {
     considerUpperLimit = true;
@@ -210,12 +210,12 @@ export default function guytonKlinger({
 
   if (withdrawalIsTooMuch && considerUpperLimit) {
     capitalPreservationRuleApplied = true;
-    withdrawalAdjustment = 1 - gkUpperLimitAdjustment / 100;
+    withdrawalAdjustment = 1 - upperLimitAdjustment / 100;
   }
   // We do a similar check for when the withdrawal is too little.
   else if (withdrawalIsTooLittle) {
     prosperityRuleApplied = true;
-    withdrawalAdjustment = 1 + gkLowerLimitAdjustment / 100;
+    withdrawalAdjustment = 1 + lowerLimitAdjustment / 100;
   }
 
   const clampedValue = clampWithMeta(
