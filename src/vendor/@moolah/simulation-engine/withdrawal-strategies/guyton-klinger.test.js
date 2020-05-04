@@ -10,7 +10,7 @@ describe('guytonKlinger', () => {
         cpi: 100,
         previousYearCpi: 100,
         portfolioTotalValue: 1000000,
-        gkInitialWithdrawal: 40000,
+        initialWithdrawal: 40000,
         firstYearStartPortolioTotalValue: 1000000,
 
         stockMarketGrowth: 0.03,
@@ -37,7 +37,7 @@ describe('guytonKlinger', () => {
         cpi: 100,
         previousYearCpi: 100,
         portfolioTotalValue: 1000000,
-        gkInitialWithdrawal: 900000,
+        initialWithdrawal: 900000,
         firstYearStartPortolioTotalValue: 1000000,
 
         stockMarketGrowth: 0.03,
@@ -77,7 +77,7 @@ describe('guytonKlinger', () => {
           cpi: 103,
           previousYearCpi: 100,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
         });
 
@@ -102,13 +102,13 @@ describe('guytonKlinger', () => {
           // this ensures condition (1) is TRUE
           stockMarketGrowth: -0.05,
 
-          gkModifiedWithdrawalRule: false,
+          enableModifiedWithdrawalRule: false,
           yearsRemaining: 25,
           isFirstYear: false,
           cpi: 103,
           previousYearCpi: 100,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
         });
 
@@ -138,7 +138,7 @@ describe('guytonKlinger', () => {
           cpi: 103,
           previousYearCpi: 100,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
         });
 
@@ -170,7 +170,7 @@ describe('guytonKlinger', () => {
           cpi: 103,
           previousYearCpi: 100,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
         });
 
@@ -200,7 +200,7 @@ describe('guytonKlinger', () => {
           cpi: 99,
           previousYearCpi: 100,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
         });
 
@@ -231,7 +231,7 @@ describe('guytonKlinger', () => {
           cpi: 103,
           previousYearCpi: 100,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
         });
 
@@ -263,11 +263,11 @@ describe('guytonKlinger', () => {
           cpi: 103,
           previousYearCpi: 100,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
 
-          gkWithdrawalLowerLimit: 40,
-          gkLowerLimitAdjustment: 5,
+          withdrawalLowerLimit: 40,
+          lowerLimitAdjustment: 5,
         });
 
         expect(withdrawal).toEqual({
@@ -295,12 +295,12 @@ describe('guytonKlinger', () => {
           cpi: 103,
           previousYearCpi: 100,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
 
           // 43,200 is the lower limit with this configuration
-          gkWithdrawalLowerLimit: 10,
-          gkLowerLimitAdjustment: 5,
+          withdrawalLowerLimit: 10,
+          lowerLimitAdjustment: 5,
         });
 
         expect(withdrawal).toEqual({
@@ -335,7 +335,7 @@ describe('guytonKlinger', () => {
           cpi: 103,
           previousYearCpi: 100,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
         });
 
@@ -369,11 +369,11 @@ describe('guytonKlinger', () => {
           cpi: 103,
           previousYearCpi: 100,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
 
-          gkWithdrawalUpperLimit: 40,
-          gkUpperLimitAdjustment: 5,
+          withdrawalUpperLimit: 40,
+          upperLimitAdjustment: 5,
         });
 
         expect(withdrawal).toEqual({
@@ -403,11 +403,11 @@ describe('guytonKlinger', () => {
           cpi: 103,
           previousYearCpi: 100,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
 
-          gkWithdrawalUpperLimit: 10,
-          gkUpperLimitAdjustment: 50,
+          withdrawalUpperLimit: 10,
+          upperLimitAdjustment: 50,
         });
 
         expect(withdrawal).toEqual({
@@ -437,7 +437,7 @@ describe('guytonKlinger', () => {
           cpi: 103,
           previousYearCpi: 100,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
         });
 
@@ -455,7 +455,7 @@ describe('guytonKlinger', () => {
         });
       });
 
-      it('is can be enabled even when < 15 years remain', () => {
+      it('can be enabled even when < 15 years remain', () => {
         const withdrawal = guytonKlinger({
           // This is so high because it computes the withdrawal % from the
           // current-year portfolio value, which we have set at 1.2m
@@ -469,9 +469,9 @@ describe('guytonKlinger', () => {
           isFirstYear: false,
           cpi: 103,
           previousYearCpi: 100,
-          gkIgnoreLastFifteenYears: false,
+          ignoreLastFifteenYears: false,
           portfolioTotalValue: 1200000,
-          gkInitialWithdrawal: 40000,
+          initialWithdrawal: 40000,
           firstYearStartPortolioTotalValue: 1000000,
         });
 
