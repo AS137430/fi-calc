@@ -37,11 +37,13 @@ function numberOfResults({
 }
 
 export default function SimulationsOverview() {
-  const { result, inputs, status } = useSimulationResult();
+  const simulationResult = useSimulationResult();
+  const { result, inputs, status } = simulationResult;
 
   const isSmallScreen = useIsSmallScreen();
 
   // For debugging purposes
+  window.simulationResult = simulationResult;
   window.result = result;
 
   const csvUrl = useMemo(
