@@ -4,8 +4,8 @@
   top: 0;
   width: var(--configuration-width);
   max-height: 100vh;
-  overflow-y: scroll;
   padding: 0 0 20px;
+  overflow-y: auto;
   background: #262626;
   color: white;
   border-right: 1px solid #3c3c3c;
