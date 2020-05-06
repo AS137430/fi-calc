@@ -33,6 +33,37 @@ const marketData = {
   avgMarketDataCape,
 };
 
+// get rid of this by making the strings identical
+function getWithdrawalMethod(withdrawalStrategyName) {
+  if (withdrawalStrategyName === 'portfolioPercent') {
+    return 'portfolioPercent';
+  } else if (withdrawalStrategyName === 'gk') {
+    return 'guytonKlinger';
+  } else if (withdrawalStrategyName === '95percent') {
+    return 'ninetyFivePercentRule';
+  } else if (withdrawalStrategyName === 'capeBased') {
+    return 'capeBased';
+  }
+
+  return 'constantDollar';
+}
+
+function getWithdrawalOptions(withdrawalStrategyName, withdrawalStrategy) {
+  if (withdrawalStrategyName === 'constantDollar') {
+    const {
+      annualWithdrawal,
+      inflationAdjustedFirstYearWithdrawal,
+    } = withdrawalStrategy;
+
+    return {
+      annualWithdrawal,
+      inflationAdjustedFirstYearWithdrawal,
+    };
+  } else {
+    return {};
+  }
+}
+
 function useSimulationResult() {
   const { state: historicalDataRange } = useHistoricalDataRange();
   const { state: withdrawalStrategy } = useWithdrawalStrategy();
@@ -48,7 +79,12 @@ function useSimulationResult() {
   const [computation, setComputation] = useState({
     inputs: {
       lengthOfRetirement,
-      withdrawalStrategy,
+      withdrawalStrategy: {
+        ...withdrawalStrategy,
+        withdrawalStrategyName: getWithdrawalMethod(
+          withdrawalStrategy.withdrawalStrategyName.key
+        ),
+      },
       portfolio,
       historicalDataRange,
       additionalWithdrawals,
@@ -69,9 +105,19 @@ function useSimulationResult() {
 
         const start = performance.now();
 
+        const withdrawalStrategyName = getWithdrawalMethod(
+          withdrawalStrategy.withdrawalStrategyName.key
+        );
+
         const inputs = {
           lengthOfRetirement,
-          withdrawalStrategy,
+          withdrawalStrategy: {
+            withdrawalStrategyName,
+            options: getWithdrawalOptions(
+              withdrawalStrategyName,
+              withdrawalStrategy
+            ),
+          },
           portfolio,
           historicalDataRange,
           additionalWithdrawals,

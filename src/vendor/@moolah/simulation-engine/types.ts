@@ -58,39 +58,113 @@ export interface Portfolio {
   investments: PortfolioInvestment[];
 }
 
-export interface WithdrawalStrategyInput {
-  withdrawalStrategyName: {
-    key: string;
-  };
+/* Utility types */
 
-  /* Shared by numerous strategies */
+type ExtractActionParameters<A, T> = A extends { type: T }
+  ? {} extends Omit<A, 'type'> ? never : Omit<A, 'type'>
+  : never;
+
+type ExcludeTypeField<A> = {
+  [K in Exclude<keyof A, 'withdrawalStrategyName'>]: A[K]
+};
+
+/* End utility types */
+
+// TODO: use this to DRY up code below
+interface MinMaxWithdrawalOptions {
   minWithdrawalLimit: number;
   maxWithdrawalLimit: number;
-
-  /* Constant Dollar */
-  annualWithdrawal: number;
-  inflationAdjustedFirstYearWithdrawal: boolean;
-
-  /* Percentage of Portfolio */
-  percentageOfPortfolio: number;
-
   minWithdrawalLimitEnabled: boolean;
   maxWithdrawalLimitEnabled: boolean;
+}
+
+type Action =
+  | {
+      withdrawalStrategyName: 'constantDollar';
+      annualWithdrawal: number;
+      inflationAdjustedFirstYearWithdrawal: boolean;
+    }
+  | {
+      withdrawalStrategyName: 'portfolioPercent';
+      percentageOfPortfolio: number;
+
+      minWithdrawalLimit: number;
+      maxWithdrawalLimit: number;
+      minWithdrawalLimitEnabled: boolean;
+      maxWithdrawalLimitEnabled: boolean;
+    }
+  | {
+      withdrawalStrategyName: 'guytonKlinger';
+
+      gkInitialWithdrawal: number;
+      gkWithdrawalUpperLimit: number;
+      gkWithdrawalLowerLimit: number;
+      gkUpperLimitAdjustment: number;
+      gkLowerLimitAdjustment: number;
+      gkIgnoreLastFifteenYears: boolean;
+      gkModifiedWithdrawalRule: boolean;
+
+      minWithdrawalLimit: number;
+      maxWithdrawalLimit: number;
+      minWithdrawalLimitEnabled: boolean;
+      maxWithdrawalLimitEnabled: boolean;
+    }
+  | {
+      withdrawalStrategyName: 'ninetyFivePercentRule';
+
+      ninetyFiveInitialRate: number;
+      ninetyFivePercentage: number;
+
+      minWithdrawalLimit: number;
+      maxWithdrawalLimit: number;
+      minWithdrawalLimitEnabled: boolean;
+      maxWithdrawalLimitEnabled: boolean;
+    }
+  | {
+      withdrawalStrategyName: 'capeBased';
+
+      capeWithdrawalRate: number;
+      capeWeight: number;
+
+      minWithdrawalLimit: number;
+      maxWithdrawalLimit: number;
+      minWithdrawalLimitEnabled: boolean;
+      maxWithdrawalLimitEnabled: boolean;
+    };
+type ActionType = Action['withdrawalStrategyName'];
+
+export interface WithdrawalStrategyInput<T extends ActionType> {
+  withdrawalStrategyName: T;
+  options: ExtractActionParameters<Action, T>;
+
+  /* Shared by numerous strategies */
+  // minWithdrawalLimit: number;
+  // maxWithdrawalLimit: number;
+
+  /* Constant Dollar */
+  // annualWithdrawal: number;
+  // inflationAdjustedFirstYearWithdrawal: boolean;
+
+  /* Percentage of Portfolio */
+  // percentageOfPortfolio: number;
+
+  // minWithdrawalLimitEnabled: boolean;
+  // maxWithdrawalLimitEnabled: boolean;
 
   /* Guyton-Klinger */
-  gkInitialWithdrawal: number;
-  gkWithdrawalUpperLimit: number;
-  gkWithdrawalLowerLimit: number;
-  gkUpperLimitAdjustment: number;
-  gkLowerLimitAdjustment: number;
-  gkIgnoreLastFifteenYears: boolean;
-  gkModifiedWithdrawalRule: boolean;
+  // gkInitialWithdrawal: number;
+  // gkWithdrawalUpperLimit: number;
+  // gkWithdrawalLowerLimit: number;
+  // gkUpperLimitAdjustment: number;
+  // gkLowerLimitAdjustment: number;
+  // gkIgnoreLastFifteenYears: boolean;
+  // gkModifiedWithdrawalRule: boolean;
 
-  ninetyFiveInitialRate: number;
-  ninetyFivePercentage: number;
+  // ninetyFiveInitialRate: number;
+  // ninetyFivePercentage: number;
 
-  capeWithdrawalRate: number;
-  capeWeight: number;
+  // capeWithdrawalRate: number;
+  // capeWeight: number;
 }
 
 export enum InvestmentType {
