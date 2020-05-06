@@ -89,7 +89,7 @@ function useSimulationResult() {
           };
         });
 
-        runSimulations(inputs, result => {
+        runSimulations(inputs).then(result => {
           // If a new calculation was started then we ignore this one.
           if (calculationIdRef.current !== result.calculationId) {
             return;
