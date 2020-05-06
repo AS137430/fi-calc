@@ -1,13 +1,14 @@
 import { useEffect, useState, useRef } from 'react';
 import _ from 'lodash';
 import constate from 'constate';
+import runSimulations from '../vendor/@moolah/simulation-engine';
+import withdrawalStrategies from '../vendor/@moolah/withdrawal-strategies';
 import usePortfolio from './portfolio';
 import useHistoricalDataRange from './historical-data-range';
 import useWithdrawalStrategy from './withdrawal-strategy';
 import useLengthOfRetirement from './length-of-retirement';
 import useAdditionalWithdrawals from './additional-withdrawals';
 import useAdditionalIncome from './additional-income';
-import runSimulations from '../vendor/@moolah/simulation-engine';
 import successRateAnalysis from '../utils/simulation-analytics/success-rate';
 import marketDataByYear from '../vendor/computed-market-data/market-data-by-year';
 
@@ -33,6 +34,20 @@ const marketData = {
   avgMarketDataCape,
 };
 
+function getWithdrawalMethod(withdrawalStrategyName) {
+  if (withdrawalStrategyName === 'portfolioPercent') {
+    return 'portfolioPercent';
+  } else if (withdrawalStrategyName === 'gk') {
+    return 'guytonKlinger';
+  } else if (withdrawalStrategyName === '95percent') {
+    return 'ninetyFivePercentRule';
+  } else if (withdrawalStrategyName === 'capeBased') {
+    return 'capeBased';
+  }
+
+  return 'constantDollar';
+}
+
 function useSimulationResult() {
   const { state: historicalDataRange } = useHistoricalDataRange();
   const { state: withdrawalStrategy } = useWithdrawalStrategy();
@@ -48,7 +63,6 @@ function useSimulationResult() {
   const [computation, setComputation] = useState({
     inputs: {
       lengthOfRetirement,
-      withdrawalStrategy,
       portfolio,
       historicalDataRange,
       additionalWithdrawals,
@@ -69,9 +83,37 @@ function useSimulationResult() {
 
         const start = performance.now();
 
+        const withdrawalMethod = getWithdrawalMethod(
+          withdrawalStrategy.withdrawalStrategyName.key
+        );
+
+        const {
+          annualWithdrawal,
+          inflationAdjustedFirstYearWithdrawal,
+          percentageOfPortfolio: percentPercentageOfPortfolio,
+          minWithdrawalLimit,
+          maxWithdrawalLimit,
+          minWithdrawalLimitEnabled,
+          maxWithdrawalLimitEnabled,
+          gkInitialWithdrawal,
+          gkWithdrawalUpperLimit,
+          gkWithdrawalLowerLimit,
+          gkUpperLimitAdjustment,
+          gkLowerLimitAdjustment,
+          gkIgnoreLastFifteenYears,
+          gkModifiedWithdrawalRule,
+
+          ninetyFiveInitialRate,
+          ninetyFivePercentage,
+
+          capeWithdrawalRate,
+          capeWeight,
+        } = withdrawalStrategy;
+
+        const percentageOfPortfolio = percentPercentageOfPortfolio / 100;
+
         const inputs = {
           lengthOfRetirement,
-          withdrawalStrategy,
           portfolio,
           historicalDataRange,
           additionalWithdrawals,
@@ -79,6 +121,94 @@ function useSimulationResult() {
           calculationId: thisCalculationId,
           analytics,
           marketData,
+          yearlyWithdrawal({
+            simulationNumber,
+            year,
+            month,
+            cumulativeInflation,
+            yearMarketData,
+            yearsRemaining,
+            previousResults,
+            isFirstYear,
+            startPortfolio,
+            firstYearStartPortfolio,
+            firstYearCpi,
+          }) {
+            const minWithdrawal = minWithdrawalLimitEnabled
+              ? minWithdrawalLimit * cumulativeInflation
+              : 0;
+            const maxWithdrawal = maxWithdrawalLimitEnabled
+              ? maxWithdrawalLimit * cumulativeInflation
+              : Number.MAX_SAFE_INTEGER;
+            const yearStartValue = startPortfolio.totalValue;
+
+            if (withdrawalMethod === 'constantDollar') {
+              return withdrawalStrategies.constantDollar({
+                inflation: cumulativeInflation,
+                adjustForInflation: inflationAdjustedFirstYearWithdrawal,
+                firstYearWithdrawal: annualWithdrawal,
+              }).value;
+            } else if (withdrawalMethod === 'portfolioPercent') {
+              return withdrawalStrategies.portfolioPercent({
+                portfolioTotalValue: yearStartValue,
+                percentageOfPortfolio,
+                minWithdrawal,
+                maxWithdrawal,
+              }).value;
+            } else if (withdrawalMethod === 'guytonKlinger') {
+              return withdrawalStrategies.guytonKlinger({
+                stockMarketGrowth: yearMarketData.stockMarketGrowth,
+                previousYearBaseWithdrawalAmount: previousResults
+                  ? previousResults.baseWithdrawalAmount
+                  : 0,
+                inflation: cumulativeInflation,
+                firstYearStartPortolioTotalValue:
+                  firstYearStartPortfolio.totalValue,
+                isFirstYear,
+                portfolioTotalValue: yearStartValue,
+                previousYearCpi: previousResults
+                  ? previousResults.startCpi
+                  : firstYearCpi,
+                yearsRemaining,
+                cpi: yearMarketData.cpi,
+                minWithdrawal,
+                maxWithdrawal,
+                initialWithdrawal: gkInitialWithdrawal,
+                withdrawalUpperLimit: gkWithdrawalUpperLimit,
+                withdrawalLowerLimit: gkWithdrawalLowerLimit,
+                upperLimitAdjustment: gkUpperLimitAdjustment,
+                lowerLimitAdjustment: gkLowerLimitAdjustment,
+                ignoreLastFifteenYears: gkIgnoreLastFifteenYears,
+                enableModifiedWithdrawalRule: gkModifiedWithdrawalRule,
+              }).value;
+            } else if (withdrawalMethod === 'ninetyFivePercentRule') {
+              return withdrawalStrategies.ninetyFivePercentRule({
+                isFirstYear,
+                portfolioTotalValue: yearStartValue,
+                previousYearWithdrawalAmount: previousResults
+                  ? previousResults.baseWithdrawalAmount
+                  : 0,
+                firstYearStartPortolioTotalValue:
+                  firstYearStartPortfolio.totalValue,
+                initialWithdrawalRate: ninetyFiveInitialRate / 100,
+                previousYearWithdrawalPercentage: ninetyFivePercentage / 100,
+                minWithdrawal,
+                maxWithdrawal,
+              }).value;
+            } else if (withdrawalMethod === 'capeBased') {
+              return withdrawalStrategies.capeBased({
+                portfolioTotalValue: yearStartValue,
+                withdrawalRate: capeWithdrawalRate / 100,
+                capeWeight,
+                minWithdrawal,
+                maxWithdrawal,
+                cape:
+                  yearMarketData.cape === null
+                    ? avgMarketDataCape
+                    : yearMarketData.cape,
+              }).value;
+            }
+          },
         };
 
         setComputation(prev => {

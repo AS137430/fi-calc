@@ -14,9 +14,9 @@ export default function runSimulations(
   inputs: RunSimulationsOptions
 ): Promise<RunSimulationsReturn> {
   const {
+    yearlyWithdrawal,
     historicalDataRange,
     lengthOfRetirement,
-    withdrawalStrategy,
     portfolio,
     additionalWithdrawals,
     additionalIncome,
@@ -56,11 +56,11 @@ export default function runSimulations(
       startYears,
       (startYear, simulationNumber) =>
         runSimulation({
+          yearlyWithdrawal,
           simulationNumber,
           startYear,
           rebalancePortfolioAnnually,
           portfolio: firstYearStartPortfolio,
-          withdrawalStrategy,
           additionalWithdrawals,
           additionalIncome,
           duration: lengthOfRetirement.numberOfYears,
