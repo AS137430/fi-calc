@@ -29,16 +29,16 @@ function getWithdrawalMethod(
   withdrawalStrategyName: string,
 ): WithdrawalStrategies {
   if (withdrawalStrategyName === 'portfolioPercent') {
-    return WithdrawalStrategies.portfolioPercent;
+    return 'portfolioPercent';
   } else if (withdrawalStrategyName === 'gk') {
-    return WithdrawalStrategies.guytonKlinger;
+    return 'guytonKlinger';
   } else if (withdrawalStrategyName === '95percent') {
-    return WithdrawalStrategies.ninetyFivePercentRule;
+    return 'ninetyFivePercentRule';
   } else if (withdrawalStrategyName === 'capeBased') {
-    return WithdrawalStrategies.capeBased;
+    return 'capeBased';
   }
   
-  return WithdrawalStrategies.constantDollar;
+  return 'constantDollar';
 }
 
 // A simulation is one single possible retirement calculation. Given a start year, a "duration,"
@@ -180,20 +180,20 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
           : Number.MAX_SAFE_INTEGER;
 
     let withdrawalAmount:number = 0;
-    if (withdrawalMethod === WithdrawalStrategies.constantDollar) {
+    if (withdrawalMethod === 'constantDollar') {
       withdrawalAmount = withdrawalStrategies.constantDollar({
         inflation: cumulativeInflationSinceFirstYear,
         adjustForInflation: inflationAdjustedFirstYearWithdrawal,
         firstYearWithdrawal: firstYearWithdrawal
       }).value;
-    } else if (withdrawalMethod === WithdrawalStrategies.portfolioPercent) {
+    } else if (withdrawalMethod === 'portfolioPercent') {
       withdrawalAmount = withdrawalStrategies.portfolioPercent({
         portfolioTotalValue: yearStartValue,
         percentageOfPortfolio,
         minWithdrawal,
         maxWithdrawal,
       }).value;
-    } else if (withdrawalMethod === WithdrawalStrategies.guytonKlinger) {
+    } else if (withdrawalMethod === 'guytonKlinger') {
       withdrawalAmount =  withdrawalStrategies.guytonKlinger({
         stockMarketGrowth: yearMarketData.stockMarketGrowth,
         previousYearBaseWithdrawalAmount: previousResults ? previousResults.baseWithdrawalAmount : 0,
@@ -214,7 +214,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
         ignoreLastFifteenYears: gkIgnoreLastFifteenYears,
         enableModifiedWithdrawalRule: gkModifiedWithdrawalRule
       }).value;
-    } else if (withdrawalMethod === WithdrawalStrategies.ninetyFivePercentRule) {
+    } else if (withdrawalMethod === 'ninetyFivePercentRule') {
       withdrawalAmount =  withdrawalStrategies.ninetyFivePercentRule({
         isFirstYear,
         portfolioTotalValue: yearStartValue,
@@ -225,7 +225,7 @@ export default function runSimulation(options: RunSimulationOptions):Simulation 
         minWithdrawal,
         maxWithdrawal,
       }).value;
-    } else if (withdrawalMethod === WithdrawalStrategies.capeBased) {
+    } else if (withdrawalMethod === 'capeBased') {
       withdrawalAmount = withdrawalStrategies.capeBased({
         portfolioTotalValue: yearStartValue,
         withdrawalRate: capeWithdrawalRate / 100,

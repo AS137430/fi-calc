@@ -98,13 +98,12 @@ export enum InvestmentType {
   bonds = 'bonds',
 }
 
-export enum WithdrawalStrategies {
-  constantDollar = 'constantDollar',
-  portfolioPercent = 'portfolioPercent',
-  guytonKlinger = 'guytonKlinger',
-  ninetyFivePercentRule = 'ninetyFivePercentRule',
-  capeBased = 'capeBased',
-}
+export type WithdrawalStrategies =
+  | 'constantDollar'
+  | 'portfolioPercent'
+  | 'guytonKlinger'
+  | 'ninetyFivePercentRule'
+  | 'capeBased';
 
 export interface YearResult {
   yearNumber: number;
