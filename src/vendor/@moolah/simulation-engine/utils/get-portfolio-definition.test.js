@@ -1,6 +1,6 @@
-import getFirstYearStartPortfolio from './get-first-year-start-portfolio';
+import getPortfolioDefinition from './get-portfolio-definition';
 
-describe('getFirstYearStartPortfolio', () => {
+describe('getPortfolioDefinition', () => {
   it('works with 100% stocks', () => {
     const portfolioForm = {
       bondsValue: 0,
@@ -8,7 +8,7 @@ describe('getFirstYearStartPortfolio', () => {
       stockInvestmentFees: 0.04,
     };
 
-    const portfolio = getFirstYearStartPortfolio({ portfolioForm });
+    const portfolio = getPortfolioDefinition({ portfolioForm });
     expect(portfolio).toEqual({
       totalValue: 10000,
       totalValueInFirstYearDollars: NaN,
@@ -36,7 +36,7 @@ describe('getFirstYearStartPortfolio', () => {
       stockInvestmentFees: 0.04,
     };
 
-    const portfolio = getFirstYearStartPortfolio({ portfolioForm });
+    const portfolio = getPortfolioDefinition({ portfolioForm });
     expect(portfolio).toEqual({
       totalValue: 100000,
       totalValueInFirstYearDollars: NaN,
@@ -64,7 +64,7 @@ describe('getFirstYearStartPortfolio', () => {
       stockInvestmentFees: 0.04,
     };
 
-    const portfolio = getFirstYearStartPortfolio({ portfolioForm });
+    const portfolio = getPortfolioDefinition({ portfolioForm });
     expect(portfolio).toEqual({
       totalValue: 25000,
       totalValueInFirstYearDollars: NaN,

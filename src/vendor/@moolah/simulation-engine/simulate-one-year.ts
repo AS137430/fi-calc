@@ -91,7 +91,7 @@ export default function simulateOneYear({
       adjustPortfolioInvestment({
         portfolioValueBeforeMarketChanges,
         investment,
-        index,
+        index: Number(index),
         isOutOfMoneyAtEnd,
         startPortfolio,
         rebalancePortfolioAnnually,

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { inflationFromCpi } from '../../@moolah/lib';
 import {
-  Portfolio,
+  PortfolioDefinition,
   YearResult,
   AdditionalWithdrawalsInput,
   Simulation,
@@ -9,6 +9,7 @@ import {
   WithdrawalFnOptions,
 } from './types';
 import simulateOneYear from './simulate-one-year';
+import getFirstYearPortfolioFromDefinition from './utils/get-first-year-portfolio-from-definition';
 
 interface RunSimulationOptions {
   yearlyWithdrawal(withdrawalOptions: WithdrawalFnOptions): number;
@@ -16,7 +17,7 @@ interface RunSimulationOptions {
   startYear: number;
   duration: number;
   rebalancePortfolioAnnually: boolean;
-  portfolio: Portfolio;
+  portfolioDefinition: PortfolioDefinition;
   additionalWithdrawals: AdditionalWithdrawalsInput;
   additionalIncome: AdditionalWithdrawalsInput;
   marketData: MarketDataInput;
@@ -33,7 +34,7 @@ export default function runSimulation(
     simulationNumber,
     startYear,
     duration,
-    portfolio,
+    portfolioDefinition,
     rebalancePortfolioAnnually,
     additionalWithdrawals,
     additionalIncome,
@@ -44,7 +45,10 @@ export default function runSimulation(
 
   type yearRanOutOfMoney = number | null;
 
-  const firstYearStartPortfolio = portfolio;
+  // TODO: fix this
+  const firstYearStartPortfolio = getFirstYearPortfolioFromDefinition(
+    portfolioDefinition
+  );
   const firstYearStartPortfolioValue = firstYearStartPortfolio.totalValue;
 
   const endYear = startYear + duration - 1;

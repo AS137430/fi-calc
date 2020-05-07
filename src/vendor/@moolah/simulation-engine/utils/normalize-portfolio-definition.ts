@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Portfolio, PortfolioInvestment } from '../types';
+import { PortfolioDefinition, PortfolioInvestment } from '../types';
 
 interface FromTotalAndPercentagesOptions {
   totalValue: number;
@@ -9,7 +9,7 @@ interface FromTotalAndPercentagesOptions {
 export function fromTotalAndPercentages({
   totalValue,
   investments,
-}: FromTotalAndPercentagesOptions): Portfolio {
+}: FromTotalAndPercentagesOptions): PortfolioDefinition {
   const newInvestments = _.map(investments, investment => {
     return {
       ...investment,
@@ -31,7 +31,7 @@ interface FromInvestmentsOptions {
 
 export function fromInvestments({
   investments,
-}: FromInvestmentsOptions): Portfolio {
+}: FromInvestmentsOptions): PortfolioDefinition {
   const totalValue = _.reduce(
     investments,
     (result, investment) => result + investment.value,

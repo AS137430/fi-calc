@@ -38,6 +38,43 @@ export interface AdditionalWithdrawal {
 
 export type AdditionalWithdrawalsInput = AdditionalWithdrawal[];
 
+// These are the values that you pass into the
+export interface PortfolioInput {
+  bondsValue: number;
+  stockInvestmentValue: number;
+  stockInvestmentFees: number;
+}
+
+export interface PortfolioDefinitionInvestment {
+  percentage: number;
+  type: InvestmentType;
+  // TODO: rename this
+  fees: number;
+  value: number;
+  annualGrowthAmount?: number;
+}
+
+export interface PortfolioDefinition {
+  totalValue: number;
+  totalValueInFirstYearDollars: number;
+  investments: PortfolioDefinitionInvestment[];
+}
+
+export interface RealPortfolioInvestment {
+  type: InvestmentType;
+  percentage: number;
+  startingPercentage: number;
+  growth: number;
+  fees: number;
+  dividends: number;
+  valueBeforeChange: number;
+  valueAfterWithdrawal: number;
+  valueWithGrowth: number;
+  value: number;
+  // TODO: remove this
+  annualGrowthAmount?: number;
+}
+
 export interface PortfolioInvestment {
   percentage: number;
   type: InvestmentType;
@@ -46,16 +83,10 @@ export interface PortfolioInvestment {
   annualGrowthAmount?: number;
 }
 
-export interface PortfolioInput {
-  bondsValue: number;
-  stockInvestmentValue: number;
-  stockInvestmentFees: number;
-}
-
 export interface Portfolio {
   totalValue: number;
   totalValueInFirstYearDollars: number;
-  investments: PortfolioInvestment[];
+  investments: RealPortfolioInvestment[];
 }
 
 export enum InvestmentType {

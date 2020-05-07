@@ -4,6 +4,7 @@ import {
   Portfolio,
   PortfolioInvestment,
   InvestmentType,
+  RealPortfolioInvestment,
 } from '../types';
 
 // This maps an investment type to the key on marketData that
@@ -34,24 +35,26 @@ export default function adjustPortfolioInvestment({
   firstYearStartPortfolio,
   yearMarketData,
   startPortfolio,
-}: adjustPortfolioInvestmentOptions) {
+}: adjustPortfolioInvestmentOptions): RealPortfolioInvestment {
+  const startingInvestments = startPortfolio.investments[index];
+
+  const percentage = rebalancePortfolioAnnually
+    ? firstYearStartPortfolio.investments[index].percentage
+    : startingInvestments.value / startPortfolio.totalValue;
+
   if (isOutOfMoneyAtEnd) {
     return {
       ...investment,
       valueBeforeChange: investment.value,
       valueAfterWithdrawal: 0,
+      valueWithGrowth: 0,
+      startingPercentage: percentage,
       growth: 0,
       dividends: 0,
       percentage: 0,
       value: 0,
     };
   }
-
-  const startingInvestments = startPortfolio.investments[index];
-
-  const percentage = rebalancePortfolioAnnually
-    ? firstYearStartPortfolio.investments[index].percentage
-    : startingInvestments.value / startPortfolio.totalValue;
 
   // If we rebalance yearly, then we keep the original percentage from the previous year.
   // This assumes that the investor reinvests at the very beginning (or very end) of each year.
