@@ -44,7 +44,6 @@ export interface PortfolioInput {
 export interface PortfolioDefinitionInvestment {
   percentage: number;
   type: InvestmentType;
-  // TODO: rename this
   fees: number;
   value: number;
   annualGrowthAmount?: number;
@@ -59,9 +58,9 @@ export interface PortfolioInvestment {
   type: InvestmentType;
   percentage: number;
   startingPercentage: number;
-  growth: number;
-  fees: number;
-  dividends: number;
+  growthAmount: number;
+  feesAmount: number;
+  dividendsAmount: number;
   valueBeforeChange: number;
   valueAfterWithdrawal: number;
   valueWithGrowth: number;

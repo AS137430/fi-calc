@@ -1,6 +1,7 @@
 import runSimulation from './run-simulation';
+import { PortfolioDefinition } from './types';
 
-function getBasicPortfolioDefinition() {
+function getBasicPortfolioDefinition(): PortfolioDefinition {
   return {
     totalValue: 1000000,
     investments: [
@@ -96,7 +97,7 @@ describe('runSimulation', () => {
       ranOutOfMoney: false,
       yearRanOutOfMoney: null,
       numberOfYearsWithMoneyInPortfolio: 2,
-      lastYearEndPortfolioValue: 3913536,
+      lastYearEndPortfolioValue: 3603581.34,
       totalInflationOverPeriod: 1.1666666666666667,
       resultsByYear: [
         {
@@ -118,10 +119,10 @@ describe('runSimulation', () => {
               {
                 percentage: 1,
                 startingPercentage: 1,
-                dividends: 0,
+                dividendsAmount: 0,
                 type: 'equity',
-                growth: 0,
-                fees: 0,
+                growthAmount: 0,
+                feesAmount: 0,
                 value: 1000000,
                 valueAfterWithdrawal: 1000000,
                 valueBeforeChange: 1000000,
@@ -130,17 +131,17 @@ describe('runSimulation', () => {
             ],
           },
           endPortfolio: {
-            totalValue: 1958400,
-            totalValueInFirstYearDollars: 1958400,
+            totalValue: 1880064,
+            totalValueInFirstYearDollars: 1880064,
             investments: [
               {
                 percentage: 1,
                 startingPercentage: 1,
                 type: 'equity',
-                growth: 998400,
-                dividends: 0,
-                fees: 0,
-                value: 1958400,
+                growthAmount: 998400,
+                dividendsAmount: 0,
+                feesAmount: 78336,
+                value: 1880064,
                 valueAfterWithdrawal: 960000,
                 valueBeforeChange: 1000000,
                 valueWithGrowth: 1958400,
@@ -161,17 +162,17 @@ describe('runSimulation', () => {
           additionalWithdrawalAmount: 0,
           totalWithdrawalAmountInFirstYearDollars: 34285.71,
           startPortfolio: {
-            totalValue: 1958400,
-            totalValueInFirstYearDollars: 1958400,
+            totalValue: 1880064,
+            totalValueInFirstYearDollars: 1880064,
             investments: [
               {
                 percentage: 1,
                 startingPercentage: 1,
                 type: 'equity',
-                dividends: 0,
-                fees: 0,
-                growth: 998400,
-                value: 1958400,
+                growthAmount: 998400,
+                dividendsAmount: 0,
+                feesAmount: 78336,
+                value: 1880064,
                 valueAfterWithdrawal: 960000,
                 valueBeforeChange: 1000000,
                 valueWithGrowth: 1958400,
@@ -179,22 +180,22 @@ describe('runSimulation', () => {
             ],
           },
           endPortfolio: {
-            totalValue: 3913536,
-            totalValueInFirstYearDollars: 3354459.43,
             investments: [
               {
+                dividendsAmount: 0,
+                feesAmount: 150149.2224,
+                growthAmount: 1913666.56,
                 percentage: 1,
                 startingPercentage: 1,
                 type: 'equity',
-                dividends: 0,
-                fees: 0,
-                value: 3913536,
-                growth: 1995136,
-                valueAfterWithdrawal: 1918400,
+                value: 3603581.34,
+                valueAfterWithdrawal: 1840064,
                 valueBeforeChange: 1000000,
-                valueWithGrowth: 3913536,
+                valueWithGrowth: 3753730.56,
               },
             ],
+            totalValue: 3603581.34,
+            totalValueInFirstYearDollars: 3088784.01,
           },
         },
       ],

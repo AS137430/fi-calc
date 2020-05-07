@@ -5,6 +5,7 @@ import {
   YearResult,
   Portfolio,
   AdditionalWithdrawalsInput,
+  PortfolioDefinition,
 } from './types';
 
 interface SimulateOneYearOptions {
@@ -20,6 +21,7 @@ interface SimulateOneYearOptions {
   yearMarketData: YearMarketData;
 
   firstYearStartPortfolio: Portfolio;
+  portfolioDefinition: PortfolioDefinition;
 
   withdrawalAmount: number;
   cumulativeInflationSinceFirstYear: number;
@@ -32,6 +34,7 @@ export default function simulateOneYear({
 
   rebalancePortfolioAnnually,
   startPortfolio,
+  portfolioDefinition,
 
   additionalWithdrawalsForYear,
   additionalIncomeForYear,
@@ -86,7 +89,7 @@ export default function simulateOneYear({
   const isOutOfMoneyAtEnd = portfolioValueBeforeMarketChanges === 0;
 
   let adjustedInvestmentValues = _.map(
-    firstYearStartPortfolio.investments,
+    portfolioDefinition.investments,
     (investment, index) =>
       adjustPortfolioInvestment({
         portfolioValueBeforeMarketChanges,

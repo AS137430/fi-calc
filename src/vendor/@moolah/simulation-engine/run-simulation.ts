@@ -139,6 +139,7 @@ export default function runSimulation(
     const yearResult = simulateOneYear({
       yearNumber,
       startPortfolio,
+      portfolioDefinition,
       yearMarketData,
       year,
       cpi: currentCpi,

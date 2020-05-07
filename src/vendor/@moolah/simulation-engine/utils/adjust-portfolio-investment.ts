@@ -47,13 +47,14 @@ export default function adjustPortfolioInvestment({
 
   if (isOutOfMoneyAtEnd) {
     return {
-      ...investment,
+      type: investment.type,
       valueBeforeChange: investment.value,
       valueAfterWithdrawal: 0,
       valueWithGrowth: 0,
       startingPercentage: percentage,
-      growth: 0,
-      dividends: 0,
+      growthAmount: 0,
+      dividendsAmount: 0,
+      feesAmount: 0,
       percentage: 0,
       value: 0,
     };
@@ -66,7 +67,7 @@ export default function adjustPortfolioInvestment({
 
   const growthKey = investmentTypeToGrowthMap[investment.type];
   const growthPercentage = yearMarketData[growthKey] || 0;
-  const growth = valueAfterWithdrawal * growthPercentage;
+  const growthAmount = valueAfterWithdrawal * growthPercentage;
 
   // This allows you to specify a fixed annual addition to this investment. This replaces
   // the "growth of cash" feature of cFIREsim.
@@ -74,26 +75,31 @@ export default function adjustPortfolioInvestment({
     ? investment.annualGrowthAmount
     : 0;
 
-  let dividends =
+  let dividendsAmount =
     investment.type === 'equity'
       ? valueAfterWithdrawal * yearMarketData.dividendYields
       : 0;
 
-  const valueWithGrowth = valueAfterWithdrawal + growth + annualGrowthAmount;
+  const valueWithGrowth =
+    valueAfterWithdrawal + growthAmount + annualGrowthAmount;
 
   // Fees aren't applied to dividends. This behavior matches cFIREsim.
-  const fees = investment.fees * valueWithGrowth;
+  const feesAmount = investment.fees * valueWithGrowth;
+
+  console.log('got an investment', investment);
 
   // We factor everything in to get our end result for this investment
-  const value = Number((valueWithGrowth + dividends - fees).toFixed(2));
+  const value = Number(
+    (valueWithGrowth + dividendsAmount - feesAmount).toFixed(2)
+  );
 
   return {
-    ...investment,
+    type: investment.type,
     percentage,
     startingPercentage: percentage,
-    growth,
-    fees,
-    dividends,
+    growthAmount,
+    feesAmount,
+    dividendsAmount,
     valueBeforeChange: investment.value,
     valueAfterWithdrawal,
     valueWithGrowth,
