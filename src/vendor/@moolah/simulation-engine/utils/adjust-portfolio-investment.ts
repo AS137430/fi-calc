@@ -2,9 +2,9 @@ import {
   MarketDataGrowthKeys,
   YearMarketData,
   Portfolio,
-  PortfolioInvestment,
+  PortfolioDefinitionInvestment,
   InvestmentType,
-  RealPortfolioInvestment,
+  PortfolioInvestment,
 } from '../types';
 
 // This maps an investment type to the key on marketData that
@@ -16,7 +16,7 @@ const investmentTypeToGrowthMap = {
 
 interface adjustPortfolioInvestmentOptions {
   portfolioValueBeforeMarketChanges: number;
-  investment: PortfolioInvestment;
+  investment: PortfolioDefinitionInvestment;
   index: number;
   isOutOfMoneyAtEnd: boolean;
   rebalancePortfolioAnnually: boolean;
@@ -35,7 +35,7 @@ export default function adjustPortfolioInvestment({
   firstYearStartPortfolio,
   yearMarketData,
   startPortfolio,
-}: adjustPortfolioInvestmentOptions): RealPortfolioInvestment {
+}: adjustPortfolioInvestmentOptions): PortfolioInvestment {
   const startingInvestments = startPortfolio.investments[index];
 
   const percentage = rebalancePortfolioAnnually

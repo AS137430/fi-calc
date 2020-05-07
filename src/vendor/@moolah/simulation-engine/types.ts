@@ -59,7 +59,7 @@ export interface PortfolioDefinition {
   investments: PortfolioDefinitionInvestment[];
 }
 
-export interface RealPortfolioInvestment {
+export interface PortfolioInvestment {
   type: InvestmentType;
   percentage: number;
   startingPercentage: number;
@@ -70,22 +70,12 @@ export interface RealPortfolioInvestment {
   valueAfterWithdrawal: number;
   valueWithGrowth: number;
   value: number;
-  // TODO: remove this
-  annualGrowthAmount?: number;
-}
-
-export interface PortfolioInvestment {
-  percentage: number;
-  type: InvestmentType;
-  fees: number;
-  value: number;
-  annualGrowthAmount?: number;
 }
 
 export interface Portfolio {
   totalValue: number;
   totalValueInFirstYearDollars: number;
-  investments: RealPortfolioInvestment[];
+  investments: PortfolioInvestment[];
 }
 
 export enum InvestmentType {
