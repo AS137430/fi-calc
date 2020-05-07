@@ -1,8 +1,4 @@
-export enum MarketDataGrowthKeys {
-  bondsGrowth = 'bondsGrowth',
-  stockMarketGrowth = 'stockMarketGrowth',
-  none = 'none',
-}
+export type MarketDataGrowthKeys = 'bondsGrowth' | 'stockMarketGrowth' | 'none';
 
 export interface YearMarketData {
   year: number;
@@ -11,9 +7,9 @@ export interface YearMarketData {
   // TODO: ensure this is not null by using median cape?
   cape: number | null;
   dividendYields: number;
-  [MarketDataGrowthKeys.bondsGrowth]: number;
-  [MarketDataGrowthKeys.stockMarketGrowth]: number;
-  [MarketDataGrowthKeys.none]: number;
+  bondsGrowth: number;
+  stockMarketGrowth: number;
+  none: number;
 }
 
 export interface LengthOfRetirementInput {

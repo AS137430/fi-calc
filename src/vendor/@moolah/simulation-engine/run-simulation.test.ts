@@ -1,5 +1,4 @@
 import runSimulation from './run-simulation';
-import { MarketDataGrowthKeys } from './types';
 
 function getBasicPortfolioDefinition() {
   return {
@@ -24,9 +23,9 @@ function getBasicMarketData() {
         cpi: 30,
         cape: 100,
         dividendYields: 0,
-        [MarketDataGrowthKeys.bondsGrowth]: 1,
-        [MarketDataGrowthKeys.stockMarketGrowth]: 1.04,
-        [MarketDataGrowthKeys.none]: 1,
+        bondsGrowth: 1,
+        stockMarketGrowth: 1.04,
+        none: 1,
       },
       1931: {
         year: 1931,
@@ -34,9 +33,9 @@ function getBasicMarketData() {
         cpi: 35,
         cape: 105,
         dividendYields: 0,
-        [MarketDataGrowthKeys.bondsGrowth]: 1,
-        [MarketDataGrowthKeys.stockMarketGrowth]: 1.04,
-        [MarketDataGrowthKeys.none]: 1,
+        bondsGrowth: 1,
+        stockMarketGrowth: 1.04,
+        none: 1,
       },
       1932: {
         year: 1932,
@@ -44,9 +43,9 @@ function getBasicMarketData() {
         cpi: 40,
         cape: 95,
         dividendYields: 0,
-        [MarketDataGrowthKeys.bondsGrowth]: 1,
-        [MarketDataGrowthKeys.stockMarketGrowth]: 1.04,
-        [MarketDataGrowthKeys.none]: 1,
+        bondsGrowth: 1,
+        stockMarketGrowth: 1.04,
+        none: 1,
       },
       1933: {
         year: 1933,
@@ -54,9 +53,9 @@ function getBasicMarketData() {
         cpi: 45,
         cape: 100,
         dividendYields: 0,
-        [MarketDataGrowthKeys.bondsGrowth]: 1,
-        [MarketDataGrowthKeys.stockMarketGrowth]: 1.04,
-        [MarketDataGrowthKeys.none]: 1,
+        bondsGrowth: 1,
+        stockMarketGrowth: 1.04,
+        none: 1,
       },
     },
     lastSupportedYear: 1933,

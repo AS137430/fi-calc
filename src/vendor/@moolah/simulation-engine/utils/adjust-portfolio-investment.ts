@@ -1,16 +1,20 @@
 import {
-  MarketDataGrowthKeys,
   YearMarketData,
   Portfolio,
   PortfolioDefinitionInvestment,
   PortfolioInvestment,
+  MarketDataGrowthKeys,
 } from '../types';
+
+interface GrowthKeyMap {
+  [key: string]: MarketDataGrowthKeys;
+}
 
 // This maps an investment type to the key on marketData that
 // represents its changes in a given year
-const investmentTypeToGrowthMap = {
-  equity: MarketDataGrowthKeys.stockMarketGrowth,
-  bonds: MarketDataGrowthKeys.bondsGrowth,
+const investmentTypeToGrowthMap: GrowthKeyMap = {
+  equity: 'stockMarketGrowth',
+  bonds: 'bondsGrowth',
 };
 
 interface adjustPortfolioInvestmentOptions {
