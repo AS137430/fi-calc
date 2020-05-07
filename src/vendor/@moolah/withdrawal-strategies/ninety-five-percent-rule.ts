@@ -1,4 +1,4 @@
-import clampWithMeta from '../utils/clamp-with-meta';
+import clampWithMeta from './utils/clamp-with-meta';
 import { WithdrawalReturn, MinMaxMeta } from './types';
 
 export interface NinetyFivePercentRuleOptions {

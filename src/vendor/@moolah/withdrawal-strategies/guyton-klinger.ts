@@ -1,6 +1,6 @@
-import { inflationFromCpi } from '../../../@moolah/lib';
+import { inflationFromCpi } from '../../@moolah/lib';
 import { WithdrawalReturn, MinMaxMeta } from './types';
-import clampWithMeta from '../utils/clamp-with-meta';
+import clampWithMeta from './utils/clamp-with-meta';
 
 export interface GuytonKlingerOptions {
   yearsRemaining: number;

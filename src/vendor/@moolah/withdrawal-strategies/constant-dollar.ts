@@ -1,6 +1,6 @@
 import { WithdrawalReturn } from './types';
 
-export interface InflationAdjustedOptions {
+export interface ConstantDollarOptions {
   firstYearWithdrawal: number;
   inflation?: number;
   adjustForInflation?: boolean;
@@ -10,7 +10,7 @@ export default function constantDollar({
   inflation = 1,
   adjustForInflation = true,
   firstYearWithdrawal,
-}: InflationAdjustedOptions): WithdrawalReturn {
+}: ConstantDollarOptions): WithdrawalReturn {
   const value = adjustForInflation
     ? inflation * firstYearWithdrawal
     : firstYearWithdrawal;

@@ -18,8 +18,10 @@ export default function runAnalysis({
   const perSimAnalysis: any = {};
   simulations.forEach(sim => {
     _.forEach(analytics, (analysisDefinition, analysisName) => {
-      const result = analysisDefinition.data.simulation(sim);
-      const blockColor = analysisDefinition.data.simulationColor(sim, result);
+      const simAnalysis = analysisDefinition.data;
+
+      const result = simAnalysis?.simulation?.(sim);
+      const blockColor = simAnalysis?.simulationColor?.(sim, result);
 
       if (Array.isArray(perSimAnalysis[analysisName])) {
         perSimAnalysis[analysisName].push(result);
@@ -34,9 +36,9 @@ export default function runAnalysis({
   return _.mapValues(analytics, (analysisDefinition, analysisName) => {
     const simAnalysis = perSimAnalysis[analysisName];
     const simBlockColor = simsBlockColor[analysisName];
-    const analysis = analysisDefinition.data.overview(result, simAnalysis);
+    const analysis = analysisDefinition.data?.overview?.(result, simAnalysis);
     const display = {
-      overview: analysisDefinition.display.overview(
+      overview: analysisDefinition.display?.overview?.(
         result,
         analysis,
         simAnalysis

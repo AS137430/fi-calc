@@ -58,53 +58,17 @@ export interface Portfolio {
   investments: PortfolioInvestment[];
 }
 
-export interface WithdrawalStrategyInput {
-  withdrawalStrategyName: {
-    key: string;
-  };
-
-  /* Shared by numerous strategies */
-  minWithdrawalLimit: number;
-  maxWithdrawalLimit: number;
-
-  /* Constant Dollar */
-  annualWithdrawal: number;
-  inflationAdjustedFirstYearWithdrawal: boolean;
-
-  /* Percentage of Portfolio */
-  percentageOfPortfolio: number;
-
-  minWithdrawalLimitEnabled: boolean;
-  maxWithdrawalLimitEnabled: boolean;
-
-  /* Guyton-Klinger */
-  gkInitialWithdrawal: number;
-  gkWithdrawalUpperLimit: number;
-  gkWithdrawalLowerLimit: number;
-  gkUpperLimitAdjustment: number;
-  gkLowerLimitAdjustment: number;
-  gkIgnoreLastFifteenYears: boolean;
-  gkModifiedWithdrawalRule: boolean;
-
-  ninetyFiveInitialRate: number;
-  ninetyFivePercentage: number;
-
-  capeWithdrawalRate: number;
-  capeWeight: number;
-}
-
 export enum InvestmentType {
   equity = 'equity',
   bonds = 'bonds',
 }
 
-export enum WithdrawalStrategies {
-  constantDollar = 'constantDollar',
-  portfolioPercent = 'portfolioPercent',
-  guytonKlinger = 'guytonKlinger',
-  ninetyFivePercentRule = 'ninetyFivePercentRule',
-  capeBased = 'capeBased',
-}
+export type WithdrawalStrategies =
+  | 'constantDollar'
+  | 'portfolioPercent'
+  | 'guytonKlinger'
+  | 'ninetyFivePercentRule'
+  | 'capeBased';
 
 export interface YearResult {
   yearNumber: number;
@@ -144,10 +108,6 @@ export interface Simulation {
   totalInflationOverPeriod: number;
 
   resultsByYear: ResultsByYear;
-
-  // TODO: move to portfolio/withdrawal analysis
-  minWithdrawalYearInFirstYearDollars: YearResult | undefined;
-  minPortfolioYearInFirstYearDollars: YearResult | undefined;
 }
 
 export type Simulations = Array<Simulation>;
@@ -161,9 +121,23 @@ export interface MarketDataInput {
   avgMarketDataCape: number;
 }
 
+export interface WithdrawalFnOptions {
+  simulationNumber: number;
+  year: number;
+  month: number;
+  cumulativeInflation: number;
+  yearMarketData: YearMarketData;
+  yearsRemaining: number;
+  previousResults: YearResult;
+  isFirstYear: boolean;
+  startPortfolio: Portfolio;
+  firstYearStartPortfolio: Portfolio;
+  firstYearCpi: number;
+}
+
 export interface RunSimulationsOptions {
+  yearlyWithdrawal(withdrawalOptions: WithdrawalFnOptions): number;
   lengthOfRetirement: LengthOfRetirementInput;
-  withdrawalStrategy: WithdrawalStrategyInput;
   portfolio: PortfolioInput;
   historicalDataRange: HistoricalDataRangeInput;
   additionalWithdrawals: AdditionalWithdrawalsInput;

@@ -119,15 +119,18 @@ export default function Simulation() {
     [result, numericYear]
   );
 
-  const customData = useMemo(
+  const analysis = useMemo(
     () => {
       if (!result || Number.isNaN(numericYear)) {
         return null;
       }
 
-      return result.analysis.successRate.simAnalysis[
-        simulation.simulationNumber
-      ];
+      return {
+        successRate:
+          result.analysis.successRate.simAnalysis[simulation.simulationNumber],
+        minimums:
+          result.analysis.minimums.simAnalysis[simulation.simulationNumber],
+      };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [result, numericYear]
@@ -167,9 +170,10 @@ export default function Simulation() {
   const lastYear =
     simulation.resultsByYear[simulation.resultsByYear.length - 1];
 
-  const isSuccess = customData.status === 'green';
-  const isFailed = customData.status === 'FAILED';
-  const isWarning = customData.status === 'WARNING';
+  const status = analysis.successRate.status;
+  const isSuccess = status === 'green';
+  const isFailed = status === 'FAILED';
+  const isWarning = status === 'WARNING';
 
   let successMessage;
   if (isFailed) {
@@ -238,11 +242,14 @@ export default function Simulation() {
                 <div className="results_sectionTitle">Lowest Value</div>
                 <div className="results_value">
                   {formatForDisplay(
-                    simulation.minPortfolioYearInFirstYearDollars.endPortfolio
-                      .totalValueInFirstYearDollars
+                    analysis.minimums.minPortfolioYearInFirstYearDollars
+                      .endPortfolio.totalValueInFirstYearDollars
                   )}
                   <span className="results_secondaryValue">
-                    ({simulation.minPortfolioYearInFirstYearDollars.year + 1})
+                    (
+                    {analysis.minimums.minPortfolioYearInFirstYearDollars.year +
+                      1}
+                    )
                   </span>
                 </div>
               </div>
@@ -295,11 +302,13 @@ export default function Simulation() {
                 <div className="results_sectionTitle">Lowest Withdrawal</div>
                 <div className="results_value">
                   {formatForDisplay(
-                    simulation.minWithdrawalYearInFirstYearDollars
+                    analysis.minimums.minWithdrawalYearInFirstYearDollars
                       .totalWithdrawalAmountInFirstYearDollars
                   )}
                   <span className="results_secondaryValue">
-                    ({simulation.minWithdrawalYearInFirstYearDollars.year})
+                    (
+                    {analysis.minimums.minWithdrawalYearInFirstYearDollars.year}
+                    )
                   </span>
                 </div>
               </div>
