@@ -11,7 +11,6 @@ describe('getPortfolioDefinition', () => {
     const portfolio = getPortfolioDefinition({ portfolioForm });
     expect(portfolio).toEqual({
       totalValue: 10000,
-      totalValueInFirstYearDollars: NaN,
       investments: [
         {
           type: 'equity',
@@ -39,7 +38,6 @@ describe('getPortfolioDefinition', () => {
     const portfolio = getPortfolioDefinition({ portfolioForm });
     expect(portfolio).toEqual({
       totalValue: 100000,
-      totalValueInFirstYearDollars: NaN,
       investments: [
         {
           type: 'equity',
@@ -67,7 +65,6 @@ describe('getPortfolioDefinition', () => {
     const portfolio = getPortfolioDefinition({ portfolioForm });
     expect(portfolio).toEqual({
       totalValue: 25000,
-      totalValueInFirstYearDollars: NaN,
       investments: [
         {
           type: 'equity',

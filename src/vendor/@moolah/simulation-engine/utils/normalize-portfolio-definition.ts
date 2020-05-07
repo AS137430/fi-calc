@@ -20,8 +20,6 @@ export function fromTotalAndPercentages({
   return {
     investments: newInvestments,
     totalValue,
-    // TODO: this is wrong!
-    totalValueInFirstYearDollars: NaN,
   };
 }
 
@@ -48,7 +46,5 @@ export function fromInvestments({
   return {
     investments: newInvestments,
     totalValue,
-    // TODO: this is wrong!
-    totalValueInFirstYearDollars: NaN,
   };
 }

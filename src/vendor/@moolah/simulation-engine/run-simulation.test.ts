@@ -1,10 +1,9 @@
 import runSimulation from './run-simulation';
 import { InvestmentType, MarketDataGrowthKeys } from './types';
 
-function getBasicPortfolio() {
+function getBasicPortfolioDefinition() {
   return {
     totalValue: 1000000,
-    totalValueInFirstYearDollars: 1000000,
     investments: [
       {
         percentage: 1,
@@ -72,7 +71,7 @@ describe('runSimulation', () => {
 
   describe('custom withdrawal: constant dollar', () => {
     const marketData = getBasicMarketData();
-    const firstYearStartPortfolio = getBasicPortfolio();
+    const portfolioDefinition = getBasicPortfolioDefinition();
 
     const sim = runSimulation({
       yearlyWithdrawal() {
@@ -82,7 +81,7 @@ describe('runSimulation', () => {
       startYear: 1930,
       duration: 2,
       rebalancePortfolioAnnually: false,
-      portfolio: firstYearStartPortfolio,
+      portfolioDefinition,
       additionalWithdrawals: [],
       additionalIncome: [],
       marketData: marketData,
@@ -95,6 +94,11 @@ describe('runSimulation', () => {
       endYear: 1931,
       duration: 2,
       isComplete: true,
+      ranOutOfMoney: false,
+      yearRanOutOfMoney: null,
+      numberOfYearsWithMoneyInPortfolio: 2,
+      lastYearEndPortfolioValue: 3913536,
+      totalInflationOverPeriod: 1.1666666666666667,
       resultsByYear: [
         {
           year: 1930,
@@ -108,16 +112,39 @@ describe('runSimulation', () => {
           baseWithdrawalAmount: 40000,
           additionalWithdrawalAmount: 0,
           totalWithdrawalAmountInFirstYearDollars: 40000,
-          startPortfolio: firstYearStartPortfolio,
-          endPortfolio: {
+          startPortfolio: {
             totalValue: 1000000,
             totalValueInFirstYearDollars: 1000000,
             investments: [
               {
                 percentage: 1,
+                startingPercentage: 1,
+                dividends: 0,
                 type: InvestmentType.equity,
-                fees: 0.04,
+                growth: 0,
+                fees: 0,
                 value: 1000000,
+                valueAfterWithdrawal: 1000000,
+                valueBeforeChange: 1000000,
+                valueWithGrowth: 1000000,
+              },
+            ],
+          },
+          endPortfolio: {
+            totalValue: 1958400,
+            totalValueInFirstYearDollars: 1958400,
+            investments: [
+              {
+                percentage: 1,
+                startingPercentage: 1,
+                type: InvestmentType.equity,
+                growth: 998400,
+                dividends: 0,
+                fees: 0,
+                value: 1958400,
+                valueAfterWithdrawal: 960000,
+                valueBeforeChange: 1000000,
+                valueWithGrowth: 1958400,
               },
             ],
           },
@@ -135,36 +162,43 @@ describe('runSimulation', () => {
           additionalWithdrawalAmount: 0,
           totalWithdrawalAmountInFirstYearDollars: 34285.71,
           startPortfolio: {
-            totalValue: 1000000,
-            totalValueInFirstYearDollars: 1000000,
+            totalValue: 1958400,
+            totalValueInFirstYearDollars: 1958400,
             investments: [
               {
                 percentage: 1,
+                startingPercentage: 1,
                 type: InvestmentType.equity,
-                fees: 0.04,
-                value: 1000000,
+                dividends: 0,
+                fees: 0,
+                growth: 998400,
+                value: 1958400,
+                valueAfterWithdrawal: 960000,
+                valueBeforeChange: 1000000,
+                valueWithGrowth: 1958400,
               },
             ],
           },
           endPortfolio: {
-            totalValue: 1000000,
-            totalValueInFirstYearDollars: 1000000,
+            totalValue: 3913536,
+            totalValueInFirstYearDollars: 3354459.43,
             investments: [
               {
                 percentage: 1,
+                startingPercentage: 1,
                 type: InvestmentType.equity,
-                fees: 0.04,
-                value: 1000000,
+                dividends: 0,
+                fees: 0,
+                value: 3913536,
+                growth: 1995136,
+                valueAfterWithdrawal: 1918400,
+                valueBeforeChange: 1000000,
+                valueWithGrowth: 3913536,
               },
             ],
           },
         },
       ],
-      ranOutOfMoney: false,
-      yearRanOutOfMoney: null,
-      numberOfYearsWithMoneyInPortfolio: 2,
-      lastYearEndPortfolioValue: 3603581.34,
-      totalInflationOverPeriod: 1.1666666666666667,
     });
   });
 });

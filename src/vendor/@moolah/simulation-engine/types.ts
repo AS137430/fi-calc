@@ -56,7 +56,6 @@ export interface PortfolioDefinitionInvestment {
 
 export interface PortfolioDefinition {
   totalValue: number;
-  totalValueInFirstYearDollars: number;
   investments: PortfolioDefinitionInvestment[];
 }
 

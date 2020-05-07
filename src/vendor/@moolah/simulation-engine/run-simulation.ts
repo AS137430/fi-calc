@@ -45,7 +45,6 @@ export default function runSimulation(
 
   type yearRanOutOfMoney = number | null;
 
-  // TODO: fix this
   const firstYearStartPortfolio = getFirstYearPortfolioFromDefinition(
     portfolioDefinition
   );
