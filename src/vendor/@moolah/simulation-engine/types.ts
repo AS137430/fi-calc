@@ -61,7 +61,6 @@ export interface PortfolioInvestment {
   growthAmount: number;
   feesAmount: number;
   dividendsAmount: number;
-  valueBeforeChange: number;
   valueAfterWithdrawal: number;
   valueWithGrowth: number;
   value: number;

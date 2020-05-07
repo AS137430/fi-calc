@@ -14,7 +14,6 @@ export default function getFirstYearPortfolioFromDefinition(
         growthAmount: 0,
         feesAmount: 0,
         dividendsAmount: 0,
-        valueBeforeChange: investmentDefinition.value,
         valueAfterWithdrawal: investmentDefinition.value,
         valueWithGrowth: investmentDefinition.value,
         value: investmentDefinition.value,

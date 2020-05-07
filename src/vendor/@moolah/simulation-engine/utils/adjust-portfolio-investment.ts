@@ -48,7 +48,6 @@ export default function adjustPortfolioInvestment({
   if (isOutOfMoneyAtEnd) {
     return {
       type: investment.type,
-      valueBeforeChange: investment.value,
       valueAfterWithdrawal: 0,
       valueWithGrowth: 0,
       startingPercentage: percentage,
@@ -98,7 +97,6 @@ export default function adjustPortfolioInvestment({
     growthAmount,
     feesAmount,
     dividendsAmount,
-    valueBeforeChange: investment.value,
     valueAfterWithdrawal,
     valueWithGrowth,
     value,
