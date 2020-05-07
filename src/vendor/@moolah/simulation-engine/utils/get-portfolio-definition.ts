@@ -1,11 +1,17 @@
-import { PortfolioInput, InvestmentType, PortfolioDefinition } from '../types';
+import { PortfolioInput, PortfolioDefinition, InvestmentType } from '../types';
 import { fromInvestments } from './normalize-portfolio-definition';
 
 interface GetFirstYearStartPortfolioOptions {
   portfolioForm: PortfolioInput;
 }
 
-export default function getFirstYearStartPortfolio({
+interface FromInvestmentsInvestment {
+  type: InvestmentType;
+  fees: number;
+  value: number;
+}
+
+export default function getPortfolioDefinition({
   portfolioForm,
 }: GetFirstYearStartPortfolioOptions): PortfolioDefinition {
   const {
@@ -15,14 +21,14 @@ export default function getFirstYearStartPortfolio({
   } = portfolioForm;
 
   const stockInvestmentFees = percentStockInvestmentFees / 100;
-  const investments = [
+  const investments: FromInvestmentsInvestment[] = [
     {
-      type: InvestmentType.equity,
+      type: 'equity',
       fees: stockInvestmentFees,
       value: stockInvestmentValue,
     },
     {
-      type: InvestmentType.bonds,
+      type: 'bonds',
       fees: 0,
       value: bondsValue,
     },

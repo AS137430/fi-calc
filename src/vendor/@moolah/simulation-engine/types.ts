@@ -78,10 +78,7 @@ export interface Portfolio {
   investments: PortfolioInvestment[];
 }
 
-export enum InvestmentType {
-  equity = 'equity',
-  bonds = 'bonds',
-}
+export type InvestmentType = 'equity' | 'bonds';
 
 export interface YearResult {
   yearNumber: number;

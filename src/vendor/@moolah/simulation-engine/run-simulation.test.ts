@@ -1,5 +1,5 @@
 import runSimulation from './run-simulation';
-import { InvestmentType, MarketDataGrowthKeys } from './types';
+import { MarketDataGrowthKeys } from './types';
 
 function getBasicPortfolioDefinition() {
   return {
@@ -7,7 +7,7 @@ function getBasicPortfolioDefinition() {
     investments: [
       {
         percentage: 1,
-        type: InvestmentType.equity,
+        type: 'equity',
         fees: 0.04,
         value: 1000000,
       },
@@ -120,7 +120,7 @@ describe('runSimulation', () => {
                 percentage: 1,
                 startingPercentage: 1,
                 dividends: 0,
-                type: InvestmentType.equity,
+                type: 'equity',
                 growth: 0,
                 fees: 0,
                 value: 1000000,
@@ -137,7 +137,7 @@ describe('runSimulation', () => {
               {
                 percentage: 1,
                 startingPercentage: 1,
-                type: InvestmentType.equity,
+                type: 'equity',
                 growth: 998400,
                 dividends: 0,
                 fees: 0,
@@ -168,7 +168,7 @@ describe('runSimulation', () => {
               {
                 percentage: 1,
                 startingPercentage: 1,
-                type: InvestmentType.equity,
+                type: 'equity',
                 dividends: 0,
                 fees: 0,
                 growth: 998400,
@@ -186,7 +186,7 @@ describe('runSimulation', () => {
               {
                 percentage: 1,
                 startingPercentage: 1,
-                type: InvestmentType.equity,
+                type: 'equity',
                 dividends: 0,
                 fees: 0,
                 value: 3913536,
