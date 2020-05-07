@@ -10,10 +10,12 @@ import useLengthOfRetirement from './length-of-retirement';
 import useAdditionalWithdrawals from './additional-withdrawals';
 import useAdditionalIncome from './additional-income';
 import successRateAnalysis from '../utils/simulation-analytics/success-rate';
+import minimumsAnalysis from '../utils/simulation-analytics/minimums';
 import marketDataByYear from '../vendor/computed-market-data/market-data-by-year';
 
 const analytics = {
   successRate: successRateAnalysis,
+  minimums: minimumsAnalysis,
 };
 
 const byYear = marketDataByYear();

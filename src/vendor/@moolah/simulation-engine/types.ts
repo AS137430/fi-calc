@@ -108,10 +108,6 @@ export interface Simulation {
   totalInflationOverPeriod: number;
 
   resultsByYear: ResultsByYear;
-
-  // TODO: move to portfolio/withdrawal analysis
-  minWithdrawalYearInFirstYearDollars: YearResult | undefined;
-  minPortfolioYearInFirstYearDollars: YearResult | undefined;
 }
 
 export type Simulations = Array<Simulation>;

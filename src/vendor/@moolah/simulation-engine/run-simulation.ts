@@ -170,16 +170,6 @@ export default function runSimulation(
     numberOfYearsWithMoneyInPortfolio = yearRanOutOfMoney - startYear;
   }
 
-  const minWithdrawalYearInFirstYearDollars = _.minBy(
-    resultsByYear,
-    year => year.totalWithdrawalAmountInFirstYearDollars
-  );
-
-  const minPortfolioYearInFirstYearDollars = _.minBy(
-    resultsByYear,
-    year => year.endPortfolio.totalValueInFirstYearDollars
-  );
-
   return {
     simulationNumber,
     firstYearStartPortfolioValue,
@@ -193,7 +183,5 @@ export default function runSimulation(
     numberOfYearsWithMoneyInPortfolio,
     lastYearEndPortfolioValue,
     totalInflationOverPeriod,
-    minWithdrawalYearInFirstYearDollars,
-    minPortfolioYearInFirstYearDollars,
   };
 }
