@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import _ from 'lodash';
-import { Checkbox } from 'materialish';
 import { useCurrentRef } from 'core-hooks';
+import Checkbox from '../../common/checkbox';
 import Modal from '../../common/modal';
 import Input from '../../common/input';
 import adjustmentFormConfig from '../../form-config/adjustment-form-config';

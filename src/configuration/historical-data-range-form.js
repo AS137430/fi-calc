@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
-import { Checkbox } from 'materialish';
 import ConfigSection from './sidebar-section';
 import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
+import Checkbox from '../common/checkbox';
 import Input from '../common/input';
 import useHistoricalDataRange from '../state/historical-data-range';
 import historicalDataRangeFormConfig from '../form-config/historical-data-range-form-config';
