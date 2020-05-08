@@ -16,8 +16,6 @@ export interface YearMarketData {
 
 export interface LengthOfRetirementInput {
   readonly numberOfYears: number;
-  readonly startYear: number;
-  readonly endYear: number;
 }
 
 export interface HistoricalDataRangeInput {
