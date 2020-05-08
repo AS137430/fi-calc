@@ -20,6 +20,7 @@ describe('inflationFromCpi', () => {
   it('handles NaN', () => {
     expect(
       inflationFromCpi({
+        // @ts-ignore
         startCpi: 'a',
         endCpi: 2,
       })
