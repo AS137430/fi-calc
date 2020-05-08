@@ -1,4 +1,4 @@
-now --prod
+vc --prod
 
 if [ $? -eq 0 ]; then
     echo Successfully deployed to ficalc.app!

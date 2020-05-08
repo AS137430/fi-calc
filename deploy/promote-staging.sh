@@ -1,4 +1,4 @@
-now alias staging.ficalc.app ficalc.app
+vc alias staging.ficalc.app ficalc.app
 
 if [ $? -eq 0 ]; then
     echo Successfully promoted staging!
