@@ -114,8 +114,6 @@ export default function simulateOneYear({
       })
   );
 
-  // console.log('hi', adjustedInvestmentValues);
-
   const endValue = _.reduce(
     adjustedInvestmentValues,
     (result, investment) => result + investment.value,
@@ -145,7 +143,6 @@ export default function simulateOneYear({
       }
     }
   );
-  // console.log('hi', adjustedInvestmentValues);
 
   const endValueInFirstYearDollars = Number(
     (endValue / endCumulativeInflationSinceFirstYear).toFixed(2)
