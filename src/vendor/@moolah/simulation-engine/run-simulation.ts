@@ -87,29 +87,32 @@ export default function runSimulation(
     const previousResults = resultsByYear[yearNumber - 1];
     const yearsRemaining = duration - yearNumber;
 
-    const additionalWithdrawalsForYear = additionalWithdrawals.filter(
-      withdrawal => {
-        if (withdrawal.duration === 0) {
-          return false;
-        }
+    const additionalWithdrawalsForYear = ranOutOfMoney
+      ? []
+      : additionalWithdrawals.filter(withdrawal => {
+          if (withdrawal.duration === 0) {
+            return false;
+          }
 
-        const withdrawalStartYear = numericStartYear + withdrawal.startYear;
-        const withdrawalEndYear = withdrawalStartYear + withdrawal.duration - 1;
+          const withdrawalStartYear = numericStartYear + withdrawal.startYear;
+          const withdrawalEndYear =
+            withdrawalStartYear + withdrawal.duration - 1;
 
-        return year >= withdrawalStartYear && year <= withdrawalEndYear;
-      }
-    );
+          return year >= withdrawalStartYear && year <= withdrawalEndYear;
+        });
 
-    const additionalIncomeForYear = additionalIncome.filter(income => {
-      if (income.duration === 0) {
-        return false;
-      }
+    const additionalIncomeForYear = ranOutOfMoney
+      ? []
+      : additionalIncome.filter(income => {
+          if (income.duration === 0) {
+            return false;
+          }
 
-      const incomeStartYear = numericStartYear + income.startYear;
-      const incomeEndYear = incomeStartYear + income.duration - 1;
+          const incomeStartYear = numericStartYear + income.startYear;
+          const incomeEndYear = incomeStartYear + income.duration - 1;
 
-      return year >= incomeStartYear && year <= incomeEndYear;
-    });
+          return year >= incomeStartYear && year <= incomeEndYear;
+        });
 
     const startPortfolio = isFirstYear
       ? firstYearStartPortfolio

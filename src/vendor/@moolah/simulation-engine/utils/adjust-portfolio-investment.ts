@@ -43,9 +43,12 @@ export default function adjustPortfolioInvestment({
 }: adjustPortfolioInvestmentOptions): PortfolioInvestment {
   const startingInvestments = startPortfolio.investments[index];
 
-  const percentage = rebalancePortfolioAnnually
-    ? firstYearStartPortfolio.investments[index].percentage
-    : startingInvestments.value / startPortfolio.totalValue;
+  let percentage = 0;
+  if (rebalancePortfolioAnnually) {
+    percentage = firstYearStartPortfolio.investments[index].percentage;
+  } else if (startPortfolio.totalValue > 0) {
+    percentage = startingInvestments.value / startPortfolio.totalValue;
+  }
 
   if (isOutOfMoneyAtEnd) {
     return {
