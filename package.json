@@ -26,11 +26,14 @@
     "react-router-dom": "5.1.2",
     "react-scripts": "3.4.1",
     "react-transition-group-plus": "0.5.3",
+    "source-map-explorer": "2.4.2",
     "stock-market-data": "2.0.0",
     "typescript": "3.8.3"
   },
   "scripts": {
+    "analyze": "npm run build-analyze && source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
+    "build-analyze": "react-scripts build",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test --env=jsdom --coverage",
     "test-watch": "react-scripts test --env=jsdom",

@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import ReactGA from 'react-ga';
 import createQueryHistory from 'query-history';
-import 'materialish/materialish.css';
 import './index.css';
 import './normalize.css';
 import App from './app';
