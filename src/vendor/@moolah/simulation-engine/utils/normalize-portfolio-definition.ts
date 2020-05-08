@@ -3,7 +3,7 @@ import { PortfolioDefinition, PortfolioDefinitionInvestment } from '../types';
 
 interface FromTotalAndPercentagesOptions {
   totalValue: number;
-  investments: PortfolioDefinitionInvestment[];
+  investments: Omit<PortfolioDefinitionInvestment, 'value'>[];
 }
 
 export function fromTotalAndPercentages({
