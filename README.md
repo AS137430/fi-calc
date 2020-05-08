@@ -1,5 +1,8 @@
 # FI Calc
 
+[![Travis build status](http://img.shields.io/travis/jamesplease/fi-calc.svg?style=flat)](https://travis-ci.org/jamesplease/fi-calc)
+[![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://github.com/prettier/prettier)
+
 This is the development repository for [https://ficalc.app](https://ficalc.app).
 
 ### Contributing
