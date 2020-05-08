@@ -96,6 +96,7 @@ export interface YearResult {
   totalWithdrawalAmount: number;
   baseWithdrawalAmount: number;
   additionalWithdrawalAmount: number;
+  additionalIncomeAmount: number;
   totalWithdrawalAmountInFirstYearDollars: number;
 }
 

@@ -160,17 +160,15 @@ export default function runSimulation(
       withdrawalAmount,
     });
 
-    if (yearResult !== null) {
-      if (yearResult.isOutOfMoneyAtEnd) {
-        ranOutOfMoney = true;
+    if (yearResult.isOutOfMoneyAtEnd) {
+      ranOutOfMoney = true;
 
-        if (yearRanOutOfMoney === null) {
-          yearRanOutOfMoney = year;
-        }
+      if (yearRanOutOfMoney === null) {
+        yearRanOutOfMoney = year;
       }
-
-      resultsByYear.push(yearResult);
     }
+
+    resultsByYear.push(yearResult);
   });
 
   const lastYear = resultsByYear[resultsByYear.length - 1];

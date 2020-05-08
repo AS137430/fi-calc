@@ -55,7 +55,7 @@ describe('runSimulation, additional withdrawals', () => {
       duration: 1,
       rebalancePortfolioAnnually: false,
       portfolioDefinition,
-      additionalWithdrawals: [
+      additionalIncome: [
         {
           name: '',
           value: 10000,
@@ -64,7 +64,7 @@ describe('runSimulation, additional withdrawals', () => {
           startYear: 0,
         },
       ],
-      additionalIncome: [],
+      additionalWithdrawals: [],
       marketData,
     });
 
@@ -132,6 +132,7 @@ describe('runSimulation, additional withdrawals', () => {
           totalWithdrawalAmount: 40000,
           baseWithdrawalAmount: 40000,
           additionalWithdrawalAmount: 0,
+          additionalIncomeAmount: 0,
           totalWithdrawalAmountInFirstYearDollars: 40000,
           startPortfolio: expectedPortfolios[0],
           endPortfolio: expectedPortfolios[1],
@@ -193,7 +194,7 @@ describe('runSimulation, additional withdrawals', () => {
       duration: 1,
       rebalancePortfolioAnnually: false,
       portfolioDefinition,
-      additionalWithdrawals: [
+      additionalIncome: [
         {
           name: '',
           value: 10000,
@@ -202,7 +203,7 @@ describe('runSimulation, additional withdrawals', () => {
           startYear: 1,
         },
       ],
-      additionalIncome: [],
+      additionalWithdrawals: [],
       marketData,
     });
 
@@ -269,6 +270,7 @@ describe('runSimulation, additional withdrawals', () => {
           endCumulativeInflationSinceFirstYear: 1,
           totalWithdrawalAmount: 40000,
           baseWithdrawalAmount: 40000,
+          additionalIncomeAmount: 0,
           additionalWithdrawalAmount: 0,
           totalWithdrawalAmountInFirstYearDollars: 40000,
           startPortfolio: expectedPortfolios[0],
@@ -278,7 +280,7 @@ describe('runSimulation, additional withdrawals', () => {
     });
   });
 
-  it('no equities growth/fees/inflation, withdrawal matches (and is adjusted for inflation)', () => {
+  it('no equities growth/fees/inflation, income matches (and is adjusted for inflation)', () => {
     const portfolioDefinition: PortfolioDefinition = {
       totalValue: 1000000,
       investments: [
@@ -331,7 +333,7 @@ describe('runSimulation, additional withdrawals', () => {
       duration: 1,
       rebalancePortfolioAnnually: false,
       portfolioDefinition,
-      additionalWithdrawals: [
+      additionalIncome: [
         {
           name: '',
           value: 10000,
@@ -343,7 +345,7 @@ describe('runSimulation, additional withdrawals', () => {
           startYear: 0,
         },
       ],
-      additionalIncome: [],
+      additionalWithdrawals: [],
       marketData,
     });
 
@@ -367,8 +369,8 @@ describe('runSimulation, additional withdrawals', () => {
         ],
       },
       {
-        totalValue: 950000,
-        totalValueInFirstYearDollars: 950000,
+        totalValue: 970000,
+        totalValueInFirstYearDollars: 970000,
         investments: [
           {
             percentage: 1,
@@ -377,10 +379,10 @@ describe('runSimulation, additional withdrawals', () => {
             growthAmount: 0,
             dividendsAmount: 0,
             feesAmount: 0,
-            value: 950000,
-            valueInFirstYearDollars: 950000,
-            valueAfterWithdrawal: 950000,
-            valueWithGrowth: 950000,
+            value: 970000,
+            valueInFirstYearDollars: 970000,
+            valueAfterWithdrawal: 970000,
+            valueWithGrowth: 970000,
           },
         ],
       },
@@ -396,7 +398,7 @@ describe('runSimulation, additional withdrawals', () => {
       ranOutOfMoney: false,
       yearRanOutOfMoney: null,
       numberOfYearsWithMoneyInPortfolio: 1,
-      lastYearEndPortfolioValue: 950000,
+      lastYearEndPortfolioValue: 970000,
       totalInflationOverPeriod: 1,
       resultsByYear: [
         {
@@ -408,10 +410,11 @@ describe('runSimulation, additional withdrawals', () => {
           startCpi: 100,
           cumulativeInflationSinceFirstYear: 1,
           endCumulativeInflationSinceFirstYear: 1,
-          totalWithdrawalAmount: 50000,
+          totalWithdrawalAmount: 40000,
           baseWithdrawalAmount: 40000,
-          additionalWithdrawalAmount: 10000,
-          totalWithdrawalAmountInFirstYearDollars: 50000,
+          additionalWithdrawalAmount: 0,
+          additionalIncomeAmount: 10000,
+          totalWithdrawalAmountInFirstYearDollars: 40000,
           startPortfolio: expectedPortfolios[0],
           endPortfolio: expectedPortfolios[1],
         },
@@ -419,9 +422,8 @@ describe('runSimulation, additional withdrawals', () => {
     });
   });
 
-  // This is the same exact result as the above, since one-year withdrawals behave the same whether they are adjusted
-  // for inflation or not
-  it('no equities growth/fees/inflation, withdrawal matches (and is NOT adjusted for inflation)', () => {
+  // same as above given that inflation for income over 1 yr is not factored in
+  it('no equities growth/fees/inflation, income matches (and is NOT adjusted for inflation)', () => {
     const portfolioDefinition: PortfolioDefinition = {
       totalValue: 1000000,
       investments: [
@@ -474,7 +476,7 @@ describe('runSimulation, additional withdrawals', () => {
       duration: 1,
       rebalancePortfolioAnnually: false,
       portfolioDefinition,
-      additionalWithdrawals: [
+      additionalIncome: [
         {
           name: '',
           value: 10000,
@@ -483,7 +485,7 @@ describe('runSimulation, additional withdrawals', () => {
           startYear: 0,
         },
       ],
-      additionalIncome: [],
+      additionalWithdrawals: [],
       marketData,
     });
 
@@ -507,8 +509,8 @@ describe('runSimulation, additional withdrawals', () => {
         ],
       },
       {
-        totalValue: 950000,
-        totalValueInFirstYearDollars: 950000,
+        totalValue: 970000,
+        totalValueInFirstYearDollars: 970000,
         investments: [
           {
             percentage: 1,
@@ -517,10 +519,10 @@ describe('runSimulation, additional withdrawals', () => {
             growthAmount: 0,
             dividendsAmount: 0,
             feesAmount: 0,
-            value: 950000,
-            valueInFirstYearDollars: 950000,
-            valueAfterWithdrawal: 950000,
-            valueWithGrowth: 950000,
+            value: 970000,
+            valueInFirstYearDollars: 970000,
+            valueAfterWithdrawal: 970000,
+            valueWithGrowth: 970000,
           },
         ],
       },
@@ -536,7 +538,7 @@ describe('runSimulation, additional withdrawals', () => {
       ranOutOfMoney: false,
       yearRanOutOfMoney: null,
       numberOfYearsWithMoneyInPortfolio: 1,
-      lastYearEndPortfolioValue: 950000,
+      lastYearEndPortfolioValue: 970000,
       totalInflationOverPeriod: 1,
       resultsByYear: [
         {
@@ -548,10 +550,11 @@ describe('runSimulation, additional withdrawals', () => {
           startCpi: 100,
           cumulativeInflationSinceFirstYear: 1,
           endCumulativeInflationSinceFirstYear: 1,
-          totalWithdrawalAmount: 50000,
+          totalWithdrawalAmount: 40000,
           baseWithdrawalAmount: 40000,
-          additionalWithdrawalAmount: 10000,
-          totalWithdrawalAmountInFirstYearDollars: 50000,
+          additionalWithdrawalAmount: 0,
+          additionalIncomeAmount: 10000,
+          totalWithdrawalAmountInFirstYearDollars: 40000,
           startPortfolio: expectedPortfolios[0],
           endPortfolio: expectedPortfolios[1],
         },
