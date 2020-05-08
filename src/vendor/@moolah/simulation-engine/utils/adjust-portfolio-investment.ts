@@ -22,10 +22,8 @@ interface adjustPortfolioInvestmentOptions {
   investment: PortfolioDefinitionInvestment;
   index: number;
   isOutOfMoneyAtEnd: boolean;
-  rebalancePortfolioAnnually: boolean;
   endCumulativeInflationSinceFirstYear: number;
   yearMarketData: YearMarketData;
-  firstYearStartPortfolio: Portfolio;
   // This is the portfolio at the start of this year
   startPortfolio: Portfolio;
 }
@@ -35,8 +33,6 @@ export default function adjustPortfolioInvestment({
   investment,
   index,
   isOutOfMoneyAtEnd,
-  rebalancePortfolioAnnually,
-  firstYearStartPortfolio,
   yearMarketData,
   startPortfolio,
   endCumulativeInflationSinceFirstYear,
@@ -44,9 +40,7 @@ export default function adjustPortfolioInvestment({
   const startingInvestments = startPortfolio.investments[index];
 
   let percentage = 0;
-  if (rebalancePortfolioAnnually) {
-    percentage = firstYearStartPortfolio.investments[index].percentage;
-  } else if (startPortfolio.totalValue > 0) {
+  if (startPortfolio.totalValue > 0) {
     percentage = startingInvestments.value / startPortfolio.totalValue;
   }
 
@@ -72,7 +66,9 @@ export default function adjustPortfolioInvestment({
 
   const growthKey = investmentTypeToGrowthMap[investment.type];
   const growthPercentage = yearMarketData[growthKey] || 0;
-  const growthAmount = valueAfterWithdrawal * growthPercentage;
+  const growthAmount = Number(
+    (valueAfterWithdrawal * growthPercentage).toFixed(2)
+  );
 
   // This allows you to specify a fixed annual addition to this investment. This replaces
   // the "growth of cash" feature of cFIREsim.
@@ -82,14 +78,16 @@ export default function adjustPortfolioInvestment({
 
   let dividendsAmount =
     investment.type === 'equity'
-      ? valueAfterWithdrawal * yearMarketData.dividendYields
+      ? Number(
+          (valueAfterWithdrawal * yearMarketData.dividendYields).toFixed(2)
+        )
       : 0;
 
   const valueWithGrowth =
     valueAfterWithdrawal + growthAmount + annualGrowthAmount;
 
   // Fees aren't applied to dividends. This behavior matches cFIREsim.
-  const feesAmount = investment.fees * valueWithGrowth;
+  const feesAmount = Number((investment.fees * valueWithGrowth).toFixed(2));
 
   // We factor everything in to get our end result for this investment
   const value = Number(

@@ -110,17 +110,42 @@ export default function simulateOneYear({
         endCumulativeInflationSinceFirstYear,
         isOutOfMoneyAtEnd,
         startPortfolio,
-        rebalancePortfolioAnnually,
-        firstYearStartPortfolio,
         yearMarketData,
       })
   );
+
+  // console.log('hi', adjustedInvestmentValues);
 
   const endValue = _.reduce(
     adjustedInvestmentValues,
     (result, investment) => result + investment.value,
     0
   );
+
+  adjustedInvestmentValues = _.map(
+    adjustedInvestmentValues,
+    (investment, index) => {
+      if (!rebalancePortfolioAnnually) {
+        return {
+          ...investment,
+          percentage: endValue > 0 ? investment.value / endValue : 0,
+        };
+      } else {
+        const percentage =
+          firstYearStartPortfolio.investments[index].percentage;
+        const value = endValue * percentage;
+        return {
+          ...investment,
+          percentage,
+          value,
+          valueInFirstYearDollars: Number(
+            (value / endCumulativeInflationSinceFirstYear).toFixed(2)
+          ),
+        };
+      }
+    }
+  );
+  // console.log('hi', adjustedInvestmentValues);
 
   const endValueInFirstYearDollars = Number(
     (endValue / endCumulativeInflationSinceFirstYear).toFixed(2)
