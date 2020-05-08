@@ -1,124 +1,124 @@
 export type MarketDataGrowthKeys = 'bondsGrowth' | 'stockMarketGrowth' | 'none';
 
 export interface YearMarketData {
-  year: number;
-  month: number;
-  startCpi: number;
-  endCpi: number;
-  inflationOverPeriod: number;
+  readonly year: number;
+  readonly month: number;
+  readonly startCpi: number;
+  readonly endCpi: number;
+  readonly inflationOverPeriod: number;
   // TODO: ensure this is not null by using median cape?
-  cape: number | null;
-  dividendYields: number;
-  bondsGrowth: number;
-  stockMarketGrowth: number;
-  none: number;
+  readonly cape: number | null;
+  readonly dividendYields: number;
+  readonly bondsGrowth: number;
+  readonly stockMarketGrowth: number;
+  readonly none: number;
 }
 
 export interface LengthOfRetirementInput {
-  numberOfYears: number;
-  startYear: number;
-  endYear: number;
+  readonly numberOfYears: number;
+  readonly startYear: number;
+  readonly endYear: number;
 }
 
 export interface HistoricalDataRangeInput {
-  firstYear: number;
-  lastYear: number;
-  useAllHistoricalData: boolean;
+  readonly firstYear: number;
+  readonly lastYear: number;
+  readonly useAllHistoricalData: boolean;
 }
 
 // TODO: rename to adjustment
 export interface AdditionalWithdrawal {
-  name: string;
-  value: number;
-  inflationAdjusted: boolean;
-  duration: number;
+  readonly name: string;
+  readonly value: number;
+  readonly inflationAdjusted: boolean;
+  readonly duration: number;
   // TODO: rename to startYearNumber
-  startYear: number;
+  readonly startYear: number;
 }
 
 export type AdditionalWithdrawalsInput = AdditionalWithdrawal[];
 
 // These are the values that you pass into the
 export interface PortfolioInput {
-  bondsValue: number;
-  stockInvestmentValue: number;
-  stockInvestmentFees: number;
+  readonly bondsValue: number;
+  readonly stockInvestmentValue: number;
+  readonly stockInvestmentFees: number;
 }
 
 export interface PortfolioDefinitionInvestment {
-  percentage: number;
-  type: InvestmentType;
-  fees: number;
-  value: number;
-  annualGrowthAmount?: number;
+  readonly percentage: number;
+  readonly type: InvestmentType;
+  readonly fees: number;
+  readonly value: number;
+  readonly annualGrowthAmount?: number;
 }
 
 export interface PortfolioDefinition {
-  totalValue: number;
-  investments: PortfolioDefinitionInvestment[];
+  readonly totalValue: number;
+  readonly investments: PortfolioDefinitionInvestment[];
 }
 
 export interface PortfolioInvestment {
-  type: InvestmentType;
-  percentage: number;
-  startingPercentage: number;
-  growthAmount: number;
-  feesAmount: number;
-  dividendsAmount: number;
-  valueAfterWithdrawal: number;
-  valueWithGrowth: number;
-  value: number;
-  valueInFirstYearDollars: number;
+  readonly type: InvestmentType;
+  readonly percentage: number;
+  readonly startingPercentage: number;
+  readonly growthAmount: number;
+  readonly feesAmount: number;
+  readonly dividendsAmount: number;
+  readonly valueAfterWithdrawal: number;
+  readonly valueWithGrowth: number;
+  readonly value: number;
+  readonly valueInFirstYearDollars: number;
 }
 
 export interface Portfolio {
-  totalValue: number;
-  totalValueInFirstYearDollars: number;
-  investments: PortfolioInvestment[];
+  readonly totalValue: number;
+  readonly totalValueInFirstYearDollars: number;
+  readonly investments: PortfolioInvestment[];
 }
 
 export type InvestmentType = 'equity' | 'bonds';
 
 export interface YearResult {
-  yearNumber: number;
-  year: number;
-  month: number;
+  readonly yearNumber: number;
+  readonly year: number;
+  readonly month: number;
 
-  startPortfolio: Portfolio | null;
-  endPortfolio: Portfolio;
-  isOutOfMoneyAtEnd: boolean;
+  readonly startPortfolio: Portfolio | null;
+  readonly endPortfolio: Portfolio;
+  readonly isOutOfMoneyAtEnd: boolean;
 
-  marketData: YearMarketData;
-  startCpi: number;
-  cumulativeInflationSinceFirstYear: number;
-  endCumulativeInflationSinceFirstYear: number;
+  readonly marketData: YearMarketData;
+  readonly startCpi: number;
+  readonly cumulativeInflationSinceFirstYear: number;
+  readonly endCumulativeInflationSinceFirstYear: number;
 
-  totalWithdrawalAmount: number;
-  baseWithdrawalAmount: number;
-  additionalWithdrawalAmount: number;
-  additionalIncomeAmount: number;
-  totalWithdrawalAmountInFirstYearDollars: number;
+  readonly totalWithdrawalAmount: number;
+  readonly baseWithdrawalAmount: number;
+  readonly additionalWithdrawalAmount: number;
+  readonly additionalIncomeAmount: number;
+  readonly totalWithdrawalAmountInFirstYearDollars: number;
 }
 
 export type ResultsByYear = YearResult[];
 
 export interface Simulation {
-  simulationNumber: number;
+  readonly simulationNumber: number;
 
-  startYear: number;
-  endYear: number;
-  duration: number;
-  isComplete: boolean;
+  readonly startYear: number;
+  readonly endYear: number;
+  readonly duration: number;
+  readonly isComplete: boolean;
 
-  ranOutOfMoney: boolean;
-  yearRanOutOfMoney: number | null;
-  numberOfYearsWithMoneyInPortfolio: number;
+  readonly ranOutOfMoney: boolean;
+  readonly yearRanOutOfMoney: number | null;
+  readonly numberOfYearsWithMoneyInPortfolio: number;
 
-  firstYearStartPortfolioValue: number;
-  lastYearEndPortfolioValue: number;
-  totalInflationOverPeriod: number;
+  readonly firstYearStartPortfolioValue: number;
+  readonly lastYearEndPortfolioValue: number;
+  readonly totalInflationOverPeriod: number;
 
-  resultsByYear: ResultsByYear;
+  readonly resultsByYear: ResultsByYear;
 }
 
 export type Simulations = Array<Simulation>;
@@ -133,29 +133,29 @@ export interface MarketDataInput {
 }
 
 export interface WithdrawalFnOptions {
-  simulationNumber: number;
-  year: number;
-  month: number;
-  cumulativeInflation: number;
-  yearMarketData: YearMarketData;
-  yearsRemaining: number;
-  previousResults: YearResult;
-  isFirstYear: boolean;
-  startPortfolio: Portfolio;
-  firstYearStartPortfolio: Portfolio;
-  firstYearCpi: number;
+  readonly simulationNumber: number;
+  readonly year: number;
+  readonly month: number;
+  readonly cumulativeInflation: number;
+  readonly yearMarketData: YearMarketData;
+  readonly yearsRemaining: number;
+  readonly previousResults: YearResult;
+  readonly isFirstYear: boolean;
+  readonly startPortfolio: Portfolio;
+  readonly firstYearStartPortfolio: Portfolio;
+  readonly firstYearCpi: number;
 }
 
 export interface RunSimulationsOptions {
   yearlyWithdrawal(withdrawalOptions: WithdrawalFnOptions): number;
-  lengthOfRetirement: LengthOfRetirementInput;
-  portfolio: PortfolioInput;
-  historicalDataRange: HistoricalDataRangeInput;
-  additionalWithdrawals: AdditionalWithdrawalsInput;
-  additionalIncome: AdditionalWithdrawalsInput;
-  calculationId: number;
-  analytics: any;
-  marketData: MarketDataInput;
+  readonly lengthOfRetirement: LengthOfRetirementInput;
+  readonly portfolio: PortfolioInput;
+  readonly historicalDataRange: HistoricalDataRangeInput;
+  readonly additionalWithdrawals: AdditionalWithdrawalsInput;
+  readonly additionalIncome: AdditionalWithdrawalsInput;
+  readonly calculationId: number;
+  readonly analytics: any;
+  readonly marketData: MarketDataInput;
 }
 
 export interface RunSimulationsReturn {
