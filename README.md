@@ -11,10 +11,10 @@ Looking to help out? Refer to the [Contributing Guide](./CONTRIBUTING.md). Also,
 
 ### Deploying
 
-First, install the `now` CLI:
+First, install the `vercel` CLI:
 
 ```js
-npm i -g now
+npm i -g vercel
 ```
 
 Once you have this installed, there are [npm scripts](https://docs.npmjs.com/misc/scripts) to help with deployment.
