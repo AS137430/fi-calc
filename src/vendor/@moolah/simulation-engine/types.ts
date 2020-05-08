@@ -26,11 +26,13 @@ export interface HistoricalDataRangeInput {
   useAllHistoricalData: boolean;
 }
 
+// TODO: rename to adjustment
 export interface AdditionalWithdrawal {
   name: string;
   value: number;
   inflationAdjusted: boolean;
   duration: number;
+  // TODO: rename to startYearNumber
   startYear: number;
 }
 
