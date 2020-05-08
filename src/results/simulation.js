@@ -171,7 +171,7 @@ export default function Simulation() {
     simulation.resultsByYear[simulation.resultsByYear.length - 1];
 
   const status = analysis.successRate.status;
-  const isSuccess = status === 'green';
+  const isSuccess = status === 'OK';
   const isFailed = status === 'FAILED';
   const isWarning = status === 'WARNING';
 
