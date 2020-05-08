@@ -3,7 +3,9 @@ export type MarketDataGrowthKeys = 'bondsGrowth' | 'stockMarketGrowth' | 'none';
 export interface YearMarketData {
   year: number;
   month: number;
-  cpi: number;
+  startCpi: number;
+  endCpi: number;
+  inflationOverPeriod: number;
   // TODO: ensure this is not null by using median cape?
   cape: number | null;
   dividendYields: number;
@@ -64,6 +66,7 @@ export interface PortfolioInvestment {
   valueAfterWithdrawal: number;
   valueWithGrowth: number;
   value: number;
+  valueInFirstYearDollars: number;
 }
 
 export interface Portfolio {
@@ -86,6 +89,7 @@ export interface YearResult {
   marketData: YearMarketData;
   startCpi: number;
   cumulativeInflationSinceFirstYear: number;
+  endCumulativeInflationSinceFirstYear: number;
 
   totalWithdrawalAmount: number;
   baseWithdrawalAmount: number;

@@ -17,6 +17,7 @@ export default function getFirstYearPortfolioFromDefinition(
         valueAfterWithdrawal: investmentDefinition.value,
         valueWithGrowth: investmentDefinition.value,
         value: investmentDefinition.value,
+        valueInFirstYearDollars: investmentDefinition.value,
       };
     }),
   };

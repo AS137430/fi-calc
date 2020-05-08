@@ -59,12 +59,12 @@ export default function runSimulation(
   const firstYearMarketData = byYear[startYear];
 
   // TODO: use the median CPI instead of 0
-  const firstYearCpi = firstYearMarketData ? firstYearMarketData.cpi : 1;
+  const firstYearCpi = firstYearMarketData ? firstYearMarketData.startCpi : 1;
 
   const endYearMarketData = byYear[trueEndYear];
 
   // TODO: use the median CPI instead of 0
-  const endYearCpi = endYearMarketData ? endYearMarketData.cpi : 1;
+  const endYearCpi = endYearMarketData ? endYearMarketData.endCpi : 1;
 
   const totalInflationOverPeriod = inflationFromCpi({
     startCpi: firstYearCpi,
@@ -116,10 +116,17 @@ export default function runSimulation(
       : resultsByYear[yearNumber - 1].endPortfolio;
     const yearMarketData = byYear[year];
 
-    const currentCpi = Number(yearMarketData.cpi);
+    const currentCpi = yearMarketData.startCpi;
+    const endCpi = yearMarketData.endCpi;
+
     const cumulativeInflationSinceFirstYear = inflationFromCpi({
-      startCpi: Number(firstYearCpi),
+      startCpi: firstYearCpi,
       endCpi: currentCpi,
+    });
+
+    const endCumulativeInflationSinceFirstYear = inflationFromCpi({
+      startCpi: firstYearCpi,
+      endCpi: endCpi,
     });
 
     const withdrawalAmount = yearlyWithdrawal({
@@ -143,8 +150,10 @@ export default function runSimulation(
       yearMarketData,
       year,
       cpi: currentCpi,
+      endCpi,
       rebalancePortfolioAnnually,
       cumulativeInflationSinceFirstYear,
+      endCumulativeInflationSinceFirstYear,
       firstYearStartPortfolio,
       additionalWithdrawalsForYear,
       additionalIncomeForYear,

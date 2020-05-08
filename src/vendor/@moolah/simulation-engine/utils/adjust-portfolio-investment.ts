@@ -23,6 +23,7 @@ interface adjustPortfolioInvestmentOptions {
   index: number;
   isOutOfMoneyAtEnd: boolean;
   rebalancePortfolioAnnually: boolean;
+  endCumulativeInflationSinceFirstYear: number;
   yearMarketData: YearMarketData;
   firstYearStartPortfolio: Portfolio;
   // This is the portfolio at the start of this year
@@ -38,6 +39,7 @@ export default function adjustPortfolioInvestment({
   firstYearStartPortfolio,
   yearMarketData,
   startPortfolio,
+  endCumulativeInflationSinceFirstYear,
 }: adjustPortfolioInvestmentOptions): PortfolioInvestment {
   const startingInvestments = startPortfolio.investments[index];
 
@@ -56,6 +58,7 @@ export default function adjustPortfolioInvestment({
       feesAmount: 0,
       percentage: 0,
       value: 0,
+      valueInFirstYearDollars: 0,
     };
   }
 
@@ -90,6 +93,10 @@ export default function adjustPortfolioInvestment({
     (valueWithGrowth + dividendsAmount - feesAmount).toFixed(2)
   );
 
+  const valueInFirstYearDollars = Number(
+    (value / endCumulativeInflationSinceFirstYear).toFixed(2)
+  );
+
   return {
     type: investment.type,
     percentage,
@@ -100,5 +107,6 @@ export default function adjustPortfolioInvestment({
     valueAfterWithdrawal,
     valueWithGrowth,
     value,
+    valueInFirstYearDollars,
   };
 }

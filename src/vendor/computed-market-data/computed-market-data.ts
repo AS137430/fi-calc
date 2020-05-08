@@ -1,6 +1,7 @@
 import marketData from 'stock-market-data';
 import _ from 'lodash';
 import { YearMarketData } from '../@moolah/simulation-engine/types';
+import { inflationFromCpi } from '../@moolah/lib';
 
 // This method is pretty bad right now. It computes calculated data, but
 // it looks one year in advance rather than looking by-month. I'll need to
@@ -24,10 +25,27 @@ export default function computedMarketData(): YearMarketData[] {
 
     const dividendYields = data.dividend / data.comp;
 
+    const startCpi = data.cpi;
+
+    let endCpi = 0;
+    if (nextYearData) {
+      endCpi = nextYearData.cpi;
+    }
+
+    let inflationOverPeriod = 0;
+    if (nextYearData) {
+      inflationOverPeriod = inflationFromCpi({
+        startCpi,
+        endCpi,
+      });
+    }
+
     return {
       year: data.year,
       month: data.month,
-      cpi: data.cpi,
+      startCpi,
+      endCpi,
+      inflationOverPeriod,
       cape: data.cape,
       dividendYields,
       bondsGrowth: bondsGrowth,

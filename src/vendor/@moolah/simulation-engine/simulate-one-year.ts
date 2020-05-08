@@ -25,7 +25,9 @@ interface SimulateOneYearOptions {
 
   withdrawalAmount: number;
   cumulativeInflationSinceFirstYear: number;
+  endCumulativeInflationSinceFirstYear: number;
   cpi: number;
+  endCpi: number;
 }
 
 export default function simulateOneYear({
@@ -46,6 +48,7 @@ export default function simulateOneYear({
   cpi,
   withdrawalAmount,
   cumulativeInflationSinceFirstYear,
+  endCumulativeInflationSinceFirstYear,
 }: SimulateOneYearOptions): YearResult | null {
   const yearStartValue = startPortfolio.totalValue;
   const additionalIncomeAmount = additionalIncomeForYear.reduce(
@@ -95,6 +98,7 @@ export default function simulateOneYear({
         portfolioValueBeforeMarketChanges,
         investment,
         index: Number(index),
+        endCumulativeInflationSinceFirstYear,
         isOutOfMoneyAtEnd,
         startPortfolio,
         rebalancePortfolioAnnually,
@@ -110,7 +114,7 @@ export default function simulateOneYear({
   );
 
   const endValueInFirstYearDollars = Number(
-    (endValue / cumulativeInflationSinceFirstYear).toFixed(2)
+    (endValue / endCumulativeInflationSinceFirstYear).toFixed(2)
   );
 
   const totalWithdrawalAmountInFirstYearDollars = Number(
@@ -131,6 +135,7 @@ export default function simulateOneYear({
     marketData: yearMarketData,
     startCpi: cpi,
     cumulativeInflationSinceFirstYear,
+    endCumulativeInflationSinceFirstYear,
     totalWithdrawalAmount,
     baseWithdrawalAmount,
     additionalWithdrawalAmount,
