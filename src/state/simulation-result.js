@@ -45,6 +45,8 @@ function getWithdrawalMethod(withdrawalStrategyName) {
     return 'ninetyFivePercentRule';
   } else if (withdrawalStrategyName === 'capeBased') {
     return 'capeBased';
+  } else if (withdrawalStrategyName === 'dynamicSwr') {
+    return 'dynamicSwr';
   }
 
   return 'constantDollar';
@@ -110,6 +112,9 @@ function useSimulationResult() {
 
           capeWithdrawalRate,
           capeWeight,
+
+          dynamicSwrRoiAssumption,
+          dynamicSwrInflationAssumption,
         } = withdrawalStrategy;
 
         const percentageOfPortfolio = percentPercentageOfPortfolio / 100;
@@ -208,6 +213,16 @@ function useSimulationResult() {
                   yearMarketData.cape === null
                     ? avgMarketDataCape
                     : yearMarketData.cape,
+              }).value;
+            } else if (withdrawalMethod === 'dynamicSwr') {
+              return withdrawalStrategies.dynamicSwr({
+                dynamicSwrRoiAssumption,
+                dynamicSwrInflationAssumption,
+                yearsRemaining,
+                portfolioTotalValue: yearStartValue,
+                inflation: cumulativeInflation,
+                minWithdrawal,
+                maxWithdrawal,
               }).value;
             }
           },

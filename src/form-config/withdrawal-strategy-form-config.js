@@ -32,6 +32,10 @@ export default {
           key: 'capeBased',
           display: 'CAPE-based',
         },
+        {
+          key: 'dynamicSwr',
+          display: 'Nesteggly Dynamic SWR',
+        },
 
         // {
         //   key: 'hebeler',
@@ -171,6 +175,19 @@ export default {
     capeWeight: {
       type: 'number',
       default: 0.5,
+      validators: [isRequired, numberRequired, tooSmall(0), tooLarge(100)],
+    },
+
+    /* Dynamic SWR */
+    dynamicSwrRoiAssumption: {
+      type: 'number',
+      default: 6,
+      validators: [isRequired, numberRequired, tooSmall(0), tooLarge(100)],
+    },
+
+    dynamicSwrInflationAssumption: {
+      type: 'number',
+      default: 2,
       validators: [isRequired, numberRequired, tooSmall(0), tooLarge(100)],
     },
   },
