@@ -1,24 +1,29 @@
 import {
-  MarketDataGrowthKeys,
   YearMarketData,
   Portfolio,
+  PortfolioDefinitionInvestment,
   PortfolioInvestment,
-  InvestmentType,
+  MarketDataGrowthKeys,
 } from '../types';
+
+interface GrowthKeyMap {
+  [key: string]: MarketDataGrowthKeys;
+}
 
 // This maps an investment type to the key on marketData that
 // represents its changes in a given year
-const investmentTypeToGrowthMap = {
-  [InvestmentType.equity]: MarketDataGrowthKeys.stockMarketGrowth,
-  [InvestmentType.bonds]: MarketDataGrowthKeys.bondsGrowth,
+const investmentTypeToGrowthMap: GrowthKeyMap = {
+  equity: 'stockMarketGrowth',
+  bonds: 'bondsGrowth',
 };
 
 interface adjustPortfolioInvestmentOptions {
   portfolioValueBeforeMarketChanges: number;
-  investment: PortfolioInvestment;
+  investment: PortfolioDefinitionInvestment;
   index: number;
   isOutOfMoneyAtEnd: boolean;
   rebalancePortfolioAnnually: boolean;
+  endCumulativeInflationSinceFirstYear: number;
   yearMarketData: YearMarketData;
   firstYearStartPortfolio: Portfolio;
   // This is the portfolio at the start of this year
@@ -34,24 +39,31 @@ export default function adjustPortfolioInvestment({
   firstYearStartPortfolio,
   yearMarketData,
   startPortfolio,
-}: adjustPortfolioInvestmentOptions) {
-  if (isOutOfMoneyAtEnd) {
-    return {
-      ...investment,
-      valueBeforeChange: investment.value,
-      valueAfterWithdrawal: 0,
-      growth: 0,
-      dividends: 0,
-      percentage: 0,
-      value: 0,
-    };
-  }
-
+  endCumulativeInflationSinceFirstYear,
+}: adjustPortfolioInvestmentOptions): PortfolioInvestment {
   const startingInvestments = startPortfolio.investments[index];
 
-  const percentage = rebalancePortfolioAnnually
-    ? firstYearStartPortfolio.investments[index].percentage
-    : startingInvestments.value / startPortfolio.totalValue;
+  let percentage = 0;
+  if (rebalancePortfolioAnnually) {
+    percentage = firstYearStartPortfolio.investments[index].percentage;
+  } else if (startPortfolio.totalValue > 0) {
+    percentage = startingInvestments.value / startPortfolio.totalValue;
+  }
+
+  if (isOutOfMoneyAtEnd) {
+    return {
+      type: investment.type,
+      valueAfterWithdrawal: 0,
+      valueWithGrowth: 0,
+      startingPercentage: percentage,
+      growthAmount: 0,
+      dividendsAmount: 0,
+      feesAmount: 0,
+      percentage: 0,
+      value: 0,
+      valueInFirstYearDollars: 0,
+    };
+  }
 
   // If we rebalance yearly, then we keep the original percentage from the previous year.
   // This assumes that the investor reinvests at the very beginning (or very end) of each year.
@@ -60,7 +72,7 @@ export default function adjustPortfolioInvestment({
 
   const growthKey = investmentTypeToGrowthMap[investment.type];
   const growthPercentage = yearMarketData[growthKey] || 0;
-  const growth = valueAfterWithdrawal * growthPercentage;
+  const growthAmount = valueAfterWithdrawal * growthPercentage;
 
   // This allows you to specify a fixed annual addition to this investment. This replaces
   // the "growth of cash" feature of cFIREsim.
@@ -68,29 +80,36 @@ export default function adjustPortfolioInvestment({
     ? investment.annualGrowthAmount
     : 0;
 
-  let dividends =
+  let dividendsAmount =
     investment.type === 'equity'
       ? valueAfterWithdrawal * yearMarketData.dividendYields
       : 0;
 
-  const valueWithGrowth = valueAfterWithdrawal + growth + annualGrowthAmount;
+  const valueWithGrowth =
+    valueAfterWithdrawal + growthAmount + annualGrowthAmount;
 
   // Fees aren't applied to dividends. This behavior matches cFIREsim.
-  const fees = investment.fees * valueWithGrowth;
+  const feesAmount = investment.fees * valueWithGrowth;
 
   // We factor everything in to get our end result for this investment
-  const value = Number((valueWithGrowth + dividends - fees).toFixed(2));
+  const value = Number(
+    (valueWithGrowth + dividendsAmount - feesAmount).toFixed(2)
+  );
+
+  const valueInFirstYearDollars = Number(
+    (value / endCumulativeInflationSinceFirstYear).toFixed(2)
+  );
 
   return {
-    ...investment,
+    type: investment.type,
     percentage,
     startingPercentage: percentage,
-    growth,
-    fees,
-    dividends,
-    valueBeforeChange: investment.value,
+    growthAmount,
+    feesAmount,
+    dividendsAmount,
     valueAfterWithdrawal,
     valueWithGrowth,
     value,
+    valueInFirstYearDollars,
   };
 }

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { inflationFromCpi } from '../../@moolah/lib';
 import {
-  Portfolio,
+  PortfolioDefinition,
   YearResult,
   AdditionalWithdrawalsInput,
   Simulation,
@@ -9,6 +9,7 @@ import {
   WithdrawalFnOptions,
 } from './types';
 import simulateOneYear from './simulate-one-year';
+import getFirstYearPortfolioFromDefinition from './utils/get-first-year-portfolio-from-definition';
 
 interface RunSimulationOptions {
   yearlyWithdrawal(withdrawalOptions: WithdrawalFnOptions): number;
@@ -16,7 +17,7 @@ interface RunSimulationOptions {
   startYear: number;
   duration: number;
   rebalancePortfolioAnnually: boolean;
-  portfolio: Portfolio;
+  portfolioDefinition: PortfolioDefinition;
   additionalWithdrawals: AdditionalWithdrawalsInput;
   additionalIncome: AdditionalWithdrawalsInput;
   marketData: MarketDataInput;
@@ -33,7 +34,7 @@ export default function runSimulation(
     simulationNumber,
     startYear,
     duration,
-    portfolio,
+    portfolioDefinition,
     rebalancePortfolioAnnually,
     additionalWithdrawals,
     additionalIncome,
@@ -44,7 +45,9 @@ export default function runSimulation(
 
   type yearRanOutOfMoney = number | null;
 
-  const firstYearStartPortfolio = portfolio;
+  const firstYearStartPortfolio = getFirstYearPortfolioFromDefinition(
+    portfolioDefinition
+  );
   const firstYearStartPortfolioValue = firstYearStartPortfolio.totalValue;
 
   const endYear = startYear + duration - 1;
@@ -56,12 +59,12 @@ export default function runSimulation(
   const firstYearMarketData = byYear[startYear];
 
   // TODO: use the median CPI instead of 0
-  const firstYearCpi = firstYearMarketData ? firstYearMarketData.cpi : 1;
+  const firstYearCpi = firstYearMarketData ? firstYearMarketData.startCpi : 1;
 
   const endYearMarketData = byYear[trueEndYear];
 
   // TODO: use the median CPI instead of 0
-  const endYearCpi = endYearMarketData ? endYearMarketData.cpi : 1;
+  const endYearCpi = endYearMarketData ? endYearMarketData.endCpi : 1;
 
   const totalInflationOverPeriod = inflationFromCpi({
     startCpi: firstYearCpi,
@@ -84,39 +87,49 @@ export default function runSimulation(
     const previousResults = resultsByYear[yearNumber - 1];
     const yearsRemaining = duration - yearNumber;
 
-    const additionalWithdrawalsForYear = additionalWithdrawals.filter(
-      withdrawal => {
-        if (withdrawal.duration === 0) {
-          return false;
-        }
+    const additionalWithdrawalsForYear = ranOutOfMoney
+      ? []
+      : additionalWithdrawals.filter(withdrawal => {
+          if (withdrawal.duration === 0) {
+            return false;
+          }
 
-        const withdrawalStartYear = numericStartYear + withdrawal.startYear;
-        const withdrawalEndYear = withdrawalStartYear + withdrawal.duration - 1;
+          const withdrawalStartYear = numericStartYear + withdrawal.startYear;
+          const withdrawalEndYear =
+            withdrawalStartYear + withdrawal.duration - 1;
 
-        return year >= withdrawalStartYear && year <= withdrawalEndYear;
-      }
-    );
+          return year >= withdrawalStartYear && year <= withdrawalEndYear;
+        });
 
-    const additionalIncomeForYear = additionalIncome.filter(income => {
-      if (income.duration === 0) {
-        return false;
-      }
+    const additionalIncomeForYear = ranOutOfMoney
+      ? []
+      : additionalIncome.filter(income => {
+          if (income.duration === 0) {
+            return false;
+          }
 
-      const incomeStartYear = numericStartYear + income.startYear;
-      const incomeEndYear = incomeStartYear + income.duration - 1;
+          const incomeStartYear = numericStartYear + income.startYear;
+          const incomeEndYear = incomeStartYear + income.duration - 1;
 
-      return year >= incomeStartYear && year <= incomeEndYear;
-    });
+          return year >= incomeStartYear && year <= incomeEndYear;
+        });
 
     const startPortfolio = isFirstYear
       ? firstYearStartPortfolio
       : resultsByYear[yearNumber - 1].endPortfolio;
     const yearMarketData = byYear[year];
 
-    const currentCpi = Number(yearMarketData.cpi);
+    const currentCpi = yearMarketData.startCpi;
+    const endCpi = yearMarketData.endCpi;
+
     const cumulativeInflationSinceFirstYear = inflationFromCpi({
-      startCpi: Number(firstYearCpi),
+      startCpi: firstYearCpi,
       endCpi: currentCpi,
+    });
+
+    const endCumulativeInflationSinceFirstYear = inflationFromCpi({
+      startCpi: firstYearCpi,
+      endCpi: endCpi,
     });
 
     const withdrawalAmount = yearlyWithdrawal({
@@ -136,28 +149,29 @@ export default function runSimulation(
     const yearResult = simulateOneYear({
       yearNumber,
       startPortfolio,
+      portfolioDefinition,
       yearMarketData,
       year,
       cpi: currentCpi,
+      endCpi,
       rebalancePortfolioAnnually,
       cumulativeInflationSinceFirstYear,
+      endCumulativeInflationSinceFirstYear,
       firstYearStartPortfolio,
       additionalWithdrawalsForYear,
       additionalIncomeForYear,
       withdrawalAmount,
     });
 
-    if (yearResult !== null) {
-      if (yearResult.isOutOfMoneyAtEnd) {
-        ranOutOfMoney = true;
+    if (yearResult.isOutOfMoneyAtEnd) {
+      ranOutOfMoney = true;
 
-        if (yearRanOutOfMoney === null) {
-          yearRanOutOfMoney = year;
-        }
+      if (yearRanOutOfMoney === null) {
+        yearRanOutOfMoney = year;
       }
-
-      resultsByYear.push(yearResult);
     }
+
+    resultsByYear.push(yearResult);
   });
 
   const lastYear = resultsByYear[resultsByYear.length - 1];

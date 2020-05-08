@@ -1,15 +1,15 @@
 import _ from 'lodash';
-import { Portfolio, PortfolioInvestment } from '../types';
+import { PortfolioDefinition, PortfolioDefinitionInvestment } from '../types';
 
 interface FromTotalAndPercentagesOptions {
   totalValue: number;
-  investments: PortfolioInvestment[];
+  investments: Omit<PortfolioDefinitionInvestment, 'value'>[];
 }
 
 export function fromTotalAndPercentages({
   totalValue,
   investments,
-}: FromTotalAndPercentagesOptions): Portfolio {
+}: FromTotalAndPercentagesOptions): PortfolioDefinition {
   const newInvestments = _.map(investments, investment => {
     return {
       ...investment,
@@ -20,18 +20,16 @@ export function fromTotalAndPercentages({
   return {
     investments: newInvestments,
     totalValue,
-    // TODO: this is wrong!
-    totalValueInFirstYearDollars: NaN,
   };
 }
 
 interface FromInvestmentsOptions {
-  investments: Omit<PortfolioInvestment, 'percentage'>[];
+  investments: Omit<PortfolioDefinitionInvestment, 'percentage'>[];
 }
 
 export function fromInvestments({
   investments,
-}: FromInvestmentsOptions): Portfolio {
+}: FromInvestmentsOptions): PortfolioDefinition {
   const totalValue = _.reduce(
     investments,
     (result, investment) => result + investment.value,
@@ -48,7 +46,5 @@ export function fromInvestments({
   return {
     investments: newInvestments,
     totalValue,
-    // TODO: this is wrong!
-    totalValueInFirstYearDollars: NaN,
   };
 }

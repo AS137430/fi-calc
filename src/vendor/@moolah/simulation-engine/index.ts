@@ -7,7 +7,7 @@ import {
 } from './types';
 import asyncMap from './utils/async-map';
 import getStartYears from './utils/get-start-years';
-import getFirstYearStartPortfolio from './utils/get-first-year-start-portfolio';
+import getPortfolioDefinition from './utils/get-portfolio-definition';
 import runAnalysis from './utils/run-analysis';
 
 export default function runSimulations(
@@ -39,7 +39,7 @@ export default function runSimulations(
   );
 
   const rebalancePortfolioAnnually = false;
-  const firstYearStartPortfolio = getFirstYearStartPortfolio({
+  const portfolioDefinition = getPortfolioDefinition({
     portfolioForm: portfolio,
   });
 
@@ -60,7 +60,7 @@ export default function runSimulations(
           simulationNumber,
           startYear,
           rebalancePortfolioAnnually,
-          portfolio: firstYearStartPortfolio,
+          portfolioDefinition,
           additionalWithdrawals,
           additionalIncome,
           duration: lengthOfRetirement.numberOfYears,

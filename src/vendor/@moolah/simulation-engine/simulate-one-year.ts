@@ -5,6 +5,7 @@ import {
   YearResult,
   Portfolio,
   AdditionalWithdrawalsInput,
+  PortfolioDefinition,
 } from './types';
 
 interface SimulateOneYearOptions {
@@ -20,10 +21,13 @@ interface SimulateOneYearOptions {
   yearMarketData: YearMarketData;
 
   firstYearStartPortfolio: Portfolio;
+  portfolioDefinition: PortfolioDefinition;
 
   withdrawalAmount: number;
   cumulativeInflationSinceFirstYear: number;
+  endCumulativeInflationSinceFirstYear: number;
   cpi: number;
+  endCpi: number;
 }
 
 export default function simulateOneYear({
@@ -32,6 +36,7 @@ export default function simulateOneYear({
 
   rebalancePortfolioAnnually,
   startPortfolio,
+  portfolioDefinition,
 
   additionalWithdrawalsForYear,
   additionalIncomeForYear,
@@ -43,14 +48,24 @@ export default function simulateOneYear({
   cpi,
   withdrawalAmount,
   cumulativeInflationSinceFirstYear,
-}: SimulateOneYearOptions): YearResult | null {
+  endCumulativeInflationSinceFirstYear,
+}: SimulateOneYearOptions): YearResult {
   const yearStartValue = startPortfolio.totalValue;
   const additionalIncomeAmount = additionalIncomeForYear.reduce(
-    (result, withdrawal) => {
-      if (!withdrawal.inflationAdjusted) {
-        return result + withdrawal.value;
+    (result, income) => {
+      if (!income.inflationAdjusted) {
+        return result + income.value;
       } else {
-        return result + withdrawal.value * cumulativeInflationSinceFirstYear;
+        // NOTE: using this inflation value implicitly means that all of the additional income occurs
+        // in one lump sum at the start of the year, at the same time that the withdrawals
+        // are made.
+        // This makes it easier to reason about additional income/withdrawals by having them "cancel" one another
+        // out dollar-for-dollar, even if folks may be expecting to earn income over the course of the year (in which
+        // case we would need to use a different value of inflation)
+        // I feel justified in doing this because:
+        //   1. inflation is typically small year-to-year, and especially month-to-month
+        //   2. the conceptual complexity of having it work any other way is huge
+        return result + income.value * cumulativeInflationSinceFirstYear;
       }
     },
     0
@@ -86,12 +101,13 @@ export default function simulateOneYear({
   const isOutOfMoneyAtEnd = portfolioValueBeforeMarketChanges === 0;
 
   let adjustedInvestmentValues = _.map(
-    firstYearStartPortfolio.investments,
+    portfolioDefinition.investments,
     (investment, index) =>
       adjustPortfolioInvestment({
         portfolioValueBeforeMarketChanges,
         investment,
-        index,
+        index: Number(index),
+        endCumulativeInflationSinceFirstYear,
         isOutOfMoneyAtEnd,
         startPortfolio,
         rebalancePortfolioAnnually,
@@ -107,7 +123,7 @@ export default function simulateOneYear({
   );
 
   const endValueInFirstYearDollars = Number(
-    (endValue / cumulativeInflationSinceFirstYear).toFixed(2)
+    (endValue / endCumulativeInflationSinceFirstYear).toFixed(2)
   );
 
   const totalWithdrawalAmountInFirstYearDollars = Number(
@@ -128,9 +144,11 @@ export default function simulateOneYear({
     marketData: yearMarketData,
     startCpi: cpi,
     cumulativeInflationSinceFirstYear,
+    endCumulativeInflationSinceFirstYear,
     totalWithdrawalAmount,
     baseWithdrawalAmount,
     additionalWithdrawalAmount,
+    additionalIncomeAmount,
     totalWithdrawalAmountInFirstYearDollars,
     startPortfolio,
     endPortfolio,

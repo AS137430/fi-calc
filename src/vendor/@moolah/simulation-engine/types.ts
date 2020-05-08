@@ -1,19 +1,17 @@
-export enum MarketDataGrowthKeys {
-  bondsGrowth = 'bondsGrowth',
-  stockMarketGrowth = 'stockMarketGrowth',
-  none = 'none',
-}
+export type MarketDataGrowthKeys = 'bondsGrowth' | 'stockMarketGrowth' | 'none';
 
 export interface YearMarketData {
   year: number;
   month: number;
-  cpi: number;
+  startCpi: number;
+  endCpi: number;
+  inflationOverPeriod: number;
   // TODO: ensure this is not null by using median cape?
   cape: number | null;
   dividendYields: number;
-  [MarketDataGrowthKeys.bondsGrowth]: number;
-  [MarketDataGrowthKeys.stockMarketGrowth]: number;
-  [MarketDataGrowthKeys.none]: number;
+  bondsGrowth: number;
+  stockMarketGrowth: number;
+  none: number;
 }
 
 export interface LengthOfRetirementInput {
@@ -28,17 +26,26 @@ export interface HistoricalDataRangeInput {
   useAllHistoricalData: boolean;
 }
 
+// TODO: rename to adjustment
 export interface AdditionalWithdrawal {
   name: string;
   value: number;
   inflationAdjusted: boolean;
   duration: number;
+  // TODO: rename to startYearNumber
   startYear: number;
 }
 
 export type AdditionalWithdrawalsInput = AdditionalWithdrawal[];
 
-export interface PortfolioInvestment {
+// These are the values that you pass into the
+export interface PortfolioInput {
+  bondsValue: number;
+  stockInvestmentValue: number;
+  stockInvestmentFees: number;
+}
+
+export interface PortfolioDefinitionInvestment {
   percentage: number;
   type: InvestmentType;
   fees: number;
@@ -46,10 +53,22 @@ export interface PortfolioInvestment {
   annualGrowthAmount?: number;
 }
 
-export interface PortfolioInput {
-  bondsValue: number;
-  stockInvestmentValue: number;
-  stockInvestmentFees: number;
+export interface PortfolioDefinition {
+  totalValue: number;
+  investments: PortfolioDefinitionInvestment[];
+}
+
+export interface PortfolioInvestment {
+  type: InvestmentType;
+  percentage: number;
+  startingPercentage: number;
+  growthAmount: number;
+  feesAmount: number;
+  dividendsAmount: number;
+  valueAfterWithdrawal: number;
+  valueWithGrowth: number;
+  value: number;
+  valueInFirstYearDollars: number;
 }
 
 export interface Portfolio {
@@ -58,17 +77,7 @@ export interface Portfolio {
   investments: PortfolioInvestment[];
 }
 
-export enum InvestmentType {
-  equity = 'equity',
-  bonds = 'bonds',
-}
-
-export type WithdrawalStrategies =
-  | 'constantDollar'
-  | 'portfolioPercent'
-  | 'guytonKlinger'
-  | 'ninetyFivePercentRule'
-  | 'capeBased';
+export type InvestmentType = 'equity' | 'bonds';
 
 export interface YearResult {
   yearNumber: number;
@@ -82,10 +91,12 @@ export interface YearResult {
   marketData: YearMarketData;
   startCpi: number;
   cumulativeInflationSinceFirstYear: number;
+  endCumulativeInflationSinceFirstYear: number;
 
   totalWithdrawalAmount: number;
   baseWithdrawalAmount: number;
   additionalWithdrawalAmount: number;
+  additionalIncomeAmount: number;
   totalWithdrawalAmountInFirstYearDollars: number;
 }
 
