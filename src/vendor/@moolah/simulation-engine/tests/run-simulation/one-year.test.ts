@@ -67,6 +67,7 @@ describe('runSimulation, one year', () => {
           totalValueInFirstYearDollars: 1000000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 1,
               startingPercentage: 1,
               dividendsAmount: 0,
@@ -85,6 +86,7 @@ describe('runSimulation, one year', () => {
           totalValueInFirstYearDollars: 0,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 0,
               startingPercentage: 1,
               type: 'equity',
@@ -200,6 +202,7 @@ describe('runSimulation, one year', () => {
           totalValueInFirstYearDollars: 1000000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 1,
               startingPercentage: 1,
               dividendsAmount: 0,
@@ -218,6 +221,7 @@ describe('runSimulation, one year', () => {
           totalValueInFirstYearDollars: 960000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 1,
               startingPercentage: 1,
               type: 'equity',
@@ -331,6 +335,7 @@ describe('runSimulation, one year', () => {
           totalValueInFirstYearDollars: 1000000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 1,
               startingPercentage: 1,
               dividendsAmount: 0,
@@ -357,6 +362,7 @@ describe('runSimulation, one year', () => {
           totalValueInFirstYearDollars: 997920,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 1,
               startingPercentage: 1,
               type: 'equity',
@@ -470,6 +476,7 @@ describe('runSimulation, one year', () => {
           totalValueInFirstYearDollars: 1000000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 1,
               startingPercentage: 1,
               dividendsAmount: 0,
@@ -489,6 +496,7 @@ describe('runSimulation, one year', () => {
           totalValueInFirstYearDollars: 932038.83,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 1,
               startingPercentage: 1,
               type: 'equity',

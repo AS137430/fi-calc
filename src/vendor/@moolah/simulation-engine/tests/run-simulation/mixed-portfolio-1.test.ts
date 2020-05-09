@@ -73,6 +73,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
           totalValueInFirstYearDollars: 1000000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 0.75,
               startingPercentage: 0.75,
               dividendsAmount: 0,
@@ -85,6 +86,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
               valueWithGrowth: 750000,
             },
             {
+              rebalanceDelta: 0,
               percentage: 0.25,
               startingPercentage: 0.25,
               dividendsAmount: 0,
@@ -103,6 +105,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
           totalValueInFirstYearDollars: 960000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 0.75,
               startingPercentage: 0.75,
               type: 'equity',
@@ -115,6 +118,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
               valueWithGrowth: 720000,
             },
             {
+              rebalanceDelta: 0,
               percentage: 0.25,
               startingPercentage: 0.25,
               dividendsAmount: 0,
@@ -234,6 +238,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
           totalValueInFirstYearDollars: 1000000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 0.75,
               startingPercentage: 0.75,
               dividendsAmount: 0,
@@ -246,6 +251,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
               valueWithGrowth: 750000,
             },
             {
+              rebalanceDelta: 0,
               percentage: 0.25,
               startingPercentage: 0.25,
               dividendsAmount: 0,
@@ -264,6 +270,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
           totalValueInFirstYearDollars: 960000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 0.75,
               startingPercentage: 0.75,
               type: 'equity',
@@ -276,6 +283,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
               valueWithGrowth: 720000,
             },
             {
+              rebalanceDelta: 0,
               percentage: 0.25,
               startingPercentage: 0.25,
               dividendsAmount: 0,
@@ -395,6 +403,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
           totalValueInFirstYearDollars: 1000000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 0.75,
               startingPercentage: 0.75,
               dividendsAmount: 0,
@@ -407,6 +416,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
               valueWithGrowth: 750000,
             },
             {
+              rebalanceDelta: 0,
               percentage: 0.25,
               startingPercentage: 0.25,
               dividendsAmount: 0,
@@ -430,6 +440,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
           totalValueInFirstYearDollars: 983004.58,
           investments: [
             {
+              rebalanceDelta: -10723.68,
               percentage: 0.75,
               startingPercentage: 0.75,
               type: 'equity',
@@ -460,6 +471,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
               valueInFirstYearDollars: 737253.44,
             },
             {
+              rebalanceDelta: 10723.68,
               percentage: 0.25,
               startingPercentage: 0.25,
               type: 'bonds',
@@ -589,6 +601,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
           totalValueInFirstYearDollars: 1000000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 0.75,
               startingPercentage: 0.75,
               dividendsAmount: 0,
@@ -601,6 +614,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
               valueWithGrowth: 750000,
             },
             {
+              rebalanceDelta: 0,
               percentage: 0.25,
               startingPercentage: 0.25,
               dividendsAmount: 0,
@@ -619,6 +633,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
           totalValueInFirstYearDollars: 983004.58,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 0.7605913441207871,
               startingPercentage: 0.75,
               type: 'equity',
@@ -647,6 +662,7 @@ describe('runSimulation, mixed portfolio, one year', () => {
               valueInFirstYearDollars: 747664.78,
             },
             {
+              rebalanceDelta: 0,
               percentage: 0.2394086558792129,
               startingPercentage: 0.25,
               type: 'bonds',

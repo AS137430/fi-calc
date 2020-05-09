@@ -86,6 +86,7 @@ describe('additional income, 2 years', () => {
         totalValueInFirstYearDollars: 1000000,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             dividendsAmount: 0,
@@ -104,6 +105,7 @@ describe('additional income, 2 years', () => {
         totalValueInFirstYearDollars: 0,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 0,
             startingPercentage: 1,
             type: 'equity',
@@ -120,6 +122,7 @@ describe('additional income, 2 years', () => {
       {
         investments: [
           {
+            rebalanceDelta: 0,
             dividendsAmount: 0,
             feesAmount: 0,
             growthAmount: 0,
@@ -272,6 +275,7 @@ describe('additional income, 2 years', () => {
         totalValueInFirstYearDollars: 1000000,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             dividendsAmount: 0,
@@ -292,6 +296,7 @@ describe('additional income, 2 years', () => {
         totalValueInFirstYearDollars: 941747.57,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             type: 'equity',
@@ -310,6 +315,7 @@ describe('additional income, 2 years', () => {
         totalValueInFirstYearDollars: 886322.93,
         investments: [
           {
+            rebalanceDelta: 0,
             dividendsAmount: 0,
             feesAmount: 0,
             growthAmount: 0,

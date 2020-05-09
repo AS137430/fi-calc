@@ -82,6 +82,7 @@ describe('adjustments', () => {
         totalValueInFirstYearDollars: 1000000,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             dividendsAmount: 0,
@@ -100,6 +101,7 @@ describe('adjustments', () => {
         totalValueInFirstYearDollars: 960000,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             type: 'equity',
