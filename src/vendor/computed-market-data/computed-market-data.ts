@@ -19,8 +19,8 @@ export default function computedMarketData(): YearMarketData[] {
     }
 
     const bondsGrowth = calculateBondsGrowth({
-      currentYearLir: data.lir,
-      nextYearLir: nextYearData?.lir
+      currentYearLir: data.lir / 100,
+      nextYearLir: nextYearData ? nextYearData.lir / 100 : undefined,
     });
 
     const dividendYields = data.dividend / data.comp;
