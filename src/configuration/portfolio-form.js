@@ -81,27 +81,29 @@ export default function PortfolioForm() {
               })}
             />
           </div>
-          {/* 
-        <div className="formRow">
-          <label htmlFor="bondsValue" className="inputLabel">
-            Bonds
-          </label>
-          <Input
-            {...inputs.bondsValue.getProps({
-              id: 'bondsValue',
-              className: 'input-dollars',
-              type: 'number',
-              pattern: '\\d*',
-              min: 0,
-              inputMode: 'decimal',
-              autoComplete: 'off',
-              prefix: '$',
-              onCommit(event, newValue) {
-                commitInput('bondsValue', newValue);
-              },
-            })}
-          />
-        </div>*/}
+          <div className="formRow_separator" />
+          <div className="formRow">
+            <div className="inputLabel_container">
+              <label htmlFor="bondsValue" className="inputLabel">
+                Bonds
+              </label>
+            </div>
+            <Input
+              {...inputs.bondsValue.getProps({
+                id: 'bondsValue',
+                className: 'input-dollars',
+                type: 'number',
+                pattern: '\\d*',
+                min: 0,
+                inputMode: 'decimal',
+                autoComplete: 'off',
+                prefix: '$',
+                onCommit(event, newValue) {
+                  commitInput('bondsValue', newValue);
+                },
+              })}
+            />
+          </div>
         </ConfigSection.Contents>
       </ConfigSection>
       <InfoModal

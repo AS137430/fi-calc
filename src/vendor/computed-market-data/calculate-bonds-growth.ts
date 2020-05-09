@@ -4,7 +4,7 @@ export default function calculateBondsGrowth({
   duration = 9,
 }: {
   currentYearLir: number;
-  nextYearLir: number;
+  nextYearLir: number | undefined;
   duration?: number;
 }): number {
   let bondsGrowth = 0;
