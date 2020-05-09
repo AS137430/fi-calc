@@ -35,5 +35,10 @@ export default {
         tooLarge(maxDollarInput),
       ],
     },
+
+    rebalancePortfolioAnnually: {
+      type: 'boolean',
+      default: true,
+    },
   },
 };

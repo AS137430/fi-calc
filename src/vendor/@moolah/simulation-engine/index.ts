@@ -38,7 +38,8 @@ export default function runSimulations(
     }
   );
 
-  const rebalancePortfolioAnnually = false;
+  const { rebalancePortfolioAnnually } = portfolio;
+
   const portfolioDefinition = getPortfolioDefinition({
     portfolioForm: portfolio,
   });

@@ -41,6 +41,7 @@ export interface PortfolioInput {
   readonly bondsValue: number;
   readonly stockInvestmentValue: number;
   readonly stockInvestmentFees: number;
+  readonly rebalancePortfolioAnnually: boolean;
 }
 
 export interface PortfolioDefinitionInvestment {
