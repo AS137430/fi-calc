@@ -24,8 +24,8 @@ export default function calculateBondsGrowth({
     // Also of note from the post:
     //  Since (1+NYIR)^-10 is equivalent to 1/((1+NYIR)^10), PVA$1 can be expressed as (1 - PV$1) / NYIR.
 
-    const secondTwo = pv1 + currentYearLir;
-    bondsGrowth = firstTerm + secondTwo;
+    const secondTerm = pv1 + currentYearLir;
+    bondsGrowth = firstTerm + secondTerm;
   } else {
     bondsGrowth = currentYearLir;
   }
