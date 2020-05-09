@@ -36,7 +36,10 @@ export default function adjustPortfolioInvestment({
   yearMarketData,
   startPortfolio,
   endCumulativeInflationSinceFirstYear,
-}: adjustPortfolioInvestmentOptions): PortfolioInvestment {
+}: adjustPortfolioInvestmentOptions): Omit<
+  PortfolioInvestment,
+  'rebalanceDelta' | 'percentage'
+> {
   const startingInvestments = startPortfolio.investments[index];
 
   let percentage = 0;
@@ -53,7 +56,6 @@ export default function adjustPortfolioInvestment({
       growthAmount: 0,
       dividendsAmount: 0,
       feesAmount: 0,
-      percentage: 0,
       value: 0,
       valueInFirstYearDollars: 0,
     };
@@ -101,7 +103,6 @@ export default function adjustPortfolioInvestment({
 
   return {
     type: investment.type,
-    percentage,
     startingPercentage: percentage,
     growthAmount,
     feesAmount,
