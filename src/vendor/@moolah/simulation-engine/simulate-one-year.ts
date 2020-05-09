@@ -6,6 +6,7 @@ import {
   Portfolio,
   AdditionalWithdrawalsInput,
   PortfolioDefinition,
+  PortfolioInvestment,
 } from './types';
 
 interface SimulateOneYearOptions {
@@ -110,8 +111,6 @@ export default function simulateOneYear({
         endCumulativeInflationSinceFirstYear,
         isOutOfMoneyAtEnd,
         startPortfolio,
-        rebalancePortfolioAnnually,
-        firstYearStartPortfolio,
         yearMarketData,
       })
   );
@@ -120,6 +119,34 @@ export default function simulateOneYear({
     adjustedInvestmentValues,
     (result, investment) => result + investment.value,
     0
+  );
+
+  const newInvestmentValues: PortfolioInvestment[] = _.map(
+    adjustedInvestmentValues,
+    (investment, index) => {
+      if (!rebalancePortfolioAnnually) {
+        return {
+          ...investment,
+          rebalanceDelta: 0,
+          percentage: endValue > 0 ? investment.value / endValue : 0,
+        };
+      } else {
+        const percentage =
+          firstYearStartPortfolio.investments[index].percentage;
+        const value = Number((endValue * percentage).toFixed(2));
+        const rebalanceDelta = Number((value - investment.value).toFixed(2));
+
+        return {
+          ...investment,
+          rebalanceDelta,
+          percentage,
+          value,
+          valueInFirstYearDollars: Number(
+            (value / endCumulativeInflationSinceFirstYear).toFixed(2)
+          ),
+        };
+      }
+    }
   );
 
   const endValueInFirstYearDollars = Number(
@@ -133,7 +160,7 @@ export default function simulateOneYear({
   const endPortfolio = {
     totalValueInFirstYearDollars: endValueInFirstYearDollars,
     totalValue: endValue,
-    investments: adjustedInvestmentValues,
+    investments: newInvestmentValues,
   };
 
   return {

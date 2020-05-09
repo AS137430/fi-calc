@@ -67,6 +67,7 @@ export interface PortfolioInvestment {
   readonly valueWithGrowth: number;
   readonly value: number;
   readonly valueInFirstYearDollars: number;
+  readonly rebalanceDelta: number;
 }
 
 export interface Portfolio {

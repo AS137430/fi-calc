@@ -79,6 +79,7 @@ describe('runSimulation, two years', () => {
           totalValueInFirstYearDollars: 1000000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 1,
               startingPercentage: 1,
               dividendsAmount: 0,
@@ -97,6 +98,7 @@ describe('runSimulation, two years', () => {
           totalValueInFirstYearDollars: 0,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 0,
               startingPercentage: 1,
               type: 'equity',
@@ -111,8 +113,11 @@ describe('runSimulation, two years', () => {
           ],
         },
         {
+          totalValue: 0,
+          totalValueInFirstYearDollars: 0,
           investments: [
             {
+              rebalanceDelta: 0,
               dividendsAmount: 0,
               feesAmount: 0,
               growthAmount: 0,
@@ -125,8 +130,6 @@ describe('runSimulation, two years', () => {
               valueWithGrowth: 0,
             },
           ],
-          totalValue: 0,
-          totalValueInFirstYearDollars: 0,
         },
       ];
 
@@ -259,6 +262,7 @@ describe('runSimulation, two years', () => {
           totalValueInFirstYearDollars: 1000000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 1,
               startingPercentage: 1,
               dividendsAmount: 0,
@@ -277,6 +281,7 @@ describe('runSimulation, two years', () => {
           totalValueInFirstYearDollars: 960000,
           investments: [
             {
+              rebalanceDelta: 0,
               percentage: 1,
               startingPercentage: 1,
               type: 'equity',
@@ -291,8 +296,11 @@ describe('runSimulation, two years', () => {
           ],
         },
         {
+          totalValue: 920000,
+          totalValueInFirstYearDollars: 920000,
           investments: [
             {
+              rebalanceDelta: 0,
               dividendsAmount: 0,
               feesAmount: 0,
               growthAmount: 0,
@@ -305,8 +313,6 @@ describe('runSimulation, two years', () => {
               valueWithGrowth: 920000,
             },
           ],
-          totalValue: 920000,
-          totalValueInFirstYearDollars: 920000,
         },
       ];
 

@@ -74,6 +74,7 @@ describe('runSimulation, additional withdrawals', () => {
         totalValueInFirstYearDollars: 1000000,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             dividendsAmount: 0,
@@ -92,6 +93,7 @@ describe('runSimulation, additional withdrawals', () => {
         totalValueInFirstYearDollars: 960000,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             type: 'equity',
@@ -213,6 +215,7 @@ describe('runSimulation, additional withdrawals', () => {
         totalValueInFirstYearDollars: 1000000,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             dividendsAmount: 0,
@@ -231,6 +234,7 @@ describe('runSimulation, additional withdrawals', () => {
         totalValueInFirstYearDollars: 960000,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             type: 'equity',
@@ -355,6 +359,7 @@ describe('runSimulation, additional withdrawals', () => {
         totalValueInFirstYearDollars: 1000000,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             dividendsAmount: 0,
@@ -373,6 +378,7 @@ describe('runSimulation, additional withdrawals', () => {
         totalValueInFirstYearDollars: 970000,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             type: 'equity',
@@ -495,6 +501,7 @@ describe('runSimulation, additional withdrawals', () => {
         totalValueInFirstYearDollars: 1000000,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             dividendsAmount: 0,
@@ -513,6 +520,7 @@ describe('runSimulation, additional withdrawals', () => {
         totalValueInFirstYearDollars: 970000,
         investments: [
           {
+            rebalanceDelta: 0,
             percentage: 1,
             startingPercentage: 1,
             type: 'equity',
