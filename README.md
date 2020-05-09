@@ -20,7 +20,7 @@ npm i -g vercel
 Once you have this installed, there are [npm scripts](https://docs.npmjs.com/misc/scripts) to help with deployment.
 
 - `npm run deploy` - Deploys the application to `staging.ficalc.app`.
-- `npm run promote-staging` - Promotes the staging environment to production.
+- `npm run promote` - Promotes the staging environment to production.
 - `npm run deploy-prod` - Deploys the application to production.
 
 > Heads up: if you're not me, you won't be able to deploy the application.
