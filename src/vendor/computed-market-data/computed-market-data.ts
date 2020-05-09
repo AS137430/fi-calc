@@ -2,6 +2,7 @@ import marketData from 'stock-market-data';
 import _ from 'lodash';
 import { YearMarketData } from '../@moolah/simulation-engine/types';
 import { inflationFromCpi } from '../@moolah/lib';
+import calculateBondsGrowth from './calculate-bonds-growth';
 
 // This method is pretty bad right now. It computes calculated data, but
 // it looks one year in advance rather than looking by-month. I'll need to
@@ -17,11 +18,10 @@ export default function computedMarketData(): YearMarketData[] {
       stockMarketGrowth = nextYearData.comp / data.comp - 1;
     }
 
-    // TODO: look into correct bonds growth rate formula
-    let bondsGrowth = 0;
-    if (nextYearData) {
-      bondsGrowth = nextYearData.lir / data.lir - 1;
-    }
+    const bondsGrowth = calculateBondsGrowth({
+      currentYearLir: data.lir,
+      nextYearLir: nextYearData?.lir
+    });
 
     const dividendYields = data.dividend / data.comp;
 
