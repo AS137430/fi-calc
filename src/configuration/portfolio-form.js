@@ -3,12 +3,13 @@ import IconHelp from 'materialish/icon-help';
 import ConfigSection from './sidebar-section';
 import useForm from '../hooks/use-form';
 import InfoModal from '../common/info-modal';
+import Checkbox from '../common/checkbox';
 import Input from '../common/input';
 import usePortfolio from '../state/portfolio';
 import porfolioFormConfig from '../form-config/portfolio-form-config';
 
 export default function PortfolioForm() {
-  const { inputs, commitInput } = useForm({
+  const { inputs, commitInput, changeCheckbox } = useForm({
     formConfig: porfolioFormConfig,
     useSourceOfTruth: usePortfolio,
   });
@@ -103,6 +104,22 @@ export default function PortfolioForm() {
                 },
               })}
             />
+          </div>
+          <div className="formRow_separator" />
+          <div className="formRow formRow-flex">
+            <Checkbox
+              className="checkbox"
+              id="rebalancePortfolioAnnually"
+              checked={inputs.rebalancePortfolioAnnually.value}
+              onChange={event =>
+                changeCheckbox('rebalancePortfolioAnnually', event)
+              }
+            />
+            <label
+              htmlFor="rebalancePortfolioAnnually"
+              className="checkbox_label">
+              Rebalance portfolio annually
+            </label>
           </div>
         </ConfigSection.Contents>
       </ConfigSection>
