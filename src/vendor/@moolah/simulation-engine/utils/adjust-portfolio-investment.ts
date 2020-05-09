@@ -83,8 +83,9 @@ export default function adjustPortfolioInvestment({
         )
       : 0;
 
-  const valueWithGrowth =
-    valueAfterWithdrawal + growthAmount + annualGrowthAmount;
+  const valueWithGrowth = Number(
+    (valueAfterWithdrawal + growthAmount + annualGrowthAmount).toFixed(2)
+  );
 
   // Fees aren't applied to dividends. This behavior matches cFIREsim.
   const feesAmount = Number((investment.fees * valueWithGrowth).toFixed(2));

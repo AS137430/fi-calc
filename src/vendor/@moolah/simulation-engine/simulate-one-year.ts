@@ -131,7 +131,7 @@ export default function simulateOneYear({
       } else {
         const percentage =
           firstYearStartPortfolio.investments[index].percentage;
-        const value = endValue * percentage;
+        const value = Number((endValue * percentage).toFixed(2));
         return {
           ...investment,
           percentage,

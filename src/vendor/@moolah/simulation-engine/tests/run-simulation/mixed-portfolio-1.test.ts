@@ -421,7 +421,12 @@ describe('runSimulation, mixed portfolio, one year', () => {
           ],
         },
         {
+          // after adjustments, but before rebalancing, we have:
+          // equities: 770094.72
+          // bonds: 242,400
+          // add those together for: 1012494.72
           totalValue: 1012494.72,
+          // 1012494.72 / 1.03 = 983004.58
           totalValueInFirstYearDollars: 983004.58,
           investments: [
             {
